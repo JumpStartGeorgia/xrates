@@ -34,12 +34,15 @@ ActiveRecord::Schema.define(:version => 20150221080458) do
   add_index "pages", ["name"], :name => "index_pages_on_name"
 
   create_table "rates", :force => true do |t|
-    t.datetime "date"
+    t.date     "date"
     t.string   "currency"
     t.float    "rate"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "rates", ["currency", "date"], :name => "index_rates_on_currency_and_date"
+  add_index "rates", ["date", "currency"], :name => "index_rates_on_date_and_currency"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

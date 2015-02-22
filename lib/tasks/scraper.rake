@@ -7,68 +7,78 @@ require 'nokogiri'
 
 class Rates
   def self.populate!
-    files = Dir.glob("/home/eric/Desktop/xrates_data/*.csv")
+    files = Dir.glob("#{Rails.root}/datafiles/*.csv")
 
-		files.each do |file|
-			puts "#{file}"
+    months = {
+      'Jan' => '01',
+      'Feb' => '02',
+      'Mar' => '03',
+      'Apr' => '04',
+      'May' => '05',
+      'Jun' => '06',
+      'Jul' => '07',
+      'Aug' => '08',
+      'Sep' => '09',
+      'Oct' => '10',
+      'Nov' => '11',
+      'Dec' => '12'
+    }
 
-			data = CSV.open(file, headers: true).read
+    Rate.transaction do
+  		files.each do |file|
+  			puts "#{file}"
 
-			months = {
-				'Jan' => '01',
-				'Feb' => '02',
-				'Mar' => '03',
-				'Apr' => '04',
-				'May' => '05',
-				'Jun' => '06',
-				'Jul' => '07',
-				'Aug' => '08',
-				'Sep' => '09',
-				'Oct' => '10',
-				'Nov' => '11',
-				'Dec' => '12'
-			}
+  			data = CSV.open(file, headers: true).read
 
-			currencies = data.headers
-			currencies.delete_if { |label| label == "Date" }
+  			currencies = data.headers
+  			currencies.delete_if { |label| label == "Date" }
 
-			data.each do |row|
-				currencies.each do |col|
-			    date_orig = row[0].split('-')
-			    time = "20#{date_orig[2]}-#{months[date_orig[1]]}-#{date_orig[0]}"
+        rows = []
+        created_at = Time.now
+  			data.each do |row|
+  				currencies.each do |col|
+  			    date_orig = row[0].split('-')
+  			    rows << { :date => "20#{date_orig[2]}-#{months[date_orig[1]]}-#{date_orig[0]}", :currency => col, :rate => row[col] }
+  			  end
+  			end
 
-			    abbrev = col
-				  rate = row[col]
+        if rows.present?
+          sql = "insert into rates (date, currency, rate, created_at, updated_at) values "
+          sql << rows.map{|x| "(\"#{x[:date]}\", \"#{x[:currency]}\", \"#{x[:rate]}\", \"#{created_at}\", \"#{created_at}\")"}.join(', ')
+          ActiveRecord::Base.connection.execute(sql)
+        end
 
-		      
-			    info = { :date => time, :currency => abbrev, :rate => rate }
-			    Rate.create(info)
-			  end
-			end
-		end
+  		end
+    end
   end
 
 	def self.scrape!
 
 		time = Time.now.strftime("%Y-%m-%d")
+    created_at = Time.now
 
-		url = "http://www.nbg.ge/rss.php"
-		page = Nokogiri::XML(open(url))
-		table = page.at_xpath('//item//description').text	
+    Rate.transaction do
+  		url = "http://www.nbg.ge/rss.php"
+  		page = Nokogiri::XML(open(url))
+  		table = page.at_xpath('//item//description').text	
 
-		table = Nokogiri::HTML(table)
+  		table = Nokogiri::HTML(table)
 
-		rows = table.css('tr')
+  		rows = table.css('tr')
 
-		rows.each do |row|
-		  cols = row.css('td')
+      data = []
+  		rows.each do |row|
+  		  cols = row.css('td')
+  		  data << {:currency => cols[0].text, :rate => cols[2].text }
+  		end
 
-		  abbrev = cols[0].text
-		  rate = cols[2].text
-
-		  data = { :date => time, :currency => abbrev, :rate => rate }
-		  Rate.create(data)
-		end
+      if data.present?
+        puts "inserting #{data.length} records"
+        sql = "insert into rates (date, currency, rate, created_at, updated_at) values "
+        sql << data.map{|x| "(\"#{time}\", \"#{x[:currency]}\", \"#{x[:rate]}\", \"#{created_at}\", \"#{created_at}\")"}.join(', ')
+        ActiveRecord::Base.connection.execute(sql)
+      end
+    end
   end
 end
 
