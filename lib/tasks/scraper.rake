@@ -54,30 +54,25 @@ class Rates
 
 	def self.scrape!
 
-		time = Time.now.strftime("%Y-%m-%d")
     created_at = Time.now
 
     Rate.transaction do
   		url = "http://www.nbg.ge/rss.php"
   		page = Nokogiri::XML(open(url))
-  		table = page.at_xpath('//item//description').text	
 
+      # get the date
+      title = page.at_xpath('//item//title').text
+      date = title.gsub('Currency Rates ', '')
+
+  		table = page.at_xpath('//item//description').text	
   		table = Nokogiri::HTML(table)
 
   		rows = table.css('tr')
-
-      data = []
+      puts "saving #{rows.length} records for #{date}" 
   		rows.each do |row|
   		  cols = row.css('td')
-  		  data << {:currency => cols[0].text, :rate => cols[2].text }
+        Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip)
   		end
-
-      if data.present?
-        puts "inserting #{data.length} records"
-        sql = "insert into rates (date, currency, rate, created_at, updated_at) values "
-        sql << data.map{|x| "(\"#{time}\", \"#{x[:currency]}\", \"#{x[:rate]}\", \"#{created_at}\", \"#{created_at}\")"}.join(', ')
-        ActiveRecord::Base.connection.execute(sql)
-      end
     end
   end
 end

@@ -9,7 +9,7 @@ class RatesController < ApplicationController
     currency = params['currency'] if params['currency']
   	start_date = params['start_date'] if  params['start_date']
   	end_date = params['end_date'] if  params['end_date']
-  	limit = params['limit_by'].to_i if params['limit_by']
+  	limit = params['limit_by'].present? ? params['limit_by'].to_i : 100
 
     @rates = Rate.by_currency(currency).start_date(start_date).end_date(end_date).sort_by_date.limit_by(limit)
     

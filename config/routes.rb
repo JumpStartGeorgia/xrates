@@ -13,7 +13,7 @@ BootstrapStarter::Application.routes.draw do
 			resources :users
 		end
 
-    scope ":api"  do
+    scope "api"  do
       resources :rates 
     end
 
