@@ -1,0 +1,20 @@
+<h1>Exchange Rates</h1>
+<p>Responses: <%= @rates.length %></p>
+<table class="table table-condensed table-hover">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Currency</th>
+      <th>Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @rates.each do |rate| %>
+    <tr>
+      <td><%= rate.date.strftime("%Y-%m-%d") %></td>
+      <td><%= rate.currency %></td>
+      <td><%= rate.rate %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
