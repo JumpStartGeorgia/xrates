@@ -2,9 +2,14 @@
 
 <p>
   <%= label_tag :currency, 'Currency' %>
-  <%= select_tag :currency, options_for_select(@currencies.map{|x| [x, x] }, 
-        params[:currency]), include_blank: false,
-        :'data-url' => root_path %>
+  <%= select_tag :currency, options_for_select(@currencies.map{|x| [x, x] }, params[:currency].split(',')), 
+        include_blank: false, multiple: true,
+        :'data-live-search' => "true",
+        :'data-selected-text-format' => "count > 4",
+        :'data-width' => "auto",
+        :'data-size' => "7",
+        class: 'selectpicker' %>
+  <%= button_tag 'Load Rates', id: 'btnSubmit', :'data-url' => root_path, class: 'btn btn-default' %>
 </p>
 
 <!-- <div id="chart" style="width: 100%; height: 500px;"></div> -->

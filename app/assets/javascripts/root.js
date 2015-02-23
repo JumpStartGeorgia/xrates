@@ -1,7 +1,10 @@
 $(function () {
 
-  $('select#currency').change(function(){
-    window.location.href = $(this).data('url') + "?currency=" + $(this).val();
+  $('select.selectpicker').selectpicker();
+
+  $('button#btnSubmit').click(function(){
+    var select = $('select#currency');
+    window.location.href = $(this).data('url') + "?currency=" + $(select).val();
   });
 
   // $('#chart').highcharts({
@@ -92,7 +95,7 @@ $(function () {
           valueDecimals: 2
       },
 
-      series: [{name: gon.stock_currency, data: gon.stock_rates}]
+      series: gon.stock_rates
   });
 
 });
