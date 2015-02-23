@@ -1,17 +1,10 @@
-<% title "JumpStart's Rails Bootstrap Starter Template" %>
+<% title "JumpStart Georgia's Lari Exchange Rate Viewer" %>
 
-<% if @about.present? %>
-  <%= simple_format_no_tags(@about.content, {}, {sanitize: false}) %>
-<% else %>
-  <p>
-    Welcome to JumpStart's Rails Bootstrap Starter Template project. To get started, please run the following at the command line: 
-  </p>
-  <ul>
-    <li>rake db:migrate</li>
-    <li>rake db:seed</li>
-  </ul>
-  <p>
-    After you have run those two commands please reload this page.
-  </p>
-<% end %>
+<p>
+  <%= label_tag :currency, 'Currency' %>
+  <%= select_tag :currency, options_for_select(@currencies.map{|x| [x, x] }, 
+        params[:currency]), include_blank: false,
+        :'data-url' => root_path %>
+</p>
 
+<div id="chart" style="width: 100%; height: 500px;"></div>

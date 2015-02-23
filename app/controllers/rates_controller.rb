@@ -11,7 +11,7 @@ class RatesController < ApplicationController
   	end_date = params['end_date'] if  params['end_date']
   	limit = params['limit_by'].present? ? params['limit_by'].to_i : 100
 
-    @rates = Rate.by_currency(currency).start_date(start_date).end_date(end_date).sort_by_date.limit_by(limit)
+    @rates = Rate.by_currency(currency).start_date(start_date).end_date(end_date).sort_recent.limit_by(limit)
     
     respond_to do |format|
      format.html {}
