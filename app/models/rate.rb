@@ -1,5 +1,5 @@
 class Rate < ActiveRecord::Base
-  attr_accessible :currency, :date, :rate
+  attr_accessible :currency, :date, :rate, :utc
 
   ########################
   ## Validations
@@ -22,7 +22,8 @@ class Rate < ActiveRecord::Base
     x = where(:date => date, :currency => currency).first
     
     if x.blank?
-      x = Rate.new(date: date, currency: currency)
+      date_parts = date.split('-')
+      x = Rate.new(date: date, currency: currency, utc: Time.utc(date_parts[0], date_parts[1], date_parts[2]))
     end
     
     x.rate = rate
@@ -52,6 +53,12 @@ class Rate < ActiveRecord::Base
   # return an array of rates
   def self.rate_only
     pluck(:rate)
+  end
+
+  # get the utc and rates for a currency
+  # return: [ [utc, rate], [utc, rate], ...]
+  def self.utc_and_rates(currency)
+    select('rate, utc').by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
 
   # get list of currencies

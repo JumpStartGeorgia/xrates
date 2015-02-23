@@ -38,13 +38,15 @@ class Rates
   			data.each do |row|
   				currencies.each do |col|
   			    date_orig = row[0].split('-')
-  			    rows << { :date => "20#{date_orig[2]}-#{months[date_orig[1]]}-#{date_orig[0]}", :currency => col, :rate => row[col] }
+  			    rows << { :date => "20#{date_orig[2]}-#{months[date_orig[1]]}-#{date_orig[0]}", 
+                      :utc => Time.utc("20#{date_orig[2]}", "#{months[date_orig[1]]}", "#{date_orig[0]}"),
+                      :currency => col, :rate => row[col] }
   			  end
   			end
 
         if rows.present?
-          sql = "insert into rates (date, currency, rate, created_at, updated_at) values "
-          sql << rows.map{|x| "(\"#{x[:date]}\", \"#{x[:currency]}\", \"#{x[:rate]}\", \"#{created_at}\", \"#{created_at}\")"}.join(', ')
+          sql = "insert into rates (date, utc, currency, rate, created_at, updated_at) values "
+          sql << rows.map{|x| "(\"#{x[:date]}\", \"#{x[:utc]}\", \"#{x[:currency]}\", \"#{x[:rate]}\", \"#{created_at}\", \"#{created_at}\")"}.join(', ')
           ActiveRecord::Base.connection.execute(sql)
         end
 

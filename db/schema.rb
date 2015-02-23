@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150221080458) do
+ActiveRecord::Schema.define(:version => 20150223194904) do
 
   create_table "page_translations", :force => true do |t|
     t.integer  "page_id"
@@ -39,10 +39,12 @@ ActiveRecord::Schema.define(:version => 20150221080458) do
     t.float    "rate"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.datetime "utc"
   end
 
   add_index "rates", ["currency", "date"], :name => "index_rates_on_currency_and_date"
   add_index "rates", ["date", "currency"], :name => "index_rates_on_date_and_currency"
+  add_index "rates", ["utc", "currency"], :name => "index_rates_on_utc_and_currency"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
