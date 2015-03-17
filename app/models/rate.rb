@@ -1,6 +1,6 @@
 class Rate < ActiveRecord::Base
-  attr_accessible :currency, :date, :rate, :utc
-
+  attr_accessible :currency, :date, :rate, :buy_price, :sell_price, :utc
+  belongs_to :bank
   ########################
   ## Validations
   validates :currency, :date, :rate, :presence => true

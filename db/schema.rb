@@ -11,7 +11,45 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150223194904) do
+ActiveRecord::Schema.define(:version => 20150317141348) do
+
+  create_table "bank_translations", :force => true do |t|
+    t.integer  "bank_id"
+    t.string   "locale",     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "name"
+    t.string   "image"
+  end
+
+  add_index "bank_translations", ["bank_id"], :name => "index_bank_translations_on_bank_id"
+  add_index "bank_translations", ["locale"], :name => "index_bank_translations_on_locale"
+
+  create_table "banks", :force => true do |t|
+    t.string   "code"
+    t.string   "buy_color"
+    t.string   "sell_color"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "currencies", :force => true do |t|
+    t.string   "code"
+    t.integer  "ratio"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "currency_translations", :force => true do |t|
+    t.integer  "currency_id"
+    t.string   "locale",      :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "name"
+  end
+
+  add_index "currency_translations", ["currency_id"], :name => "index_currency_translations_on_currency_id"
+  add_index "currency_translations", ["locale"], :name => "index_currency_translations_on_locale"
 
   create_table "page_translations", :force => true do |t|
     t.integer  "page_id"
@@ -40,6 +78,9 @@ ActiveRecord::Schema.define(:version => 20150223194904) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.datetime "utc"
+    t.integer  "bank_id"
+    t.float    "buy_price"
+    t.float    "sell_price"
   end
 
   add_index "rates", ["currency", "date"], :name => "index_rates_on_currency_and_date"
