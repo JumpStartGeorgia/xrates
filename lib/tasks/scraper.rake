@@ -8,7 +8,7 @@ require 'nokogiri'
 class Rates
   def self.populate!
 puts "loading nbg rates"
-    ActiveRecord::Base.connection.execute("truncate table rates")
+    #ActiveRecord::Base.connection.execute("truncate table rates")
 
     files = Dir.glob("#{Rails.root}/datafiles/*.csv")
 
@@ -96,7 +96,7 @@ puts "loading data completed"
   end
 
   def self.scrape!
-    ActiveRecord::Base.connection.execute("truncate table rates")
+    #ActiveRecord::Base.connection.execute("truncate table rates")
     require 'json'
     created_at = Time.now
     date = Time.now

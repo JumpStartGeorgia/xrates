@@ -63,7 +63,7 @@ $(function () {
   // });
 
 
-  $('#stock').highcharts('StockChart', {
+  $('#stock-percent').highcharts('StockChart', {
 
       rangeSelector: {
           selected: 1
@@ -97,5 +97,33 @@ $(function () {
 
       series: gon.stock_rates
   });
+
+   $('#stock').highcharts('StockChart', {
+
+      rangeSelector: {
+          selected: 1
+      },
+      title: {
+          text: gon.stock_title
+      },
+      yAxis: {        
+          plotLines: [{
+              value: 0,
+              width: 2,
+              color: 'silver'
+          }]
+      },
+
+      tooltip: {
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+          valueDecimals: 2
+      },
+
+      series: gon.stock_rates
+  });
+
+   $(document).on('click','.bootstrap-select button.dropdown-toggle .filter-option button', function(){
+     $('.bootstrap-select ul.dropdown-menu li a > div button[data-id=' + $(this).attr('data-id') + ']').closest('a').trigger('click');
+   });
 
 });

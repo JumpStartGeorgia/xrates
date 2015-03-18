@@ -6,7 +6,7 @@ class Rate < ActiveRecord::Base
   validates :currency, :date, :presence => true
   validates :rate, presence: true, if: :nbg?
   validates :buy_price, :sell_price, presence: true, if: :not_nbg?
-  validates :currency, uniqueness: { scope: :date}
+  validates :currency, uniqueness: { scope: [:date, :bank_id] }
 
   ########################
   ## Scopes
@@ -21,17 +21,14 @@ class Rate < ActiveRecord::Base
 
   # if the rate does not exist, add it, else update it
   def self.create_or_update(date, currency, rate, buy_price, sell_price, bank_id)
-    x = where(:date => date, :currency => currency).first
-    
+    x = where(:date => date, :currency => currency, :bank_id => bank_id).first
     if x.blank?
-      #date_parts = date.split('-')
-      x = Rate.new(date: date, currency: currency, utc: Time.utc(date.year, date.month, date.day, 0,0,0))
+      x = Rate.new(date: date, currency: currency, utc: Time.utc(date.year, date.month, date.day, 0,0,0), bank_id: bank_id)
     end
     
     x.rate = rate
     x.buy_price = buy_price
     x.sell_price = sell_price
-    x.bank_id = bank_id
     x.save
   end
 
