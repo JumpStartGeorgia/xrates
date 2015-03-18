@@ -95,69 +95,122 @@ puts "loading bank information"
 puts "loading data completed"
   end
 
-	def self.scrape!
+  def self.scrape!
     ActiveRecord::Base.connection.execute("truncate table rates")
-    # scrape nbg
+    require 'json'
     created_at = Time.now
     date = Time.now
-    # Rate.transaction do
-  		# url = "http://www.nbg.ge/rss.php"
-  		# page = Nokogiri::XML(open(url))
+puts "Scrape date #{date.strftime("%d/%m/%Y")}"
+# scrape nbg -----------------------------------------------------------------------
+    Rate.transaction do
+      page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))
 
-    #   # get the date
-    #   title = page.at_xpath('//item//title').text
-    #   date = title.gsub('Currency Rates ', '')
+      # get the date
+      title = page.at_xpath('//item//title').text
+      date = title.gsub('Currency Rates ', '')
+      date = Date.strptime(date, "%Y-%m-%d")
 
-  		# table = page.at_xpath('//item//description').text	
-  		# table = Nokogiri::HTML(table)
+      table = page.at_xpath('//item//description').text 
+      table = Nokogiri::HTML(table)
 
-  		# rows = table.css('tr')
-    #   puts "saving #{rows.length} records for #{date}" 
-  		# rows.each do |row|
-  		#   cols = row.css('td')
-    #     Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
-  		# end
-    # end
+      rows = table.css('tr')
+      puts "NBG - #{rows.length} records" 
+      rows.each do |row|
+        cols = row.css('td')
+        Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
+      end
+   
+    end
 
-
-    # scrape bog
+# scrape bog -----------------------------------------------------------------------
 
       Rate.transaction do
-        url = "http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates"
-        page = Nokogiri::HTML(open(url))
+        page = Nokogiri::HTML(open("http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates"))
         rows = page.css('div#Content table tbody tr')
         rows.each do |row|
           cols = row.css('td')
           Rate.create_or_update(date, cols[1].text.strip, nil, cols[3].text.strip,cols[4].text.strip,2)
         end
-        puts "Bog - saving #{rows.length} records for #{date.strftime("%d/%m/%Y")}" 
+        puts "BOG - #{rows.length} records" 
       end
 
-    # # scrape tbc
+# scrape tbc -----------------------------------------------------------------------
+      Rate.transaction do
+        page = Nokogiri::HTML(open("http://www.tbcbank.ge/web/en/web/guest/exchange-rates"))
 
-    #   Rate.transaction do
-    #     url = "http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates"
-    #     page = Nokogiri::HTML(open(url))
-    #     rows = page.css('div#Content table tbody tr')
-    #     rows.each do |row|
-    #       cols = row.css('td')
-    #       Rate.create_or_update(date, cols[1].text.strip, nil, cols[3].text.strip,cols[4].text.strip,2)
-    #     end
-    #     puts "TBC - saving #{rows.length} records for #{date.strftime("%d/%m/%Y")}" 
-    #   end
+        script = page.css('div#ExchangeRates script').text
+        search_phrase = 'var tbcBankRatesJSON = eval("'
+        start_index = script.index(search_phrase)
+        script = script[start_index + search_phrase.length, script.length-1]
+        end_index = script.index('")')
+        script = script[0,end_index].gsub("\\","")
+        rows = JSON.parse(script)
 
+        cnt = 0
+        swap = { "AVD" => "AUD","RUR" => "RUB","UKG" => "UAH"}
+        rows.each do |row|
+          curr = row["currencyCode"]
+          if curr != 'GEL'
+            rate = row["refRates"].select{|x| x["refCurrencyCode"] == 'GEL'}.first
+            if rate.present?
+              if swap.key?(curr)
+                curr = swap[curr]
+              end
+              Rate.create_or_update(date, curr, nil, rate["buyRate"], rate["sellRate"],3)
+              cnt += 1
+            end
+          end                
+        end
+        puts "TBC - #{cnt} records" 
+      end
+
+  # scrape republic -----------------------------------------------------------------------
+      Rate.transaction do
+        page = Nokogiri::HTML(open("https://www.br.ge/en/home"))
+
+        script = page.css('div.rates script').text
+        search_phrase = 'var valRates = {'
+        start_index = script.index(search_phrase)
+        script = script[start_index + search_phrase.length-1, script.length-1]
+        end_index = script.index('};')
+        script = script[0,end_index+1].gsub(/[[:space:]]/, '')[0..-3] + "}"
+        rows = JSON.parse(script)
+        keys = rows.keys
+        swap = {"RUR" => "RUB"}
+
+        cnt = 0
+        keys.each do |row|
+          curr = row
+          if curr != 'GEL'
+            if swap.key?(curr)
+              curr = swap[curr]
+            end
+            Rate.create_or_update(date, curr, nil, rows[row]["kas"]["buy"], rows[row]["kas"]["sell"], 4)
+            cnt += 1
+          end
+        end
+        puts "REPUBLIC - #{cnt} records" 
+      end
+# scrape liberty -----------------------------------------------------------------------
+      Rate.transaction do
+        page = Nokogiri::HTML(open("https://libertybank.ge/index.php?action=valuta&lang=eng"))
+
+        rows = page.css('body div table tr:nth-child(4) td table tr td:nth-child(3) div table tr:not(:first-child)')
+        swap = {"TRL" => "TRY", "AZM" => "AZN"}
+        cnt = 0
+        rows.each do |row|
+          curr = row.css('td:nth-child(1) img').attribute('src').value
+          curr = curr[curr.length-7,3].upcase
+          if swap.key?(curr)
+            curr = swap[curr]
+          end
+          Rate.create_or_update(date, curr, nil, row.css('td:nth-child(2)').text, row.css('td:nth-child(3)').text ,5)
+          cnt += 1      
+        end
+        puts "LIBERTY - #{cnt} records"         
+      end
   end
-
 end
-
-
-# <tr>
-#   <td>AED</td>
-#   <td>10 არაბეთის გაერთიანებული საამიროების დირჰამი</td>
-#   <td>5.9305</td>
-#   <td><img src="https://www.nbg.gov.ge/images/red.gif"></td>
-#   <td>0.0182</td>
-# </tr>
 
 
 namespace :rates do

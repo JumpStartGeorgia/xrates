@@ -28,7 +28,7 @@ gem "useragent", :git => "https://github.com/jilion/useragent.git" # browser det
 gem "will_paginate", "~> 3.0.5" # add paging to long lists
 #gem "kaminari", "~> 0.15.1" # paging
 gem "nokogiri"
-
+gem 'whenever' # schedule cron jobs
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
