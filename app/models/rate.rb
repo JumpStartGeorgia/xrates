@@ -1,9 +1,11 @@
 class Rate < ActiveRecord::Base
-  attr_accessible :currency, :date, :rate, :buy_price, :sell_price, :utc
+  attr_accessible :currency, :date, :rate, :buy_price, :sell_price, :utc, :bank_id
   belongs_to :bank
   ########################
   ## Validations
-  validates :currency, :date, :rate, :presence => true
+  validates :currency, :date, :presence => true
+  validates :rate, presence: true, if: :nbg?
+  validates :buy_price, :sell_price, presence: true, if: :not_nbg?
   validates :currency, uniqueness: { scope: :date}
 
   ########################
@@ -18,15 +20,18 @@ class Rate < ActiveRecord::Base
   ########################
 
   # if the rate does not exist, add it, else update it
-  def self.create_or_update(date, currency, rate)
+  def self.create_or_update(date, currency, rate, buy_price, sell_price, bank_id)
     x = where(:date => date, :currency => currency).first
     
     if x.blank?
-      date_parts = date.split('-')
-      x = Rate.new(date: date, currency: currency, utc: Time.utc(date_parts[0], date_parts[1], date_parts[2]))
+      #date_parts = date.split('-')
+      x = Rate.new(date: date, currency: currency, utc: Time.utc(date.year, date.month, date.day, 0,0,0))
     end
     
     x.rate = rate
+    x.buy_price = buy_price
+    x.sell_price = sell_price
+    x.bank_id = bank_id
     x.save
   end
 
@@ -64,5 +69,12 @@ class Rate < ActiveRecord::Base
   # get list of currencies
   def self.currencies
     pluck(:currency).uniq.sort
+  end
+
+  def nbg?
+    bank_id == 1
+  end
+  def not_nbg?
+    !nbg?
   end
 end
