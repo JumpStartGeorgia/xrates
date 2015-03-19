@@ -11,7 +11,7 @@ class Currency < ActiveRecord::Base
       with_translations(I18n.locale).find_by_name(name)
    end
    def self.select_list()
-      with_translations(I18n.locale).map{|x| [x.code, x.name] }
+      with_translations(I18n.locale).map{|x| [x.code, x.name] }.sort_by{|x| x[0]}
    end
    def self.data()
       with_translations(I18n.locale).map{|x| [x.code, x.name, x.ratio] }
