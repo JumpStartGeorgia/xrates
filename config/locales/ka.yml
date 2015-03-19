@@ -89,6 +89,7 @@ ka:
       added_on: "დამატებულია: %{date}" 
       jumpstart: “ჯამპსტარტ ჯორჯია”
       js_link_title: “ჯამპსტარტ ჯორჯია” - ჩვენ გაწვდით მონაცემებს უკეთ!
+      compare_to_other_banks: Compare to other banks      
     msgs:
       does_not_exist: თქვენ ცდილობთ ისეთი გვერდის ნახვას, რომელიც არ არსებობს.
       not_authorized: თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება.
@@ -128,3 +129,16 @@ ka:
         link_title: პაროლის შეცვლა
         p2: "თუ თქვენ არ მოგითხოვიათ პაროლის შეცვლა, გთხოვთ, არ მიაქციოთ ყურადღება ამ შეტყობინებას."
         p3: "თქვენი პაროლი იგივე დარჩება, სანამ არ გადახვალთ ზემოთ მითითებულ ბმულზე და შექმნით ახალ პაროლს."    
+  root:
+    index:
+      title: "JumpStart Georgia's Lari Exchange Rate Viewer"
+      currency: "Currency"
+      bank: "Bank"
+      load_rates: "Load Rates"
+    compare:
+      title: "JumpStart Georgia's Lari Exchange Rate Viewer"
+      currency: "Currency"
+      load_rates: "Load Rates"      
+  chart:
+    nbg:
+      title: "Lari Exchange Rate"    

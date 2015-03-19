@@ -13,5 +13,8 @@ class Bank < ActiveRecord::Base
     with_translations(I18n.locale).find_by_name(name)
   end
 
+  def self.all_except_nbg()
+      with_translations(I18n.locale).where("code != 'BNLN'").map{ |x| [x.id, x.name, x.buy_color, x.sell_color] }.sort_by{|x| x[0] }
+  end
 end
 

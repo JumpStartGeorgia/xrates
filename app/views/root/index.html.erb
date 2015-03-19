@@ -1,7 +1,7 @@
-<% title "JumpStart Georgia's Lari Exchange Rate Viewer" %>
+<% title t(".title") %>
 
 <p>
-  <%= label_tag :currency, 'Currency' %>
+  <%= label_tag :currency, t(".currency") %>
   <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ (x[0] + ' - ' +  x[1]), x[0], {'data-content'=>"<div><div class='value'>"+(x[0] + '<span class="name"> - ' +  x[1] + "</span>")+"</div><button type='button' class='close-option' data-dismiss='alert' aria-label='Close' data-id='"+i.to_s+"'>×</button></div>" } ] }, params[:currency].split(',')), 
         include_blank: false, multiple: true,
         :'data-live-search' => "true",
@@ -9,10 +9,7 @@
         :'data-size' => "7",
         :'data-max-options' => "5",
         class: 'selectpicker'%>
-  <%= button_tag 'Load Rates', id: 'btnSubmit', :'data-url' => root_path, class: 'btn btn-default' %>
+  <%= button_tag t(".load_rates"), id: 'btnSubmit', :'data-url' => root_path, class: 'btn btn-default' %>
 </p>
-
-<!-- <div id="chart" style="width: 100%; height: 500px;"></div> -->
-
 <div id="stock-percent" style="width: 100%; height: 500px;"></div>
 <div id="stock" style="width: 100%; height: 500px;"></div>

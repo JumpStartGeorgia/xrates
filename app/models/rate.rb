@@ -11,12 +11,15 @@ class Rate < ActiveRecord::Base
   ########################
   ## Scopes
   scope :by_currency, -> currency { where(currency: currency) if currency.present? }
+  scope :by_bank, -> bank_id { where(bank_id: bank_id) if bank_id.present? }
   scope :only_nbg, -> { where("bank_id = 1") }
+  scope :not_nbg, -> { where("bank_id != 1") }
   scope :start_date, -> start_date { where("date >= ?", start_date) if start_date.present? }
   scope :end_date, -> end_date { where("date <= ?", end_date) if end_date.present? }
   scope :sort_recent, -> { order("rates.date DESC") }
   scope :sort_older, -> { order("rates.date ASC") }
   scope :limit_by, -> limit { limit(limit) if limit.present? }
+  scope :bank_currencies, -> { select("DISTINCT currency").where("bank_id != 1") }
 
   ########################
 
@@ -63,6 +66,11 @@ class Rate < ActiveRecord::Base
   def self.utc_and_rates(currency)
     select('rate, utc').only_nbg.by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
+
+  def self.rates_except_nbg(currency,bank)
+    select('buy_price, utc').not_nbg.by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price]}
+  end
+
 
   def nbg?
     bank_id == 1

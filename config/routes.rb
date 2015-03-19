@@ -13,9 +13,13 @@ BootstrapStarter::Application.routes.draw do
 			resources :users
 		end
 
-    scope "api"  do
-      resources :rates 
-    end
+    # scope "api"  do
+    #   resources :rates 
+    # end
+      match "compare" => "root#compare", as: 'compare'
+
+      match "nbg" => "api#nbg", as: 'nbg', :via => :get
+      match "rates" => "api#rates", as: 'rates', :via => :get
 
 		root :to => 'root#index'
 	  match "*path", :to => redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever

@@ -89,6 +89,7 @@ en:
       added_on: "Added on: %{date}" 
       jumpstart: JumpStart Georgia
       js_link_title: JumpStart Georgia - We communicate data better!
+      compare_to_other_banks: Compare to other banks
     msgs:
       does_not_exist: You tried to access a page that does not exist.
       not_authorized: You are not authorized to view that page.
@@ -128,6 +129,16 @@ en:
         link_title: Change my password
         p2: "If you didn't request this, please ignore this email."
         p3: "Your password won't change until you access the link above and create a new one."                
+  root:
+    index:
+      title: "JumpStart Georgia's Lari Exchange Rate Viewer"
+      currency: "Currency"
+      bank: "Bank"
+      load_rates: "Load Rates"
+    compare:
+      title: "JumpStart Georgia's Lari Exchange Rate Viewer"
+      currency: "Currency"
+      load_rates: "Load Rates"      
   chart:
     nbg:
-      title: "Lari Exchange Rate"
+      title: "Lari Exchange Rate"      
