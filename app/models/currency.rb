@@ -13,6 +13,9 @@ class Currency < ActiveRecord::Base
    def self.select_list()
       with_translations(I18n.locale).map{|x| [x.code, x.name] }
    end
+   def self.data()
+      with_translations(I18n.locale).map{|x| [x.code, x.name, x.ratio] }
+   end
 
 end
 

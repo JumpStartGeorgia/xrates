@@ -2,8 +2,23 @@ class RootController < ApplicationController
 
   def index
     params[:currency] ||= 'USD'
-    currencies = params[:currency].split(',')
-    @currencies = Currency.select_list #Rate.currencies
+
+    gon.stock_title = t('chart.nbg.title')    
+    gon.stock_rates = []
+
+    @currencies = Currency.data 
+
+    params[:currency].split(',').each{|x|
+      if CURRENCIES.index(x) != nil
+        cur = @currencies.select{|c| c[0] == x }.first
+        x = Rate.utc_and_rates(x)
+        if x.present?
+          gon.stock_rates << {code: cur[0], name: cur[0] + ' - ' + cur[1], ratio: cur[2], data: x}
+        end
+      end      
+    }
+
+    
 
 
     # get chart data
@@ -17,15 +32,7 @@ class RootController < ApplicationController
     # gon.chart_yaxis = "Exchange Rate"
     # gon.chart_popup = "Lari to #{params[:currency]}"
 
-    # get highstock data
-    gon.stock_rates = []
-    currencies.each do |currency|
-      x = Rate.utc_and_rates(currency)
-      if x.present?
-        gon.stock_rates << {name: currency, data: x}
-      end
-    end
-    gon.stock_title = "Lari Exchange Rate"
+  
 
 
     respond_to do |format|

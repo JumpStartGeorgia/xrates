@@ -94,6 +94,13 @@ $(function () {
           pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
           valueDecimals: 2
       },
+      legend: {
+        enabled: true,
+        labelFormatter: function()
+        {
+          return this.name + " (" + this.options.ratio + ")";
+        }
+      },
 
       series: gon.stock_rates
   });
@@ -118,7 +125,13 @@ $(function () {
           pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
           valueDecimals: 2
       },
-
+      legend: {
+        enabled: true,
+        labelFormatter: function()
+        {
+          return this.name + " (" + this.options.ratio + ")";
+        }
+      },
       series: gon.stock_rates
   });
 

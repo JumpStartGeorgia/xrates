@@ -11,6 +11,7 @@ class Rate < ActiveRecord::Base
   ########################
   ## Scopes
   scope :by_currency, -> currency { where(currency: currency) if currency.present? }
+  scope :only_nbg, -> { where("bank_id = 1") }
   scope :start_date, -> start_date { where("date >= ?", start_date) if start_date.present? }
   scope :end_date, -> end_date { where("date <= ?", end_date) if end_date.present? }
   scope :sort_recent, -> { order("rates.date DESC") }
@@ -60,12 +61,7 @@ class Rate < ActiveRecord::Base
   # get the utc and rates for a currency
   # return: [ [utc, rate], [utc, rate], ...]
   def self.utc_and_rates(currency)
-    select('rate, utc').by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
-  end
-
-  # get list of currencies
-  def self.currencies
-    pluck(:currency).uniq.sort
+    select('rate, utc').only_nbg.by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
 
   def nbg?

@@ -128,3 +128,6 @@ en:
         link_title: Change my password
         p2: "If you didn't request this, please ignore this email."
         p3: "Your password won't change until you access the link above and create a new one."                
+  chart:
+    nbg:
+      title: "Lari Exchange Rate"
