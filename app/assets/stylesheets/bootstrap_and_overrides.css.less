@@ -91,6 +91,11 @@ footer {
   margin-bottom: 20px;
   padding: 10px;
 }
+
+.bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn)
+{
+  width:320px !important;
+}
 .bootstrap-select ul.dropdown-menu li a > div button
 {
   display:none;
@@ -99,6 +104,10 @@ footer {
 .bootstrap-select button.dropdown-toggle .filter-option button
 {
   display:inline-block;
+}
+.bootstrap-select button.dropdown-toggle .filter-option .name
+{
+  display:none;
 }
 .bootstrap-select button.dropdown-toggle .filter-option button
 {

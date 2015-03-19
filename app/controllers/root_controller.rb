@@ -3,7 +3,7 @@ class RootController < ApplicationController
   def index
     params[:currency] ||= 'USD'
     currencies = params[:currency].split(',')
-    @currencies = Rate.currencies
+    @currencies = Currency.select_list #Rate.currencies
 
 
     # get chart data

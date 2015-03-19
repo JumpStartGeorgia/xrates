@@ -2,11 +2,10 @@
 
 <p>
   <%= label_tag :currency, 'Currency' %>
-  <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ x, x, {'data-content'=>"<div><div class='value'>"+x+"</div><button type='button' class='close-option' data-dismiss='alert' aria-label='Close' data-id='"+i.to_s+"'>×</button></div>"} ] }, params[:currency].split(',')), 
+  <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ (x[0] + ' - ' +  x[1]), x[0], {'data-content'=>"<div><div class='value'>"+(x[0] + '<span class="name"> - ' +  x[1] + "</span>")+"</div><button type='button' class='close-option' data-dismiss='alert' aria-label='Close' data-id='"+i.to_s+"'>×</button></div>" } ] }, params[:currency].split(',')), 
         include_blank: false, multiple: true,
         :'data-live-search' => "true",
         :'data-selected-text-format' => "count > 5",
-        :'data-width' => "auto",
         :'data-size' => "7",
         :'data-max-options' => "5",
         class: 'selectpicker'%>
