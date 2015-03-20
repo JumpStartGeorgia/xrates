@@ -11,7 +11,7 @@
 </p>
 <p>
   <%= label_tag :currency, t(".bank") %>
-  <%= select_tag :currency, options_for_select(@banks.each_with_index.map{|x,i| [ x[1], x[0], {'data-content'=>"<div><div class='value'>"+ x[1] +"</div><button type='button' class='close-option' data-dismiss='alert' aria-label='Close' data-id='"+i.to_s+"'>×</button></div>" } ] }, params[:bank].split(',')), 
+  <%= select_tag :currency, options_for_select(@banks.each_with_index.map{|x,i| [ x[1], x[0], {'data-content'=>"<div><div class='value'>"+(x[4] + '<span class="name"> - ' +  x[1] + "</span>")+"</div><button type='button' class='close-option' data-dismiss='alert' aria-label='Close' data-id='"+i.to_s+"'>×</button></div>" } ] }, params[:bank].split(',')), 
         include_blank: false, multiple: true,
         :'data-live-search' => "true",
         :'data-selected-text-format' => "count > 5",

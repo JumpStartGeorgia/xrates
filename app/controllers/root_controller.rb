@@ -11,7 +11,7 @@ class RootController < ApplicationController
   end
   def compare
     params[:currency] ||= 'USD'
-    params[:bank] ||= '2'
+    params[:bank] ||= '1'
     gon.currency = params[:currency]
     gon.bank = params[:bank]
     @currencies = Currency.available

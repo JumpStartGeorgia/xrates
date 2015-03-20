@@ -27,11 +27,23 @@ class ApiController < ApplicationController
 
     if CURRENCIES.index(currency) != nil && bank.any?
       bank.each{|bid|
-        b = Bank.find_by_id(bid)    
-        x = Rate.rates_except_nbg(currency, bid)
-        if x.present?
-            dt << { name: b.name, data: x}
-        end
+        b = Bank.find_by_id(bid)            
+          if b.id == 1 
+            x = Rate.rates_nbg(currency, bid)
+            if x.present?
+              dt << { id: "b_" + b.id.to_s, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color }
+            end
+          else
+            x = Rate.rates_buy(currency, bid)
+            if x.present?
+              dt << { id: "b_buy_" + b.id.to_s, name: (b.name + " " +  t('app.common.buy') + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot' }
+            end
+            x = Rate.rates_sell(currency, bid)
+            if x.present?
+              dt << { id: "b_sell_" + b.id.to_s, name:  (b.name + " " +  t('app.common.sell') +  " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash' }
+            end
+          end
+        
       }
     end
     respond_to do |format|

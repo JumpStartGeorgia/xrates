@@ -67,10 +67,17 @@ class Rate < ActiveRecord::Base
     select('rate, utc').only_nbg.by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
 
-  def self.rates_except_nbg(currency,bank)
-    select('buy_price, utc').not_nbg.by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price]}
+  def self.rates_nbg(currency,bank)
+      select('rate, utc').where('date > ?','2015-03-15').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
-
+  def self.rates_buy(currency,bank)
+      c = Currency.find_by_code(currency)
+      select('buy_price, utc').where('date > ?','2015-03-15').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*c.ratio]}
+  end
+  def self.rates_sell(currency,bank)
+      c = Currency.find_by_code(currency)
+      select('sell_price, utc').where('date > ?','2015-03-15').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*c.ratio]}
+  end
 
   def nbg?
     bank_id == 1
