@@ -5,10 +5,11 @@ class ApiController < ApplicationController
 
     rates = []
 
-    @currencies = Currency.data 
+    @currencies = Currency.data
     params[:currency].split(',').each{|x|
       if CURRENCIES.index(x) != nil
         cur = @currencies.select{|c| c[0] == x }.first
+         Rails.logger.debug("--------------------------------------------#{cur[1]} #{I18n.locale}")
         x = Rate.utc_and_rates(x)
         if x.present?
           rates << {code: cur[0], name: cur[0] + ' - ' + cur[1], ratio: cur[2], data: x}

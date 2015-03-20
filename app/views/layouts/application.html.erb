@@ -57,7 +57,7 @@
 			          </ul>
 			        </li>
 	          <% end %>
-            <li><%= link_to t("app.common.compare_to_other_banks"), '/compare' %></li>
+            <li><%= link_to t("app.common.compare_to_other_banks"), compare_path %></li>
 						<% I18n.available_locales.each do |locale| %>
 							<% if locale != I18n.locale %>
 								<li><%= link_to t("app.language.#{locale}"), params.merge(:locale => locale) %></li>
