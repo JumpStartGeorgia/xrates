@@ -135,12 +135,26 @@ en:
     index:
       title: "JumpStart Georgia's Lari Exchange Rate Viewer"
       tab1: Deprecation Calculator
+      page1:
+        intro: Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.
       tab2: National Bank Rate
       tab3: Commercial Banks Rate
       tab4: API
       currency: "Currency"
       bank: "Bank"
       load_rates: "Load Rates"
+      calculator:
+        title: How has the Lari depreciation affected your net worth?
+        enter_data: "Enter your net worth <span>(savings, salary, etc)</span>"
+        gel: Lari
+        usd: USD
+        one_lari: "1 Lari"
+        your_net_worth: "Your net worth"
+        difference: "Your net worth decreased by" 
+        info: "According to <span class='forbes'>Forbes</span>, Bidzina Ivanishvili, Georgia's Ex Prime Minister and richest person, has a net worth of <b>5,200,000,000 USD</b>. If he had his money saved in Lari, his net worth would have <b>decreased by</b><span class='value'></span> <b>USD</b> during these 3 months"
+        net_worth_change: "Your net worth change"
+      hsw: How does this work?
+      hsw_text: "It is pretty simple, actually. The calculator divides your net worth by each of the exchange rates(1.76 and 2.05) to convert your Lari into USD. Then the difference is taken between the two numbers to see how much your net worth had decreased. That's it!"        
     compare:
       title: "JumpStart Georgia's Lari Exchange Rate Viewer"
       currency: "Currency"

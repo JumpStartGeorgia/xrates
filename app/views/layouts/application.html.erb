@@ -26,7 +26,13 @@
     <div class="wrapper">
       <div class="header">
         <div class="logo"></div>
-        <div class="lang-switch"></div>
+        <div class="lang-switch">
+                  <% I18n.available_locales.each do |locale| %>
+                     <% if locale != I18n.locale %>
+                        <li><%= link_to t("app.language.#{locale}"), params.merge(:locale => locale) %></li>
+                     <% end %>
+                  <% end %>
+        </div>
       </div>
       <div class="line"></div>
       <div class="content">

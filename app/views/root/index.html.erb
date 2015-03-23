@@ -9,15 +9,46 @@
     <div class="tab" data-id="4"><%= t(".tab4") %></div>
   </div>
   <div class="page active" data-tab-id="1">
-    <div class="intro">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+    <div class="intro"><%= t(".page1.intro") %>
+    </div>
     <div class="calculator">
       <div class="block calc">
-        <div class="title"></div>
-        <div class="input"></div>
-        <div class="output"></div>
-        <div class="diff"></div>
+        <div class="title"><%= t(".calculator.title") %></div>
+        <div class="input">
+          <div class="label"></div>
+          <div class="input-field"><input type="text"></div>
+          <div class="currency-field">
+            <select>
+              <option value="GEL">Lari</option>
+              <option value="USD">USD</option>
+            </select>
+          </div>
+        </div>
+        <div class="output">
+          <div class="block">
+            <div class="label gap"></div>
+            <div class="date-from"></div>
+            <div class="date-to"></div>
+          </div>
+          <div class="block">
+            <div class="label"></div>
+            <div class="rate-from"><div class="value"></div><div class="label"></div></div>
+            <div class="rate-to"><div class="value"></div><div class="label"></div></div>
+          </div>
+           <div class="block">
+            <div class="label"></div>
+            <div class="networth-from"><div class="value"></div><div class="label"></div></div>
+            <div class="networth-to"><div class="value"></div><div class="label"></div></div>
+          </div>
+        </div>
+        <div class="diff">
+          <div class="label"></div>
+          <div class="diff"><div class="value"></div><div class="label"></div></div>
+        </div>
       </div>
-      <div class="block sep"></div>
+      <div class="block sep">
+        <div class="triangle"></div>
+      </div>
       <div class="block info">
         <div class="person"></div>
         <div class="sep"></div>
@@ -25,10 +56,12 @@
       </div>
     </div>
     <div class="chart"></div>
+    <div class="line"></div>
     <div class="sub-line"></div>
     <div class="hsw">
-      <div class="btn"></div>
-      <div class="text"></div>
+      <div>
+      <div class="btn"><%= t(".hsw") %></div></div>
+      <div><div class="text"><%= t(".hsw_text") %></div></div>
     </div>
   </div>
   <div class="page" data-tab-id="2">

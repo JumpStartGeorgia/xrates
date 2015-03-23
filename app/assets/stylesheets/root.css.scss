@@ -14,14 +14,23 @@ body > .wrapper
 }
 .header
 {
+   position:relative;
+   padding-top:80px;
+   > div
+   {
+      display:inline-block;
+   }
    .logo
    {
-      width:200px;
-      height:50px;
+      width:393px;
+      height:64px;
+      background:url(/assets/svg/logo.svg) center center no-repeat;
    }
    .lang-switch
    {
-      float:right;
+     position: absolute;
+     right: 0px;
+     bottom: 30px;
    }
 }
 .line
@@ -45,20 +54,24 @@ body > .wrapper
 .content
 {
    position:relative;
+   background-color:#fafbfb;
    .tabs
    {
      /* position:absolute;
       right:0px;
       top:0px;*/
-     text-align: right;
+      text-align: right;
       position: relative;
       top: -12px;
+      right: 40px;
 
      .tab
       {
-         padding:6px 10px;
+         padding: 9px 21px;
          background-color:#fff;
-         color:#000;
+         font-family: 'ge-oxygen';
+         font-size:16px;
+         color:#7b8483;
          display:inline-block;
          border:1px solid #c9cfd5;
          -webkit-border-bottom-right-radius: 2px;
@@ -67,6 +80,11 @@ body > .wrapper
          -moz-border-radius-bottomleft: 2px;
          border-bottom-right-radius: 2px;
          border-bottom-left-radius: 2px;
+      }
+      .tab:lang(en)
+      {
+         font-family: 'oxygen';
+         font-size:16px;
       }
       .tab.active,
       .tab:hover
@@ -83,6 +101,92 @@ body > .wrapper
       &.active
       {
          display:inline-block;
+      }
+      .intro
+      {
+         font-family: 'ge-oxygen';
+         font-size:16px;
+         color:#7b8483;
+         width:60%;
+         padding:10px 0px 20px 60px;
+      }
+      .intro:lang(en)
+      {
+         font-family: 'oxygen';
+         font-size:16px;
+      }
+   
+      .calculator
+      {
+         .block.calc
+         {
+            width:60%;
+            .title
+            {
+               padding:6px 60px;
+               background-color:#f6ba29;
+               color:#fff;
+               font-family: 'ge-oxygen';
+               font-size:19px;
+               -webkit-border-radius: 2px;
+               -moz-border-radius: 2px;
+               border-radius: 2px;
+            }
+            .title:lang(en)
+            {
+               font-family: 'oxygen';
+               font-size:19px;
+            }
+         }
+         
+         .sep
+         {
+            height:100%;
+            width:1px;
+            background-color:#d7e0e7;
+         }
+         .info
+         {
+            background-color:#f1f3f3;
+         }
+        
+      }
+      .hsw
+      {
+         margin:20px 80px;
+         >div
+         {
+            display:table-cell;
+            padding: 0px 20px;
+            vertical-align:top;
+         }
+         .btn
+         {
+            font-family: 'ge-oxygen';
+            color:#fff;
+            font-size:19px;
+            padding:6px 20px;
+            background-color:#f6ba29;
+           -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+         }
+         .btn:lang(en)
+         {
+            font-family: 'oxygen';
+            font-size:19px;
+         }
+        .text
+         {
+            color:#7b8483;
+            font-family: 'ge-oxygen';
+            font-size:15px;
+         }
+         .text:lang(en)
+         {
+            font-family: 'oxygen';
+            font-size:15px;
+         }
       }
    }
 }
