@@ -118,6 +118,10 @@ body > .wrapper
    
       .calculator
       {
+         >div
+         {
+            display:table-cell;
+         }
          .block.calc
          {
             width:60%;
@@ -136,6 +140,13 @@ body > .wrapper
             {
                font-family: 'oxygen';
                font-size:19px;
+            }
+            .input 
+            {
+               >div
+               {
+                  display:inline-block;
+               }
             }
          }
          
