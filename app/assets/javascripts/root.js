@@ -7,7 +7,7 @@ $(function () {
     window.location.href = $(this).data('url') + "?currency=" + $(select).val();
   });
 
-  $.getJSON(I18n.locale + '/nbg?currency=' + gon.currency, function (d) {  
+  $.getJSON('/' + I18n.locale + '/nbg?currency=' + gon.currency, function (d) {  
     initCharts(d);
   });
   if($('#rates').length)
@@ -143,7 +143,7 @@ var prevCurrency = gon.currency;
       //console.log('rates?currency=' + c + "&bank="+ b.join(','));
       if(c !== null && b !== null)
       {
-        $.getJSON(I18n.locale + 'rates?currency=' + c + "&bank="+ b.join(','), function (d) {
+        $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank="+ b.join(','), function (d) {
           d.rates.forEach(function(t,i){
             var ser = chart.get(t.id);
              if(ser === null)
@@ -160,7 +160,7 @@ var prevCurrency = gon.currency;
   function initChartC(c,b)
   {
 
-  $.getJSON(I18n.locale + 'rates?currency=' + c + "&bank=" + b.join(','), function (d) {
+  $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + b.join(','), function (d) {
    //console.log(d);
     $('#rates').highcharts('StockChart', {
           rangeSelector: {
