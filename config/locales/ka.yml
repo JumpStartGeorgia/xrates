@@ -85,7 +85,7 @@ ka:
       confirm: დარწმუნებული ხართ?
       new: ახალი            
     common:
-      app_name: Bootstrap Starter Project
+      app_name: Lari Explorer
       added_on: "დამატებულია: %{date}" 
       jumpstart: “ჯამპსტარტ ჯორჯია”
       js_link_title: “ჯამპსტარტ ჯორჯია” - ჩვენ გაწვდით მონაცემებს უკეთ!
