@@ -199,4 +199,12 @@ var prevCurrency = gon.currency;
       });
     });
   }
+
+  $('.tab').click(function(){
+    var t = $(this);
+    $('.tab').removeClass("active");
+    t.addClass("active");
+    $('.page.active').removeClass("active");
+    $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
+  });
 });

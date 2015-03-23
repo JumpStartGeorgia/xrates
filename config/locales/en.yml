@@ -134,6 +134,10 @@ en:
   root:
     index:
       title: "JumpStart Georgia's Lari Exchange Rate Viewer"
+      tab1: Deprecation Calculator
+      tab2: National Bank Rate
+      tab3: Commercial Banks Rate
+      tab4: API
       currency: "Currency"
       bank: "Bank"
       load_rates: "Load Rates"
