@@ -4,17 +4,24 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
+// require twitter/bootstrap
+// require dataTables/jquery.dataTables
+// require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+// require vendor
+// require_tree .
+
 //= require i18n
 //= require i18n/translations
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.core
 //= require jquery.ui.effect
-//= require twitter/bootstrap
-//= require dataTables/jquery.dataTables
-//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
-//= require vendor
-//= require_tree .
+//= require highstock
+//= require highcharts-exporting
+//= require twitter/bootstrap/dropdown
+//= require bootstrap-select.min
+//= require_self
+//= require root
 
 $(document).ready(function(){
 	// set focus to first text box on page

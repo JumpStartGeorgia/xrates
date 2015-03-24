@@ -29,16 +29,28 @@
         <div class="lang-switch">
                   <% I18n.available_locales.each do |locale| %>
                      <% if locale != I18n.locale %>
-                        <li><%= link_to t("app.language.#{locale}"), params.merge(:locale => locale) %></li>
+                        <%= link_to t("app.language.#{locale}"), params.merge(:locale => locale) %>
                      <% end %>
                   <% end %>
         </div>
       </div>
       <div class="line"></div>
-      <div class="content">
-        <%= yield %>       
+      <div class="content-box">
+        <div class="content">
+          <div class="box">
+          <%= yield %>     
+          </div>  
+        </div>
       </div>
-      <div class="footer"></div>
+      <div class="footer">
+        <div class='powered-by'>
+          <a href="http://www.jumpstart.ge" target="_blank" title="JumpStart Georgia - We communicate data better!"><img alt="Jumpstart-logo" src="../assets/svg/js.svg"></a>  
+        </div>
+        <div class="share">
+          <span>Share this</span>
+          <div class="addthis_sharing_toolbox"></div>
+        </div>        
+      </div>
     </div>
 
 

@@ -145,7 +145,7 @@ en:
       load_rates: "Load Rates"
       calculator:
         title: How has the Lari depreciation affected your net worth?
-        enter_data: "Enter your net worth <span>(savings, salary, etc)</span>"
+        enter_data: "Enter your net worth <br>(savings, salary, etc)"
         gel: Lari
         usd: USD
         one_lari: "1 Lari"

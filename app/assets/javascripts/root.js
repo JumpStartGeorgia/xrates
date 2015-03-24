@@ -2,6 +2,13 @@ $(function () {
 
   $('select.selectpicker').selectpicker();
 
+  $('#saving').focusout(function(){
+     
+     var t = $(this);
+     var v = +t.val().replace(/,/g, '');
+     t.val(v.toLocaleString());
+  });
+
   $('button#btnSubmit').click(function(){
     var select = $('select#currency');
     window.location.href = $(this).data('url') + "?currency=" + $(select).val();

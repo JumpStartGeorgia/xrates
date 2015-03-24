@@ -14,9 +14,9 @@
     <div class="calculator">
       <div class="block calc">
         <div class="title"><%= t(".calculator.title") %></div>
-        <div class="input">
-          <div class="label"><%= t(".calculator.enter_data") %></div>
-          <div class="input-field"><input type="text" /></div>
+        <div class="inp">
+          <div class="caption"><%= t(".calculator.enter_data").html_safe %></div>
+          <div class="inp-field"><input type="text" id="saving"/></div>
           <div class="currency-field">
             <select>
               <option value="GEL">Lari</option>
@@ -46,13 +46,11 @@
           <div class="diff"><div class="value"></div><div class="label"></div></div>
         </div>
       </div>
-      <div class="block sep">
-        <div class="triangle"></div>
-      </div>
+      <div class="sep"></div>  
       <div class="block info">
         <div class="person"></div>
         <div class="sep"></div>
-        <div class="text"></div>
+        <div class="text"><%= t(".calculator.info").html_safe %></div>
       </div>
     </div>
     <div class="chart"></div>

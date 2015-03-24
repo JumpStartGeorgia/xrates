@@ -1,11 +1,12 @@
-body
+body,html
 {
-   width:100%;
+   margin:0;
+   padding:0;
    height:100%;
 }
 body > .wrapper
 {
-   width:100%;
+   height:100%;
     > div
    {
       margin:0px auto;
@@ -15,6 +16,8 @@ body > .wrapper
 .header
 {
    position:relative;
+   width:100%;
+   z-index:1;
    padding-top:80px;
    > div
    {
@@ -31,6 +34,28 @@ body > .wrapper
      position: absolute;
      right: 0px;
      bottom: 30px;
+   }
+   .lang-switch a
+   {
+      text-decoration:none;
+   }
+   .lang-switch a:lang(ka)
+   {
+      font-family:'dejavusans-c';
+      font-size:16px;
+      color:#bcbcbc;
+   }
+   .lang-switch a:lang(en)
+   {
+      font-family:'oxygen';
+      font-size:16px;
+      color:#bcbcbc;
+   }
+   .lang-switch a:hover,
+   .lang-switch a:focus,
+   .lang-switch a:active,
+   {
+      text-decoration:none;
    }
 }
 .line
@@ -51,22 +76,32 @@ body > .wrapper
          height:11px;
          background-color:#f1f2f2;
       }
-.content
+.content-box
 {
-   position:relative;
-   background-color:#fafbfb;
+    position:relative;
+    top:-149px;
+     min-height:100%;
+     width:100%;
+     z-index:0;
+
+  .content{
+      position: relative;        
+      padding: 149px 0px 65px;
+.box
+{
+      background-color:#fafbfb;
+      position:relative;
+   }
    .tabs
    {
-     /* position:absolute;
+      position:absolute;
+      top:-1px;
       right:0px;
-      top:0px;*/
       text-align: right;
-      position: relative;
-      top: -12px;
-      right: 40px;
-
+      padding-right: 40px;
      .tab
       {
+         position:relative;
          padding: 9px 21px;
          background-color:#fff;
          font-family: 'ge-oxygen';
@@ -89,15 +124,31 @@ body > .wrapper
       .tab.active,
       .tab:hover
       {
-         background-color:#ffc539;
-         border:1px solid #ffc539;
+         color:#fff;
+         background-color:#f6ba29;
+         border:1px solid #f6ba29;
          cursor:pointer;
-         
+      }
+      .tab.active:after,
+      .tab:hover:after
+      {
+         content:'';
+         background:transparent url('/assets/svg/down_arrow2.svg') center bottom no-repeat;
+         background-size:12px 10px;
+         width:12px;
+         height:10px;
+         position:absolute;
+         bottom: -10px;
+         left: 50%;
+         -webkit-transform: translateX(-50%);
+         -ms-transform: translateX(-50%);
+         transform: translateX(-50%);
       }
    }
    .page
    {
       display:none;
+      background-color:#fafbfb;
       &.active
       {
          display:inline-block;
@@ -118,16 +169,21 @@ body > .wrapper
    
       .calculator
       {
+         margin-bottom:30px;
          >div
          {
             display:table-cell;
+            vertical-align: top;
          }
          .block.calc
          {
-            width:60%;
+            width:600px;
+            border-right: 1px solid #d7e0e7;
+            padding-right: 20px;
+
             .title
             {
-               padding:6px 60px;
+               padding:9px 60px;
                background-color:#f6ba29;
                color:#fff;
                font-family: 'ge-oxygen';
@@ -135,30 +191,86 @@ body > .wrapper
                -webkit-border-radius: 2px;
                -moz-border-radius: 2px;
                border-radius: 2px;
+               margin-bottom:32px;
             }
             .title:lang(en)
             {
                font-family: 'oxygen';
                font-size:19px;
             }
-            .input 
+            .inp 
             {
+               margin-left:90px;
                >div
                {
                   display:inline-block;
+                  vertical-align: top;
                }
+               .caption
+               {
+                  font-family: 'oxygen';
+                  font-size:15px;
+                  white-space:pre;
+                  color:#7b8483;
+               }
+               .inp-field input
+               {
+                  font-family:'glober-sb';
+                  font-size:21px;
+                  line-height: 21px;
+                  color:#ffc539; 
+                  border:1px solid #c1c8ce;
+                  padding:6px 10px;
+                  outline:none;
+                  text-align:center;
+                  width: 210px;
+                  height:44px;
+               }
+               .currency-field select
+               {
+                  font-family:'glober-sb';
+                  font-size:21px;
+                  line-height: 21px;
+                  color:#7b8483; 
+                  height:44px;
+                  background-color:#ebeae6;
+               }
+
             }
          }
          
-         .sep
+         > .sep
          {
-            height:100%;
-            width:1px;
-            background-color:#d7e0e7;
+            background:transparent url(/assets/svg/right_arrow.svg) left center no-repeat;
+            background-position:left 60px;
+            background-size:9px 12px;
+            width:19px;
+            height:12px;
          }
-         .info
+         .block.info
          {
+            width:400px;
             background-color:#f1f3f3;
+            padding: 20px 20px 30px;
+            .person
+            {
+               background:transparent url(/assets/svg/person.jpg) left center no-repeat;               
+               background-size:100px 88px;
+               width:100px;
+               height:88px;
+            }
+            .sep
+            {
+               max-width: 100% !important;
+               width: 180px;
+               height: 1px;
+               background-color: #c9cfd5;
+               margin: 23px 0px 10px;
+            }
+            .text
+            {
+
+            }
          }
         
       }
@@ -200,4 +312,23 @@ body > .wrapper
          }
       }
    }
+}
+}
+.footer
+{
+   position:relative;
+   height:50px;
+   z-index:1;
+   top:-215px;
+   margin: 15px auto 0px !important;
+   .share
+   {
+      position: absolute;
+      right: 0px;
+      top: 11px;
+   }
+}
+#btnSubmit
+{
+   vertical-align: top;
 }
