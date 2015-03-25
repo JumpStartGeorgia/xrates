@@ -52,11 +52,7 @@
         <div class="text"><%= t(".calculator.info").html_safe %></div>
       </div>
     </div>
-    <div class="chart" id="your_chart">
-<!--       <div class="caption"><%= t(".calculator.your_net_worth_change") %>
-      </div>
-      <div class="line-chart"></div> -->
-    </div>
+    <div class="chart" id="your_chart"></div>
     <div class="hsw">
       <div>
       <div class="title"><%= t(".hsw") %></div></div>
@@ -64,24 +60,23 @@
     </div>
   </div>
   <div class="page" data-tab-id="2">
-    <div class="intro">
-        <%= label_tag :currency, t(".currency") %>
-        <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ (x[0] + ' - ' +  x[1]), x[0], {'data-content'=>"<div><div class='value'>"+(x[0] + '<span class="name"> - ' +  x[1] + "</span>")+"</div><button type='button' class='close-option' data-dismiss='alert' aria-label='Close' data-id='"+i.to_s+"'>×</button></div>", 'data-title' => 'blah', 'title' => 'blah1' } ] }, params[:currency].split(',')), 
-              include_blank: false, multiple: true,
-              :'data-live-search' => "true",
-              :'data-selected-text-format' => "count > 5",
-              :'data-size' => "7",
-              :'data-max-options' => "5",
-              class: 'selectpicker',
-               title:'blah title'
-               %>
-        <%= button_tag t(".load_rates"), id: 'btnSubmit', :'data-url' => root_path, class: 'btn btn-default' %>
-      <div id="stock-percent" style="width: 100%; height: 500px;"></div>
-      <div id="stock" style="width: 100%; height: 500px;"></div>
-    </div>
+    <div class="intro"><%= t(".page2.intro") %></div>
     <div class="title"></div>
-    <div class="select-rates"></div>    
-    <div class="chart"></div>
+      
+
+    
+    <div class="select-rates">
+      <%= label_tag :currency, t(".currency") %>
+        <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ (x[0] + ' - ' +  x[1]), x[0],{}] }, params[:currency].split(',')), 
+              include_blank: false, 
+              multiple: true,
+              :'data-placeholder' => "Pick something",
+              class: 'selectpicker'
+               %>
+        <%= button_tag t(".load_rates"), id: 'btnSubmit', :'data-url' => root_path, class: 'btn btn-default' %></div> 
+
+    <div id="stock-percent" style="height: 500px;"></div>
+    <div id="stock" style="height: 500px;"></div> 
   </div>
   <div class="page" data-tab-id="3">
     <div class="intro">

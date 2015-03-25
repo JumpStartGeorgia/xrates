@@ -1,7 +1,21 @@
 $(function () {
 
-  $('select.selectpicker').selectpicker();
-
+function format(state) {
+    //if (!state.id) return state.text; // optgroup
+     console.log(state);
+    //return "<img class='flag' src='images/flags/" + state.id.toLowerCase() + ".png'/>" + state.text;
+    return "<div>usd</div>";
+}
+  //$('select.selectpicker').selectpicker();
+  $('select.selectpicker').select2({ maximumSelectionSize: 5,
+  width:350,
+    formatResult: function(d){
+      return "<div>"+d.text+"</div>";
+    },
+    formatSelection: function(d)
+    {
+      return "<div>"+d.id+"</div>";
+    } });
   $('#saving').focusout(function(){
      
      var t = $(this);
@@ -24,9 +38,9 @@ $(function () {
 
 
 
-   $(document).on('click','.bootstrap-select button.dropdown-toggle .filter-option button', function(){
-     $('.bootstrap-select ul.dropdown-menu li a > div button[data-id=' + $(this).attr('data-id') + ']').closest('a').trigger('click');
-   });
+   // $(document).on('click','.bootstrap-select button.dropdown-toggle .filter-option button', function(){
+   //   $('.bootstrap-select ul.dropdown-menu li a > div button[data-id=' + $(this).attr('data-id') + ']').closest('a').trigger('click');
+   // });
 
   
    $('.currency-switch > div').click(function(){

@@ -140,6 +140,7 @@ body > .wrapper
       {
          display:none;
          background-color:#fafbfb;
+         width:100%;
          &.active
          {
             display:inline-block;
@@ -148,6 +149,7 @@ body > .wrapper
          {
             font-family: 'ge-oxygen';
             font-size:16px;
+            line-height:28px;
             color:#7b8483;
             width:60%;
             padding:10px 0px 20px 60px;
@@ -513,9 +515,12 @@ body > .wrapper
       position:relative;
       .share
       {
+         font-family: 'oxygen';
+         font-size:15px;
+         color:#7b8483;
          position: absolute;
          right: 0px;
-         top: 11px;
+         top: 5px;
       }
    }
 }
@@ -526,4 +531,32 @@ body > .wrapper
 #btnSubmit
 {
    vertical-align: top;
+}
+.select2-container-multi .select2-choices
+{
+   font-family: 'ge-oxygen';
+   color:#fff;
+   font-size:19px;
+   padding:0px;
+   background-color:#f6ba29 !important;
+   background-image:none !important;
+   border:0px;
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+   border-radius: 2px;
+   height:40px;
+}
+.select2-container-multi .select2-choices .select2-search-choice {
+   padding: 0px 18px 0px 5px;
+   border:0px !important;
+   border-radius:0px;
+   background-color:transparent;
+   font-family:'glober-sb';
+   font-size:19px;
+   color:#fff;
+   line-height:38px;
+}
+.select2-container-multi .select2-search-choice-close {
+   left:auto;
+  right:3px;
 }

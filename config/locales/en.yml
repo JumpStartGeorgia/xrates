@@ -137,6 +137,8 @@ en:
       tab1: Deprecation Calculator
       page1:
         intro: Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.
+      page2:
+        intro: Page 2 Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.        
       tab2: National Bank Rate
       tab3: Commercial Banks Rate
       tab4: API
