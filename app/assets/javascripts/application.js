@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require jquery.ui.core
 //= require jquery.ui.effect
+//= require jquery.ui.datepicker
 //= require highstock
 //= require highcharts-exporting
 //= require twitter/bootstrap/dropdown

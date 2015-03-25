@@ -29,8 +29,38 @@ $(function () {
    });
 
   
+   $('.currency-switch > div').click(function(){
+      var t = $(this);
+      var p = t.parent();
+      p.find('> div').removeClass('active');
+      t.addClass('active');
+      calculate();
+   });   
 
-  
+
+   $.datepicker.setDefaults( $.datepicker.regional[ I18n.locale ] );
+   $('.calculator .from[data-type=datepicker]').datepicker({
+      dateFormat: "d M, yy",
+      defaultDate: "-3m",
+      onClose: function( v ) {
+        $('.calculator .to[data-type=datepicker]').datepicker( "option", "minDate", v );
+      }
+   }).datepicker('setDate', "-3m");
+
+   $('.calculator .to[data-type=datepicker]').datepicker({
+      dateFormat: "d M, yy",
+      defaultDate: "d",
+      onClose: function( v ) {
+        $('.calculator .from[data-type=datepicker]').datepicker( "option", "maxDate", v );
+      }
+   }).datepicker('setDate', "d");
+
+
+  function calculate()
+  {
+     console.log("calculation");
+  }
+
    function initCharts(d)
    {
     if(!$('#stock').length) return;
@@ -204,6 +234,74 @@ var prevCurrency = gon.currency;
           },
           series: d.rates
       });
+    });
+  }
+    yourChart();
+  function yourChart()
+  {
+      $('#your_chart').highcharts({
+        chart:
+        {
+          backgroundColor: '#f1f2f2'
+        },
+        title: {
+            text: 'Monthly Average Temperature',
+            align: 'left',
+            margin: 50,
+            useHTML: true,
+            style:
+            {
+              fontFamily: 'glober-sb',
+              fontSize: '24px',
+              color:'#7b8483',
+              borderBottom: '1px solid #7b8483',
+              paddingBottom: '3px'
+            },
+            x: 30,
+            y: 30
+        },    
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: {
+              style: {
+                  fontFamily: 'glober-sb',
+                  fontSize: '16px'
+              }
+            }  
+        },
+        yAxis: {
+            gridLineColor: '#ffffff',
+            gridLineWidth: 2,
+            title: {
+                text: 'USD',
+                rotation: 0,
+                margin:20,
+                style:
+                {
+                  fontFamily: 'glober-sb',
+                  fontSize: '19px',
+                  color:'#7b8483',
+                }
+            },
+            labels: {
+              style: {
+                  paddingBottom: '20px',
+                  color: '#f6ba29',
+                  fontFamily: 'glober-sb',
+                  fontSize: '16px'
+              }
+            }
+        },
+        legend: {
+          enabled: false
+        },
+ 
+        series: [{
+            name: 'Tokyo',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+            color: '#f6ba29'
+        }]
     });
   }
 
