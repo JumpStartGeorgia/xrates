@@ -123,13 +123,12 @@ body > .wrapper
          .tab.active:after,
          .tab:hover:after
          {
-            content:'';
-            background:transparent url('/assets/svg/down_arrow2.svg') center bottom no-repeat;
-            background-size:12px 10px;
-            width:12px;
-            height:10px;
+            content:'▼';  
+            font-family: Arial,Helvetica;
+            font-size:19px;
+            color:#f6ba29;  
             position:absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             -webkit-transform: translateX(-50%);
             -ms-transform: translateX(-50%);
@@ -347,14 +346,13 @@ body > .wrapper
                   }
                   .datepicker-wrapper:after
                   {
+                     content:'▼';  
+                     font-family: Arial,Helvetica;
+                     font-size:18px;
+                     color:#CECDCC;  
                      position:absolute;
-                     content:'';
-                     background:transparent url(/assets/svg/down_arrow.svg) right center no-repeat;
-                     background-size:9px 8px;
-                     width:9px;
-                     height:8px;
-                     top: 16px;
-                     right: 13px;
+                     top: 11px;
+                     right: 9px;
                   }
                }
             }
@@ -497,10 +495,8 @@ body > .wrapper
          }
       }
    }
-   .chart
-   {
-      height:340px;
-      width:100%;
+   #a_chart
+   {     
       background-color:#f1f2f2;
    }
 }
@@ -528,23 +524,230 @@ body > .wrapper
 {
    cursor:pointer;
 }
-#btnSubmit
+.page
 {
-   vertical-align: top;
+   .highcharts-container{width:100% !important; max-width:1024px !important; height:100% !important;}
+}
+.page2
+{
+   .title
+   {
+      font-family:'glober-sb';
+      font-size:24px;
+      color:#7b8483;  
+      padding:0px 30px 4px 0px; 
+      border-bottom:1px solid #b8c0c6;
+      display:inline-block;
+      margin:20px 0px 40px 40px;
+   }
+   .select-rates
+   {
+      margin:10px 0px 20px 40px;  
+      .caption
+      {
+         font-family:'glober-sb';
+         font-size:17px;
+         color:#7b8483;  
+         display:inline-block;
+         text-transform: uppercase;
+      }
+   }
+   .btn-load-rates
+   {
+      font-family:'glober-sb';
+      font-size:19px;
+      color:#f6ba29;
+      background-color:#fff;
+      vertical-align: top;
+      border:1px solid #c1c8ce;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      line-height: 35px;
+      padding: 4px 15px 0px;
+      text-transform: uppercase;
+   }
+   .b_chart_switch_wrapper
+   {
+      position:relative;
+   }
+   .b_chart_switch
+   {
+      display:inline-block;
+      position:absolute;
+      top:3px;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+      transform: translateX(-50%);
+      z-index:2;
+      > div
+      {
+         position:relative;
+         display:inline-block;
+         padding:3px 10px;
+         font-family:'oxygen-b';
+         font-size:15px;
+         color:#7b8483;
+         text-transform: uppercase;
+         border-color:#c1c8ce;
+         border-style:solid;
+         border-width:1px;
+         background-color:#fafbfb;
+         &:hover
+         {
+            background-color:#f6ba29;
+            color:#fff;
+            border-color:#f6ba29;  
+            cursor:pointer;
+         }
+         &.active
+         {
+            background-color:#f6ba29;
+            color:#fff;
+            border-color:#f6ba29;           
+         }
+         &.active:after
+         {
+            content:'▼';  
+            font-family: Arial,Helvetica;
+            font-size:19px;
+            color:#f6ba29;  
+            position:absolute;
+            bottom: -15px;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+         }
+         &:first-of-type
+         {
+            // border-top:1px solid #f6ba29;
+            // border-left:1px solid #f6ba29;
+            // border-bottom:1px solid #f6ba29;
+            border-right:0px !important;
+            -webkit-border-top-left-radius: 2px;
+            -webkit-border-bottom-left-radius: 2px;
+            -moz-border-radius-topleft: 2px;
+            -moz-border-radius-bottomleft: 2px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+         }
+         &:last-of-type
+         {
+            // border-top:1px solid #c1c8ce;
+            // border-right:1px solid #c1c8ce;
+            // border-bottom:1px solid #c1c8ce;
+
+            border-left:0px !important;
+            -webkit-border-top-right-radius: 2px;
+            -webkit-border-bottom-right-radius: 2px;
+            -moz-border-radius-topright: 2px;
+            -moz-border-radius-bottomright: 2px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+         }
+
+      }
+
+   }
+   #b_chart
+   {
+      .highcharts-container{width:100% !important; height:100% !important;}
+      .highcharts-range-selector-buttons
+      {
+         > text
+         {
+            font-family: 'oxygen';
+            font-size:14px;   
+            color:#7b8483 !important;
+            fill:#7b8483 !important;
+         }
+         .highcharts-button
+         {
+            rect
+            {
+               fill:#fff;
+               stroke:#c1c8ce;
+               stroke-width:1;
+               opacity:0.7;
+            }
+            text
+            {
+               font-family: 'oxygen';
+               font-size:13px;   
+               color:#7b8483 !important;
+               fill:#7b8483 !important;
+               letter-spacing: 2px;
+            }
+         }
+      }
+      input.highcharts-range-selector
+      {
+         font-family: 'oxygen' !important;
+         font-size:15px !important;   
+         color:#7b8483 !important;
+         background-color:transparent !important;
+         border:0px !important;
+         padding:2px 0px 2px 1px !important;
+         height:21px !important;
+         outline:none;
+         vertical-align:top !important;
+         top: 3px !important;
+      }
+      .highcharts-input-group
+      {
+         > text
+         {
+            font-family: 'oxygen' !important;
+            font-size:13px !important;   
+            color:#7b8483 !important;
+            fill:#7b8483 !important;
+         }
+         g
+         {
+            rect
+            {
+               fill:#ebeae6;
+               stroke-width:0px;
+            }
+            text
+            {
+               display:inline-block;
+               position:relative;
+               font-family: 'oxygen'  !important;
+               font-size:15px  !important;
+               color:#7b8483  !important;
+               fill:#7b8483  !important;
+            }
+         }
+      }
+   }
 }
 .select2-container-multi .select2-choices
 {
+   position:relative;
    font-family: 'ge-oxygen';
-   color:#fff;
    font-size:19px;
+   color:#fff;
    padding:0px;
    background-color:#f6ba29 !important;
    background-image:none !important;
-   border:0px;
    -webkit-border-radius: 2px;
    -moz-border-radius: 2px;
    border-radius: 2px;
-   height:40px;
+   height:42px;
+}
+.select2-container-multi .select2-choices:after
+{
+   content:'▼';  
+   font-family: Arial;
+   font-size:19px;
+   color:#fff;  
+   position:absolute;
+   top:10px;
+   right:9px;
+   cursor:pointer;
 }
 .select2-container-multi .select2-choices .select2-search-choice {
    padding: 0px 18px 0px 5px;
@@ -560,3 +763,176 @@ body > .wrapper
    left:auto;
   right:3px;
 }
+.select2-container-multi .select2-choices .select2-search-field input {
+   height:32px;
+}
+.select2-results::-webkit-scrollbar-track
+{
+background-color: #f1f2f2;
+}
+.select2-results::-webkit-scrollbar
+{
+width: 16px;
+background-color: #f1f2f2;
+}
+.select2-results::-webkit-scrollbar-thumb
+{
+background-color: #f6ba29;
+border:0px;
+cursor:pointer;
+}
+.select2-results .select2-result
+{
+   border:1px solid #e7ebef;
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+   border-radius: 2px;
+   margin:10px 10px;
+   > div
+   {
+      display: talbe-row;
+      > div
+      {
+         display: table-cell;
+      }
+      .flag
+      {
+         width:25px;
+         padding:0px 5px;
+      }
+      .logo img
+      {
+         width:50px;
+         height:20px;
+      }
+      .abbr
+      {
+         font-family:'glober-sb';
+         font-size:16px;
+         color:#7b8483;
+         width:50px;
+         padding:0px 5px;
+      }
+      .name
+      {
+         font-family:'oxygen';
+         font-size:13px;
+         color:#7b8483;
+      }
+   }
+}
+
+
+
+
+
+
+
+
+.ui-datepicker
+{
+   -webkit-border-radius: 0px;
+   -moz-border-radius: 0px;
+   border-radius: 0px;
+   padding:0px;
+   border:0px;
+   .ui-datepicker-header
+   {
+      background:none;
+      background-color:#f6ba29;
+      -webkit-border-radius: 2px;
+      -webkit-border-bottom-right-radius: 0px;
+      -webkit-border-bottom-left-radius: 0px;
+      -moz-border-radius: 2px;
+      -moz-border-radius-bottomright: 0px;
+      -moz-border-radius-bottomleft: 0px;
+      border-radius: 2px;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border:1px solid #f6ba29;
+      padding: 3px 0px;
+      margin:0px;
+      .ui-datepicker-next, .ui-datepicker-prev
+      {
+         background:none;
+         background-color:transparent;
+         border:0px;
+         -webkit-border-radius: 0px;
+         -moz-border-radius: 0px;
+         border-radius: 0px;         
+         opacity:0.7;
+         cursor:pointer;
+      }
+      .ui-datepicker-next
+      {
+         span { background-position: -32px -16px; margin-top: -11px;}         
+      }
+      .ui-datepicker-prev
+      {
+         span { background-position: -96px -16px; margin-top: -11px; }
+      }
+      
+      .ui-datepicker-title
+      {
+         font-family:'oxygen';
+         font-size:16px;
+         color:#fff;
+      }
+   }
+   .ui-datepicker-calendar
+   {
+      border:1px solid #c0c7cd;
+      border-top:0px;      
+      -webkit-border-radius: 2px;
+      -webkit-border-top-left-radius: 0px;
+      -webkit-border-top-right-radius: 0px;
+      -moz-border-radius: 2px;
+      -moz-border-radius-topleft: 0px;
+      -moz-border-radius-topright: 0px;
+      border-radius: 2px;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      margin:0px 0px 5px;   
+      padding-bottom: 9px;
+      border-collapse: separate;
+      thead tr th
+      {
+         padding: .1em .1em;
+         span
+         {
+            font-family:'oxygen';
+            font-size:13px;
+            color:#7b8483;
+         }
+      }
+      .ui-state-default
+      {
+         font-family:'oxygen';
+         font-size:11px;
+         color:#f6ba29;
+         background:none;
+         background-color:#fff;
+         border:1px solid #f1f2f4;
+      } 
+      .ui-state-default:hover
+      {
+         background-color:#f7f7f7;
+         border:1px solid #c8ced3;
+      }
+   }
+}
+// ui-datepicker: The outer container of the datepicker. If the datepicker is inline, this element will additionally have a ui-datepicker-inline class. If the isRTL option is set, this element will additionally have a class of ui-datepicker-rtl.
+// ui-datepicker-header: The container for the datepicker's header.
+// ui-datepicker-prev: The control used to select previous months.
+// ui-datepicker-next: The control used to select subsequent months.
+// ui-datepicker-title: The container for the datepicker's title containing the month and year.
+// ui-datepicker-month: The textual display of the month or a <select> element if the changeMonth option is set.
+// ui-datepicker-year: The textual display of the year or a <select> element if the changeYear option is set.
+// ui-datepicker-calendar: The table that contains the calendar itself.
+// ui-datepicker-week-end: Cells containing weekend days.
+// ui-datepicker-other-month: Cells containing days that occur in a month other than the currently selected month.
+// ui-datepicker-unselectable: Cells containing days that are not selectable by the user.
+// ui-datepicker-current-day: The cell containing the selected day.
+// ui-datepicker-today: The cell containing today's date.
+// ui-datepicker-buttonpane: The buttonpane that is used when the showButtonPanel option is set.
+// ui-datepicker-current: The button used to select today's date.

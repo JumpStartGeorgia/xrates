@@ -16,7 +16,6 @@ BootstrapStarter::Application.routes.draw do
     # scope "api"  do
     #   resources :rates 
     # end
-      match "compare" => "root#compare", as: 'compare'
 
       match "nbg" => "api#nbg", as: 'nbg', :via => :get
       match "rates" => "api#rates", as: 'rates', :via => :get
