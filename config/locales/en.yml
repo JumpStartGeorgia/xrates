@@ -135,8 +135,10 @@ en:
     index:
       title: "JumpStart Georgia's Lari Exchange Rate Viewer"
       tab1: Deprecation Calculator
-      page1:
+      page1:        
         intro: Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.
+        chart:
+          title: "Your Monetary Value Change"
       page2:
         intro: Page 2 Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.        
         title: Lari Exchange Rate
@@ -149,16 +151,16 @@ en:
       currency: "Currency"
       bank: "Bank"
       load_rates: "Load Rates"
-      rate: Rate
+      rate: Exchange Rate
       gel: GEL
       usd: USD
       calculator:
-        title: How has the Lari depreciation affected your net worth?
-        enter_data: "Enter your net worth <br>(savings, salary, etc)"
+        title: How has the Lari depreciation affected you?
+        enter_data: "Enter your monetary value <br>(salary, net worth, rent, loan, etc.)"
         gel: Lari
         usd: Dollar
-        your_net_worth: "Your net worth"
-        difference: "Your net worth<br> decreased by" 
+        your_net_worth: "Monetary Value"
+        difference: "Your monetary value <br> <span class='up'>descreased</span> by" 
         increased: increased
         decreased: decreased
         info_gel: "According to <span class='forbes'>Forbes</span>, Bidzina Ivanishvili, Georgia’s richest person and former Prime Minister, has a net worth of <b>5,200,000,000 USD</b>. If he had his money saved in Lari, his net worth would have <b class='up'>increased</b> by <span class='value'></span> <b>USD</b> during this same time period."

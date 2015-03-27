@@ -178,16 +178,21 @@ $(function () {
     worth_then.text(reformat(old_worth));
     worth_now.text(reformat(new_worth));
     var diff = old_worth - new_worth;
+    var inc_dec = "";
 
-    if(data.dir == 1) text.find('.up').text( diff > 0 ? gon.decreased : gon.increased);
-    else text.find('.up').text( diff > 0 ? gon.increased : gon.decreased);
+    if(data.dir == 1) inc_dec = diff > 0 ? gon.decreased : gon.increased;
+    else inc_dec = diff > 0 ? gon.increased : gon.decreased;
 
-    var info_value = 5200000000/rate_from - 5200000000/rate_to;
-    if(info_value < 0) info_value = -1*info_value;
+    text.find('.up').text(inc_dec);
+    $('.diff .label .up').text(inc_dec);
+
+    var info_value = Math.abs(5200000000/rate_from - 5200000000/rate_to);
+
     text.find('.value').text(reformat(info_value,0));
     info_text.html(text);
 
-    worth_diff.text(reformat(diff));
+    worth_diff.text(reformat(Math.abs(diff)));
+    a_chart();
   }
   function reformat(n,s)
   {
@@ -212,160 +217,106 @@ $(function () {
   // {
   //   c_chart(gon.currency,[gon.bank]);
   // }
-  function c_chart(c,b){
-    $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + b.join(','), function (d) {
-   //console.log(d);
-    $('#rates').highcharts('StockChart', {
-          rangeSelector: {
-              selected: 1
-          },
-          // title: {
-          //     text: 'ads'//d.title
-          // },
-          // yAxis: {
-          //     labels: {
-          //         formatter: function () {
-          //             return (this.value > 0 ? ' + ' : '') + this.value + '%';
-          //         }
-          //     },
-          //     plotLines: [{
-          //         value: 0,
-          //         width: 2,
-          //         color: 'silver'
-          //     }]
-          // },
 
-          // plotOptions: {
-          //     series: {
-          //         compare: 'percent'
-          //     }
-          // },
-
-          // tooltip: {
-          //     pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-          //     valueDecimals: 2
-          // },
-          legend: {
-            enabled: true   
-          },
-          series: d.rates
-      });
-    });
-  }  
-  function c_chart_refresh(c, b){ // currency, bank
-    var chart = $('#rates').highcharts();
-
-    if(c != prevCurrency)
-    {
-
-      prevCurrency = c;
-      // while(chart.series.length > 0)
-      // {
-      //   chart.series[0].remove(false);
-      // }
-      // chart.redraw();
-      chart.destroy();
-      if(b === null || b === "") b = ["1"];
-      else b.unshift("1");
-      c_chart(c,b);
-    }
-    else
-    {
-      if(b === null) b = [];
-      var toDelete = [];
-      chart.series.forEach(function(d){
-        if(d.options.id !== "highcharts-navigator-series" && d.options.id !== "b_1" && b.indexOf(d.options.id.replace('b_','').replace('b_buy_','').replace('b_sell_','')) === -1)
-        {
-          toDelete.push(d.options.id);
-        }
-      });
-      toDelete.forEach(function(d){
-        chart.get(d).remove(false);
-      });
-
-
-      //console.log('rates?currency=' + c + "&bank="+ b.join(','));
-      if(c !== null && b !== null)
-      {
-        $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank="+ b.join(','), function (d) {
-          d.rates.forEach(function(t,i){
-            var ser = chart.get(t.id);
-             if(ser === null)
-             {  
-                chart.addSeries(t,false,false);
-             }     
-          });      
-          chart.redraw();
-        });
-      }
-    }
-  }    
   function a_chart(){
-    $('#a_chart').highcharts({
-        chart:
-        {
-          backgroundColor: '#f1f2f2',
-          height: 340
-        },
-        title: {
-            text: 'Monthly Average Temperature',
-            align: 'left',
-            margin: 50,
-            useHTML: true,
-            style:
+
+     var chart = $('#a_chart').highcharts();
+     if(typeof chart === 'undefined')
+     {
+          $('#a_chart').highcharts({
+            chart:
             {
-              fontFamily: 'glober-sb',
-              fontSize: '24px',
-              color:'#7b8483',
-              borderBottom: '1px solid #7b8483',
-              paddingBottom: '3px'
+              backgroundColor: '#f1f2f2',
+              height: 340
             },
-            x: 30,
-            y: 30
-        },    
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            labels: {
-              style: {
-                  fontFamily: 'glober-sb',
-                  fontSize: '16px'
-              }
-            }  
-        },
-        yAxis: {
-            gridLineColor: '#ffffff',
-            gridLineWidth: 2,
             title: {
-                text: 'USD',
-                rotation: 0,
-                margin:20,
+                text: gon.a_chart_title,
+                align: 'left',
+                margin: 50,
+                useHTML: true,
                 style:
                 {
                   fontFamily: 'glober-sb',
-                  fontSize: '19px',
+                  fontSize: '24px',
                   color:'#7b8483',
+                  borderBottom: '1px solid #7b8483',
+                  paddingBottom: '3px'
+                },
+                x: 30,
+                y: 30
+            },    
+            xAxis: {
+                // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                labels: {
+                  style: {
+                      fontFamily: 'glober-sb',
+                      fontSize: '16px'
+                  }
+                },
+                type: 'datetime' 
+            },
+            yAxis: {
+                gridLineColor: '#ffffff',
+                gridLineWidth: 2,
+                title: {
+                    text: 'USD',
+                    rotation: 0,
+                    margin:20,
+                    style:
+                    {
+                      fontFamily: 'glober-sb',
+                      fontSize: '19px',
+                      color:'#7b8483',
+                    }
+                },
+                labels: {
+                  style: {
+                      paddingBottom: '20px',
+                      color: '#f6ba29',
+                      fontFamily: 'glober-sb',
+                      fontSize: '16px'
+                  }
                 }
             },
-            labels: {
-              style: {
-                  paddingBottom: '20px',
-                  color: '#f6ba29',
-                  fontFamily: 'glober-sb',
-                  fontSize: '16px'
-              }
+            legend: {
+              enabled: false
+            },
+            series: [{ 
+              id:'a1', data: data.rates, color: '#f6ba29',
+              marker : {
+                enabled : true,
+                radius : 3,
+                symbol: 'circle'
+              } 
+            }]    
+        });
+     }
+     else
+     {
+        chart.yAxis[0].update({
+            title:{
+              text: (data.dir == 1 ? 'USD' : 'GEL')
             }
-        },
-        legend: {
-          enabled: false
-        },
- 
-        series: [{
-            name: 'Tokyo',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-            color: '#f6ba29'
-        }]
-    });
+        });
+        var rates_converted = [];
+        if(data.dir == 0)
+        {
+          data.rates.forEach(function(d){
+            rates_converted.push([ d[0],+(1/d[1]).toFixed(4)]);   
+          });          
+        }
+        else rates_converted = data.rates;
+        chart.get('a1').remove(false);
+        chart.addSeries({ id:'a1', data: rates_converted, color: '#f6ba29',
+              marker : {
+                enabled : true,
+                radius : 3,
+                symbol: 'circle'
+              } 
+            },false,false);
+        chart.redraw();                        
+     } 
   }
   function b_chart(d)
    {
@@ -487,6 +438,94 @@ $(function () {
       }
     );
 
+  function c_chart(c,b){
+    $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + b.join(','), function (d) {
+   //console.log(d);
+    $('#rates').highcharts('StockChart', {
+          rangeSelector: {
+              selected: 1
+          },
+          // title: {
+          //     text: 'ads'//d.title
+          // },
+          // yAxis: {
+          //     labels: {
+          //         formatter: function () {
+          //             return (this.value > 0 ? ' + ' : '') + this.value + '%';
+          //         }
+          //     },
+          //     plotLines: [{
+          //         value: 0,
+          //         width: 2,
+          //         color: 'silver'
+          //     }]
+          // },
+
+          // plotOptions: {
+          //     series: {
+          //         compare: 'percent'
+          //     }
+          // },
+
+          // tooltip: {
+          //     pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+          //     valueDecimals: 2
+          // },
+          legend: {
+            enabled: true   
+          },
+          series: d.rates
+      });
+    });
+  }  
+  function c_chart_refresh(c, b){ // currency, bank
+    var chart = $('#rates').highcharts();
+
+    if(c != prevCurrency)
+    {
+
+      prevCurrency = c;
+      // while(chart.series.length > 0)
+      // {
+      //   chart.series[0].remove(false);
+      // }
+      // chart.redraw();
+      chart.destroy();
+      if(b === null || b === "") b = ["1"];
+      else b.unshift("1");
+      c_chart(c,b);
+    }
+    else
+    {
+      if(b === null) b = [];
+      var toDelete = [];
+      chart.series.forEach(function(d){
+        if(d.options.id !== "highcharts-navigator-series" && d.options.id !== "b_1" && b.indexOf(d.options.id.replace('b_','').replace('b_buy_','').replace('b_sell_','')) === -1)
+        {
+          toDelete.push(d.options.id);
+        }
+      });
+      toDelete.forEach(function(d){
+        chart.get(d).remove(false);
+      });
+
+
+      //console.log('rates?currency=' + c + "&bank="+ b.join(','));
+      if(c !== null && b !== null)
+      {
+        $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank="+ b.join(','), function (d) {
+          d.rates.forEach(function(t,i){
+            var ser = chart.get(t.id);
+             if(ser === null)
+             {  
+                chart.addSeries(t,false,false);
+             }     
+          });      
+          chart.redraw();
+        });
+      }
+    }
+  }    
     // $('#stock').highcharts('StockChart', {
 
     //   rangeSelector: {

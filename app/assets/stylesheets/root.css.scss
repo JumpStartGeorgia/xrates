@@ -501,6 +501,10 @@ body > .wrapper
    #a_chart
    {     
       background-color:#f1f2f2;
+      .highcharts-title
+      {
+         padding-right:20px;
+      }
    }
 }
 }
