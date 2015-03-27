@@ -353,17 +353,19 @@ body > .wrapper
                      position:absolute;
                      top: 11px;
                      right: 9px;
+                     pointer-events:none;
                   }
                }
             }
             .diff
             {
                margin:20px 0px 0px 110px;
-               > div 
+               > div , > div > div
                {
                   display:inline-block;
                   vertical-align:top;
                }
+
                .label
                {
                   font-family: 'oxygen';
@@ -386,6 +388,7 @@ body > .wrapper
                   -moz-border-radius: 2px;
                   border-radius: 2px;
                   vertical-align:middle;
+                  text-align:right;
                }
             }
             

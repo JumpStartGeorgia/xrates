@@ -19,6 +19,7 @@ BootstrapStarter::Application.routes.draw do
 
       match "nbg" => "api#nbg", as: 'nbg', :via => :get
       match "rates" => "api#rates", as: 'rates', :via => :get
+      match "calculator" => "api#calculator", as: 'calculator', :via => :get
 
 		root :to => 'root#index'
 	  match "*path", :to => redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever

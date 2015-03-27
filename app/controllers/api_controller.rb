@@ -51,4 +51,62 @@ class ApiController < ApplicationController
       format.json { render json: { rates: dt } }
     end
   end
+  def calculator
+    amount = params[:amount].to_f
+    cur = params[:cur]
+    dir = params[:dir]     
+
+    errors = []
+    #n = Time.now
+
+    begin  
+      date_from = params[:date_from].to_i 
+      if date_from > 0
+        date_from = Time.at(date_from/1000.0)
+      else
+        raise
+      end  
+    rescue  
+      errors.push({ field: 'date_from', message: 'From date field is invalid.' })
+    end  
+
+    begin  
+      date_to = params[:date_to].to_i 
+      if date_to > 0
+        date_to = Time.at(date_to/1000.0)
+      else
+        raise
+      end  
+    rescue  
+      errors.push({ field: 'date_to', message: 'To date field is invalid.' })
+    end  
+
+     data = { amount: amount, cur: cur, dir: dir, date_from: date_from, date_to: date_to, valid: true }
+     errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
+     errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(CURRENCIES.index(cur) == nil)
+     errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> USD, 0: USD -> GEL.' }) if(dir == 0 || dir == 1)
+
+
+
+    if(errors.any?)
+      data['errors'] = errors
+      data['valid'] = false
+    else
+      result = { }
+      rates = Rate.nbg_rates(cur, date_from, date_to)
+      # get rates for period
+      # get first and last row
+      # process dir field
+      # calculate result based on amount
+      #return result
+      result['rates'] = rates
+      data['result'] = result
+    end
+
+
+
+    respond_to do |format|
+      format.json { render json: data }
+    end
+  end
 end

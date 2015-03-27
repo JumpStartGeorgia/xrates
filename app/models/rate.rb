@@ -13,6 +13,7 @@ class Rate < ActiveRecord::Base
   scope :by_currency, -> currency { where(currency: currency) if currency.present? }
   scope :by_bank, -> bank_id { where(bank_id: bank_id) if bank_id.present? }
   scope :only_nbg, -> { where("bank_id = 1") }
+  scope :nbg_by_period, -> (from, to) { where("bank_id = 1 and date >= ?",from).where("date <= ?",to) if from.present? && to.present? }
   scope :not_nbg, -> { where("bank_id != 1") }
   scope :start_date, -> start_date { where("date >= ?", start_date) if start_date.present? }
   scope :end_date, -> end_date { where("date <= ?", end_date) if end_date.present? }
@@ -60,6 +61,14 @@ class Rate < ActiveRecord::Base
   def self.rate_only
     pluck(:rate)
   end
+
+  
+  def self.nbg_rates(cur,from,to)
+     Rails.logger.debug("--------------------------------------------#{cur}#{from}#{to}")
+    select('rate, utc').nbg_by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+  end
+
+
 
   # get the utc and rates for a currency
   # return: [ [utc, rate], [utc, rate], ...]

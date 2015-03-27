@@ -2,12 +2,12 @@
 
   <div class="sub-line"></div>
   <div class="tabs">
-    <div class="tab" data-id="1"><%= t(".tab1") %></div>
-    <div class="tab active" data-id="2"><%= t(".tab2") %></div>
+    <div class="tab active" data-id="1"><%= t(".tab1") %></div>
+    <div class="tab" data-id="2"><%= t(".tab2") %></div>
     <div class="tab" data-id="3"><%= t(".tab3") %></div>
     <div class="tab" data-id="4"><%= t(".tab4") %></div>
   </div>
-  <div class="page" data-tab-id="1">
+  <div class="page active" data-tab-id="1">
     <div class="intro"><%= t(".page1.intro") %>
     </div>
     <div class="calculator">
@@ -15,51 +15,50 @@
         <div class="title"><%= t(".calculator.title") %></div>
         <div class="inp">
           <div class="caption"><%= t(".calculator.enter_data").html_safe %></div>
-          <div class="inp-field"><input type="text" id="saving"/></div>
-          <div class="currency-switch">
-            <div class="btn gel active" data-option="1"></div>
-            <div class="btn usd" data-option="2"></div>
+          <div class="inp-field"><input type="text" id="worth" value="1"/></div>
+          <div id="currency_switch" class="currency-switch">
+            <div class="btn gel active" data-option="GEL"></div>
+            <div class="btn usd" data-option="USD"></div>
           </div>
         </div>
         <div class="output">
           <div class="row">
             <div class="label"></div>
-            <div class="label" data-gel="<%= t(".calculator.gel") %>" data-usd="<%= t(".calculator.usd") %>">1&nbsp;<span><%= t(".calculator.gel") %></span></div>
+            <div class="label" data-gel="<%= t(".calculator.gel") %>" data-usd="<%= t(".calculator.usd") %>"><span><%= t(".rate") %></span></div>
             <div class="label space"><%= t(".calculator.your_net_worth") %></div>
           
           </div>
           <div class="row">
               <div class="datepicker-wrapper"><input type="text" class="from" data-type="datepicker" data-default="-3m"></div>         
-            <div class="rate-from vk"><div class="value box"></div><div class="symbol usd"></div></div>
-             <div class="networth-from vk space"><div class="value box"></div><div class="symbol usd"></div></div>
+            <div id="rate_then" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
+             <div id="worth_then" class="vk space"><div class="value box"></div><div class="symbol usd"></div></div>
           </div>
            <div class="row">
                <div class="datepicker-wrapper"><input type="text" class="to" data-type="datepicker" data-default="d"></div>
-               <div class="rate-to vk"><div class="value box"></div><div class="symbol usd"></div></div>
+               <div id="rate_now" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
            
-            <div class="networth-to vk space"><div class="value box"></div><div class="symbol usd "></div></div>
+            <div id="worth_now" class="vk space"><div class="value box"></div><div class="symbol usd "></div></div>
           </div>
         </div>
         <div class="diff">
           <div class="label"><%= t(".calculator.difference").html_safe %></div>
-          <div class="value"></div><div class="symbol usd"></div>
+          <div id="worth_diff" class="vk"><div class="value"></div><div class="symbol usd"></div></div>
         </div>
       </div>
       <div class="sep"></div>  
       <div class="block info">
         <div class="person"></div>
         <div class="sep"></div>
-        <div class="text"><%= t(".calculator.info").html_safe %></div>
+        <div id="info_text" class="text"><%= t(".calculator.info_gel").html_safe %></div>
       </div>
     </div>
     <div id="a_chart" style="width:100%;max-width:1024px;"></div>
     <div class="hsw">
-      <div>
-      <div class="title"><%= t(".hsw") %></div></div>
-      <div><div class="text"><%= t(".hsw_text") %></div></div>
+      <div><div class="title"><%= t(".hsw") %></div></div>
+      <div><div class="text"><%= t(".hsw_text").html_safe %></div></div>
     </div>
   </div>
-  <div class="page page2 active" data-tab-id="2">
+  <div class="page page2" data-tab-id="2">
     <div class="intro"><%= t(".page2.intro") %></div>
     <div class="title"><%= t(".page2.title") %></div>
     <div class="select-rates">

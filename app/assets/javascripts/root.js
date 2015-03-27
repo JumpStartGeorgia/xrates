@@ -31,7 +31,9 @@ $(function () {
     } 
   });
 
-  $('#saving').focusout(function(){
+
+
+  $('#worth').focusout(function(){
      var t = $(this);
      var v = +t.val().replace(/,/g, '');
      t.val(v.toLocaleString());
@@ -44,10 +46,17 @@ $(function () {
 
    $('.currency-switch > div').click(function(){
       var t = $(this);
+      if(t.hasClass('active')) return;
       var p = t.parent();
       p.find('> div').removeClass('active');
       t.addClass('active');
-      calculate();
+      $(".calculator .symbol").toggleClass('gel usd');
+      
+      data.dir = t.attr('data-option') == 'GEL' ? 1 : 0;
+
+      $(".hsw .text").find('.from-value').text(data.dir == 1 ? 'GEL' : 'USD')
+      $(".hsw .text").find('.to-value').text(data.dir == 1 ? 'USD' : 'GEL');
+      calculate(false);
    });  
   $('.b_chart_switch > div').click(function(){
     var t = $(this);
@@ -62,7 +71,13 @@ $(function () {
       defaultDate: "-3m",
       onClose: function( v ) {
         $('.calculator .to[data-type=datepicker]').datepicker( "option", "minDate", v );
-      }
+      },
+      onSelect: function(v,o) {
+        if($(this).datepicker("getDate").getTime() != data.date_from)
+        {
+          calculate(true);
+        }
+      },
    }).datepicker('setDate', "-3m");
 
    $('.calculator .to[data-type=datepicker]').datepicker({
@@ -70,6 +85,12 @@ $(function () {
       defaultDate: "d",
       onClose: function( v ) {
         $('.calculator .from[data-type=datepicker]').datepicker( "option", "maxDate", v );
+      },
+      onSelect: function() {
+        if($(this).datepicker("getDate").getTime() != data.date_to)
+        {
+          calculate(true);
+        }
       }
    }).datepicker('setDate', "d");
 
@@ -77,21 +98,120 @@ $(function () {
      c_chart_refresh($('.filter-currency').val(), $('.filter-bank').val());
   });
 
+  var from = $('.calculator .from[data-type=datepicker]');
+  var to = $('.calculator .to[data-type=datepicker]');
+  var worth = $('#worth').on('keyup', function() {debounce(calculate(), 500)});
+  var worth_then = $('#worth_then .value');
+  var worth_now = $('#worth_now .value');
+  var rate_then = $('#rate_then .value');
+  var rate_now = $('#rate_now .value');
+  var worth_diff =  $('#worth_diff .value');
+  var info_text = $('#info_text');
 
 
-  $.getJSON('/' + I18n.locale + '/nbg?currency=' + gon.currency, function (d) {  
-    b_chart(d);
-    a_chart();
-  });
+  var data = {
+    rates:[],
+    dir:1,
+    date_from:null,
+    date_to:null,
+    rate_from_init:0,
+    rate_to_init:0,
+    worth:1
 
-  if($('#rates').length)
+  };
+
+  calculate(true);
+
+  function calculate(remote)
   {
-    c_chart(gon.currency,[gon.bank]);
+    data.worth = getWorth();
+    if(data.worth > 0)
+    {      
+      if(remote)
+      {
+        data.date_from = from.datepicker("getDate").getTime();
+        data.date_to = to.datepicker("getDate").getTime();
+        
+        var cur_to = $('#currency_switch > div:not(.active)').attr('data-option');
+
+        $.getJSON('/' + I18n.locale + '/calculator?amount=' + getWorth() + '&cur=USD&dir=' + data.dir + '&date_from=' + data.date_from+ '&date_to=' + data.date_to, function (d) {      
+          if(d.valid)
+          {
+            data.rates = d.result.rates;
+            data.rate_from_init = data.rates[0][1];
+            data.rate_to_init = data.rates[data.rates.length-1][1];
+            output();
+          }
+        });  
+      }
+      else
+      {
+        output();
+      }
+    }
+    else
+    {
+      worth_then.text('');
+      worth_now.text('');
+      rate_now.text('');
+      rate_then.text('');
+      worth_diff.text('');
+    }  
+  }
+  
+
+  function output()
+  {  
+    var rate_from = data.rate_from_init;
+    var rate_to = data.rate_to_init;
+    var text = $("<div>" + gon.info_gel + "</div>");
+    if(data.dir == 0)
+    {
+      rate_from = (1/rate_from).toFixed(4);
+      rate_to = (1/rate_to).toFixed(4);
+      text = $("<div>" + gon.info_usd + "</div>");
+    }
+    var old_worth = data.worth / rate_from;
+    var new_worth = data.worth / rate_to;
+    rate_then.text(reformat(rate_from,4));
+    rate_now.text(reformat(rate_to,4));
+    worth_then.text(reformat(old_worth));
+    worth_now.text(reformat(new_worth));
+    var diff = old_worth - new_worth;
+
+    if(data.dir == 1) text.find('.up').text( diff > 0 ? gon.decreased : gon.increased);
+    else text.find('.up').text( diff > 0 ? gon.increased : gon.decreased);
+
+    var info_value = 5200000000/rate_from - 5200000000/rate_to;
+    if(info_value < 0) info_value = -1*info_value;
+    text.find('.value').text(reformat(info_value,0));
+    info_text.html(text);
+
+    worth_diff.text(reformat(diff));
+  }
+  function reformat(n,s)
+  {
+    s = typeof s === 'number' ? s : 2;
+    n = +n;
+    return (+n.toFixed(s)).toLocaleString();
+  }
+  function getWorth()
+  {
+    var t = parseFloat(worth.val().replace(/,|\s/g, ''));
+    return isNaN(t) ? 0 : t;
   }
 
-  function calculate(){
-     console.log("calculation");
-  }
+
+    // $.getJSON('/' + I18n.locale + '/nbg?currency=' + gon.currency, function (d) {  
+
+  //   b_chart(d);
+  //   a_chart();
+  // });
+
+  // if($('#rates').length)
+  // {
+  //   c_chart(gon.currency,[gon.bank]);
+  // }
   function c_chart(c,b){
     $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + b.join(','), function (d) {
    //console.log(d);
@@ -396,5 +516,19 @@ $(function () {
     //   },
     //   series: d.rates
     // });
+  }
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
   }
 });

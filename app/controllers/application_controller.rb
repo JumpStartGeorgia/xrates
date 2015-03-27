@@ -71,6 +71,10 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
 		else
 		  gon.datatable_i18n_url = ""
 		end
+      gon.info_gel = t(".root.index.calculator.info_gel").html_safe
+      gon.info_usd = t(".root.index.calculator.info_usd").html_safe
+      gon.increased = t(".root.index.calculator.increased").html_safe
+      gon.decreased = t(".root.index.calculator.decreased").html_safe
 	end
 
 	def after_sign_in_path_for(resource)
