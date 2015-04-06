@@ -589,6 +589,7 @@ body > .wrapper
       border-bottom:1px solid #b8c0c6;
       display:inline-block;
       margin:20px 0px 40px 40px;
+      text-transform:uppercase;
    }
    .select-rates
    {
@@ -601,21 +602,6 @@ body > .wrapper
          display:inline-block;
          text-transform: uppercase;
       }
-   }
-   .btn-load-rates
-   {
-      font-family:'glober-sb';
-      font-size:19px;
-      color:#f6ba29;
-      background-color:#fff;
-      vertical-align: top;
-      border:1px solid #c1c8ce;
-      -webkit-border-radius: 2px;
-      -moz-border-radius: 2px;
-      border-radius: 2px;
-      line-height: 35px;
-      padding: 4px 15px 0px;
-      text-transform: uppercase;
    }
    .b_chart_switch_wrapper
    {

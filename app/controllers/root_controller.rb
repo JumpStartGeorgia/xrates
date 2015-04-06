@@ -1,7 +1,7 @@
 class RootController < ApplicationController
 
   def index
-    params[:currency] ||= 'USD'
+    params[:currency] ||= 'USD,EUR,GBP,RUB'
     params[:bank] ||= 'BNLN'    
     gon.currency = params[:currency]
     gon.bank = params[:bank]

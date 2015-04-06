@@ -2,6 +2,8 @@ $(function () {
 
   var prevCurrency = gon.currency;
 
+  var prev_b_chart_currency = [];
+
   $('.tab').click(function(){
     var t = $(this);
     $('.tab').removeClass("active");
@@ -10,7 +12,7 @@ $(function () {
     $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
   });
 
-  $('select.filter-currency').select2({ maximumSelectionSize: 5,
+  $('select.filter-b-currency, select.filter-c-currency').select2({ maximumSelectionSize: 5,
     width:380,
     formatResult: function(d){
       return "<div class='flag'><img src='/assets/png/flags/"+d.id+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
@@ -20,7 +22,7 @@ $(function () {
       return "<div>"+d.id+"</div>";
     } 
   });
-  $('select.filter-bank').select2({ maximumSelectionSize: 5,
+  $('select.filter-c-bank').select2({ maximumSelectionSize: 5,
     width:380,
     formatResult: function(d){
       return "<div class='logo'><img src='/assets/png/banks/"+$(d.element).attr('data-image')+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
@@ -37,11 +39,6 @@ $(function () {
      var t = $(this);
      var v = +t.val().replace(/,/g, '');
      t.val(v.toLocaleString());
-  });
-
-  $('button#btnSubmit').click(function(){
-    var select = $('select#currency');
-    window.location.href = $(this).data('url') + "?currency=" + $(select).val();
   });
 
    $('.currency-switch > div').click(function(){
@@ -63,7 +60,8 @@ $(function () {
     var p = t.parent();
     p.find('> div').removeClass('active');
     t.addClass('active');
-     console.log(t.attr('data-chart-type'));
+    var chart = $('#b_chart').highcharts();
+    chart.yAxis[0].setCompare(t.attr('data-compare'));
   });  
    $.datepicker.setDefaults( $.datepicker.regional[ I18n.locale ] );
    $('.calculator .from[data-type=datepicker]').datepicker({
@@ -94,8 +92,11 @@ $(function () {
       }
    }).datepicker('setDate', "d");
 
-  $('.filter-currency, .filter-bank').on('change',function(){
-     c_chart_refresh($('.filter-currency').val(), $('.filter-bank').val());
+  $('.filter-c-currency, .filter-c-bank').on('change',function(){
+     c_chart_refresh($('.filter-c-currency').val(), $('.filter-c-bank').val());
+  });
+  $('.filter-b-currency').on('change',function(){
+     b_chart_refresh();
   });
 
   var from = $('.calculator .from[data-type=datepicker]');
@@ -108,6 +109,7 @@ $(function () {
   var worth_diff =  $('#worth_diff .value');
   var info_text = $('#info_text');
 
+  
 
   var data = {
     rates:[],
@@ -116,11 +118,13 @@ $(function () {
     date_to:null,
     rate_from_init:0,
     rate_to_init:0,
-    worth:1
-
+    worth:1,
+    nbg: { currencies: [], rates_by_currency: {} }
   };
 
+
   calculate(true);
+  b_chart();
 
   function calculate(remote)
   {
@@ -160,8 +164,7 @@ $(function () {
   }
   
 
-  function output()
-  {  
+  function output(){  
     var rate_from = data.rate_from_init;
     var rate_to = data.rate_to_init;
     var text = $("<div>" + gon.info_usd + "</div>");
@@ -192,27 +195,19 @@ $(function () {
     info_text.html(text);
 
     worth_diff.text(reformat(Math.abs(diff)));
-    
+
     a_chart();
   }
-  function reformat(n,s)
-  {
+  function reformat(n,s){
     s = typeof s === 'number' ? s : 2;
     n = +n;
     return (+n.toFixed(s)).toLocaleString();
   }
-  function getWorth()
-  {
+  function getWorth(){
     var t = parseFloat(worth.val().replace(/,|\s/g, ''));
     return isNaN(t) ? 0 : t;
   }
 
-
-    // $.getJSON('/' + I18n.locale + '/nbg?currency=' + gon.currency, function (d) {  
-
-  //   b_chart(d);
-  //   a_chart();
-  // });
 
   // if($('#rates').length)
   // {
@@ -325,94 +320,147 @@ $(function () {
             },false,false);
         chart.redraw();                        
      } 
+  }  
+  function b_chart_refresh(c){
+    var chart = $('#b_chart').highcharts();
+    var c = $('.filter-b-currency').select2('val');
+    prev_b_chart_currency.forEach(function(t){
+      if(c.indexOf(t)==-1)
+      {
+        chart.get(t).remove(false);
+      }
+    });
+
+    var remote_cur = [];
+    var local_cur = [];
+    c.forEach(function(t){
+      if(data.nbg.currencies.indexOf(t) == -1)
+        remote_cur.push(t);
+      else local_cur.push(t);
+    });    
+    if(remote_cur.length)
+    {
+      $.getJSON('/' + I18n.locale + '/nbg?currency=' + remote_cur.join(','), function (d) { 
+        if(d.valid)
+        {
+          d.result.forEach(function(t,i){
+            var ser = chart.get(t.code);
+            if(ser === null)
+            {  
+              chart.addSeries({id:t.code, data: t.rates }, false,false);
+              data.nbg.rates_by_currency[t.code] = t.rates;
+              data.nbg.currencies.push(t.code);
+            }     
+          });      
+          chart.redraw();
+        }
+      }); 
+    }
+
+    if(local_cur.length)
+    {
+      local_cur.forEach(function(t){
+        var ser = chart.get(t);
+        if(ser === null)
+        {  
+          chart.addSeries({id:t, data: data.nbg.rates_by_currency[t] }, false,false);
+        }     
+      });
+      chart.redraw();
+    }
+   
+    prev_b_chart_currency = c;
   }
-  function b_chart(d)
-   {
-    if(!$('#b_chart').length) return;
-
-      $('#b_chart').highcharts('StockChart', {
-           chart:
+  function b_chart(){
+    $('#b_chart').highcharts('StockChart', {
+      chart:
+      {
+        backgroundColor: '#f1f2f2'
+      },
+      rangeSelector: {
+          selected: 1,
+          inputDateFormat: '%d-%b-%Y',
+          inputEditDateFormat: '%d-%b-%Y',
+          inputBoxWidth: 120,  
+          inputBoxHeight: 20,                  
+          inputDateParser:function(v)
           {
-            backgroundColor: '#f1f2f2'
-          },
-          rangeSelector: {
-              selected: 1,
-              inputDateFormat: '%d-%b-%Y',
-              inputEditDateFormat: '%d-%b-%Y',
-              inputBoxWidth: 120,  
-              inputBoxHeight: 20,                  
-              inputDateParser:function(v)
-              {
-                 v = v.split(/-/);
-                return Date.UTC(
-                    parseInt(v[2], 10),
-                    parseInt(v[1], 10)-1,
-                    parseInt(v[0], 10),
-                    0,0,0,0);              
-              }
-          },     
-          xAxis: { 
-            tickColor: '#d7e0e7',  
-            lineColor: '#d7e0e7',         
-            labels: {
-              style: {
-                  fontFamily: 'glober-sb',
-                  fontSize: '16px'
-              }
-            }  
-          },     
-          yAxis: {
-              opposite: false,
-              gridLineColor: '#ffffff',
-              gridLineWidth: 2,             
-              plotLines: [{
-                  value: 0,
-                  width: 2,
-                  color: 'silver'
-              }],
-              labels: 
-              {
-                style: {
-                  color: '#f6ba29',
-                  fontFamily: 'glober-sb',
-                  fontSize: '16px'
-                }
-              }
-          },
-
-          plotOptions: {
-              series: {
-                  compare: 'percent'
-              }
-          },
-
-          tooltip: {
-              pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-              valueDecimals: 2
-          },
-          legend: {
-            enabled: false,
-            // labelFormatter: function()
-            // {
-            //   return this.name + " (" + this.options.ratio + ")";
-            // }
-          },
-          navigator: {
-            maskFill: 'rgba(246, 186, 41, 0.49)',
-            handles: {
-                backgroundColor: '#f6ba29',
-                borderColor: 'black'
+             v = v.split(/-/);
+            return Date.UTC(
+                parseInt(v[2], 10),
+                parseInt(v[1], 10)-1,
+                parseInt(v[0], 10),
+                0,0,0,0);              
+          }
+      },     
+      xAxis: { 
+        tickColor: '#d7e0e7',  
+        lineColor: '#d7e0e7',         
+        labels: {
+          style: {
+              fontFamily: 'glober-sb',
+              fontSize: '16px'
+          }
+        }  
+      },     
+      yAxis: {
+          opposite: false,
+          gridLineColor: '#ffffff',
+          gridLineWidth: 2,             
+          plotLines: [{
+              value: 0,
+              width: 2,
+              color: 'silver'
+          }],
+          labels: 
+          {
+            style: {
+              color: '#f6ba29',
+              fontFamily: 'glober-sb',
+              fontSize: '16px'
             }
-          },
-          scrollbar: {
-            barBackgroundColor: '#e5d7b4',
-            barBorderWidth: 0,
-            buttonBackgroundColor: '#d5d3cd',
-            buttonBorderWidth: 0,
-            buttonArrowColor: '#fff',
-            rifleColor: '#fff',
-            trackBackgroundColor: '#ebeae6',
-            trackBorderWidth: 1,
+          }
+      },
+      plotOptions: {
+          series: {
+              compare: 'value'
+          }
+      },
+      tooltip: {
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+          valueDecimals: 2
+      },
+      legend: {
+        enabled: false
+      },
+      navigator: {
+        maskFill: 'rgba(246, 186, 41, 0.49)',
+        handles: {
+            backgroundColor: '#f6ba29',
+            borderColor: 'black'
+        }
+      },
+      scrollbar: {
+        barBackgroundColor: '#e5d7b4',
+        barBorderWidth: 0,
+        buttonBackgroundColor: '#d5d3cd',
+        buttonBorderWidth: 0,
+        buttonArrowColor: '#fff',
+        rifleColor: '#fff',
+        trackBackgroundColor: '#ebeae6',
+        trackBorderWidth: 1,
+      },
+      credits: { enabled: false },
+      // series: d.rates
+    },
+    function (chart) {
+      setTimeout(function () {
+          $('input.highcharts-range-selector', $(chart.container).parent())
+              .datepicker({dateFormat: "dd-mm-yy"});
+      }, 0);
+    });
+    b_chart_refresh();
+  }
 
 
 //             barBackgroundColor: #bfc8d1
@@ -433,19 +481,6 @@ $(function () {
 // trackBorderColor: #eeeeee
 // trackBorderRadius: 0
 // trackBorderWidth: 1
-        },
-
-          credits: { enabled: false },
-          series: d.rates
-      },
-      function (chart) {
-        setTimeout(function () {
-            $('input.highcharts-range-selector', $(chart.container).parent())
-                .datepicker({dateFormat: "dd-mm-yy",});
-        }, 0);
-      }
-    );
-
   function c_chart(c,b){
     $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + b.join(','), function (d) {
    //console.log(d);
@@ -534,36 +569,7 @@ $(function () {
       }
     }
   }    
-    // $('#stock').highcharts('StockChart', {
 
-    //   rangeSelector: {
-    //       selected: 1
-    //   },
-    //   title: {
-    //       text: d.title
-    //   },
-    //   yAxis: {        
-    //       plotLines: [{
-    //           value: 0,
-    //           width: 2,
-    //           color: 'silver'
-    //       }]
-    //   },
-
-    //   tooltip: {
-    //       pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-    //       valueDecimals: 2
-    //   },
-    //   legend: {
-    //     enabled: true,
-    //     labelFormatter: function()
-    //     {
-    //       return this.name + " (" + this.options.ratio + ")";
-    //     }
-    //   },
-    //   series: d.rates
-    // });
-  }
   function debounce(func, wait, immediate) {
     var timeout;
     return function() {
