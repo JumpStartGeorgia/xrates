@@ -76,6 +76,10 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.info_usd = t(".root.index.calculator.info_usd").html_safe
       gon.increased = t(".root.index.calculator.increased").html_safe
       gon.decreased = t(".root.index.calculator.decreased").html_safe
+      gon.rate = t(".root.index.rate")
+      gon.monetary_value = t(".root.index.monetary_value")
+
+      #:title => I18n.t('chart.nbg.title') , 
 	end
 
 	def after_sign_in_path_for(resource)

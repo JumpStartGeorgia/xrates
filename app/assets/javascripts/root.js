@@ -134,10 +134,10 @@ $(function () {
         
         var cur_to = $('#currency_switch > div:not(.active)').attr('data-option');
 
-        $.getJSON('/' + I18n.locale + '/calculator?amount=' + getWorth() + '&cur=USD&dir=' + data.dir + '&date_from=' + data.date_from+ '&date_to=' + data.date_to, function (d) {      
+        $.getJSON('/' + I18n.locale + '/nbg?currency=USD&start_date=' + data.date_from+ '&end_date=' + data.date_to, function (d) {      
           if(d.valid)
           {
-            data.rates = d.result.rates;
+            data.rates = d.result[0].rates;
             data.rate_from_init = data.rates[0][1];
             data.rate_to_init = data.rates[data.rates.length-1][1];
             output();
@@ -164,15 +164,15 @@ $(function () {
   {  
     var rate_from = data.rate_from_init;
     var rate_to = data.rate_to_init;
-    var text = $("<div>" + gon.info_gel + "</div>");
-    if(data.dir == 0)
+    var text = $("<div>" + gon.info_usd + "</div>");
+    if(data.dir == 1)
     {
       rate_from = (1/rate_from).toFixed(4);
       rate_to = (1/rate_to).toFixed(4);
-      text = $("<div>" + gon.info_usd + "</div>");
+      text = $("<div>" + gon.info_gel  + "</div>");
     }
-    var old_worth = data.worth / rate_from;
-    var new_worth = data.worth / rate_to;
+    var old_worth = data.worth * rate_from;
+    var new_worth = data.worth * rate_to;
     rate_then.text(reformat(rate_from,4));
     rate_now.text(reformat(rate_to,4));
     worth_then.text(reformat(old_worth));
@@ -180,18 +180,19 @@ $(function () {
     var diff = old_worth - new_worth;
     var inc_dec = "";
 
-    if(data.dir == 1) inc_dec = diff > 0 ? gon.decreased : gon.increased;
-    else inc_dec = diff > 0 ? gon.increased : gon.decreased;
-
+    inc_dec = new_worth > old_worth ? gon.increased : gon.decreased;    
     text.find('.up').text(inc_dec);
     $('.diff .label .up').text(inc_dec);
 
-    var info_value = Math.abs(5200000000/rate_from - 5200000000/rate_to);
+    var info_value = data.dir == 1 ? 
+        Math.abs(5200000000 - 5200000000 * data.rate_from_init/ data.rate_to_init)
+      : Math.abs(5200000000*data.rate_from_init - 5200000000*data.rate_to_init);
 
     text.find('.value').text(reformat(info_value,0));
     info_text.html(text);
 
     worth_diff.text(reformat(Math.abs(diff)));
+    
     a_chart();
   }
   function reformat(n,s)
@@ -220,7 +221,14 @@ $(function () {
 
   function a_chart(){
 
-     var chart = $('#a_chart').highcharts();
+    var chart = $('#a_chart').highcharts();
+
+    var worths = [];
+    data.rates.forEach(function(d){
+      var r = (data.dir == 0 ? d[1] : +(1/d[1]).toFixed(4)).toFixed(2);
+      worths.push({ x: d[0], y: (r * data.worth), rate:r, dir: (data.dir==0 ? 'gel' : 'usd') })
+    });           
+
      if(typeof chart === 'undefined')
      {
           $('#a_chart').highcharts({
@@ -245,9 +253,7 @@ $(function () {
                 x: 30,
                 y: 30
             },    
-            xAxis: {
-                // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            xAxis: {            
                 labels: {
                   style: {
                       fontFamily: 'glober-sb',
@@ -282,8 +288,17 @@ $(function () {
             legend: {
               enabled: false
             },
+            credits:
+            {
+              enabled: false
+            },
+            tooltip: {
+              headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
+              pointFormat: '<div class="tooltip-content"><span>'+gon.rate+'</span>: {point.rate} <span class="symbol {point.dir}"></span><br/><span>'+gon.monetary_value+'</span>: {point.y} <span class="symbol {point.dir}"></span></div>',
+              useHTML: true
+            },
             series: [{ 
-              id:'a1', data: data.rates, color: '#f6ba29',
+              id:'a1', data: worths, color: '#f6ba29',
               marker : {
                 enabled : true,
                 radius : 3,
@@ -299,16 +314,9 @@ $(function () {
               text: (data.dir == 1 ? 'USD' : 'GEL')
             }
         });
-        var rates_converted = [];
-        if(data.dir == 0)
-        {
-          data.rates.forEach(function(d){
-            rates_converted.push([ d[0],+(1/d[1]).toFixed(4)]);   
-          });          
-        }
-        else rates_converted = data.rates;
+
         chart.get('a1').remove(false);
-        chart.addSeries({ id:'a1', data: rates_converted, color: '#f6ba29',
+        chart.addSeries({ id:'a1', data: worths, color: '#f6ba29',
               marker : {
                 enabled : true,
                 radius : 3,

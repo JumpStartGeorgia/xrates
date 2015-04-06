@@ -80,6 +80,7 @@ body > .wrapper
   .content
   {
       position: relative;    
+      min-width:1024px;
       max-width:1024px;
       margin:0px auto;    
       background-color:#fafbfb;      
@@ -426,11 +427,12 @@ body > .wrapper
                   font-size:15px; 
                   color:#7b8483;
                   line-height:25px;
-                  .forbes
+                  .forbes, .forbes:hover, .forbes:focus, .forbes:active
                   {
                      font-family:'oxygen-bi';
                      font-size:16px; 
                      color:#f6ba29;
+                     text-decoration:none;
                   }
                   b
                   {
@@ -441,6 +443,7 @@ body > .wrapper
             }
             .symbol
             {
+               display:inline-block;
                width: 20px;
                height: 38px;
             }
@@ -453,9 +456,10 @@ body > .wrapper
             {
                background:transparent url(/assets/svg/usd_cg.svg) center center no-repeat;
                background-size:20px 28px;
-            }
+            } 
            
          }
+
       .hsw
       {
          margin:20px 80px;
@@ -504,6 +508,45 @@ body > .wrapper
       .highcharts-title
       {
          padding-right:20px;
+      }
+      .highcharts-tooltip
+      {
+
+         .tooltip-header
+         {
+            font-family: 'oxygen';
+            font-size:14px;
+            color:#7b8483;
+         }  
+         .tooltip-content
+         {
+            font-family: 'oxygen-b';
+            font-size:13px;
+            color:#7b8483;
+            padding-left:5px;
+            span
+            {
+               font-family: 'oxygen';
+            }
+            .symbol
+            {
+               display:inline-block;
+               width: 10px;
+               height: 15px;
+               position:relative;
+               top:3px;
+            }
+            .symbol.gel
+            {
+               background:transparent url(/assets/svg/gel_cg.svg) center center no-repeat;
+               background-size:10px 15px;
+            }
+            .symbol.usd
+            {
+               background:transparent url(/assets/svg/usd_cg.svg) center center no-repeat;
+               background-size:10px 15px;
+            }
+         }         
       }
    }
 }
