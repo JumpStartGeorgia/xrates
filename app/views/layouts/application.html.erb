@@ -29,17 +29,28 @@
        <div class="header">
         <div class="box">
           <div class="logo"><img src="/assets/svg/logo_<%= I18n.locale %>.svg" alt="Logo" ></div>
-          <div class="lang-switch">
-                    <% I18n.available_locales.each do |locale| %>
-                       <% if locale != I18n.locale %>
-                          <%= link_to t("app.language.#{locale}"), params.merge(:locale => locale) %>
-                       <% end %>
-                    <% end %>
+          <div class="right">
+            <div><%= link_to t("app.common.about"), about_path %></div>
+            <div class="sep">|</div>
+            <div class="lang-switch">
+                      <% I18n.available_locales.each do |locale| %>
+                         <% if locale != I18n.locale %>
+                            <%= link_to t("app.language.#{locale}"), params.merge(:locale => locale), lang: locale %>
+                         <% end %>
+                      <% end %>
+            </div>
           </div>
         </div>
       </div>
       <div class="line"></div>
       <div class="content">
+        <div class="sub-line"></div>
+        <div class="tabs">          
+          <div class="tab<%= @tab == 1 ? ' active' : '' %>" data-id="1"><%= link_to t("root.tab1"), root_path(:anchor=>'p=1') %></div>
+          <div class="tab" data-id="2"><%= link_to t("root.tab2"), root_path(:anchor=>'p=2') %></div>
+          <div class="tab" data-id="3"><%= link_to t("root.tab3"), root_path(:anchor=>'p=3') %></div>
+          <div class="tab<%= @tab == 4 ? ' active' : '' %>"><%= link_to t("app.common.api"), api_path %></div>
+        </div>
         <%= yield %>     
       </div>
     </div>
@@ -60,7 +71,7 @@
     <!-- Javascripts
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag  *(@js.present? ? ["application", @js].flatten : ["application"]), :media => "all" %>   
 		<script type="text/javascript">
 			I18n.defaultLocale = "<%= I18n.default_locale %>";
 			I18n.locale = "<%= I18n.locale %>";

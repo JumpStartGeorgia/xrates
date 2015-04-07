@@ -1,13 +1,6 @@
-<% title t(".title") %>
+  <% title t(".title") %>
 
-  <div class="sub-line"></div>
-  <div class="tabs">
-    <div class="tab" data-id="1"><%= t(".tab1") %></div>
-    <div class="tab active" data-id="2"><%= t(".tab2") %></div>
-    <div class="tab" data-id="3"><%= t(".tab3") %></div>
-    <div class="tab" data-id="4"><%= t(".tab4") %></div>
-  </div>
-  <div class="page" data-tab-id="1">
+  <div class="page active" data-tab-id="1">
     <div class="intro"><%= t(".page1.intro") %>
     </div>
     <div class="calculator">
@@ -58,10 +51,10 @@
       <div><div class="text"><%= t(".hsw_text").html_safe %></div></div>
     </div>
   </div>
-  <div class="page page2 active" data-tab-id="2">
+  <div class="page page2" data-tab-id="2">
     <div class="intro"><%= t(".page2.intro") %></div>
     <div class="title"><%= t(".page2.title") %></div>
-    <div class="select-rates">
+    <div class="filters">
       <div class="caption"><%= t(".currency") %></div>
       <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, params[:currency].split(',')), 
               include_blank: false, 
@@ -74,29 +67,25 @@
         <div data-compare="none" class="active">Cost</div><div data-compare="percent">%</div>
       </div>
     </div>
-    <div id="b_chart" style="height: 500px; width:100%;"></div>
+    <div id="b_chart" style="height:500px;width:100%;max-width:1024px;"></div>
   </div>
-  <div class="page" data-tab-id="3">
-    <div class="intro"><%= t(".page2.intro") %></div>
-    <div class="title"><%= t(".page2.title") %></div>
+  <div class="page page3" data-tab-id="3">
+    <div class="intro"><%= t(".page3.intro") %></div>
+    <div class="title"><%= t(".page3.title") %></div>
+    <div class="filters">
+      <div class="caption"><%= t(".currency") %></div>
+      <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, 'USD'), 
+            include_blank: false,
+            multiple: true,
+            :'data-placeholder' => t('.hint.currency'),
+            class: 'selectpicker filter-c-currency' %>
 
-    <div class="caption"><%= t(".currency") %></div>
-    <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, params[:currency].split(',')), 
-          include_blank: false,
-          multiple: true,
-          :'data-placeholder' => t('.hint.currency'),
-          class: 'selectpicker filter-c-currency' %>
-
-    <div class="caption"><%= t(".bank") %></div>
-    <%= select_tag :bank, options_for_select(@banks.each_with_index.map{|x,i| [ x[1], x[4], { :'data-image' => x[5] } ] }, params[:bank].split(',')), 
-          include_blank: false,
-          multiple: true,
-          :'data-placeholder' => t('.hint.bank'),
-          class: 'selectpicker filter-c-bank'%>
-
-    <div id="c_chart" style=" height: 500px; width: 100%;"></div>
-  </div>
-
-  <div class="page" data-tab-id="4">
-    <div class="intro">API</div>
+      <div class="caption"><%= t(".bank") %></div>
+      <%= select_tag :bank, options_for_select(@banks.each_with_index.map{|x,i| [ x[1], x[4], { :'data-image' => x[5] } ] }, params[:bank].split(',')), 
+            include_blank: false,
+            multiple: true,
+            :'data-placeholder' => t('.hint.bank'),
+            class: 'selectpicker filter-c-bank'%>
+    </div>
+    <div id="c_chart" style="height:500px;width:100%;max-width:1024px;"></div>
   </div>

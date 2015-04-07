@@ -23,7 +23,7 @@
 // require bootstrap-select.min
 //= require select2.min
 //= require_self
-//= require root
+
 
 $(document).ready(function(){
 	// set focus to first text box on page
