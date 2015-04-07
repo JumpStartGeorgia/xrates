@@ -3,7 +3,7 @@ $(function () {
   var prevCurrency = gon.currency;
 
   var prev_b_chart_currency = [];
-
+  var b_chart_type = 0; // 0 - none, 1 
   $('.tab').click(function(){
     var t = $(this);
     $('.tab').removeClass("active");
@@ -61,6 +61,7 @@ $(function () {
     p.find('> div').removeClass('active');
     t.addClass('active');
     var chart = $('#b_chart').highcharts();
+    b_chart_type = t.attr('data-compare') == 'none' ? 0 : 1;
     chart.yAxis[0].setCompare(t.attr('data-compare'));
   });  
    $.datepicker.setDefaults( $.datepicker.regional[ I18n.locale ] );
@@ -280,6 +281,15 @@ $(function () {
                   }
                 }
             },
+             plotOptions: {
+                series: {
+                    marker : {
+                      enabled : false,
+                      radius : 3,
+                      symbol: 'circle'
+                    }
+                }
+            },
             legend: {
               enabled: false
             },
@@ -293,12 +303,7 @@ $(function () {
               useHTML: true
             },
             series: [{ 
-              id:'a1', data: worths, color: '#f6ba29',
-              marker : {
-                enabled : true,
-                radius : 3,
-                symbol: 'circle'
-              } 
+              id:'a1', data: worths, color: '#f6ba29'
             }]    
         });
      }
@@ -347,8 +352,8 @@ $(function () {
             var ser = chart.get(t.code);
             if(ser === null)
             {  
-              chart.addSeries({id:t.code, data: t.rates }, false,false);
-              data.nbg.rates_by_currency[t.code] = t.rates;
+              chart.addSeries({id:t.code, name: t.code + ' - ' + t.name, data: t.rates }, false,false);
+              data.nbg.rates_by_currency[t.code] = { code: t.code, name: t.name, label:  t.code + ' - ' + t.name, ratio: t.ratio, rates: t.rates } ;
               data.nbg.currencies.push(t.code);
             }     
           });      
@@ -363,7 +368,7 @@ $(function () {
         var ser = chart.get(t);
         if(ser === null)
         {  
-          chart.addSeries({id:t, data: data.nbg.rates_by_currency[t] }, false,false);
+          chart.addSeries({id: t, name: data.nbg.rates_by_currency[t].label, data: data.nbg.rates_by_currency[t].rates }, false,false);
         }     
       });
       chart.redraw();
@@ -377,6 +382,7 @@ $(function () {
       {
         backgroundColor: '#f1f2f2'
       },
+      colors: [ '#1cbbb4', '#ffc53a', '#f7941d', '#be8ec0', '#8fc743'],
       rangeSelector: {
           selected: 1,
           inputDateFormat: '%d-%b-%Y',
@@ -412,6 +418,7 @@ $(function () {
               width: 2,
               color: 'silver'
           }],
+          // 
           labels: 
           {
             style: {
@@ -423,15 +430,26 @@ $(function () {
       },
       plotOptions: {
           series: {
-              compare: 'value'
+              marker : {
+                enabled : false,
+                radius : 3,
+                symbol: 'circle'
+              }
           }
       },
       tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-          valueDecimals: 2
+        borderColor: "#cfd4d9",
+        headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
+        pointFormatter: function () {
+             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (b_chart_type == 1 ? (' (' + reformat(this.change,2) + ')') : '') +'</div>'; },
+        useHTML: true,
+        shadow: false
       },
       legend: {
-        enabled: false
+        enabled: true,
+        itemStyle: { "color": "#7b8483", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
+        itemHoverStyle: { "color": "#6b7473", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
+        useHTML: true
       },
       navigator: {
         maskFill: 'rgba(246, 186, 41, 0.49)',
