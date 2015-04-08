@@ -1,12 +1,74 @@
 $(function () {
 
-  var prevCurrency = gon.currency;
-  var params = { p: 1 };  
-  var cur = { p1: {}, p2: { c: ['USD','EUR','GBP','RUB'] }, p3: { c: ['USD'] , b: ['BNLN'] } }; 
-   
-  var prev_b_chart_currency = [];
-  var b_chart_type = 0; // 0 - none, 1 - percent
+  var params = { p: 1,
+    read: function()
+    {
+      var hash = window.location.hash.triml('#');
+      if(exist(hash))
+      {
+        var ahash = hash.split("&");
+        for(var i = 0; i < ahash.length; ++i)
+        {      
+          var kv = ahash[i].split("=");
+          if(kv.length==2)
+          {
+            params[kv[0]] = isNumber(kv[1]) ? +kv[1] : kv[1].split(',');      
+          }
+        }
+        return true;
+      } 
+      return false;
+    },
+    write: function(pairs) // object of key value pair { c: '', b: ''}
+    {
+      var hash = window.location.hash.triml('#');
+      var hasHash = exist(hash);
+      var ahash = hasHash ? hash.split('&').map(function(v,i,a){ return v.split('=') }) : [];
 
+      for(var i = 0; i < ahash.length; ++i)
+      {    
+        var kv = ahash[i];
+        if(!pairs.hasOwnProperty(kv[0]))
+        {
+          pairs[kv[0]] = kv[1];
+        }
+
+      }
+      var nhash = this.kv(pairs,'p') + this.kv(pairs,'c') + this.kv(pairs,'b');
+      if(nhash[0]=='&') nhash=nhash.substr(1);
+      history.pushState({'hash':nhash},'',window.location.pathname + "#" + nhash);  
+    },
+    clear: function()
+    {     
+      history.pushState({'hash':''},'',window.location.pathname);  
+    },
+    resume: function(p)
+    {
+      this.clear();
+      var pars = {p:p};
+      if(p == 2) 
+      {
+        pars['c'] = cur.p2.c.join(',');
+      }
+      else if(p == 3)
+      {
+        pars['c'] = cur.p3.c.join(',');
+        pars['b'] = cur.p3.b.join(',');
+      }
+      this.write(pars);
+    },
+    kv: function(obj,prop)
+    {
+      if (obj.hasOwnProperty(prop)) {
+         if(!exist(obj[prop])) return "";
+         return '&' + prop + '=' + obj[prop];
+      }
+      return "";
+    }
+  };  
+  var cur = { p1: {}, p2: { c: ['USD','EUR','GBP','RUB'], type: 0 }, p3: { c: ['USD'] , b: ['BAGA','TBCB','REPL','LBRT'], type: 0 } }; 
+  // p2 type 0 none, 1 percent
+  // p3 type 0 both, 1 buy, 2 sell
 
   var from = $('.calculator .from[data-type=datepicker]');
   var to = $('.calculator .to[data-type=datepicker]');
@@ -26,16 +88,18 @@ $(function () {
     rate_from_init:0,
     rate_to_init:0,
     worth:1,
-    nbg: { currencies: [], rates_by_currency: {} }
+    nbg: { keys: [], rates: {} },
+    banks: { keys: [], rates: {} }
   };
 
-  $('.tab[data-id] a').click(function(){
+  $('.tab[data-id] a').click(function(e){
     var t = $(this).parent();
     $('.tab').removeClass("active");
     t.addClass("active");
     $('.page.active').removeClass("active");
     $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
-    params.p = +t.attr('data-id');
+    params.resume(+t.attr('data-id'));
+    e.preventDefault();
   });
 
   $('select.filter-b-currency').select2({ maximumSelectionSize: 5,
@@ -98,8 +162,19 @@ $(function () {
     p.find('> div').removeClass('active');
     t.addClass('active');
     var chart = $('#b_chart').highcharts();
-    b_chart_type = t.attr('data-compare') == 'none' ? 0 : 1;
+    cur.p2.type = t.attr('data-compare') == 'none' ? 0 : 1;
     chart.yAxis[0].setCompare(t.attr('data-compare'));
+  }); 
+
+  $('.c_chart_switch > div').click(function(){
+    var t = $(this);
+    var p = t.parent();
+    p.find('> div').removeClass('active');
+    t.addClass('active');
+    var chart = $('#c_chart').highcharts();
+    var compare = t.attr('data-compare');
+    cur.p3.type = compare == 'both' ? 0 : (compare == 'buy' ? 1 : 2);
+    c_chart_refresh();
   }); 
 
    $.datepicker.setDefaults( $.datepicker.regional[ I18n.locale ] );
@@ -132,36 +207,33 @@ $(function () {
    }).datepicker('setDate', "d");
 
   $('.filter-c-currency, .filter-c-bank').on('change',function(){ c_chart_refresh();});
-
   $('.filter-b-currency').on('change',function(){ b_chart_refresh(); });
+
+  window.onpopstate = function(e){  
+    if(e.state !== null) { console.log("backward navigation"); } 
+  };
 
   function init()
   {
-    if(paramsRead())
+    if(params.read())
     {
       if(exist(params.p))
       {        
-        $('.tab[data-id=' + params.p + '] a').trigger('click');
         if(params.p == 2 && exist(params.c))
         {
-          cur.p2.c = params.c.split(',');
-          console.log('second page');
-          return;
+          cur.p2.c = params.c;
+          $('.filter-b-currency').select2('val', cur.p2.c);
         }
         else if(params.p == 3 && exist(params.c) && exist(params.b))
         { 
-          console.log('third page');
-          return;
+          cur.p3.c = params.c;
+          cur.p3.b = params.b;
+          $('.filter-c-currency').select2('val', cur.p3.c);
+          $('.filter-c-bank').select2('val', cur.p3.b);
         }        
-
+        $('.tab[data-id=' + params.p + '] a').trigger('click');
       }
-
     }
-    init_default();
-  }
-  function init_default()
-  {
-    console.log('default');
     calculate(true);
     b_chart();
     c_chart();
@@ -361,22 +433,24 @@ $(function () {
      } 
   }  
   function b_chart_refresh(first){
+//    console.log("b_chart_refresh");
     var chart = $('#b_chart').highcharts();
     var c = $('.filter-b-currency').select2('val');
-    cur.p2.c = c;
-    if(!first) paramsWrite('c',c);
 
-    prev_b_chart_currency.forEach(function(t){
+    cur.p2.c.forEach(function(t){
       if(c.indexOf(t)==-1)
       {
         chart.get(t).remove(false);
       }
     });
 
+    cur.p2.c = c;
+    if(!first) params.write({c:c});
+
     var remote_cur = [];
     var local_cur = [];
     c.forEach(function(t){
-      if(data.nbg.currencies.indexOf(t) == -1)
+      if(data.nbg.keys.indexOf(t) == -1)
         remote_cur.push(t);
       else local_cur.push(t);
     });    
@@ -390,8 +464,8 @@ $(function () {
             if(ser === null)
             {  
               chart.addSeries({id:t.code, name: t.code + ' - ' + t.ratio + ' ' + t.name, data: t.rates }, false,false);
-              data.nbg.rates_by_currency[t.code] = { code: t.code, name: t.name, label:  t.code + ' - ' + t.ratio + ' ' + t.name,  rates: t.rates } ;
-              data.nbg.currencies.push(t.code);
+              data.nbg.rates[t.code] = { code: t.code, name: t.name, label:  t.code + ' - ' + t.ratio + ' ' + t.name,  rates: t.rates } ;
+              data.nbg.keys.push(t.code);
             }     
           });      
           chart.redraw();
@@ -405,13 +479,11 @@ $(function () {
         var ser = chart.get(t);
         if(ser === null)
         {  
-          chart.addSeries({id: t, name: data.nbg.rates_by_currency[t].label, data: data.nbg.rates_by_currency[t].rates }, false,false);
+          chart.addSeries({id: t, name: data.nbg.rates[t].label, data: data.nbg.rates[t].rates }, false,false);
         }     
       });
       chart.redraw();
     }
-   
-    prev_b_chart_currency = c;
   }
   function b_chart(){
     $('#b_chart').highcharts('StockChart', {
@@ -499,7 +571,7 @@ $(function () {
         borderColor: "#cfd4d9",
         headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
         pointFormatter: function () {
-             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (b_chart_type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
+             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
         useHTML: true,
         shadow: false
       },
@@ -526,8 +598,7 @@ $(function () {
         trackBackgroundColor: '#ebeae6',
         trackBorderWidth: 1,
       },
-      credits: { enabled: false },
-      // series: d.rates
+      credits: { enabled: false }
     },
     function (chart) {
       setTimeout(function () {
@@ -538,78 +609,97 @@ $(function () {
     b_chart_refresh(true);
   }
 
+  function c_chart_refresh(first){ // currency, bank
+    //console.log("c_chart_refresh");
+    var chart = $('#c_chart').highcharts();
 
-//             barBackgroundColor: #bfc8d1
-// barBorderColor: #bfc8d1
-// barBorderRadius: 0
-// barBorderWidth: 1
-// buttonArrowColor: #666
-// buttonBackgroundColor: #ebe7e8
-// buttonBorderColor: #bbbbbb
-// buttonBorderRadius: 0
-// buttonBorderWidth: 1
-// enabled: true
-// height:
-// liveRedraw:
-// minWidth: 6
-// rifleColor: #666
-// trackBackgroundColor: #eeeeee
-// trackBorderColor: #eeeeee
-// trackBorderRadius: 0
-// trackBorderWidth: 1
-
-  function c_chart_refresh(){ // currency, bank
-    var chart = $('#rates').highcharts();
     var c = $('.filter-c-currency').select2('val');
     var b = $('.filter-c-bank').select2('val');
-     console.log(c,b);
-    $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + b.join(','), function (d) {
-       console.log(d);
+
+    cur.p3.b.forEach(function(t){
+      if(b.indexOf(t)==-1)
+      {
+        chart.get(t  + '_' + cur.p3.c + '_B').remove(false);
+        chart.get(t  + '_' + cur.p3.c + '_S').remove(false);
+      }
     });
-    // if(c != prevCurrency)
-    // {
-    //   prevCurrency = c;
-    //   // while(chart.series.length > 0)
-    //   // {
-    //   //   chart.series[0].remove(false);
-    //   // }
-    //   // chart.redraw();
-    //   chart.destroy();
-    //   if(b === null || b === "") b = ["1"];
-    //   else b.unshift("1");
-    //   c_chart(c,b);
-    // }
-    // else
-    // {
-    //   if(b === null) b = [];
-    //   var toDelete = [];
-    //   chart.series.forEach(function(d){
-    //     if(d.options.id !== "highcharts-navigator-series" && d.options.id !== "b_1" && b.indexOf(d.options.id.replace('b_','').replace('b_buy_','').replace('b_sell_','')) === -1)
-    //     {
-    //       toDelete.push(d.options.id);
-    //     }
-    //   });
-    //   toDelete.forEach(function(d){
-    //     chart.get(d).remove(false);
-    //   });
 
+    cur.p3.c = c;
+    cur.p3.b = b;     
 
-    //   //console.log('rates?currency=' + c + "&bank="+ b.join(','));
-    //   if(c !== null && b !== null)
-    //   {
-    //     $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank="+ b.join(','), function (d) {
-    //       d.rates.forEach(function(t,i){
-    //         var ser = chart.get(t.id);
-    //          if(ser === null)
-    //          {  
-    //             chart.addSeries(t,false,false);
-    //          }     
-    //       });      
-    //       chart.redraw();
-    //     });
-    //   }
-    // }
+    if(!first){ params.write({c:c.join(','), b:b.join(',')}); }
+
+    var remote_cur = [];
+    var local_cur = [];
+    cur.p3.b.forEach(function(t){
+      if(data.banks.keys.indexOf(t + '_' + cur.p3.c + '_B') == -1)
+        remote_cur.push(t);
+      else local_cur.push(t);
+    });    
+
+    if(remote_cur.length)
+    {
+      $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + remote_cur.join(',')+',BNLN', function (d) {
+        if(d.valid)
+        {
+           d.result.forEach(function(t,i){
+            var ser = chart.get(t.id);
+            if(ser === null)
+            {  
+              chart.addSeries({id:t.id, name: t.name, data: t.data }, false,false);
+              data.banks.rates[t.id] = { code: t.id, name: t.name, label: t.name, rates: t.data } ;
+              data.banks.keys.push(t.id);
+            }     
+          });      
+          chart.redraw();
+        }
+      }); 
+    }
+    local_cur.forEach(function(t){
+      c_chart_redraw(t + '_' + cur.p3.c);       
+    });    
   }  
+  function c_chart_redraw(id)
+  {
+    var chart = $('#c_chart').highcharts();
+    var type = cur.p3.type;
+    var id_b = id+'_B';
+    var id_s = id+'_S';
+    var ser_b = chart.get(id_b);
+    var ser_s = chart.get(id_s);
+
+    // buy
+    if(type == 0 || type == 1)
+    {     
+      if(ser_b === null)
+      {  
+        chart.addSeries({ id: id_b, name: data.banks.rates[id_b].name, data: data.banks.rates[id_b].rates },false,false);
+      }     
+    }
+    else
+    {
+      if(ser_b !== null)
+      {  
+        ser_b.remove(false);
+      }     
+    }
+    // sell
+    if(type == 0 || type == 2)
+    {
+      if(ser_s === null)
+      {  
+        chart.addSeries({ id: id_s, name: data.banks.rates[id_s].name, data: data.banks.rates[id_s].rates },false,false);
+      }    
+    }
+    else
+    {
+      if(ser_s !== null)
+      {  
+        ser_s.remove(false);
+      }     
+    } 
+    chart.redraw();
+  }
   function c_chart(){
     $('#c_chart').highcharts('StockChart', {
       chart:
@@ -696,7 +786,7 @@ $(function () {
         borderColor: "#cfd4d9",
         headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
         pointFormatter: function () {
-             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (b_chart_type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
+             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
         useHTML: true,
         shadow: false
       },
@@ -735,53 +825,7 @@ $(function () {
     c_chart_refresh(true);
   }  
   
-  function paramsRead()
-  {
-    var hash = window.location.hash.trimLeft('#');
-    if(exist(hash))
-    {
-      var ahash = hash.split("&");
-      for(var i = 0; i < ahash.length; ++i)
-      {      
-        var kv = ahash[i].split("=");
-        if(kv.length==2)
-        {
-          params[kv[0]] = isNumber(kv[1]) ? +kv[1] : kv[1];      
-        }
-      }
-      return true;
-    } 
-    return false;
-  }
-  function paramsWrite(k,v)
-  {
-    var hash = window.location.hash.trimLeft('#');
-    var nhash = "";
-    var was = false;
-    if(exist(hash))
-    {
-      var ahash = hash.split("&");
-      
-      for(var i = 0; i < ahash.length; ++i)
-      {      
-        var kv = ahash[i].split("=");
-        if(kv.length==2 && kv[0] == k)
-        {
-          nhash += '&' + k + '=' + v;
-          was = true;
-        }
-        else
-        {
-          nhash += '&' + ahash[i];
-        }
-      }
   
-    }
-    if(!was) { nhash += '&' + k + '=' + v; }
-    
-    if(nhash[0]=='&') nhash=nhash.substr(1);
-    history.pushState({'hash':nhash},'',window.location.pathname + "#" + nhash);  
-  }
 
   function debounce(func, wait, immediate) {
     var timeout;
@@ -800,3 +844,4 @@ $(function () {
 
   init();
 });
+

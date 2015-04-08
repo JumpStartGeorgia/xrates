@@ -73,33 +73,72 @@ class ApiController < ApplicationController
   end
   def rates
     currency = params[:currency]
-    bank = BANKS & params[:bank].split(',')
-    dt = []
+    bank =  Bank.with_translations(:en).map{|x| x.code } & params[:bank].split(',')
+
+    errors = []
+    start_date = nil
+    end_date = nil
+
+    if params[:start_date].present? && params[:end_date].present?
+      begin  
+        start_date = params[:start_date].to_i 
+        if start_date > 0
+          start_date = Time.at(start_date/1000.0)
+        else
+          raise
+        end  
+      rescue  
+        errors.push({ field: 'start_date', message: 'Start date field is invalid.' })
+      end  
+
+      begin  
+        end_date = params[:end_date].to_i 
+        if end_date > 0
+          end_date = Time.at(end_date/1000.0)
+        else
+          raise
+        end  
+      rescue  
+        errors.push({ field: 'end_date', message: 'End date field is invalid.' })
+      end  
+    end
+
+    data = { valid: true, result: []}
+    result = []
+
     #cur = Currency.find_by_code(currency)
 
     if CURRENCIES.index(currency) != nil && bank.any?
-      bank.each{|bid|
-        b = Bank.find_by_id(bid)            
-          if b.id == 1 
-            x = Rate.rates_nbg(currency, bid)
+      bank.each{|code|
+        b = Bank.find_by_code(code)            
+          if b.id == 1
+            x = Rate.rates_nbg(currency, b.id)
             if x.present?
-              dt << { id: "b_" + b.id.to_s, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color }
+              result << { id: code + '_' + currency, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color }
             end
           else
-            x = Rate.rates_buy(currency, bid)
+            x = Rate.rates_buy(currency, b.id)
             if x.present?
-              dt << { id: "b_buy_" + b.id.to_s, name: (b.name + " " +  t('app.common.buy') + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot' }
+              result << { id: code + '_' + currency + '_B' , name: (b.name + " " +  t('app.common.buy') + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot' }
             end
-            x = Rate.rates_sell(currency, bid)
+            x = Rate.rates_sell(currency, b.id)
             if x.present?
-              dt << { id: "b_sell_" + b.id.to_s, name:  (b.name + " " +  t('app.common.sell') +  " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash' }
+              result << { id: code + '_' + currency + '_S', name:  (b.name + " " +  t('app.common.sell') +  " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash' }
             end
           end
         
       }
     end
+
+    if(errors.any?)
+      data['errors'] = errors
+      data['valid'] = false
+    else    
+      data['result'] = result
+    end
+
     respond_to do |format|
-      format.json { render json: { rates: dt } }
+      format.json { render json: data }
     end
   end
   def calculator

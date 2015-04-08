@@ -7,16 +7,16 @@
       return this.replace(r, '');
     };
   }
-  if(!String.prototype.trimLeft)
+  if(!String.prototype.triml)
   {
-    String.prototype.trimLeft = function(c) { 
+    String.prototype.triml = function(c) { 
       var r = (!c) ? new RegExp('^\\s+') : new RegExp('^'+c+'+');
       return this.replace(r, '');
     };
   }
-  if(!String.prototype.trimRight)
+  if(!String.prototype.trimr)
   {
-    String.prototype.trimRight = function(c) { 
+    String.prototype.trimr = function(c) { 
       var r = (!c) ? new RegExp('\\s+$') : new RegExp(c+'+$');
       return this.replace(r, '');
     };
