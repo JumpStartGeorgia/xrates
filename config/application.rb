@@ -55,5 +55,9 @@ module BootstrapStarter
 
     # Include scraper files
     config.autoload_paths += Dir["#{config.root}/scrapers/"]
+
+    # from: https://robots.thoughtbot.com/content-compression-with-rack-deflater
+    # compress all html/json responses
+    config.middleware.use Rack::Deflater
   end
 end
