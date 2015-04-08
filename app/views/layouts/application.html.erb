@@ -46,7 +46,7 @@
       <div class="content">
         <div class="sub-line"></div>
         <div class="tabs">          
-          <div class="tab<%= @tab == 1 ? ' active' : '' %>" data-id="1"><%= link_to t("root.tab1"), root_path(:anchor=>'p=1') %></div>
+          <div class="tab" data-id="1"><%= link_to t("root.tab1"), root_path(:anchor=>'p=1') %></div>
           <div class="tab" data-id="2"><%= link_to t("root.tab2"), root_path(:anchor=>'p=2') %></div>
           <div class="tab" data-id="3"><%= link_to t("root.tab3"), root_path(:anchor=>'p=3') %></div>
           <div class="tab<%= @tab == 4 ? ' active' : '' %>"><%= link_to t("app.common.api"), api_path %></div>

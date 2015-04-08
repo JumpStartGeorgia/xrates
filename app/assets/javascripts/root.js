@@ -234,6 +234,7 @@ $(function () {
         $('.tab[data-id=' + params.p + '] a').trigger('click');
       }
     }
+    else $('.tab[data-id=1] a').trigger('click');
     calculate(true);
     b_chart();
     c_chart();
@@ -786,7 +787,12 @@ $(function () {
         borderColor: "#cfd4d9",
         headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
         pointFormatter: function () {
-             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
+           // console.log(this.series);
+           //  if(cur.p3.type == 0)
+           //  {
+           //     console.log('gettogether');
+           //  }
+            return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
         useHTML: true,
         shadow: false
       },
@@ -824,8 +830,6 @@ $(function () {
     });
     c_chart_refresh(true);
   }  
-  
-  
 
   function debounce(func, wait, immediate) {
     var timeout;
