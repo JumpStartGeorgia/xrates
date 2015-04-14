@@ -9,7 +9,7 @@ BootstrapStarter::Application.routes.draw do
 											 :controllers => {:omniauth_callbacks => "omniauth_callbacks"}
 
 		namespace :admin do
-      resources :pages
+         resources :pages
 			resources :users
 		end
 
@@ -17,9 +17,10 @@ BootstrapStarter::Application.routes.draw do
     #   resources :rates 
     # end
 
-      match "nbg" => "api#nbg", as: 'nbg', :via => :get
-      match "rates" => "api#rates", as: 'rates', :via => :get
-      match "calculator" => "api#calculator", as: 'calculator', :via => :get
+
+      match "nbg" => "api/v1#nbg", as: 'nbg', :via => :get
+      match "rates" => "api/v1#rates", as: 'rates', :via => :get
+      match "calculator" => "api/v1#calculator", as: 'calculator', :via => :get
 
       match "api" => "root#api", as: 'api', :via => :get
       match "about" => "root#about", as: 'about', :via => :get

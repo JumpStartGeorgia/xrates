@@ -1,4 +1,4 @@
-class ApiController < ApplicationController
+class Api::V1Controller < ApplicationController
 
   def nbg
     params[:currency] ||= 'USD'

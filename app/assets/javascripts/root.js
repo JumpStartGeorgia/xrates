@@ -127,7 +127,7 @@ $(function () {
   $('select.filter-c-bank').select2({ maximumSelectionSize: 5,
     width:380,
     formatResult: function(d){
-      return "<div class='logo'><img src='/assets/png/banks/small/"+$(d.element).attr('data-image')+".jpg'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
+      return "<div class='logo'><img src='/assets/png/banks/"+$(d.element).attr('data-image')+".jpg'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
     },
     formatSelection: function(d)
     {
