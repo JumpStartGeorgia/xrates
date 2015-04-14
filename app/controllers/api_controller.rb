@@ -44,7 +44,7 @@ class ApiController < ApplicationController
     @currencies = Currency.data
     flag = false
     params[:currency].split(',').each{|cur_item|
-      if @currencies.index(cur_item) != nil
+      if @currency_codes.index(cur_item) != nil
         cur = @currencies.select{|c| c[0] == cur_item }.first
         x = Rate.nbg_rates(cur_item,start_date,end_date)
         if x.present?
@@ -109,7 +109,7 @@ class ApiController < ApplicationController
 
     #cur = Currency.find_by_code(currency)
 
-    if @currencies.index(currency) != nil && bank.any?
+    if @currency_codes.index(currency) != nil && bank.any?
       bank.each{|code|
         b = Bank.find_by_code(code)            
           if b.id == 1
@@ -172,7 +172,7 @@ class ApiController < ApplicationController
 
      data = { amount: amount, valid: true }
      errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
-     errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(@currencies.index(cur) == nil)
+     errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(@currency_codes.index(cur) == nil)
      errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> USD, 0: USD -> GEL.' }) if(dir == 0 || dir == 1)
 
 
@@ -215,6 +215,6 @@ class ApiController < ApplicationController
 private
 
   def load_currencies
-    @currencies = Currency.pluck(:code)
+    @currency_codes = Currency.pluck(:code)
   end
 end
