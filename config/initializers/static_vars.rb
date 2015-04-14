@@ -1,4 +1,4 @@
-CURRENCIES = Currency.with_translations(:en).map{|x| x.code }
-BANKS = Bank.with_translations(:en).map{|x| x.id.to_s }
+# CURRENCIES = Currency.pluck(:code)
+# BANKS = Bank.pluck(:id).map{|x| x.to_s }
 
-LAST_SCRAPE = Rate.maximum(:created_at)
+# LAST_SCRAPE = Rate.maximum(:created_at)
