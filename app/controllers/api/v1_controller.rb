@@ -1,49 +1,25 @@
 class Api::V1Controller < ApplicationController
+  before_filter :load_currencies
 
   def nbg
     params[:currency] ||= 'USD'
-
-
 
 # description: return the list of exchange rates for the provided currencies; if dates provided limit scope to just those dates
 # input: list of currencies (max of 5), start date (optional), end date (optional)
 # output: array of dates, hash of currency results: {currency: {name: ____, rates: []}
 
 
-    errors = []
-    start_date = nil
-    end_date = nil
-
-    if params[:start_date].present? && params[:end_date].present?
-      begin  
-        start_date = params[:start_date].to_i 
-        if start_date > 0
-          start_date = Time.at(start_date/1000.0)
-        else
-          raise
-        end  
-      rescue  
-        errors.push({ field: 'start_date', message: 'Start date field is invalid.' })
-      end  
-
-      begin  
-        end_date = params[:end_date].to_i 
-        if end_date > 0
-          end_date = Time.at(end_date/1000.0)
-        else
-          raise
-        end  
-      rescue  
-        errors.push({ field: 'end_date', message: 'End date field is invalid.' })
-      end  
-    end
+    @errors = []
+    start_date = to_time('start_date')
+    end_date = to_time('end_date')
 
     data = { valid: true, result: []}
     result = []
     @currencies = Currency.data
     flag = false
+
     params[:currency].split(',').each{|cur_item|
-      if CURRENCIES.index(cur_item) != nil
+      if @currency_codes.index(cur_item) != nil
         cur = @currencies.select{|c| c[0] == cur_item }.first
         x = Rate.nbg_rates(cur_item,start_date,end_date)
         if x.present?
@@ -51,21 +27,19 @@ class Api::V1Controller < ApplicationController
           flag = true
         end
       else
-        errors.push({ field: 'currency', message: 'Currency ' + cur_item + ' is not exist' })
+        @errors.push({ field: 'currency', message: 'Currency ' + cur_item + ' is not exist' })
       end
     }
     if !flag 
-      errors.push({ field: 'currency', message: 'Missing currency field' })
+      @errors.push({ field: 'currency', message: 'Missing data for currency' })
     end
 
-
-    if(errors.any?)
-      data['errors'] = errors
+    if(@errors.any?)
+      data['errors'] = @errors
       data['valid'] = false
     else    
       data['result'] = result
     end
-
 
     respond_to do |format|
       format.json { render json: data }
@@ -75,40 +49,17 @@ class Api::V1Controller < ApplicationController
     currency = params[:currency]
     bank =  Bank.with_translations(:en).map{|x| x.code } & params[:bank].split(',')
 
-    errors = []
-    start_date = nil
-    end_date = nil
+    @errors = []
+    start_date = to_time('start_date')
+    end_date = to_time('end_date')
 
-    if params[:start_date].present? && params[:end_date].present?
-      begin  
-        start_date = params[:start_date].to_i 
-        if start_date > 0
-          start_date = Time.at(start_date/1000.0)
-        else
-          raise
-        end  
-      rescue  
-        errors.push({ field: 'start_date', message: 'Start date field is invalid.' })
-      end  
-
-      begin  
-        end_date = params[:end_date].to_i 
-        if end_date > 0
-          end_date = Time.at(end_date/1000.0)
-        else
-          raise
-        end  
-      rescue  
-        errors.push({ field: 'end_date', message: 'End date field is invalid.' })
-      end  
-    end
 
     data = { valid: true, result: []}
     result = []
 
     #cur = Currency.find_by_code(currency)
 
-    if CURRENCIES.index(currency) != nil && bank.any?
+    if @currency_codes.index(currency) != nil && bank.any?
       bank.each{|code|
         b = Bank.find_by_code(code)            
           if b.id == 1
@@ -130,8 +81,8 @@ class Api::V1Controller < ApplicationController
       }
     end
 
-    if(errors.any?)
-      data['errors'] = errors
+    if(@errors.any?)
+      data['errors'] = @errors
       data['valid'] = false
     else    
       data['result'] = result
@@ -146,37 +97,19 @@ class Api::V1Controller < ApplicationController
     cur = params[:currency]
     dir = params[:direction]     
 
-    errors = []
-    begin  
-      date_start = params[:date_start].to_i 
-      if date_start > 0
-        date_start = Time.at(date_start/1000.0)
-      else
-        raise
-      end  
-    rescue  
-      errors.push({ field: 'date_start', message: 'From date field is invalid.' })
-    end  
-
-    begin  
-      date_end = params[:date_end].to_i 
-      if date_end > 0
-        date_end = Time.at(date_end/1000.0)
-      else
-        raise
-      end  
-    rescue  
-      errors.push({ field: 'date_end', message: 'To date field is invalid.' })
-    end  
-
-     data = { amount: amount, valid: true }
-     errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
-     errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(CURRENCIES.index(cur) == nil)
-     errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> USD, 0: USD -> GEL.' }) if(dir == 0 || dir == 1)
+    @errors = []
+    date_start = to_time('date_start')
+    date_end = to_time('date_end')
 
 
-    if(errors.any?)
-      data['errors'] = errors
+    data = { amount: amount, valid: true }
+    @errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
+    @errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(@currency_codes.index(cur) == nil)
+    @errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> USD, 0: USD -> GEL.' }) if(dir == 0 || dir == 1)
+
+
+    if(@errors.any?)
+      data['errors'] = @errors
       data['valid'] = false
     else
       rates = Rate.nbg_rates(cur, date_start, date_end)
@@ -207,6 +140,26 @@ class Api::V1Controller < ApplicationController
 
     respond_to do |format|
       format.json { render json: data }
+    end
+  end
+
+
+private
+
+  def load_currencies
+    @currency_codes = Currency.pluck(:code)
+  end
+  def to_time(p)
+    begin
+      v = params[p].to_i
+      if v > 0
+        v = Time.at(v/(v.to_s.length > 10 ? 1000.0 : 1.0))
+      else
+        raise
+      end  
+    rescue  
+      @errors.push({ field: p, message: p.humanize + ' field is invalid.' })
+      nil
     end
   end
 end

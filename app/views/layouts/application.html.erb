@@ -59,7 +59,7 @@
         <div class='powered-by'>
           <a href="http://www.jumpstart.ge" target="_blank" title="JumpStart Georgia - We communicate data better!"><img alt="Jumpstart-logo" src="../assets/svg/js.svg"></a>  
         </div>
-        <div class="last-update"><%= t('app.common.last_update') %><span><%= "#{I18n.l LAST_SCRAPE, format: :long}" %></span></div>
+        <div class="last-update"><%= t('app.common.last_update') %><span><%= "#{I18n.l @last_scrapped_at, format: :long}" %></span></div>
         <div class="share">
           <span>Share this</span>
           <div class="addthis_sharing_toolbox"></div>

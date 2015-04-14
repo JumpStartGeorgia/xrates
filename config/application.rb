@@ -59,5 +59,7 @@ module BootstrapStarter
     # from: https://robots.thoughtbot.com/content-compression-with-rack-deflater
     # compress all html/json responses
     config.middleware.use Rack::Deflater
+
+    config.assets.precompile += %w( u.js root.js )    
   end
 end

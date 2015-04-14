@@ -60,9 +60,11 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
 	def preload_global_variables
     # indicate that whether login should allow local and omniauth or just locale
 	  @enable_omniauth = false
-      @css = []
-      @js = []
-   end
+    @css = []
+    @js = []
+
+    @last_scrapped_at = Rate.maximum(:created_at).in_time_zone
+ end
 
 	def initialize_gon
 		gon.set = true
