@@ -91,7 +91,10 @@ ka:
       js_link_title: “ჯამპსტარტ ჯორჯია” - ჩვენ გაწვდით მონაცემებს უკეთ!
       compare_to_other_banks: Compare to other banks 
       buy: buy
-      sell: sell           
+      sell: sell  
+      about: About
+      api: API
+      last_update: "Last update: "             
     msgs:
       does_not_exist: თქვენ ცდილობთ ისეთი გვერდის ნახვას, რომელიც არ არსებობს.
       not_authorized: თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება.

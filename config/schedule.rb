@@ -22,6 +22,12 @@
 set :output, "log/cron.log"
 
 # clear tmp folder stories created during story downloads
-every 1.day, :at => '6:00 pm' do
+every :day, :at => '10:00 am' do
+  rake "rates:scrape"
+end
+every :day, :at => '2:00 pm' do
+  rake "rates:scrape"
+end
+every :day, :at => '6:00 pm' do
   rake "rates:scrape"
 end

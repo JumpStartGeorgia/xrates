@@ -101,6 +101,9 @@ puts "loading data completed"
     require 'json'
     created_at = Time.now
     date = Time.now
+
+    mailer = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0 }
+
 puts "Scrape date #{date.strftime("%d/%m/%Y")}"
 # scrape nbg -----------------------------------------------------------------------
     Rate.transaction do
@@ -116,6 +119,9 @@ puts "Scrape date #{date.strftime("%d/%m/%Y")}"
 
       rows = table.css('tr')
       puts "NBG - #{rows.length} records" 
+
+      mailer[:bnln] = 1 if rows.empty?
+
       rows.each do |row|
         cols = row.css('td')
         Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
@@ -128,6 +134,7 @@ puts "Scrape date #{date.strftime("%d/%m/%Y")}"
       Rate.transaction do
         page = Nokogiri::HTML(open("http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates"))
         rows = page.css('div#Content table tbody tr')
+        mailer[:baga] = 1 if rows.empty?
         rows.each do |row|
           cols = row.css('td')
           Rate.create_or_update(date, cols[1].text.strip, nil, cols[3].text.strip,cols[4].text.strip,2)
@@ -149,6 +156,7 @@ puts "Scrape date #{date.strftime("%d/%m/%Y")}"
 
         cnt = 0
         swap = { "AVD" => "AUD","RUR" => "RUB","UKG" => "UAH"}
+        mailer[:tbcb] = 1 if rows.empty?
         rows.each do |row|
           curr = row["currencyCode"]
           if curr != 'GEL'
@@ -180,6 +188,7 @@ puts "Scrape date #{date.strftime("%d/%m/%Y")}"
         swap = {"RUR" => "RUB"}
 
         cnt = 0
+        mailer[:repl] = 1 if rows.empty?
         keys.each do |row|
           curr = row
           if curr != 'GEL'
@@ -199,6 +208,7 @@ puts "Scrape date #{date.strftime("%d/%m/%Y")}"
         rows = page.css('body div table tr:nth-child(4) td table tr td:nth-child(3) div table tr:not(:first-child)')
         swap = {"TRL" => "TRY", "AZM" => "AZN"}
         cnt = 0
+        mailer[:lbrt] = 1 if rows.empty?
         rows.each do |row|
           curr = row.css('td:nth-child(1) img').attribute('src').value
           curr = curr[curr.length-7,3].upcase
@@ -210,6 +220,20 @@ puts "Scrape date #{date.strftime("%d/%m/%Y")}"
         end
         puts "LIBERTY - #{cnt} records"         
       end
+
+      send = false
+      failed_banks = []
+      mailer.each {|k,v|
+        if v == 1          
+          failed_banks.push(Bank.find_by_code(k.upcase).translation_for(:en).name)
+          send = true
+        end
+      } 
+      if send 
+        ScraperMailer.bank_failes(failed_banks).deliver
+      end
+
+      LAST_SCRAPE = date
   end
 end
 
