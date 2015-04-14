@@ -17,10 +17,12 @@ BootstrapStarter::Application.routes.draw do
     #   resources :rates 
     # end
 
-      match "nbg" => "api#nbg", as: 'nbg', :via => :get
-      match "rates" => "api#rates", as: 'rates', :via => :get
-      match "calculator" => "api#calculator", as: 'calculator', :via => :get
+      # api calls
+      match "nbg" => "api#nbg", as: 'nbg', :via => :get, :defaults => { :format => 'json' }
+      match "rates" => "api#rates", as: 'rates', :via => :get, :defaults => { :format => 'json' }
+      match "calculator" => "api#calculator", as: 'calculator', :via => :get, :defaults => { :format => 'json' }
 
+      # root pages
       match "api" => "root#api", as: 'api', :via => :get
       match "about" => "root#about", as: 'about', :via => :get
 
