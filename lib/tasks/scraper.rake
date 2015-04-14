@@ -233,7 +233,7 @@ puts "Scrape date #{date.strftime("%d/%m/%Y")}"
         ScraperMailer.bank_failes(failed_banks).deliver
       end
 
-      # LAST_SCRAPE = date
+      # LAST_SCRAPE = Time.now
   end
 end
 
