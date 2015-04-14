@@ -641,14 +641,15 @@ $(function () {
     if(remote_cur.length)
     {
       $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + remote_cur.join(',')+',BNLN', function (d) {
+         console.log(d);
         if(d.valid)
         {
            d.result.forEach(function(t,i){
             var ser = chart.get(t.id);
             if(ser === null)
             {  
-              chart.addSeries({id:t.id, name: t.name, data: t.data }, false,false);
-              data.banks.rates[t.id] = { code: t.id, name: t.name, label: t.name, rates: t.data } ;
+              chart.addSeries({id:t.id, name: t.name, data: t.data, code: t.code, rate_type: t.rate_type }, false,false);
+              data.banks.rates[t.id] = { code: t.id, name: t.name, label: t.name, rates: t.data, code: t.code, rate_type: t.rate_type } ;
               data.banks.keys.push(t.id);
             }     
           });      
@@ -674,7 +675,7 @@ $(function () {
     {     
       if(ser_b === null)
       {  
-        chart.addSeries({ id: id_b, name: data.banks.rates[id_b].name, data: data.banks.rates[id_b].rates },false,false);
+        chart.addSeries({ id: id_b, name: data.banks.rates[id_b].name, data: data.banks.rates[id_b].rates, code : data.banks.rates[id_b].code, rate_type: data.banks.rates[id_b].rate_type },false,false);
       }     
     }
     else
@@ -780,19 +781,45 @@ $(function () {
                 enabled : false,
                 radius : 3,
                 symbol: 'circle'
-              }
+              },
+              compare: 'none'
           }
       },
       tooltip: {
         borderColor: "#cfd4d9",
         headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
-        pointFormatter: function () {
-           // console.log(this.series);
+        pointFormatter: function (a) {
+            var output = {}
+            if(this.series._i == 0)
+            {
+                this.series.chart.series.forEach(function(d,i){
+                   console.log(d);
+                  if (d.userOptions.code == 'BNLN')
+                  {
+                    //console.log('BNLN');
+                  }
+                  else if (d.name != "Navigator")
+                  {
+                    if(output.hasOwnProperty(d.userOptions.code))
+                    {
+                        output[d.userOptions.code][d.userOptions.rate_type] = d.compareValue;
+                    }
+                    else
+                    {
+                      output[d.userOptions.code] = { name: d.userOptions.name };
+                      output[d.userOptions.code][d.userOptions.rate_type] = d.compareValue;
+                    }
+                    
+                  }    
+                });
+                console.log(output);
+            }
            //  if(cur.p3.type == 0)
            //  {
            //     console.log('gettogether');
            //  }
-            return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
+            return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; 
+          },
         useHTML: true,
         shadow: false
       },

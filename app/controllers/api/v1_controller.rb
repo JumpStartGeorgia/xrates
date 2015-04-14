@@ -50,8 +50,8 @@ class Api::V1Controller < ApplicationController
     bank =  Bank.with_translations(:en).map{|x| x.code } & params[:bank].split(',')
 
     @errors = []
-    start_date = to_time('start_date')
-    end_date = to_time('end_date')
+    start_date = params[:start_date].present? ? to_time('start_date') : nil
+    end_date =  params[:end_date].present? ? to_time('end_date') : nil
 
 
     data = { valid: true, result: []}
@@ -65,16 +65,16 @@ class Api::V1Controller < ApplicationController
           if b.id == 1
             x = Rate.rates_nbg(currency, b.id)
             if x.present?
-              result << { id: code + '_' + currency, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color }
+              result << { id: code + '_' + currency, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color, code: code }
             end
           else
             x = Rate.rates_buy(currency, b.id)
             if x.present?
-              result << { id: code + '_' + currency + '_B' , name: (b.name + " " +  t('app.common.buy') + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot' }
+              result << { id: code + '_' + currency + '_B' , name: (b.name + " " + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot', rate_type: 'buy', code: code }
             end
             x = Rate.rates_sell(currency, b.id)
             if x.present?
-              result << { id: code + '_' + currency + '_S', name:  (b.name + " " +  t('app.common.sell') +  " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash' }
+              result << { id: code + '_' + currency + '_S', name:  (b.name + " " + " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash', rate_type: 'sell', code: code }
             end
           end
         

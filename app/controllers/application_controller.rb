@@ -82,6 +82,8 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.decreased = t(".root.index.calculator.decreased").html_safe
       gon.rate = t(".root.index.rate")
       gon.monetary_value = t(".root.index.monetary_value")
+      gon.buy = t('app.common.buy')
+      gon.sell = t('app.common.sell')
 
       #:title => I18n.t('chart.nbg.title') , 
 	end

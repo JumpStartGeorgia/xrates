@@ -76,15 +76,15 @@ class Rate < ActiveRecord::Base
   end
 
   def self.rates_nbg(currency,bank)
-      select('rate, utc').where('date > ?','2015-03-15').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+      select('rate, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
   def self.rates_buy(currency,bank)
       c = Currency.find_by_code(currency)
-      select('ifnull(buy_price,0) buy_price, utc').where('date > ?','2015-03-15').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*c.ratio]}
+      select('ifnull(buy_price,0) buy_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*c.ratio]}
   end
   def self.rates_sell(currency,bank)
       c = Currency.find_by_code(currency)
-      select('ifnull(sell_price,0) sell_price, utc').where('date > ?','2015-03-15').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*c.ratio]}
+      select('ifnull(sell_price,0) sell_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*c.ratio]}
   end
 
   def nbg?
