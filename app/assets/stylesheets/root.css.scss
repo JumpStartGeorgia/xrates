@@ -886,6 +886,65 @@ body > .wrapper
       }
 
    }
+
+#c_chart
+{
+   .highcharts-tooltip
+   {
+      .tooltip-header
+      {
+         font-family: 'oxygen';
+         font-size:14px;
+         color:#7b8483;
+         margin-bottom:20px;
+         padding-bottom:20px;
+      }  
+      .tooltip-item-header span
+      {
+         font-family: 'oxygen';
+         font-size:14px;
+         color:#7b8483;
+         text-align:right;
+         svg
+         {
+            display: block;
+            float: right;
+         }
+      }
+      .tooltip-item, .tooltip-item-header
+      {
+         display:table-row;
+         width:100%;
+         .nbg
+         {
+            margin-top:20px;
+         }
+         span.l
+         {
+         font-family: 'oxygen-b';
+         font-size:13px;
+         line-height:20px;
+         color:#7b8483;
+         padding-left:5px;
+          min-width:40px;
+         
+         }
+         span.b, span.s, span.r
+         {
+            font-family: 'oxygen';
+            text-align:right;
+            min-width:40px;
+            color:#7b8483;
+         }
+         > span
+         {
+            display:table-cell;
+           
+         }          
+      }         
+   }
+}
+
 .page.about
 {
    .intro

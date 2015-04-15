@@ -648,8 +648,8 @@ $(function () {
             var ser = chart.get(t.id);
             if(ser === null)
             {  
-              chart.addSeries({id:t.id, name: t.name, data: t.data, code: t.code, rate_type: t.rate_type }, false,false);
-              data.banks.rates[t.id] = { code: t.id, name: t.name, label: t.name, rates: t.data, code: t.code, rate_type: t.rate_type } ;
+              chart.addSeries({id:t.id, name: t.name, data: t.data, code: t.code, rate_type: t.rate_type, dashStyle: t.dashStyle }, false,false);
+              data.banks.rates[t.id] = { code: t.id, name: t.name, label: t.name, rates: t.data, code: t.code, rate_type: t.rate_type, dashStyle: t.dashStyle } ;
               data.banks.keys.push(t.id);
             }     
           });      
@@ -675,7 +675,7 @@ $(function () {
     {     
       if(ser_b === null)
       {  
-        chart.addSeries({ id: id_b, name: data.banks.rates[id_b].name, data: data.banks.rates[id_b].rates, code : data.banks.rates[id_b].code, rate_type: data.banks.rates[id_b].rate_type },false,false);
+        chart.addSeries({ id: id_b, name: data.banks.rates[id_b].name, data: data.banks.rates[id_b].rates, code : data.banks.rates[id_b].code, rate_type: data.banks.rates[id_b].rate_type, dashStyle: data.banks.rates[id_b].dashStyle },false,false);
       }     
     }
     else
@@ -703,6 +703,7 @@ $(function () {
     chart.redraw();
   }
   function c_chart(){
+    var output = {};
     $('#c_chart').highcharts('StockChart', {
       chart:
       {
@@ -788,37 +789,75 @@ $(function () {
       tooltip: {
         borderColor: "#cfd4d9",
         headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
-        pointFormatter: function (a) {
-            var output = {}
-            if(this.series._i == 0)
+
+        pointFormatter: function (f,len) { 
+          // for len to appear we need to overwrite highstock.js function 
+          // bodyFormatter:function(a){var alength = a.length; return xa(a,function(a){var c=a.series.tooltipOptions;return(c.pointFormatter||a.point.tooltipFormatter).call(a.point,c.pointFormat,alength)})}
+            
+             var t = this;
+             var s = t.series;
+
+            //console.log(this.series.userOptions.code, this.series.userOptions.rate_type, this.y );
+            //if(this.series.userOptions.code == 'BAGA')  console.log(this);
+            if(t.series._i == 0)
             {
-                this.series.chart.series.forEach(function(d,i){
-                   console.log(d);
-                  if (d.userOptions.code == 'BNLN')
-                  {
-                    //console.log('BNLN');
-                  }
-                  else if (d.name != "Navigator")
-                  {
-                    if(output.hasOwnProperty(d.userOptions.code))
-                    {
-                        output[d.userOptions.code][d.userOptions.rate_type] = d.compareValue;
-                    }
-                    else
-                    {
-                      output[d.userOptions.code] = { name: d.userOptions.name };
-                      output[d.userOptions.code][d.userOptions.rate_type] = d.compareValue;
-                    }
-                    
-                  }    
-                });
-                console.log(output);
+              output = {};
             }
+
+            if (s.userOptions.code == 'BNLN')
+            {
+              output[s.userOptions.code] = { name: s.userOptions.name, rate: t.y, color: t.color };
+            }
+            else
+            {
+              if(output.hasOwnProperty(s.userOptions.code))
+              {
+                  output[s.userOptions.code][s.userOptions.rate_type] = t.y;
+                  output[s.userOptions.code]['color'] = t.color;
+              }
+              else
+              {
+                output[s.userOptions.code] = { name: s.userOptions.name };
+                output[s.userOptions.code][s.userOptions.rate_type] = t.y;
+              }
+            } 
+
+            if(t.series._i == len-1)
+            {
+              var item = output['BNLN'];
+             //  console.log(item);
+              var ret = '<div class="tooltip-item nbg"><span class="l" style="color:'+item.color+';">'+item.name + '</span><span class="r"  style="color:'+item.color+';">' + reformat(item.rate)  + '</span></div>';
+
+              if(len > 1)
+              {
+                ret += '<div class="tooltip-item-header"><span></span><span>' + gon.buy  + '<br><svg width="20px" height="4px" xmlns="http://www.w3.org/2000/svg"><g zIndex="1" ><path fill="none" d="M 0 2 L 20 2" stroke-dasharray="2,2" stroke="#7b8483" stroke-width="2"></path></g></svg></span><span>' + gon.sell  + '<br><svg width="20px" height="4px" xmlns="http://www.w3.org/2000/svg"><g zIndex="1" ><path fill="none" d="M 0 2 L 20 2" stroke-dasharray="6,2" stroke="#7b8483" stroke-width="2"></path></g></svg></span></div>';
+              }
+
+
+              for (var key in output) {
+                if (output.hasOwnProperty(key) && key != 'BNLN') {
+                //   console.log(key);
+                   item = output[key];
+                   ret+= '<div class="tooltip-item"><span class="l" style="color:'+item.color+';">'+item.name + '</span><span class="b" style="color:'+item.color+';">' + reformat(item.buy)  + '</span><span class="s" style="color:'+item.color+';">' + reformat(item.sell) + '</span></div>'
+                }
+              }
+              return ret;
+              // console.log(output);
+            }
+            return "";
+              // var ind = this.index;
+              // console.log(this);
+              // this.series.chart.series.forEach(function(d,i){
+              //    //console.log(d);
+                
+              // });
+              //console.log(output);
+           // }
            //  if(cur.p3.type == 0)
            //  {
            //     console.log('gettogether');
            //  }
-            return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; 
+            //return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; 
           },
         useHTML: true,
         shadow: false
