@@ -60,21 +60,21 @@ class Api::V1Controller < ApplicationController
     #cur = Currency.find_by_code(currency)
 
     if @currency_codes.index(currency) != nil && bank.any?
-      bank.each{|code|
+      bank.each_with_index{|code,i|
         b = Bank.find_by_code(code)            
           if b.id == 1
             x = Rate.rates_nbg(currency, b.id)
             if x.present?
-              result << { id: code + '_' + currency, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color, code: code }
+              result << { id: code + '_' + currency, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color, code: code, legendIndex: 0 }
             end
           else
             x = Rate.rates_buy(currency, b.id)
             if x.present?
-              result << { id: code + '_' + currency + '_B' , name: (b.name + " " + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot', rate_type: 'buy', code: code }
+              result << { id: code + '_' + currency + '_B' , name: (b.name + " " + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot', rate_type: 'buy', code: code, legendIndex: 2*i+1 }
             end
             x = Rate.rates_sell(currency, b.id)
             if x.present?
-              result << { id: code + '_' + currency + '_S', name:  (b.name + " " + " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash', rate_type: 'sell', code: code }
+              result << { id: code + '_' + currency + '_S', name:  (b.name + " " + " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash', rate_type: 'sell', code: code, legendIndex: 2*i+2 }
             end
           end
         

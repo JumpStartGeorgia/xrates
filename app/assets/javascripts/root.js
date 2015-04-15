@@ -173,7 +173,10 @@ $(function () {
     t.addClass('active');
     var chart = $('#c_chart').highcharts();
     var compare = t.attr('data-compare');
-    cur.p3.type = compare == 'both' ? 0 : (compare == 'buy' ? 1 : 2);
+    var b = compare == 'both';
+    chart.userOptions.magic = b;
+    chart.legend.options.magic = b;
+    cur.p3.type = b ? 0 : (compare == 'buy' ? 1 : 2);
     c_chart_refresh();
   }); 
 
@@ -641,15 +644,14 @@ $(function () {
     if(remote_cur.length)
     {
       $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + remote_cur.join(',')+',BNLN', function (d) {
-         console.log(d);
         if(d.valid)
         {
            d.result.forEach(function(t,i){
             var ser = chart.get(t.id);
             if(ser === null)
             {  
-              chart.addSeries({id:t.id, name: t.name, data: t.data, code: t.code, rate_type: t.rate_type, dashStyle: t.dashStyle }, false,false);
-              data.banks.rates[t.id] = { code: t.id, name: t.name, label: t.name, rates: t.data, code: t.code, rate_type: t.rate_type, dashStyle: t.dashStyle } ;
+              chart.addSeries(t, false,false);
+              data.banks.rates[t.id] = t;
               data.banks.keys.push(t.id);
             }     
           });      
@@ -675,7 +677,8 @@ $(function () {
     {     
       if(ser_b === null)
       {  
-        chart.addSeries({ id: id_b, name: data.banks.rates[id_b].name, data: data.banks.rates[id_b].rates, code : data.banks.rates[id_b].code, rate_type: data.banks.rates[id_b].rate_type, dashStyle: data.banks.rates[id_b].dashStyle },false,false);
+        data.banks.rates[id_b]['id'] = id_b;
+        chart.addSeries(data.banks.rates[id_b], false,false);
       }     
     }
     else
@@ -690,7 +693,8 @@ $(function () {
     {
       if(ser_s === null)
       {  
-        chart.addSeries({ id: id_s, name: data.banks.rates[id_s].name, data: data.banks.rates[id_s].rates },false,false);
+        data.banks.rates[id_s]['id'] = id_s;
+        chart.addSeries(data.banks.rates[id_s], false,false);
       }    
     }
     else
@@ -705,6 +709,7 @@ $(function () {
   function c_chart(){
     var output = {};
     $('#c_chart').highcharts('StockChart', {
+      magic: true,
       chart:
       {
         backgroundColor: '#f1f2f2'
@@ -782,8 +787,7 @@ $(function () {
                 enabled : false,
                 radius : 3,
                 symbol: 'circle'
-              },
-              compare: 'none'
+              }
           }
       },
       tooltip: {
@@ -797,8 +801,6 @@ $(function () {
              var t = this;
              var s = t.series;
 
-            //console.log(this.series.userOptions.code, this.series.userOptions.rate_type, this.y );
-            //if(this.series.userOptions.code == 'BAGA')  console.log(this);
             if(t.series._i == 0)
             {
               output = {};
@@ -836,37 +838,39 @@ $(function () {
 
               for (var key in output) {
                 if (output.hasOwnProperty(key) && key != 'BNLN') {
-                //   console.log(key);
                    item = output[key];
                    ret+= '<div class="tooltip-item"><span class="l" style="color:'+item.color+';">'+item.name + '</span><span class="b" style="color:'+item.color+';">' + reformat(item.buy)  + '</span><span class="s" style="color:'+item.color+';">' + reformat(item.sell) + '</span></div>'
                 }
               }
               return ret;
-              // console.log(output);
             }
-            return "";
-              // var ind = this.index;
-              // console.log(this);
-              // this.series.chart.series.forEach(function(d,i){
-              //    //console.log(d);
-                
-              // });
-              //console.log(output);
-           // }
-           //  if(cur.p3.type == 0)
-           //  {
-           //     console.log('gettogether');
-           //  }
-            //return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; 
+            return "";        
           },
         useHTML: true,
         shadow: false
       },
       legend: {
         enabled: true,
-        itemStyle: { "color": "#7b8483", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
-        itemHoverStyle: { "color": "#6b7473", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
-        useHTML: true
+        magic: true,
+        align:'left',
+        itemStyle: { "color": "#7b8483", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px", "cursor":"default" },
+        itemHoverStyle: { "color": "#6b7473", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px", "cursor":"default" },
+        labelFormatter:function()
+        {
+           console.log(this.chart.userOptions.magic,this);
+           if(this.chart.userOptions.magic === true)
+           {
+              if(this.userOptions.code == 'BNLN')
+              {
+                return this.name;
+              }
+              else
+              {
+                return this._i % 2 == 1 ? this.name : '';
+              }
+          }
+          else return this.name;
+        }
       },
       navigator: {
         maskFill: 'rgba(246, 186, 41, 0.49)',
@@ -896,6 +900,15 @@ $(function () {
     });
     c_chart_refresh(true);
   }  
+
+
+// renderItem:function(a){var b=this.chart,c=b.renderer,d=this.options,e=d.layout==="horizontal",f=this.symbolWidth,g=d.symbolPadding,h=this.itemStyle,i=this.itemHiddenStyle,j=this.padding,k=e?p(d.itemDistance,20):0,l=!d.rtl,m=d.width,o=d.itemMarginBottom||0,
+// q=this.itemMarginTop,t=this.initialItemX,n=a.legendItem,L=a.series&&a.series.drawLegendSymbol?a.series:a,u=L.options,u=this.createCheckboxForItem&&u&&u.showCheckbox,r=d.useHTML;if(this.options.magic || !n){a.legendGroup=c.g("legend-item").attr({zIndex:1}).add(this.scrollGroup);a.legendItem=n=c.text(d.labelFormat?Ma(d.labelFormat,a):d.labelFormatter.call(a),l?f+g:-g,this.baseline||0,r).css(y(a.visible?h:i)).attr({align:l?"left":"right",zIndex:2}).add(a.legendGroup);if(!this.baseline)this.baseline=c.fontMetrics(h.fontSize,
+// n).f+3+q,n.attr("y",this.baseline);L.drawLegendSymbol(this,a);this.setItemEvents&&this.setItemEvents(a,n,r,h,i);this.colorizeItem(a,a.visible);u&&this.createCheckboxForItem(a)}c=n.getBBox();f=a.checkboxOffset=d.itemWidth||a.legendItemWidth||f+g+c.width+k+(u?20:0);this.itemHeight=g=w(a.legendItemHeight||c.height);if(e&&this.itemX-t+f>(m||b.chartWidth-2*j-t-d.x))this.itemX=t,this.itemY+=q+this.lastLineHeight+o;this.maxItemWidth=v(this.maxItemWidth,f);this.lastItemY=q+this.itemY+o;this.lastLineHeight=
+// v(g,this.lastLineHeight);a._legendItemPos=[this.itemX,this.itemY];e?this.itemX+=f:(this.itemY+=q+g+o,this.lastLineHeight=g);this.offsetWidth=m||v((e?this.itemX-t-k:f)+j,this.offsetWidth)}
+
+// setItemEvents:function(a,b,c,d,e){var f=this;(c?b:a.legendLine).on("mouseover",function(){a.setState("hover");b.css(f.options.itemHoverStyle)}).on("mouseout",function(){b.css(a.visible?d:e);a.setState()});if(!f.options.magic){(c?b:a.legendLine).on("click", function(b){var c=
+// function(e){a.setVisible()},b={browserEvent:b};a.firePointEvent?a.firePointEvent("legendItemClick",b,c):K(a,"legendItemClick",b,c)})}}
 
   function debounce(func, wait, immediate) {
     var timeout;

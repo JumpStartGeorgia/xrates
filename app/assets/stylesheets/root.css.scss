@@ -889,6 +889,13 @@ body > .wrapper
 
 #c_chart
 {
+   .highcharts-legend-item
+   {
+      path
+      {
+         cursor:pointer;
+      }
+   }
    .highcharts-tooltip
    {
       .tooltip-header
