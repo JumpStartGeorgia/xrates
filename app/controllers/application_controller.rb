@@ -84,6 +84,16 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.monetary_value = t(".root.index.monetary_value")
       gon.buy = t('app.common.buy')
       gon.sell = t('app.common.sell')
+      currency_by_bank = {}
+      Rate.currency_by_bank.each{|t|
+         if(currency_by_bank.has_key?(t.c)) # t.c currency t.b bank
+            currency_by_bank[t.c].push(t.b)
+         else 
+            currency_by_bank[t.c] = [t.b]
+         end
+      }
+      gon.currency_to_bank = currency_by_bank.to_json
+      gon.banks = Bank.all_except_nbg.each_with_index.map{|x,i|  Rails.logger.debug("--------------------------------------------#{x}"); [ x[0], x[1], x[4], { :'data-image' => x[5] } ] }
 
       #:title => I18n.t('chart.nbg.title') , 
 	end

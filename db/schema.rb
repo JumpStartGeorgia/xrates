@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150317141348) do
+ActiveRecord::Schema.define(:version => 20150416140501) do
 
   create_table "bank_translations", :force => true do |t|
     t.integer  "bank_id"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20150317141348) do
     t.string   "sell_color"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "order"
   end
 
   create_table "currencies", :force => true do |t|

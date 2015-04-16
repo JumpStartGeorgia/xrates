@@ -960,41 +960,78 @@ body > .wrapper
      padding: 10px 60px 20px 60px !important;
    }
 }
-.select2-container-multi .select2-choices
+.select2-container
 {
-   position:relative;
-   font-family: 'ge-oxygen';
-   font-size:19px;
-   color:#fff;
-   padding:0px;
-   background-color:#f6ba29 !important;
-   background-image:none !important;
-   -webkit-border-radius: 2px;
-   -moz-border-radius: 2px;
-   border-radius: 2px;
-   height:42px;
+
+   .select2-choice, .select2-choices
+   {
+      position:relative;
+      font-family: 'ge-oxygen';
+      font-size:19px;
+      color:#fff;
+      padding:0px;
+      background-color:#f6ba29 !important;
+      background-image:none !important;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      height:42px;
+   }
+   .select2-choice .select2-arrow b
+   {
+      background:none;
+      background-color:#f6ba29 !important;
+   }
+   .select2-choice .select2-arrow b:after,
+   .select2-choices:after
+   {
+      content:'▼';  
+      font-family: Arial;
+      font-size:19px;
+      color:#fff;  
+      position:absolute;
+      top:10px;
+      right:9px;
+      cursor:pointer;
+
+   }
+   
+   .select2-choices .select2-search-choice
+   {
+      padding: 0px 18px 0px 5px;
+      border:0px !important;
+      border-radius:0px;
+      background-color:transparent;
+      font-family:'glober-sb';
+      font-size:19px;
+      color:#fff;
+      line-height:38px;
+   }
+   .select2-chosen
+   {
+      padding: 0px 18px 0px 5px;
+      border:0px !important;
+      border-radius:0px;
+      background-color:transparent;
+      font-family:'glober-sb';
+      font-size:19px;
+      color:#fff;
+      line-height:44px;
+   }
+
 }
-.select2-container-multi .select2-choices:after
-{
-   content:'▼';  
-   font-family: Arial;
-   font-size:19px;
-   color:#fff;  
-   position:absolute;
-   top:10px;
-   right:9px;
-   cursor:pointer;
-}
-.select2-container-multi .select2-choices .select2-search-choice {
-   padding: 0px 18px 0px 5px;
-   border:0px !important;
-   border-radius:0px;
-   background-color:transparent;
-   font-family:'glober-sb';
-   font-size:19px;
-   color:#fff;
-   line-height:38px;
-}
+.select2-search
+   {
+      input
+      {
+         border: 1px solid #e7ebef;
+         background:none !important;
+         margin: 3px 0px 0px;
+         font-family: 'oxygen';
+         font-size: 13px;
+         color: #7b8483;
+      }
+   }
 .select2-container-multi .select2-search-choice-close {
    left:auto;
   right:3px;

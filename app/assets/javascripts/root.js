@@ -1,5 +1,6 @@
 $(function () {
-
+  gon.currency_to_bank = JSON.parse(gon.currency_to_bank);
+  var nbg = 'BNLN';
   var params = { p: 1,
     read: function()
     {
@@ -112,8 +113,8 @@ $(function () {
       return "<div>"+d.id+"</div>";
     } 
   });
-
   $('select.filter-c-currency').select2({ maximumSelectionSize: 1,
+    allowClear:false,
     width:380,
     formatResult: function(d){
       return "<div class='flag'><img src='/assets/png/flags/"+d.id+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
@@ -121,19 +122,9 @@ $(function () {
     formatSelection: function(d)
     {
       return "<div>"+d.id+"</div>";
-    } 
+    }
   });
 
-  $('select.filter-c-bank').select2({ maximumSelectionSize: 5,
-    width:380,
-    formatResult: function(d){
-      return "<div class='logo'><img src='/assets/png/banks/"+$(d.element).attr('data-image')+".jpg'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
-    },
-    formatSelection: function(d)
-    {
-      return "<div>"+d.id+"</div>";
-    } 
-  });
 
   $('#worth').focusout(function(){
      var t = $(this);
@@ -209,7 +200,27 @@ $(function () {
       }
    }).datepicker('setDate', "d");
 
-  $('.filter-c-currency, .filter-c-bank').on('change',function(){ c_chart_refresh();});
+
+  $('.filter-c-currency').on('change',function(){ 
+
+    var c = $(this).select2('val');
+    var b = $('input.filter-c-bank').select2('val');
+    var e = gon.currency_to_bank[c];
+    var data = [];
+    if(c.length > 0)
+    {
+      b.forEach(function(d,i){ 
+        gon.banks.forEach(function(dd,ii){
+          if(d == dd[2] && e.indexOf(dd[0]) != -1)
+          {
+            data.push(dd[2]);
+          }
+        });     
+      });
+    }
+    $('input.filter-c-bank').select2('val',data);
+    c_chart_refresh();
+  });
   $('.filter-b-currency').on('change',function(){ b_chart_refresh(); });
 
   window.onpopstate = function(e){  
@@ -232,17 +243,21 @@ $(function () {
           cur.p3.c = params.c;
           cur.p3.b = params.b;
           $('.filter-c-currency').select2('val', cur.p3.c);
-          $('.filter-c-bank').select2('val', cur.p3.b);
+          $('.filter-c-bank').val(cur.p3.b);
         }        
         $('.tab[data-id=' + params.p + '] a').trigger('click');
       }
     }
     else $('.tab[data-id=1] a').trigger('click');
+    prepare();
     calculate(true);
     b_chart();
     c_chart();
   }
-
+  function prepare()
+  {
+    c_filter_bank();
+  }
   function calculate(remote)
   {
     data.worth = getWorth();
@@ -586,22 +601,23 @@ $(function () {
         useHTML: true
       },
       navigator: {
-        maskFill: 'rgba(246, 186, 41, 0.49)',
-        handles: {
-            backgroundColor: '#f6ba29',
-            borderColor: 'black'
-        }
+        enabled: false
+        // maskFill: 'rgba(246, 186, 41, 0.49)',
+        // handles: {
+        //     backgroundColor: '#f6ba29',
+        //     borderColor: 'black'
+        // }
       },
-      scrollbar: {
-        barBackgroundColor: '#e5d7b4',
-        barBorderWidth: 0,
-        buttonBackgroundColor: '#d5d3cd',
-        buttonBorderWidth: 0,
-        buttonArrowColor: '#fff',
-        rifleColor: '#fff',
-        trackBackgroundColor: '#ebeae6',
-        trackBorderWidth: 1,
-      },
+      // scrollbar: {
+      //   barBackgroundColor: '#e5d7b4',
+      //   barBorderWidth: 0,
+      //   buttonBackgroundColor: '#d5d3cd',
+      //   buttonBorderWidth: 0,
+      //   buttonArrowColor: '#fff',
+      //   rifleColor: '#fff',
+      //   trackBackgroundColor: '#ebeae6',
+      //   trackBorderWidth: 1,
+      // },
       credits: { enabled: false }
     },
     function (chart) {
@@ -613,25 +629,43 @@ $(function () {
     b_chart_refresh(true);
   }
 
-  function c_chart_refresh(first){ // currency, bank
+  function c_chart_refresh(first,partial){ // currency, bank
     //console.log("c_chart_refresh");
     var chart = $('#c_chart').highcharts();
 
     var c = $('.filter-c-currency').select2('val');
     var b = $('.filter-c-bank').select2('val');
+     console.log(c,b);
+    // cur.p3.b.forEach(function(t){
+    //   if(b.indexOf(t)==-1)
+    //   {
+    //     var s = chart.get(t  + '_' + cur.p3.c + '_B');
+    //     if(s !== null) s.remove(false);
 
-    cur.p3.b.forEach(function(t){
-      if(b.indexOf(t)==-1)
-      {
-        chart.get(t  + '_' + cur.p3.c + '_B').remove(false);
-        chart.get(t  + '_' + cur.p3.c + '_S').remove(false);
-      }
-    });
-
+    //     s = chart.get(t  + '_' + cur.p3.c + '_S');
+    //     if(s !== null) s.remove(false);
+    //   }
+    // });
+    
     cur.p3.c = c;
     cur.p3.b = b;     
 
-    if(!first){ params.write({c:c.join(','), b:b.join(',')}); }
+    var toDelete = [];
+    chart.series.forEach(function(t){
+       console.log(t.userOptions);
+      if(t.userOptions.hasOwnProperty('rate_type'))
+      {
+        if(t.userOptions.code==nbg&&!partial) toDelete.push(t.userOptions.id);
+        else toDelete.push(t.userOptions.id);        
+      }
+    });
+     //console.log(toDelete);
+    toDelete.forEach(function(t){
+      var s = chart.get(t);
+      s.remove(false);
+    });
+
+    if(!first){ params.write({c:c, b:b.join(',')}); }
 
     var remote_cur = [];
     var local_cur = [];
@@ -639,11 +673,23 @@ $(function () {
       if(data.banks.keys.indexOf(t + '_' + cur.p3.c + '_B') == -1)
         remote_cur.push(t);
       else local_cur.push(t);
-    });    
+    });
+
+    
+    if(!partial)
+    {
+      if(data.banks.keys.indexOf('BNLN_' + cur.p3.c) == -1)
+        remote_cur.push('BNLN');
+      else 
+      {
+        data.banks.rates['BNLN_' + cur.p3.c]['id'] = 'BNLN';
+        chart.addSeries(data.banks.rates['BNLN_' + cur.p3.c], false,false);
+      } 
+    }
 
     if(remote_cur.length)
     {
-      $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + remote_cur.join(',')+',BNLN', function (d) {
+      $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + remote_cur.join(','), function (d) {
         if(d.valid)
         {
            d.result.forEach(function(t,i){
@@ -659,6 +705,7 @@ $(function () {
         }
       }); 
     }
+
     local_cur.forEach(function(t){
       c_chart_redraw(t + '_' + cur.p3.c);       
     });    
@@ -669,41 +716,19 @@ $(function () {
     var type = cur.p3.type;
     var id_b = id+'_B';
     var id_s = id+'_S';
-    var ser_b = chart.get(id_b);
-    var ser_s = chart.get(id_s);
-
     // buy
     if(type == 0 || type == 1)
     {     
-      if(ser_b === null)
-      {  
-        data.banks.rates[id_b]['id'] = id_b;
-        chart.addSeries(data.banks.rates[id_b], false,false);
-      }     
-    }
-    else
-    {
-      if(ser_b !== null)
-      {  
-        ser_b.remove(false);
-      }     
+      data.banks.rates[id_b]['id'] = id_b;
+      chart.addSeries(data.banks.rates[id_b], false,false);
     }
     // sell
     if(type == 0 || type == 2)
     {
-      if(ser_s === null)
-      {  
-        data.banks.rates[id_s]['id'] = id_s;
-        chart.addSeries(data.banks.rates[id_s], false,false);
-      }    
+      data.banks.rates[id_s]['id'] = id_s;
+      chart.addSeries(data.banks.rates[id_s], false,false);
     }
-    else
-    {
-      if(ser_s !== null)
-      {  
-        ser_s.remove(false);
-      }     
-    } 
+
     chart.redraw();
   }
   function c_chart(){
@@ -751,7 +776,7 @@ $(function () {
               type: 'all',
               text: 'All'
           }]
-      },     
+      },   
       xAxis: { 
         tickColor: '#d7e0e7',  
         lineColor: '#d7e0e7',         
@@ -794,14 +819,15 @@ $(function () {
         borderColor: "#cfd4d9",
         headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
 
-        pointFormatter: function (f,len) { 
-          // for len to appear we need to overwrite highstock.js function 
-          // bodyFormatter:function(a){var alength = a.length; return xa(a,function(a){var c=a.series.tooltipOptions;return(c.pointFormatter||a.point.tooltipFormatter).call(a.point,c.pointFormat,alength)})}
+        pointFormatter: function (f,len,ind) { 
+          // for len and ind to appear we need to overwrite highstock.js function 
+          // bodyFormatter:function(a){var alength = a.length;return xa(a,function(a){var aindex=arguments[1];var c=a.series.tooltipOptions;return(c.pointFormatter||a.point.tooltipFormatter).call(a.point,c.pointFormat,alength,aindex)})}
             
              var t = this;
              var s = t.series;
+              // console.log(t.series.userOptions.id,len);
 
-            if(t.series._i == 0)
+            if(ind == 0)
             {
               output = {};
             }
@@ -812,34 +838,40 @@ $(function () {
             }
             else
             {
+
               if(output.hasOwnProperty(s.userOptions.code))
               {
                   output[s.userOptions.code][s.userOptions.rate_type] = t.y;
-                  output[s.userOptions.code]['color'] = t.color;
               }
               else
               {
                 output[s.userOptions.code] = { name: s.userOptions.name };
                 output[s.userOptions.code][s.userOptions.rate_type] = t.y;
               }
+              output[s.userOptions.code]['color'] = t.color;
             } 
-
-            if(t.series._i == len-1)
+            if(len==ind+1)
             {
               var item = output['BNLN'];
-             //  console.log(item);
+              var type = cur.p3.type;
               var ret = '<div class="tooltip-item nbg"><span class="l" style="color:'+item.color+';">'+item.name + '</span><span class="r"  style="color:'+item.color+';">' + reformat(item.rate)  + '</span></div>';
 
               if(len > 1)
               {
-                ret += '<div class="tooltip-item-header"><span></span><span>' + gon.buy  + '<br><svg width="20px" height="4px" xmlns="http://www.w3.org/2000/svg"><g zIndex="1" ><path fill="none" d="M 0 2 L 20 2" stroke-dasharray="2,2" stroke="#7b8483" stroke-width="2"></path></g></svg></span><span>' + gon.sell  + '<br><svg width="20px" height="4px" xmlns="http://www.w3.org/2000/svg"><g zIndex="1" ><path fill="none" d="M 0 2 L 20 2" stroke-dasharray="6,2" stroke="#7b8483" stroke-width="2"></path></g></svg></span></div>';
+                ret += '<div class="tooltip-item-header"><span></span>';
+                if(type == 0 || type == 1) ret +='<span>' + gon.buy  + '<br><svg width="20px" height="4px" xmlns="http://www.w3.org/2000/svg"><g zIndex="1" ><path fill="none" d="M 0 2 L 20 2" stroke-dasharray="2,2" stroke="#7b8483" stroke-width="2"></path></g></svg></span>';
+                if(type == 0 || type == 2) ret +='<span>' + gon.sell  + '<br><svg width="20px" height="4px" xmlns="http://www.w3.org/2000/svg"><g zIndex="1" ><path fill="none" d="M 0 2 L 20 2" stroke-dasharray="6,2" stroke="#7b8483" stroke-width="2"></path></g></svg></span>';
+                ret += '</div>';
               }
-
-
+               
               for (var key in output) {
                 if (output.hasOwnProperty(key) && key != 'BNLN') {
                    item = output[key];
-                   ret+= '<div class="tooltip-item"><span class="l" style="color:'+item.color+';">'+item.name + '</span><span class="b" style="color:'+item.color+';">' + reformat(item.buy)  + '</span><span class="s" style="color:'+item.color+';">' + reformat(item.sell) + '</span></div>'
+                   ret+= '<div class="tooltip-item"><span class="l" style="color:'+item.color+';">'+item.name + '</span>';
+                   
+                   if(type == 0 || type == 1) ret +='<span class="b" style="color:'+item.color+';">' + reformat(item.buy)  + '</span>';
+                   if(type == 0 || type == 2) ret +='<span class="s" style="color:'+item.color+';">' + reformat(item.sell) + '</span>';
+                   ret += '</div>';
                 }
               }
               return ret;
@@ -852,12 +884,12 @@ $(function () {
       legend: {
         enabled: true,
         magic: true,
+        magic_noclick: true,
         align:'left',
         itemStyle: { "color": "#7b8483", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px", "cursor":"default" },
         itemHoverStyle: { "color": "#6b7473", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px", "cursor":"default" },
         labelFormatter:function()
         {
-           console.log(this.chart.userOptions.magic,this);
            if(this.chart.userOptions.magic === true)
            {
               if(this.userOptions.code == 'BNLN')
@@ -866,29 +898,31 @@ $(function () {
               }
               else
               {
-                return this._i % 2 == 1 ? this.name : '';
+                return this.userOptions.rate_type == 'buy' ? this.name : '';
               }
           }
           else return this.name;
         }
       },
-      navigator: {
-        maskFill: 'rgba(246, 186, 41, 0.49)',
-        handles: {
-            backgroundColor: '#f6ba29',
-            borderColor: 'black'
-        }
+      navigator: { 
+        adaptToUpdatedData: true,
+        baseSeries: 'BNLN',
+        // maskFill: 'rgba(246, 186, 41, 0.49)',
+        // handles: {
+        //     backgroundColor: '#f6ba29',
+        //     borderColor: 'black'
+        // }
       },
-      scrollbar: {
-        barBackgroundColor: '#e5d7b4',
-        barBorderWidth: 0,
-        buttonBackgroundColor: '#d5d3cd',
-        buttonBorderWidth: 0,
-        buttonArrowColor: '#fff',
-        rifleColor: '#fff',
-        trackBackgroundColor: '#ebeae6',
-        trackBorderWidth: 1,
-      },
+      // scrollbar: {
+      //   barBackgroundColor: '#e5d7b4',
+      //   barBorderWidth: 0,
+      //   buttonBackgroundColor: '#d5d3cd',
+      //   buttonBorderWidth: 0,
+      //   buttonArrowColor: '#fff',
+      //   rifleColor: '#fff',
+      //   trackBackgroundColor: '#ebeae6',
+      //   trackBorderWidth: 1,
+      // },
       credits: { enabled: false },
       // series: d.rates
     },
@@ -900,7 +934,65 @@ $(function () {
     });
     c_chart_refresh(true);
   }  
+  function c_filter_bank(){
 
+    $('input.filter-c-bank').select2({
+      multiple:true, 
+      maximumSelectionSize: 5,
+      width:380,
+      // placeholder:'asdfasdfsd',
+      // allowClear: true,
+
+      formatResult: function(d){
+        return "<div class='logo'><img src='/assets/png/banks/"+d.image+".jpg'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
+      },
+      formatSelection: function(d)
+      {
+        return "<div>"+d.id+"</div>";
+      },
+      query: function (query) {
+         console.log("query");
+        var data = {results: []};
+        var c = $('.filter-c-currency').select2('val');
+
+      
+        var len = query.term.length;
+
+        var e = gon.currency_to_bank[c];
+        e.forEach(function(d,i){
+          gon.banks.forEach(function(dd,ii){
+            if(d == dd[0])
+            {
+              if(query.term.length == 0 || dd[1].toUpperCase().indexOf(query.term.toUpperCase()) >= 0 ){
+                 data.results.push({ id:dd[2], text:dd[1], image:dd[3]['data-image'] });
+              }                       
+            }
+          });
+        });        
+        query.callback(data);
+      },
+      initSelection : function (element, callback) {
+        var data = [];
+        var e = gon.currency_to_bank[$('.filter-c-currency').select2('val')];
+
+        $(element.val().split(",")).each(function (i,d)
+        {
+          var b = null;
+          gon.banks.forEach(function(dd,ii){
+            if(d == dd[2] && e.indexOf(dd[0]) != -1)
+            {
+              data.push({ id:dd[2], text:dd[1], image:dd[3]['data-image'] });
+            }
+          });        
+        });
+        callback(data);
+      }
+    });
+    $('input.filter-c-bank').on('change',function()
+    {
+      c_chart_refresh(false,true);
+    });
+  }
 
 // renderItem:function(a){var b=this.chart,c=b.renderer,d=this.options,e=d.layout==="horizontal",f=this.symbolWidth,g=d.symbolPadding,h=this.itemStyle,i=this.itemHiddenStyle,j=this.padding,k=e?p(d.itemDistance,20):0,l=!d.rtl,m=d.width,o=d.itemMarginBottom||0,
 // q=this.itemMarginTop,t=this.initialItemX,n=a.legendItem,L=a.series&&a.series.drawLegendSymbol?a.series:a,u=L.options,u=this.createCheckboxForItem&&u&&u.showCheckbox,r=d.useHTML;if(this.options.magic || !n){a.legendGroup=c.g("legend-item").attr({zIndex:1}).add(this.scrollGroup);a.legendItem=n=c.text(d.labelFormat?Ma(d.labelFormat,a):d.labelFormatter.call(a),l?f+g:-g,this.baseline||0,r).css(y(a.visible?h:i)).attr({align:l?"left":"right",zIndex:2}).add(a.legendGroup);if(!this.baseline)this.baseline=c.fontMetrics(h.fontSize,
@@ -909,6 +1001,9 @@ $(function () {
 
 // setItemEvents:function(a,b,c,d,e){var f=this;(c?b:a.legendLine).on("mouseover",function(){a.setState("hover");b.css(f.options.itemHoverStyle)}).on("mouseout",function(){b.css(a.visible?d:e);a.setState()});if(!f.options.magic){(c?b:a.legendLine).on("click", function(b){var c=
 // function(e){a.setVisible()},b={browserEvent:b};a.firePointEvent?a.firePointEvent("legendItemClick",b,c):K(a,"legendItemClick",b,c)})}}
+
+
+//bodyFormatter:function(a){var alength = a.length;return xa(a,function(a){var aindex=arguments[1];var c=a.series.tooltipOptions;return(c.pointFormatter||a.point.tooltipFormatter).call(a.point,c.pointFormat,alength,aindex)})}
 
   function debounce(func, wait, immediate) {
     var timeout;
