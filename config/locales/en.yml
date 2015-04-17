@@ -95,6 +95,14 @@ en:
       about: About
       api: API
       last_update: "Last update: "
+      lari: Lari
+      share: Share this
+      m1: '1m'
+      m3: '3m'
+      m6: '6m'
+      y1: '1y'
+      all: All
+      date: Date      
     msgs:
       does_not_exist: You tried to access a page that does not exist.
       not_authorized: You are not authorized to view that page.
@@ -141,16 +149,15 @@ en:
     index:
       title: "JumpStart Georgia's Lari Exchange Rate Viewer"
       page1:        
-        intro: Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.
+        intro: The Georgian Lari has depreciated dramatically against the U.S. Dollar (USD) during the winter of 2014-2015 . Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.
         chart:
           title: "Your Monetary Value Change"
       page2:
-        intro: Page 2 Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.        
+        intro: View the Georgian National Bank's suggested exchange rate of the Lari against foriegn currencies over time.
         title: Lari Exchange Rate
       page3:
-        intro: Page 3 Georgian lari has depreciated dramatically starting from November 2014 against the U.S. Dollar (USD). JumpStart Georgia created Lari Depreciation Calculator which enables people to calculate how much their net worth or payment responsibilities have changed over time due to the currency rate change.        
+        intro: View Georgian Commercial Bank's prices to buy and sell foreign currency compared with the Georgian National Bank's suggested exchange rate over time.
         title: Bank vs Nbg Charts      
-
       currency: "Currency"
       bank: "Bank"
       load_rates: "Load Rates"
@@ -158,6 +165,10 @@ en:
       monetary_value: Monetary Value
       gel: GEL
       usd: USD
+      both: Both
+      buy: Buy
+      sell: Sell
+      cost: Cost
       calculator:
         title: How has the Lari depreciation affected you?
         enter_data: "Enter your monetary value <br>(salary, net worth, rent, loan, etc.)"

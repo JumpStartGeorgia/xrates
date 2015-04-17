@@ -647,7 +647,55 @@ body > .wrapper
       }
    }
   
-   #b_chart
+  
+}
+#b_chart
+{
+   .highcharts-legend-item
+   {
+      span
+      {
+         top:6px !important;
+         color: #7b8483;
+         font-family:oxygen;
+         font-size:15px;
+         font-weight:normal;
+         line-height:15px;
+         &:hover
+         {
+            color: #7b8483;
+         }
+      }
+      
+      path
+      {
+         stroke-width:9px;
+      }         
+   }
+   .highcharts-tooltip
+   {
+      .tooltip-header
+      {
+         font-family: 'oxygen';
+         font-size:14px;
+         color:#7b8483;
+      }  
+      .tooltip-item
+      {
+         font-family: 'oxygen-b';
+         font-size:13px;
+         line-height:20px;
+         color:#7b8483;
+         padding-left:5px;
+         span
+         {
+            font-family: 'oxygen';
+         }          
+      }         
+   }
+}
+
+ #b_chart,#c_chart
    {
       .highcharts-container{width:100% !important; height:100% !important;}
       .highcharts-range-selector-buttons
@@ -718,50 +766,8 @@ body > .wrapper
             }
          }
       }
-      .highcharts-legend-item
-      {
-         span
-         {
-            top:6px !important;
-            color: #7b8483;
-            font-family:oxygen;
-            font-size:15px;
-            font-weight:normal;
-            line-height:15px;
-            &:hover
-            {
-               color: #7b8483;
-            }
-         }
-         
-         path
-         {
-            stroke-width:9px;
-         }         
-      }
-      .highcharts-tooltip
-      {
-         .tooltip-header
-         {
-            font-family: 'oxygen';
-            font-size:14px;
-            color:#7b8483;
-         }  
-         .tooltip-item
-         {
-            font-family: 'oxygen-b';
-            font-size:13px;
-            line-height:20px;
-            color:#7b8483;
-            padding-left:5px;
-            span
-            {
-               font-family: 'oxygen';
-            }          
-         }         
-      }
+      
    }
-}
 .page3
 {
    .title

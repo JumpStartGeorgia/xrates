@@ -64,7 +64,7 @@
     </div>
     <div class="b_chart_switch_wrapper">
       <div class="b_chart_switch">
-        <div data-compare="none" class="active">Cost</div><div data-compare="percent">%</div>
+        <div data-compare="none" class="active"><%= t(".cost") %></div><div data-compare="percent">%</div>
       </div>
     </div>
     <div id="b_chart" style="height:500px;width:100%;max-width:1024px;"></div>
@@ -82,7 +82,7 @@
       <input type='hidden' class="filter-c-bank" data-placehodler="<%=t('.hint.bank')%>" value="BAGA,TBCB,REPL,LBRT">
     </div>
       <div class="c_chart_switch_wrapper">
-      <div class="c_chart_switch"><div data-compare="both" class="active">Both</div><div data-compare="buy">Buy</div><div data-compare="sell">Sell</div></div>
+      <div class="c_chart_switch"><div data-compare="both" class="active"><%= t(".both") %></div><div data-compare="buy"><%= t(".buy") %></div><div data-compare="sell"><%= t(".sell") %></div></div>
     </div>
     <div id="c_chart" style="height:800px;width:100%;max-width:1024px;"></div>
   </div>

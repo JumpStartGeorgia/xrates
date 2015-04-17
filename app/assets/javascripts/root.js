@@ -1,6 +1,37 @@
 $(function () {
+
+
+  if(document.documentElement.lang == 'ka')
+  {
+    Highcharts.setOptions({
+      lang: {
+        months: ['იანვარი', 'თებერვალი', 'მარტი', 'აპრილი', 'მაისი', 'ივნისი', 'ივლისი', 'აგვისტო', 'სექტემბერი', 'ოქტომბერი', 'ნოემბერი',  'დეკემბერი'],
+        weekdays: ['კვირა', 'ორშაბათი', 'სამშაბათი', 'ოთხშაბათი', 'ხუთშაბათი', 'პარასკევი', 'შაბათი'],
+         shortMonths: [ 'იანვ', 'თებ', 'მარ', 'აპრ', 'მაისი', 'ივნ', 'ივლ', 'აგვ', 'სექტ', 'ოქტ', 'ნოემ',  'დეკ'],
+        rangeSelectorFrom: 'თარიღი',
+        rangeSelectorTo: '-',
+        rangeSelectorZoom: 'ზუმი'
+
+      }
+    });
+  }
+  else
+  {
+    Highcharts.setOptions({
+      lang: {       
+        rangeSelectorFrom: 'Date',
+        rangeSelectorTo: '-'
+      }
+    });
+  }
+  var custom_buttons = [  { type: 'month', count: 1, text: gon.m1 }, 
+                          { type: 'month', count: 3, text: gon.m3 }, 
+                          { type: 'month', count: 6, text: gon.m6 },
+                          { type: 'year', count: 1, text: gon.y1 }, 
+                          { type: 'all', text: gon.all }];
   gon.currency_to_bank = JSON.parse(gon.currency_to_bank);
   var nbg = 'BNLN';
+  var nav_id = 'highcharts-navigator-series';
   var params = { p: 1,
     read: function()
     {
@@ -155,6 +186,7 @@ $(function () {
     var chart = $('#b_chart').highcharts();
     cur.p2.type = t.attr('data-compare') == 'none' ? 0 : 1;
     chart.yAxis[0].setCompare(t.attr('data-compare'));
+    chart.yAxis[0].update({ title:{ text: (cur.p2.type == 0 ? gon.lari : '%') } });
   }); 
 
   $('.c_chart_switch > div').click(function(){
@@ -168,7 +200,8 @@ $(function () {
     chart.userOptions.magic = b;
     chart.legend.options.magic = b;
     cur.p3.type = b ? 0 : (compare == 'buy' ? 1 : 2);
-    c_chart_refresh();
+    c_chart_refresh(false,true);
+     console.log('switcher');
   }); 
 
    $.datepicker.setDefaults( $.datepicker.regional[ I18n.locale ] );
@@ -219,6 +252,7 @@ $(function () {
       });
     }
     $('input.filter-c-bank').select2('val',data);
+     console.log('filter-c-currency switch');
     c_chart_refresh();
   });
   $('.filter-b-currency').on('change',function(){ b_chart_refresh(); });
@@ -526,27 +560,7 @@ $(function () {
                 parseInt(v[0], 10),
                 0,0,0,0);              
           },
-          buttons: [{
-              type: 'month',
-              count: 1,
-              text: '1m'
-            }, {
-              type: 'month',
-              count: 3,
-              text: '3m'
-            }, {
-              type: 'month',
-              count: 6,
-              text: '6m'
-            },
-            {
-              type: 'year',
-              count: 1,
-              text: '1y'
-            }, {
-              type: 'all',
-              text: 'All'
-          }]
+          buttons: custom_buttons
       },     
       xAxis: { 
         tickColor: '#d7e0e7',  
@@ -559,6 +573,10 @@ $(function () {
         }  
       },     
       yAxis: {
+          title: {
+            enabled: true,
+            text: gon.lari                
+          },
           opposite: false,
           gridLineColor: '#ffffff',
           gridLineWidth: 2,             
@@ -599,25 +617,7 @@ $(function () {
         itemStyle: { "color": "#7b8483", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
         itemHoverStyle: { "color": "#6b7473", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
         useHTML: true
-      },
-      navigator: {
-        enabled: false
-        // maskFill: 'rgba(246, 186, 41, 0.49)',
-        // handles: {
-        //     backgroundColor: '#f6ba29',
-        //     borderColor: 'black'
-        // }
-      },
-      // scrollbar: {
-      //   barBackgroundColor: '#e5d7b4',
-      //   barBorderWidth: 0,
-      //   buttonBackgroundColor: '#d5d3cd',
-      //   buttonBorderWidth: 0,
-      //   buttonArrowColor: '#fff',
-      //   rifleColor: '#fff',
-      //   trackBackgroundColor: '#ebeae6',
-      //   trackBorderWidth: 1,
-      // },
+      },     
       credits: { enabled: false }
     },
     function (chart) {
@@ -630,41 +630,29 @@ $(function () {
   }
 
   function c_chart_refresh(first,partial){ // currency, bank
-    //console.log("c_chart_refresh");
     var chart = $('#c_chart').highcharts();
 
     var c = $('.filter-c-currency').select2('val');
     var b = $('.filter-c-bank').select2('val');
-     console.log(c,b);
-    // cur.p3.b.forEach(function(t){
-    //   if(b.indexOf(t)==-1)
-    //   {
-    //     var s = chart.get(t  + '_' + cur.p3.c + '_B');
-    //     if(s !== null) s.remove(false);
-
-    //     s = chart.get(t  + '_' + cur.p3.c + '_S');
-    //     if(s !== null) s.remove(false);
-    //   }
-    // });
     
     cur.p3.c = c;
     cur.p3.b = b;     
 
     var toDelete = [];
     chart.series.forEach(function(t){
-       console.log(t.userOptions);
-      if(t.userOptions.hasOwnProperty('rate_type'))
+      if(t.userOptions.id != nav_id)
       {
-        if(t.userOptions.code==nbg&&!partial) toDelete.push(t.userOptions.id);
+        if(t.userOptions.code==nbg)
+        {
+          if(!partial) toDelete.push(t.userOptions.id);
+        }
         else toDelete.push(t.userOptions.id);        
       }
     });
-     //console.log(toDelete);
     toDelete.forEach(function(t){
       var s = chart.get(t);
       s.remove(false);
     });
-
     if(!first){ params.write({c:c, b:b.join(',')}); }
 
     var remote_cur = [];
@@ -675,18 +663,19 @@ $(function () {
       else local_cur.push(t);
     });
 
-    
     if(!partial)
     {
-      if(data.banks.keys.indexOf('BNLN_' + cur.p3.c) == -1)
-        remote_cur.push('BNLN');
+      if(data.banks.keys.indexOf(nbg+'_' + cur.p3.c) == -1)
+        remote_cur.push(nbg);
       else 
       {
-        data.banks.rates['BNLN_' + cur.p3.c]['id'] = 'BNLN';
-        chart.addSeries(data.banks.rates['BNLN_' + cur.p3.c], false,false);
+        var tmp = data.banks.rates[nbg+'_' + cur.p3.c];
+        chart.addSeries({id: nbg, code: tmp.code, color:tmp.color, data: tmp.data, name: tmp.name, legendIndex : tmp.legendIndex }, false,false);
+        var nav = chart.get(nav_id);
+        nav.setData(data.banks.rates[nbg+'_' + cur.p3.c].data);
+        
       } 
     }
-
     if(remote_cur.length)
     {
       $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + remote_cur.join(','), function (d) {
@@ -700,15 +689,21 @@ $(function () {
               data.banks.rates[t.id] = t;
               data.banks.keys.push(t.id);
             }     
-          });      
+          });    
+          if(!first && !partial)
+          {
+            var nav = chart.get(nav_id);
+            nav.setData(data.banks.rates[nbg+'_' + cur.p3.c].data);
+           
+          }
           chart.redraw();
         }
       }); 
     }
-
     local_cur.forEach(function(t){
       c_chart_redraw(t + '_' + cur.p3.c);       
-    });    
+    });   
+    chart.redraw();
   }  
   function c_chart_redraw(id)
   {
@@ -716,7 +711,7 @@ $(function () {
     var type = cur.p3.type;
     var id_b = id+'_B';
     var id_s = id+'_S';
-    // buy
+    // buy     
     if(type == 0 || type == 1)
     {     
       data.banks.rates[id_b]['id'] = id_b;
@@ -728,8 +723,6 @@ $(function () {
       data.banks.rates[id_s]['id'] = id_s;
       chart.addSeries(data.banks.rates[id_s], false,false);
     }
-
-    chart.redraw();
   }
   function c_chart(){
     var output = {};
@@ -755,27 +748,7 @@ $(function () {
                 parseInt(v[0], 10),
                 0,0,0,0);              
           },
-          buttons: [{
-              type: 'month',
-              count: 1,
-              text: '1m'
-            }, {
-              type: 'month',
-              count: 3,
-              text: '3m'
-            }, {
-              type: 'month',
-              count: 6,
-              text: '6m'
-            },
-            {
-              type: 'year',
-              count: 1,
-              text: '1y'
-            }, {
-              type: 'all',
-              text: 'All'
-          }]
+          buttons: custom_buttons
       },   
       xAxis: { 
         tickColor: '#d7e0e7',  
@@ -788,6 +761,10 @@ $(function () {
         }  
       },     
       yAxis: {
+          title: {
+                enabled: true,
+                text: gon.lari                
+          },
           opposite: false,
           gridLineColor: '#ffffff',
           gridLineWidth: 2,             
@@ -825,14 +802,13 @@ $(function () {
             
              var t = this;
              var s = t.series;
-              // console.log(t.series.userOptions.id,len);
 
             if(ind == 0)
             {
               output = {};
             }
 
-            if (s.userOptions.code == 'BNLN')
+            if (s.userOptions.code == nbg)
             {
               output[s.userOptions.code] = { name: s.userOptions.name, rate: t.y, color: t.color };
             }
@@ -852,7 +828,7 @@ $(function () {
             } 
             if(len==ind+1)
             {
-              var item = output['BNLN'];
+              var item = output[nbg];
               var type = cur.p3.type;
               var ret = '<div class="tooltip-item nbg"><span class="l" style="color:'+item.color+';">'+item.name + '</span><span class="r"  style="color:'+item.color+';">' + reformat(item.rate)  + '</span></div>';
 
@@ -865,7 +841,7 @@ $(function () {
               }
                
               for (var key in output) {
-                if (output.hasOwnProperty(key) && key != 'BNLN') {
+                if (output.hasOwnProperty(key) && key != nbg) {
                    item = output[key];
                    ret+= '<div class="tooltip-item"><span class="l" style="color:'+item.color+';">'+item.name + '</span>';
                    
@@ -892,7 +868,7 @@ $(function () {
         {
            if(this.chart.userOptions.magic === true)
            {
-              if(this.userOptions.code == 'BNLN')
+              if(this.userOptions.code == nbg)
               {
                 return this.name;
               }
@@ -904,27 +880,7 @@ $(function () {
           else return this.name;
         }
       },
-      navigator: { 
-        adaptToUpdatedData: true,
-        baseSeries: 'BNLN',
-        // maskFill: 'rgba(246, 186, 41, 0.49)',
-        // handles: {
-        //     backgroundColor: '#f6ba29',
-        //     borderColor: 'black'
-        // }
-      },
-      // scrollbar: {
-      //   barBackgroundColor: '#e5d7b4',
-      //   barBorderWidth: 0,
-      //   buttonBackgroundColor: '#d5d3cd',
-      //   buttonBorderWidth: 0,
-      //   buttonArrowColor: '#fff',
-      //   rifleColor: '#fff',
-      //   trackBackgroundColor: '#ebeae6',
-      //   trackBorderWidth: 1,
-      // },
-      credits: { enabled: false },
-      // series: d.rates
+      credits: { enabled: false }     
     },
     function (chart) {
       setTimeout(function () {
@@ -935,7 +891,6 @@ $(function () {
     c_chart_refresh(true);
   }  
   function c_filter_bank(){
-
     $('input.filter-c-bank').select2({
       multiple:true, 
       maximumSelectionSize: 5,
@@ -951,7 +906,7 @@ $(function () {
         return "<div>"+d.id+"</div>";
       },
       query: function (query) {
-         console.log("query");
+         //console.log("query");
         var data = {results: []};
         var c = $('.filter-c-currency').select2('val');
 

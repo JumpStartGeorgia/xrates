@@ -85,16 +85,24 @@ ka:
       confirm: დარწმუნებული ხართ?
       new: ახალი            
     common:
-      app_name: Lari Explorer
+      app_name: ლარის გზამკვლევი
       added_on: "დამატებულია: %{date}" 
       jumpstart: “ჯამპსტარტ ჯორჯია”
       js_link_title: “ჯამპსტარტ ჯორჯია” - ჩვენ გაწვდით მონაცემებს უკეთ!
       compare_to_other_banks: Compare to other banks 
-      buy: buy
-      sell: sell  
-      about: About
+      buy: ყიდვა
+      sell: გაყიდვა  
+      about: ჩვენ შესახებ
       api: API
-      last_update: "Last update: "             
+      last_update: "Last update: "
+      lari: ლარი
+      share: გააზიარე
+      m1: '1თ'
+      m3: '3თ'
+      m6: '6თ'
+      y1: '1წ'
+      all: ყვ.   
+      date: თარიღი
     msgs:
       does_not_exist: თქვენ ცდილობთ ისეთი გვერდის ნახვას, რომელიც არ არსებობს.
       not_authorized: თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება.
@@ -130,20 +138,59 @@ ka:
     mailer:
       reset_password_instructions:
         title: 'მოგესალმებით, %{nickname}!'
-        p1: მივიღეთ მოთხოვნა "%{app_name}" თქვენი პაროლის შეცვლის შესახებ. პაროლის შესაცვლელად, მიჰყევით შემდეგ ბმულს.
+        p1: 'მივიღეთ მოთხოვნა "%{app_name}" თქვენი პაროლის შეცვლის შესახებ. პაროლის შესაცვლელად, მიჰყევით შემდეგ ბმულს.'
         link_title: პაროლის შეცვლა
         p2: "თუ თქვენ არ მოგითხოვიათ პაროლის შეცვლა, გთხოვთ, არ მიაქციოთ ყურადღება ამ შეტყობინებას."
         p3: "თქვენი პაროლი იგივე დარჩება, სანამ არ გადახვალთ ზემოთ მითითებულ ბმულზე და შექმნით ახალ პაროლს."    
   root:
+    tab1: გაუფასურების კალენდარი
+    tab2: ეროვნული ბანკის კურსი
+    tab3: კომერციული ბანკის კურსი
     index:
       title: "JumpStart Georgia's Lari Exchange Rate Viewer"
-      currency: "Currency"
-      bank: "Bank"
-      load_rates: "Load Rates"
-    compare:
-      title: "JumpStart Georgia's Lari Exchange Rate Viewer"
-      currency: "Currency"
-      load_rates: "Load Rates"      
+      page1:        
+        intro: ქართული ლარის ღირებულება ამერიკულ დოლართან მიმართებაში მნიშვნელოვნად შემცირდა 2014-2015 წლების ზამთარში. ლარის გაუფასურების კალკულატორის გამოყენებით, შეგიძლიათ, დაიანგარიშოთ, როგორ შეიცვალა თქვენი ქონება ან საგადასახადო ვალდებულებები ამ დროის განმავლობაში, ლარის კურსის ცვლილების გამო.
+        chart:
+          title: "თქვენ მიერ მითითებული თანხის ცვლილება"
+      page2:
+        intro: ეროვნული ბანკის მიერ დადგენილი ლარის ოფიციალური გაცვლითი კურსი
+        title: Lari Exchange Rate
+      page3:
+        intro: ნახეთ კომერციულ ბანკებში უცხოური ვალუტების ყიდვისა და გაყიდვის ფასი ეროვნული ბანკის კურსთან შედარებით.
+        title: Bank vs Nbg Charts      
+      currency: ვალუტა
+      bank: ბანკი      
+      rate: ვალუტის კურსი
+      monetary_value: ფულადი ღირებულება 
+      gel: GEL
+      usd: USD
+      both: ორივე
+      buy: ყიდვა
+      sell: გაყიდვა
+      cost: ღირებულება    
+      calculator:
+        title: რა გავლენა იქონია ლარის გაუფასურებამ თქვენს ფინანსებზე?
+        enter_data: "შეიყვანეთ თანხა <br>(დანაზოგი, ხელფასი, ქირა, სესხი, ა.შ.)"
+        gel: ლარი
+        usd: დოლარი
+        your_net_worth: ფულადი ღირებულება
+        difference: "თქვენ მიერ მითითებული თანხა ამ დროის განმავლობაში <br> <span class='up'>შემცირდა</span> by"         
+        increased: გაიზრდებოდა        
+        decreased: შემცირდებოდა        
+        info_gel: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>. მას რომ ფული ლარებში ჰქონოდა შენახული, ამავე პერიოდში, ლარის კურსის ცვლილების გამო, მისი ქონება <b><span class='value'></span> აშშ დოლარით</b><b class='up'>გაიზრდებოდა</b>."        
+        info_usd: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>.  ლარის კურსის ცვლილების გამო, ამავე პერიოდში, მისი ქონება <b><span class='value'></span> ლარით</b><b class='up'>გაიზარდა</b>."
+        your_net_worth_change: "Your net worth change"
+      hsw: როგორ მუშაობს კალკულატორი?
+      hsw_text: "მარტივად. კალკულატორს თქვენ მიერ მითითებული თანხა გადაჰყავს მეორე ვალუტაში არჩეული თარიღების შესაბამისი კურსით. შემდეგ კი ითვლის სხვაობას იმის საჩვენებლად, თუ როგორ შეიცვალა თქვენი ქონება თუ ფულადი ვალდებულება ამ დროის განმავლობაში. სულ ესაა!"        
+      hint:
+        currency: "Type Currency"
+        bank: "Type Bank Name"
+    about:
+        title: ჩვენ შესახებ        
+        intro: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
+    api:
+        title: API        
+        intro: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."        
   chart:
     nbg:
-      title: "Lari Exchange Rate"    
+      title: "Lari Exchange Rate"       

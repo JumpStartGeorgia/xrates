@@ -79,13 +79,11 @@ class Rate < ActiveRecord::Base
   def self.rates_nbg(currency,bank)
       select('rate, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
-  def self.rates_buy(currency,bank)
-      c = Currency.find_by_code(currency)
-      select('ifnull(buy_price,0) buy_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*c.ratio]}
+  def self.rates_buy(currency,bank,ratio)
+      select('ifnull(buy_price,0) buy_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*ratio]}
   end
-  def self.rates_sell(currency,bank)
-      c = Currency.find_by_code(currency)
-      select('ifnull(sell_price,0) sell_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*c.ratio]}
+  def self.rates_sell(currency,bank,ratio)
+      select('ifnull(sell_price,0) sell_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*ratio]}
   end
 
   def nbg?

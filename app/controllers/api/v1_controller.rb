@@ -10,8 +10,8 @@ class Api::V1Controller < ApplicationController
 
 
     @errors = []
-    start_date = to_time('start_date')
-    end_date = to_time('end_date')
+    start_date = to_time('start_date', true)
+    end_date = to_time('end_date', true)
 
     data = { valid: true, result: []}
     result = []
@@ -19,7 +19,7 @@ class Api::V1Controller < ApplicationController
     flag = false
 
     params[:currency].split(',').each{|cur_item|
-      if @currency_codes.index(cur_item) != nil
+      if @currency_codes.has_key?(cur_item)
         cur = @currencies.select{|c| c[0] == cur_item }.first
         x = Rate.nbg_rates(cur_item,start_date,end_date)
         if x.present?
@@ -57,22 +57,21 @@ class Api::V1Controller < ApplicationController
     data = { valid: true, result: []}
     result = []
 
-    #cur = Currency.find_by_code(currency)
-
-    if @currency_codes.index(currency) != nil && bank.any?
+    ratio = @currency_codes[currency]
+    if ratio != nil && bank.any?
       bank.each{|code|
         b = Bank.find_by_code(code)            
           if b.id == 1
             x = Rate.rates_nbg(currency, b.id)
             if x.present?
-              result << { id: code, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color, code: code, legendIndex: b.order+1 }
+              result << { id: code + '_' + currency, name:  (b.name + " (" + b.code + ")"), data: x, color: b.buy_color, code: code, legendIndex: b.order+1 }
             end
           else
-            x = Rate.rates_buy(currency, b.id)
+            x = Rate.rates_buy(currency, b.id, ratio)
             if x.present?
               result << { id: code + '_' + currency + '_B' , name: (b.name + " " + " (" + b.code + ")"), data: x, color: b.buy_color, dashStyle: 'shortdot', rate_type: 'buy', code: code, legendIndex: 2*b.order }
             end
-            x = Rate.rates_sell(currency, b.id)
+            x = Rate.rates_sell(currency, b.id, ratio)
             if x.present?
               result << { id: code + '_' + currency + '_S', name:  (b.name + " " + " (" + b.code + ")"), data: x, color: b.sell_color, dashStyle: 'shortdash', rate_type: 'sell', code: code, legendIndex: 2*b.order+1 }
             end
@@ -147,9 +146,9 @@ class Api::V1Controller < ApplicationController
 private
 
   def load_currencies
-    @currency_codes = Currency.pluck(:code)
+    @currency_codes =  Hash[Currency.select('code,ratio').map { |t|  [t.code, t.ratio] }]
   end
-  def to_time(p)
+  def to_time(p,r) # if r true then will add error
     begin
       v = params[p].to_i
       if v > 0
@@ -158,7 +157,7 @@ private
         raise
       end  
     rescue  
-      @errors.push({ field: p, message: p.humanize + ' field is invalid.' })
+      @errors.push({ field: p, message: p.humanize + ' field is invalid.' }) if !r
       nil
     end
   end
