@@ -546,7 +546,7 @@ $(function () {
       },
       colors: [ '#1cbbb4', '#F47C7C', '#4997FF', '#be8ec0', '#8fc743'],
       rangeSelector: {
-          selected: 1,
+          selected: 0,
           inputDateFormat: '%d-%b-%Y',
           inputEditDateFormat: '%d-%b-%Y',
           inputBoxWidth: 120,  
@@ -734,7 +734,7 @@ $(function () {
       },
       colors: [ '#1cbbb4', '#F47C7C', '#4997FF', '#be8ec0', '#8fc743'],
       rangeSelector: {
-          selected: 1,
+          selected: 0,
           inputDateFormat: '%d-%b-%Y',
           inputEditDateFormat: '%d-%b-%Y',
           inputBoxWidth: 120,  
