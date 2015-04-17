@@ -84,7 +84,7 @@ $(function () {
       }
       else if(p == 3)
       {
-        pars['c'] = cur.p3.c.join(',');
+        pars['c'] = cur.p3.c;
         pars['b'] = cur.p3.b.join(',');
       }
       this.write(pars);

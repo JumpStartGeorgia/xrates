@@ -36,12 +36,13 @@ body > .wrapper
    height:100%;
    .header
    {
-      max-width:1024px;
+      max-width:768px;
       margin:0px auto;
       padding-top:30px;
       .box
       {
          position:relative;
+         margin:0px 10px;
          .logo img
          {      
             width:393px;
@@ -84,11 +85,12 @@ body > .wrapper
          }
       }
    }
+
   .content
   {
       position: relative;    
-      min-width:1024px;
-      max-width:1024px;
+      min-width:768px;
+      max-width:768px;
       margin:0px auto;    
       background-color:#fafbfb;      
       .tabs
@@ -159,7 +161,7 @@ body > .wrapper
          {
             display:inline-block;
          }
-         .title
+         > .title
          {
             font-family:'glober-sb';
             font-size:24px;
@@ -167,10 +169,10 @@ body > .wrapper
             padding:0px 30px 4px 0px; 
             border-bottom:1px solid #b8c0c6;
             display:inline-block;
-            margin:20px 0px 40px 40px;
+            margin:20px 0px 10px 40px;
             text-transform:uppercase;
          }
-         .intro
+         > .intro
          {
             font-family: 'ge-oxygen';
             font-size:16px;
@@ -179,7 +181,7 @@ body > .wrapper
             width:60%;
             padding:10px 0px 20px 60px;
          }
-         .intro:lang(en)
+         > .intro:lang(en)
          {
             font-family: 'oxygen';
             font-size:16px;
@@ -190,14 +192,14 @@ body > .wrapper
             margin-bottom:30px;
             >div
             {
-               display:table-cell;
+               display:block;
                vertical-align: top;
+               margin-bottom: 20px;
             }
             .block.calc
             {
-               width:600px;
-               border-right: 1px solid #d7e0e7;
-               padding-right: 20px;
+               width:100%;
+               padding-right: 0px;
 
                .title
                {
@@ -420,17 +422,24 @@ body > .wrapper
             
             > .sep
             {
-               background:transparent url(/assets/svg/right_arrow.svg) left center no-repeat;
-               background-position:left 60px;
-               background-size:9px 12px;
-               width:19px;
-               height:12px;
+               background:none;
+               width:0px;
+               height:0px;
             }
             .block.info
             {
-               width:326px;
+               width:100%;
+               margin:20px 0px 0px;
                background-color:#f1f3f3;
-               padding: 20px 20px 30px;
+               padding:0px;
+               display:table-cell;
+               border-collapse: separate;
+               border-spacing:10px;
+               > div 
+               {
+                  display:table-cell;
+
+               }
                .person
                {
                   background:transparent url(/assets/svg/person.jpg) left center no-repeat;               
@@ -440,11 +449,11 @@ body > .wrapper
                }
                .sep
                {
-                  max-width: 100% !important;
-                  width: 180px;
-                  height: 1px;
                   background-color: #c9cfd5;
-                  margin: 23px 0px 10px;
+                  max-height: 100% !important;
+                  width: 1px;
+                  margin: 0px 0px 10px 23px;
+
                }
                .text
                {
@@ -487,11 +496,11 @@ body > .wrapper
 
       .hsw
       {
-         margin:20px 80px;
+         margin:10px;
          >div
          {
             display:table-cell;
-            padding: 0px 20px;
+            padding: 0px 10px;
             vertical-align:top;
          }
          .title
@@ -566,28 +575,29 @@ body > .wrapper
                background:transparent url(/assets/svg/gel_cg.svg) center center no-repeat;
                background-size:10px 15px;
             }
-            .symbol.usd
-            {
-               background:transparent url(/assets/svg/usd_cg.svg) center center no-repeat;
-               background-size:10px 15px;
-            }
-         }         
+               .symbol.usd
+               {
+                  background:transparent url(/assets/svg/usd_cg.svg) center center no-repeat;
+                  background-size:10px 15px;
+               }
+            }         
+         }
       }
    }
 }
-}
+ 
 .footer
 {
    display:table-row;
 
    .box {
-      max-width:1024px;
+      max-width:768px;
       height:50px;
-      margin: 15px auto 0px !important;
+      margin: 15px 10px 0px !important;
       position:relative;
       >div {
          display:table-cell;
-           vertical-align: middle;
+         vertical-align: middle;
       }
       .last-update
       {
@@ -642,7 +652,7 @@ body > .wrapper
          font-family:'glober-sb';
          font-size:17px;
          color:#7b8483;  
-         display:inline-block;
+         // display:inline-block;
          text-transform: uppercase;
       }
    }
@@ -789,7 +799,7 @@ body > .wrapper
          font-family:'glober-sb';
          font-size:17px;
          color:#7b8483;  
-         display:inline-block;
+         // display:inline-block;
          text-transform: uppercase;
          margin:0px 10px;
       }
@@ -834,6 +844,7 @@ body > .wrapper
          border-style:solid;
          border-width:1px;
          background-color:#fafbfb;
+         top: -25px;
          &:hover
          {
             background-color:#f6ba29;
@@ -985,7 +996,7 @@ body > .wrapper
    }
    .select2-choice .select2-arrow b
    {
-      background:none;
+      background:none !important;
       background-color:#f6ba29 !important;
    }
    .select2-choice .select2-arrow b:after,
@@ -1041,6 +1052,7 @@ body > .wrapper
 .select2-container-multi .select2-search-choice-close {
    left:auto;
   right:3px;
+  background:none !important;
 }
 .select2-container-multi .select2-choices .select2-search-field input {
    height:32px;
@@ -1203,7 +1215,24 @@ cursor:pointer;
    }
 }
 .filters
-{
+{  
+   display:table;
+   border-collapse: separate;
+   border-spacing:10px;
+   .box
+   {
+      display:table-row;
+      margin-bottom:20px;
+      > div 
+      {
+         display:table-cell;
+         vertical-align:middle;         
+      }
+      > div:first-of-type
+      {
+         text-align:right;
+      }
+   }
    input
    {
       color:#fff !important; 
@@ -1239,3 +1268,123 @@ cursor:pointer;
 // ui-datepicker-today: The cell containing today's date.
 // ui-datepicker-buttonpane: The buttonpane that is used when the showButtonPanel option is set.
 // ui-datepicker-current: The button used to select today's date.
+
+
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+    .container
+   {
+      .header
+      {
+         max-width:1024px;
+         .box
+         {
+            margin:0px;
+         }
+      }
+      .content
+      {
+         max-width:1024px;
+         min-width:1024px;
+         .page
+         {
+            .title
+            {
+               margin:20px 0px 40px 40px;
+            }
+            .calculator
+            {
+               >div
+               {
+                  display:table-cell;
+                  vertical-align: top;
+                  margin-bottom: 0px;
+               }
+               .sep
+               {
+                  background:transparent url(/assets/svg/right_arrow.svg) left center no-repeat;
+                  background-position:left 60px;
+                  background-size:9px 12px;
+                  width:19px;
+                  height:12px;
+               }
+               .block.calc
+               {
+                  width:600px;
+                  border-right: 1px solid #d7e0e7;
+                  padding-right: 20px;
+               }
+               .block.info
+               {
+
+                  width:326px;
+                  margin:0px;
+                  padding: 20px 20px 30px;
+                  > div 
+                  {
+                     display:block;
+                  }
+                   .sep
+                  {
+                     max-width: 100% !important;
+                     width: 180px;
+                     height: 1px;
+                     margin: 23px 0px 10px;
+                  }                  
+               }
+
+            }
+            .hsw
+            {
+               margin:20px 80px;
+                >div
+               {
+                  padding: 0px 20px;
+               }
+            }
+            .filters
+            {
+               .box
+               {
+                  display:inline-block;
+               }
+            }
+            .filters
+            {  
+               display:inline-block;
+               .box
+               {
+                  display:inline-block;
+                  > div 
+                  {
+                     display:inline-block;
+                  }          
+               }
+            }
+
+         }
+      }
+   }
+   .footer
+   {
+      .box
+      {
+         max-width:1024px; 
+         margin: 15px auto 0px !important; 
+      }
+   }
+ }
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  
+  
+} 

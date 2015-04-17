@@ -47,10 +47,10 @@ bankInfo = CSV.open("#{Rails.root}/datafiles/info/banks.csv", headers: false).re
 created_at = Time.now
 ActiveRecord::Base.connection.execute("truncate table banks")
 ActiveRecord::Base.connection.execute("truncate table bank_translations")
-sql = "insert into banks (code, buy_color, sell_color, created_at, updated_at) values "
-sql1 = "insert into bank_translations (bank_id, locale, name, image, created_at, updated_at) values "
+sql = "insert into banks (code, buy_color, sell_color, created_at, updated_at, order) values "
+sql1 = "insert into bank_translations (bank_id, locale, name, image, created_at, updated_at, order) values "
 bankInfo.each_with_index do |t,i|
-  sql << "(\"#{t[0]}\", \"#{t[5]}\", \"#{t[6]}\", \"#{created_at}\", \"#{created_at}\"),"
+  sql << "(\"#{t[0]}\", \"#{t[5]}\", \"#{t[6]}\", \"#{created_at}\", \"#{created_at}\", \"#{t[7]}\"),"
   sql1 << "(\"#{i+1}\", \"en\", \"#{t[1]}\", \"#{t[3] + (t[4]=='1' ? '' : '_en' )}\", \"#{created_at}\", \"#{created_at}\"),"
   sql1 << "(\"#{i+1}\", \"ka\", \"#{t[2]}\", \"#{t[3] + (t[4]=='1' ? '' : '_ge' )}\", \"#{created_at}\", \"#{created_at}\"),"
 end

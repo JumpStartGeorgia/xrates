@@ -73,13 +73,16 @@
     <div class="intro"><%= t(".page3.intro") %></div>
     <div class="title"><%= t(".page3.title") %></div>
     <div class="filters">
-      <div class="caption"><%= t(".currency") %></div>
-      <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, 'USD'), 
-            :'data-placeholder' => t('.hint.currency'),
-            class: 'selectpicker filter-c-currency' %>
-
-      <div class="caption"><%= t(".bank") %></div>
-      <input type='hidden' class="filter-c-bank" data-placehodler="<%=t('.hint.bank')%>" value="BAGA,TBCB,REPL,LBRT">
+      <div class="box">
+        <div class="caption"><%= t(".currency") %></div>
+        <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, 'USD'), 
+              :'data-placeholder' => t('.hint.currency'),
+              class: 'selectpicker filter-c-currency' %>
+      </div>
+      <div class="box">
+        <div class="caption"><%= t(".bank") %></div>
+        <input type='hidden' class="filter-c-bank" data-placehodler="<%=t('.hint.bank')%>" value="BAGA,TBCB,REPL,LBRT">
+      </div>
     </div>
       <div class="c_chart_switch_wrapper">
       <div class="c_chart_switch"><div data-compare="both" class="active"><%= t(".both") %></div><div data-compare="buy"><%= t(".buy") %></div><div data-compare="sell"><%= t(".sell") %></div></div>
