@@ -4,6 +4,9 @@ en:
     models:
       user: User
       page: Text for Pages
+      bank: Bank
+      api_version: API Version
+      api_method: API Method
     attributes:
       user:
         email: Email Address
@@ -19,6 +22,31 @@ en:
         name: Unique name for content (do not change!)
       page_translation:
         title: Title to show above content
+        content: Content
+      bank:
+        code: Bank Code
+        sell_color: Sell Color
+        buy_color: Buy Color
+        order: Sort Order
+      bank_translation:
+        name: Bank Name
+        image: Image Name
+      api_version:
+        permalink: Permalink
+        public: Make Available to the Public
+        public_at: Released At
+        updated_at: Last Updated At
+        methods: Methods
+      api_version_translation:
+        title: Title
+      api_method:
+        permalink: Permalink
+        public: Make Available to the Public
+        public_at: Released At
+        updated_at: Last Updated At
+        sort_order: Sort Order
+      api_method_translation:
+        title: Title
         content: Content
     errors:
       messages:
@@ -125,6 +153,8 @@ en:
       title: Administration Section
       users: Users
       pages: Edit Text on Site
+      banks: Banks
+      api_documentation: API Version Documentation
     users:
       edit:
         title: Editing User

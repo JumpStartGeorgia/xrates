@@ -11,7 +11,57 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150416140501) do
+ActiveRecord::Schema.define(:version => 20150420131316) do
+
+  create_table "api_method_translations", :force => true do |t|
+    t.integer  "api_method_id"
+    t.string   "locale",        :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "title"
+    t.text     "content"
+  end
+
+  add_index "api_method_translations", ["api_method_id"], :name => "index_api_method_translations_on_api_method_id"
+  add_index "api_method_translations", ["locale"], :name => "index_api_method_translations_on_locale"
+
+  create_table "api_methods", :force => true do |t|
+    t.integer  "api_version_id"
+    t.string   "permalink"
+    t.integer  "sort_order",     :default => 1
+    t.boolean  "public",         :default => false
+    t.date     "public_at"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  add_index "api_methods", ["api_version_id", "permalink"], :name => "index_api_methods_on_api_version_id_and_permalink"
+  add_index "api_methods", ["public"], :name => "index_api_methods_on_public"
+  add_index "api_methods", ["public_at"], :name => "index_api_methods_on_public_at"
+  add_index "api_methods", ["sort_order"], :name => "index_api_methods_on_sort_order"
+
+  create_table "api_version_translations", :force => true do |t|
+    t.integer  "api_version_id"
+    t.string   "locale",         :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "title"
+  end
+
+  add_index "api_version_translations", ["api_version_id"], :name => "index_api_version_translations_on_api_version_id"
+  add_index "api_version_translations", ["locale"], :name => "index_api_version_translations_on_locale"
+
+  create_table "api_versions", :force => true do |t|
+    t.string   "permalink"
+    t.boolean  "public",     :default => false
+    t.date     "public_at"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "api_versions", ["permalink"], :name => "index_api_versions_on_permalink"
+  add_index "api_versions", ["public"], :name => "index_api_versions_on_public"
+  add_index "api_versions", ["public_at"], :name => "index_api_versions_on_public_at"
 
   create_table "bank_translations", :force => true do |t|
     t.integer  "bank_id"

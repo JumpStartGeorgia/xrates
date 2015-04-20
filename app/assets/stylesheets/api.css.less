@@ -1,0 +1,91 @@
+@import "variables.css.less";
+
+.api, .tinymce_format, .mce-content-body {
+  h2{
+    color: @bright-blue-color;
+    font-size: 20px;
+  }
+  h3{
+    color: @bright-blue-color;
+    font-size: 17px;
+  }
+  .url{
+    background-color: @light-grey-color;
+    padding: 10px 13px;
+    border: solid 1px #ececec;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  ul.list-unstyled {
+    padding-left: 0.5em;
+    li {
+      list-style: none;
+    }
+  }
+  .version-links{
+    h3{
+      span{
+        font-size: 13px;
+        font-style: italic;
+        padding-left: 10px;
+      }
+    }
+    ul{
+      list-style: none;
+      padding-left: 0.25em;
+      margin:-10px 0 0;
+      li { 
+        list-style: none;
+        padding-left: 2em; 
+        text-indent: -.7em;
+        line-height: 1;
+        &:before {
+          content: "\2022";
+          color: @bright-blue-color;
+          font-size: 1.5em;
+          line-height: 1em;
+          padding-right: .25em;
+          position: relative;
+          top: .15em;
+        }
+      }
+    }    
+    a{
+      color: @bright-blue-color;
+    }
+  }
+  .documentation-links{
+    background-color: @light-grey-color;
+    h2 a{
+      color: @bright-blue-color;
+    }
+    a{
+      color: @dark-grey-color;
+    }
+  }
+  #api-dates{
+    margin-bottom: 10px;
+    span{
+      color: @bright-blue-color;
+      font-style: italic;
+      margin-right: 20px;
+      font-size: 13px;
+    }
+  }
+
+  table.table{
+    margin: 0;
+    border-color: @medium-grey-color;
+    th, td {
+      background-color: @light-grey-color;
+      padding: 13px 23px;
+      border-color: @medium-grey-color;
+    }
+    thead th{
+      color: @maroon-color;
+    }
+    tbody tr td:first-of-type{
+      font-weight: bold;
+    }
+  }
+}

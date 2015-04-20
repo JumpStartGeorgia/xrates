@@ -106,6 +106,13 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       #:title => I18n.t('chart.nbg.title') , 
 	end
 
+  # load the assets needed for the admin forms
+  def load_admin_assets
+    @css.push('admin.css', 'api.css', 'shCore.css')
+    @js.push('admin.js', 'api.js', 'shCore.js', 'shBrushJScript.js')
+  end
+
+
 	def after_sign_in_path_for(resource)
 		session[:previous_urls].last || request.env['omniauth.origin'] || root_path(:locale => I18n.locale)
 	end

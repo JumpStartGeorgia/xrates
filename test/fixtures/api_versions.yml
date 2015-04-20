@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  permalink: MyString
+  public: false
+  public_at: 2015-04-20
+  title: MyString
+
+two:
+  permalink: MyString
+  public: false
+  public_at: 2015-04-20
+  title: MyString

@@ -1,0 +1,44 @@
+<%- model_class = Bank -%>
+<%- model_class_t = BankTranslation -%>
+<% title t '.title', :default => model_class.model_name.human %>
+
+<div class="form-group form-group-admin-buttons">
+  <%= link_to t('helpers.links.list'),
+              admin_banks_path, :class => 'btn btn-default'  %>
+  <%= link_to t('helpers.links.edit'),
+              edit_admin_bank_path(@bank), :class => 'btn btn-default' %>
+  <%= link_to t('helpers.links.delete'),
+              admin_bank_path(@bank),
+              :method => :delete,
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm")) },
+              :class => 'btn btn-danger' %>
+  <%= link_to t('helpers.links.admin'), admin_path,
+  :class => 'btn btn-default' %>
+</div>
+
+<p>
+  <strong><%= model_class.human_attribute_name(:code) %>:</strong>
+  <%= @bank.code %>
+</p>
+<p>
+  <strong><%= model_class_t.human_attribute_name(:name) %>:</strong>
+  <%= @bank.name %>
+</p>
+<p>
+  <strong><%= model_class_t.human_attribute_name(:image) %>:</strong>
+  <%= @bank.image %>
+</p>
+<p>
+  <strong><%= model_class.human_attribute_name(:order) %>:</strong>
+  <%= @bank.order %>
+</p>
+<p>
+  <strong><%= model_class.human_attribute_name(:buy_color) %>:</strong>
+  <%= @bank.buy_color %>
+</p>
+<p>
+  <strong><%= model_class.human_attribute_name(:sell_color) %>:</strong>
+  <%= @bank.sell_color %>
+</p>
+
+
