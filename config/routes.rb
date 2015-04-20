@@ -18,18 +18,19 @@ BootstrapStarter::Application.routes.draw do
       end
 		end
 
-    # scope "api"  do
-    #   resources :rates 
-    # end
+    # api
+    match '/api', to: 'api#index', as: :api, via: :get
+    namespace :api do
+      match '/v1', to: 'v1#index', as: :v1, via: :get
+      match '/v1/documentation(/:method)', to: 'v1#documentation', as: :v1_documentation, via: :get
 
-
-      match "nbg" => "api/v1#nbg", as: 'nbg', :via => :get, :defaults => { :format => 'json' }
-      match "rates" => "api/v1#rates", as: 'rates', :via => :get, :defaults => { :format => 'json' }
-      match "calculator" => "api/v1#calculator", as: 'calculator', :via => :get, :defaults => { :format => 'json' }
-      
-      # root pages
-      match "api" => "root#api", as: 'api', :via => :get
-      match "about" => "root#about", as: 'about', :via => :get
+      match "nbg" => "v1#nbg", as: 'nbg', :via => :get, :defaults => { :format => 'json' }
+      match "rates" => "v1#rates", as: 'rates', :via => :get, :defaults => { :format => 'json' }
+      match "calculator" => "v1#calculator", as: 'calculator', :via => :get, :defaults => { :format => 'json' }
+    end    
+    
+    # root pages
+    match "about" => "root#about", as: 'about', :via => :get
 
 		root :to => 'root#index'
 	  match "*path", :to => redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever

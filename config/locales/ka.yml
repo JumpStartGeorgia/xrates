@@ -224,3 +224,11 @@ ka:
   chart:
     nbg:
       title: "Lari Exchange Rate"       
+  api:
+    index:
+      title: API
+      no_versions: 'No documentation for the API has been created yet.'
+      no_methods: "No documentation for this version has been created yet."
+    documentation:
+      no_content: "No documentation for this method has been created yet."
+      

@@ -30,24 +30,25 @@
         <div class="box">
           <div class="logo"><%= image_tag "svg/logo_#{I18n.locale}.svg", alt: t('app.common.app_name') %></div>
           <div class="right">
-
-            <div class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <%= current_user.nickname %>
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu" role="menu">
-                <% if current_user.role?(User::ROLES[:admin]) %>
+            <% if user_signed_in? %>
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <%= current_user.nickname %>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                  <% if current_user.role?(User::ROLES[:admin]) %>
+                    <li>
+                     <%= link_to t('helpers.links.admin'), admin_path %>
+                    </li>
+                  <% end %>
                   <li>
-                   <%= link_to t('helpers.links.admin'), admin_path %>
+                   <%= link_to t('helpers.links.sign_out'), destroy_user_session_path, :method => :delete %>
                   </li>
-                <% end %>
-                <li>
-                 <%= link_to t('helpers.links.sign_out'), destroy_user_session_path, :method => :delete %>
-                </li>
-              </ul>
-            </div>
-
+                </ul>
+              </div>
+              <div class="sep">|</div>
+            <% end %>
             <div><%= link_to t("app.common.about"), about_path %></div>
             <div class="sep">|</div>
             <div class="lang-switch">
@@ -69,6 +70,13 @@
           <div class="tab" data-id="3"><%= link_to t("root.tab3"), root_path(:anchor=>'p=3') %></div>
           <div class="tab<%= @tab == 4 ? ' active' : '' %>"><%= link_to t("app.common.api"), api_path %></div>
         </div>
+
+        <% if content_for?(:title) %>
+          <div class="page-header">
+            <h1><%= yield(:title) %></h1>
+          </div>
+        <% end %>
+
         <%= yield %>     
       </div>
     </div>

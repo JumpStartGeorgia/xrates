@@ -1,5 +1,15 @@
-<% title t(".title") %>
-<div class="page about">
-  <div class="title"><%= t(".title") %></div>
-  <div class="intro"><%= t(".intro") %></div>
-</div>
+<% if @page_content.present? %>
+  <% title @page_content.title %>
+
+  <div class="page about tinymce_format">
+    <%= simple_format_no_tags(@page_content.content, {}, {sanitize: false}) %>
+  </div>
+
+<% else %>
+  <% title t('.title') %>
+
+  <div class="page about">
+    <div class="title"><%= t(".title") %></div>
+    <div class="intro"><%= t(".intro") %></div>
+  </div>
+<% end %>

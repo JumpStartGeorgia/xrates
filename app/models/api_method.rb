@@ -36,7 +36,7 @@ class ApiMethod < ActiveRecord::Base
   end
 
   def self.by_permalink(api_version_id, permalink)
-    where(permalink: permalink, api_version_id: api_version_id)
+    where(permalink: permalink, api_version_id: api_version_id).first
   end
 
 

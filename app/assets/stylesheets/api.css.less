@@ -1,5 +1,30 @@
 @import "variables.css.less";
 
+.clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.row {
+  .clearfix();
+  margin-right: -15px;
+  margin-left: -15px;
+  .col-left{
+    float: left;
+  }
+  .col-right{
+    float: right;
+    width: 25%;
+  }
+
+}
+
 .api, .tinymce_format, .mce-content-body {
   h2{
     color: @bright-blue-color;

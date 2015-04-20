@@ -7,16 +7,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-# #####################
-# ## Pages
-# #####################
-# puts "Loading Pages"
-# Page.delete_all
-# PageTranslation.delete_all
-# p = Page.create(:id => 1, :name => 'about')
-# p.page_translations.create(:locale => 'en', :title => 'About Bootstrap Starter Project', :content => 'You have run rake db:seed and this is an example of translated content. Click the Language Switcher link in the top-right corner to view the text in another language.')
-# p.page_translations.create(:locale => 'ka', :title => "'Bootstrap Starter' პროექტის შესახებ", :content => "თქვენ ჩაუშვით 'rake db:seed' და ეს არის კონტენტის თარგმანის მაგალით. ტექსტის სხვა ენაზე სანახავად დააჭირეთ ენის გადამრთველის ბმულს მარჯვენა ზედა კუთხეში.")
-
 
 #####################
 ## Currencies
@@ -59,3 +49,60 @@ sql_trans[sql_trans.length-1] = ''
 ActiveRecord::Base.connection.execute(sql)
 ActiveRecord::Base.connection.execute(sql_trans)
 
+#####################
+## Pages
+#####################
+puts "Loading Pages"
+
+if Page.where(id: 1).blank?
+  p = Page.create(:id => 1, :name => 'about')
+  p.page_translations.create(:locale => 'en', :title => 'About', :content => 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.')
+  p.page_translations.create(:locale => 'ka', :title => "'About", :content => "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.")
+end
+if Page.where(id: 2).blank?
+  p = Page.create(:id => 2, :name => 'api')
+  p.page_translations.create(:locale => 'en', :title => 'API', :content => '<p>The Lari Explorer API allows you to obtain information about the National Bank of Georgia’s currency rates, buy and sell rates of commercial banks operating in Georgia and other related information, as seen on the Lari Explorer website.</p>
+  <h2>The URL to the api is the following:</h2>
+  <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/[version]/</div>
+  <p>where:</p>
+  <ul class="list-unstyled">
+  <li>[locale] = the locale of the language you want the data to be returned in (currently ka for Georgian or en for English)</li>
+  <li>[version] = the version number of the api (see below)</li>
+  </ul>
+  <h2>API Calls</h2>
+  <p>The following is a list of calls that are available in each version of the api.</p>')
+  p.page_translations.create(:locale => 'ka', :title => 'API', :content => '<p>The Lari Explorer API allows you to obtain information about the National Bank of Georgia’s currency rates, buy and sell rates of commercial banks operating in Georgia and other related information, as seen on the Lari Explorer website.</p>
+  <h2>The URL to the api is the following:</h2>
+  <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/[version]/</div>
+  <p>where:</p>
+  <ul class="list-unstyled">
+  <li>[locale] = the locale of the language you want the data to be returned in (currently ka for Georgian or en for English)</li>
+  <li>[version] = the version number of the api (see below)</li>
+  </ul>
+  <h2>API Calls</h2>
+  <p>The following is a list of calls that are available in each version of the api.</p>')
+end
+
+#####################
+## Create API Versions/Methods
+#####################
+puts 'Creating API Versions/Methods'
+v = ApiVersion.by_permalink('v1')
+if v.blank?
+  v = ApiVersion.create(permalink: 'v1')
+  v.api_version_translations.create(locale: 'en', title: 'Version 1')
+  v.api_version_translations.create(locale: 'ka', title: 'Version 1')
+end
+if v.present? && v.api_methods.empty?
+  m = v.api_methods.create(permalink: 'nbg', sort_order: 1)
+  m.api_method_translations.create(locale: 'en', title: 'National Bank of Georgia Rate', content: 'coming soon ...')
+  m.api_method_translations.create(locale: 'ka', title: 'National Bank of Georgia Rate', content: 'coming soon ...')
+
+  m = v.api_methods.create(permalink: 'rates', sort_order: 2)
+  m.api_method_translations.create(locale: 'en', title: 'Commerical Bank Rates', content: 'coming soon ...')
+  m.api_method_translations.create(locale: 'ka', title: 'Commerical Bank Rates', content: 'coming soon ...')
+  
+  m = v.api_methods.create(permalink: 'calculator', sort_order: 3)
+  m.api_method_translations.create(locale: 'en', title: 'Depreciation Calculator', content: 'coming soon ...')
+  m.api_method_translations.create(locale: 'ka', title: 'Depreciation Calculator', content: 'coming soon ...')
+end

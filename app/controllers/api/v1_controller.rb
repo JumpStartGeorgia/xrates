@@ -1,5 +1,41 @@
 class Api::V1Controller < ApplicationController
-  before_filter :load_currencies
+  before_filter :load_currencies, except: [:index, :documentation]
+
+  def index
+    redirect_to api_path
+  end
+
+  def documentation
+    redirect = false
+    redirect = params[:method].nil?
+
+    if !redirect
+      v = request.path.split('/')[3]
+      m = request.path.split('/').last
+      # see if version exists
+      @api_version = ApiVersion.is_public.by_permalink(v)
+      # see if method exists
+      @api_method = ApiMethod.is_public.by_permalink(@api_version.id, m) if @api_version.present?
+
+logger.debug "!!!!!!!!!!!!!1 #{@api_method.inspect}"
+      redirect = @api_method.nil?
+    end
+
+    if redirect
+      redirect_to api_path, :notice => t('app.msgs.does_not_exist')
+    else
+      @tab=4
+      @css.push('shCore.css', 'shThemeDefault.css', 'api.css')
+      @js.push('shCore.js', 'shBrushJScript.js', 'api.js')
+
+      respond_to do |format|
+        format.html {render 'api/documentation'}
+      end
+    end
+  end
+
+  ###########################
+  ###########################
 
   def nbg
     params[:currency] ||= 'USD'
@@ -45,6 +81,8 @@ class Api::V1Controller < ApplicationController
       format.json { render json: data }
     end
   end
+
+
   def rates
     currency = params[:currency]
     bank =  Bank.with_translations(:en).map{|x| x.code } & params[:bank].split(',')
@@ -91,6 +129,8 @@ class Api::V1Controller < ApplicationController
       format.json { render json: data }
     end
   end
+
+
   def calculator
     amount = params[:amount].to_f
     cur = params[:currency]
@@ -148,6 +188,7 @@ private
   def load_currencies
     @currency_codes =  Hash[Currency.select('code,ratio').map { |t|  [t.code, t.ratio] }]
   end
+
   def to_time(p,r) # if r true then will add error
     begin
       v = params[p].to_i
