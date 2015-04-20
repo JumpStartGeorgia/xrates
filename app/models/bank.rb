@@ -3,7 +3,7 @@ class Bank < ActiveRecord::Base
   has_many :bank_translations, :dependent => :destroy
   has_many :rates
   accepts_nested_attributes_for :bank_translations
-  attr_accessible :id, :code, :name, :image, :bank_translations_attributes
+  attr_accessible :id, :code, :name, :image, :bank_translations_attributes, :order
   
   validates :code, :presence => true
   validates :name, :presence => true
