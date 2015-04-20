@@ -22,6 +22,7 @@
 // require twitter/bootstrap/dropdown
 // require bootstrap-select.min
 //= require select2.min
+//= require dev
 //= require_self
 
 $(document).ready(function(){

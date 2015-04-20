@@ -1,6 +1,5 @@
 $(function () {
 
-
   if(document.documentElement.lang == 'ka')
   {
     Highcharts.setOptions({
@@ -123,6 +122,12 @@ $(function () {
     nbg: { keys: [], rates: {} },
     banks: { keys: [], rates: {} }
   };
+
+  $('.menu-toggle').click(function(e){
+    var t = $('.tabs').toggle();
+    
+    e.preventDefault();
+  });
 
   $('.tab[data-id] a').click(function(e){
     var t = $(this).parent();
