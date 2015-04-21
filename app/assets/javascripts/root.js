@@ -1,3 +1,24 @@
+/*national bank #4b4a4b
+republic #e22b2b
+tbc  #25aae1
+georgian bank #ed7623
+Liberty #d82a3e
+privat bank #5eb246
+procredit #ba2525
+BTA #a7cb42
+cartu #194681
+ksb #ea3942
+VTB #252860
+basis babk #1365a7
+halik #13a875
+progress #745aa6
+finca #b61f39
+crystal #df136f
+creditplus #e6382a
+leader-credit #f1892d
+fincredit #064466
+ricocredit #422e82
+Capital #d0a060*/
 $(function () {
 
   if(document.documentElement.lang == 'ka')
@@ -14,7 +35,8 @@ $(function () {
         downloadJPEG: gon.highcharts_downloadJPEG,
         downloadPDF: gon.highcharts_downloadPDF,
         downloadSVG: gon.highcharts_downloadSVG,
-        printChart: gon.highcharts_printChart
+        printChart: gon.highcharts_printChart,
+        contextButtonTitle: gon.highcharts_contextButtonTitle      
       }
     });
   }
@@ -23,7 +45,13 @@ $(function () {
     Highcharts.setOptions({
       lang: {       
         rangeSelectorFrom: 'Date',
-        rangeSelectorTo: '-'
+        rangeSelectorTo: '-',
+        downloadPNG: gon.highcharts_downloadPNG,
+        downloadJPEG: gon.highcharts_downloadJPEG,
+        downloadPDF: gon.highcharts_downloadPDF,
+        downloadSVG: gon.highcharts_downloadSVG,
+        printChart: gon.highcharts_printChart,
+        contextButtonTitle: gon.highcharts_contextButtonTitle
       }
     });
   }
@@ -35,7 +63,7 @@ $(function () {
   gon.currency_to_bank = JSON.parse(gon.currency_to_bank);
   var nbg = 'BNLN';
   var nav_id = 'highcharts-navigator-series';
-  var params = { p: 1,
+  var params = { p: 'calculator',
     read: function()
     {
       var hash = window.location.hash.triml('#');
@@ -55,7 +83,7 @@ $(function () {
       return false;
     },
     write: function(pairs) // object of key value pair { c: '', b: ''}
-    {
+    {       
       var hash = window.location.hash.triml('#');
       var hasHash = exist(hash);
       var ahash = hasHash ? hash.split('&').map(function(v,i,a){ return v.split('=') }) : [];
@@ -81,15 +109,16 @@ $(function () {
     {
       this.clear();
       var pars = {p:p};
-      if(p == 2) 
+
+      if(p == 'national_bank') 
       {
         pars['c'] = cur.p2.c.join(',');
       }
-      else if(p == 3)
+      else if(p == 'commerical_banks')
       {
         pars['c'] = cur.p3.c;
         pars['b'] = cur.p3.b.join(',');
-      }
+      }     
       this.write(pars);
     },
     kv: function(obj,prop)
@@ -135,7 +164,7 @@ $(function () {
     t.addClass("active");
     $('.page.active').removeClass("active");
     $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
-    params.resume(+t.attr('data-id'));
+    params.resume(t.attr('data-id'));
     e.preventDefault();
     if(e.originalEvent != undefined && $('.menu-toggle').css('display') != 'none') // was programmatically called or not
       $('.tabs').toggle();
@@ -149,7 +178,8 @@ $(function () {
     formatSelection: function(d)
     {
       return "<div>"+d.id+"</div>";
-    } 
+    },
+    matcher: function(term, text, opt) { return text.toUpperCase().indexOf(term.toUpperCase())>=0 || opt.val().toUpperCase().indexOf(term.toUpperCase())>=0; }
   });
   $('select.filter-c-currency').select2({ maximumSelectionSize: 1,
     allowClear:false,
@@ -160,7 +190,8 @@ $(function () {
     formatSelection: function(d)
     {
       return "<div>"+d.id+"</div>";
-    }
+    },
+    matcher: function(term, text, opt) { return text.toUpperCase().indexOf(term.toUpperCase())>=0 || opt.val().toUpperCase().indexOf(term.toUpperCase())>=0; }
   });
 
 
@@ -478,8 +509,7 @@ $(function () {
             },
             tooltip: {
               headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
-              pointFormat: '<div class="tooltip-content"><span>'+gon.rate+'</span>: {point.rate} <span class="symbol {point.dir}"></span><br/><span>'+gon.monetary_value+'</span>: {point.y} <span class="symbol {point.dir}"></span></div>',
-              pointFormatter: function(d) {  console.log(d,this);
+              pointFormatter: function(d) { 
                 return '<div class="tooltip-content"><span>'+gon.rate+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span><br/><span>'+gon.monetary_value+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span></div>';
               },
               useHTML: true
@@ -508,6 +538,7 @@ $(function () {
         chart.redraw();                        
      } 
   }  
+  var b_chart_colors = ['#1cbbb4', '#F47C7C', '#4997FF', '#be8ec0', '#8fc743'];
   function b_chart_refresh(first){
 //    console.log("b_chart_refresh");
     var chart = $('#b_chart').highcharts();
@@ -516,7 +547,9 @@ $(function () {
     cur.p2.c.forEach(function(t){
       if(c.indexOf(t)==-1)
       {
-        chart.get(t).remove(false);
+        var t = chart.get(t);
+        b_chart_colors.unshift(t.color);
+        t.remove(false);
       }
     });
 
@@ -539,7 +572,7 @@ $(function () {
             var ser = chart.get(t.code);
             if(ser === null)
             {  
-              chart.addSeries({id:t.code, name: t.code + ' - ' + t.ratio + ' ' + t.name, data: t.rates }, false,false);
+              chart.addSeries({id:t.code, name: t.code + ' - ' + t.ratio + ' ' + t.name, data: t.rates, color: b_chart_colors.shift() }, false,false);
               data.nbg.rates[t.code] = { code: t.code, name: t.name, label:  t.code + ' - ' + t.ratio + ' ' + t.name,  rates: t.rates } ;
               data.nbg.keys.push(t.code);
             }     
@@ -555,7 +588,7 @@ $(function () {
         var ser = chart.get(t);
         if(ser === null)
         {  
-          chart.addSeries({id: t, name: data.nbg.rates[t].label, data: data.nbg.rates[t].rates }, false,false);
+          chart.addSeries({id: t, name: data.nbg.rates[t].label, data: data.nbg.rates[t].rates, color: b_chart_colors.shift() }, false,false);
         }     
       });
       chart.redraw();
@@ -938,19 +971,18 @@ $(function () {
         return "<div>"+d.id+"</div>";
       },
       query: function (query) {
-         //console.log("query");
         var data = {results: []};
         var c = $('.filter-c-currency').select2('val');
 
-      
-        var len = query.term.length;
+        var term = query.term.toUpperCase();
+        var len = term.length;
 
         var e = gon.currency_to_bank[c];
         e.forEach(function(d,i){
           gon.banks.forEach(function(dd,ii){
             if(d == dd[0])
             {
-              if(query.term.length == 0 || dd[1].toUpperCase().indexOf(query.term.toUpperCase()) >= 0 ){
+              if(len == 0 || dd[1].toUpperCase().indexOf(term) >= 0 || dd[2].toUpperCase().indexOf(term) >= 0 ){
                  data.results.push({ id:dd[2], text:dd[1], image:dd[3]['data-image'] });
               }                       
             }

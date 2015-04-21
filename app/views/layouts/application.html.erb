@@ -28,7 +28,9 @@
       <div class="container">
        <div class="header">
         <div class="box">
-          <div class="logo"><img src="/assets/svg/logo_<%= I18n.locale %>.svg" alt="Logo" ></div>
+          <div class="logo">
+            <%= link_to image_tag("/assets/svg/logo_#{I18n.locale}.svg", :alt => 'Logo'), root_path %>          
+          </div>
           <div class="menu-toggle"><img src="/assets/svg/menu_cg.svg" alt="Navigation toggle" ></div>
           <div class="right des">
             <div><%= link_to t("app.common.about"), about_path %></div>
@@ -46,10 +48,10 @@
       <div class="line"></div>
       <div class="content">
         <div class="sub-line"></div>
-        <div class="tabs">          
-          <div class="tab" data-id="1"><%= link_to t("root.tab1"), root_path(:anchor=>'p=1') %></div>
-          <div class="tab" data-id="2"><%= link_to t("root.tab2"), root_path(:anchor=>'p=2') %></div>
-          <div class="tab" data-id="3"><%= link_to t("root.tab3"), root_path(:anchor=>'p=3') %></div>
+        <div class="tabs">     
+          <div class="tab" data-id="calculator"><%= link_to t("root.tab1"), root_path(:anchor=>'p=1') %></div>
+          <div class="tab" data-id="national_bank"><%= link_to t("root.tab2"), root_path(:anchor=>'p=2') %></div>
+          <div class="tab" data-id="commerical_banks"><%= link_to t("root.tab3"), root_path(:anchor=>'p=3') %></div>
           <div class="tab<%= @tab == 4 ? ' active' : '' %>"><%= link_to t("app.common.api"), api_path %></div>
           <div class="tab mob"><%= link_to t("app.common.about"), about_path %></div>
           <div class="tab mob"><% I18n.available_locales.each do |locale| %>

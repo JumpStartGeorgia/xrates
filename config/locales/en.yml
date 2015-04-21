@@ -201,3 +201,4 @@ en:
     downloadPDF: "Download PDF document"
     downloadSVG: "Download SVG vector image"
     printChart: "Print chart"       
+    contextButtonTitle: Download Chart
