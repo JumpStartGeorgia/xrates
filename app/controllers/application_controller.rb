@@ -91,6 +91,11 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.y1 = t('app.common.y1')
       gon.all = t('app.common.all')
       gon.date = t('app.common.date')
+      gon.highcharts_downloadPNG = t('highcharts.downloadPNG')
+      gon.highcharts_downloadJPEG = t('highcharts.downloadJPEG')
+      gon.highcharts_downloadPDF = t('highcharts.downloadPDF')
+      gon.highcharts_downloadSVG = t('highcharts.downloadSVG')
+      gon.highcharts_printChart = t('highcharts.printChart')
 
       currency_by_bank = {}
       Rate.currency_by_bank.each{|t|

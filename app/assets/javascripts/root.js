@@ -9,8 +9,12 @@ $(function () {
          shortMonths: [ 'იანვ', 'თებ', 'მარ', 'აპრ', 'მაისი', 'ივნ', 'ივლ', 'აგვ', 'სექტ', 'ოქტ', 'ნოემ',  'დეკ'],
         rangeSelectorFrom: 'თარიღი',
         rangeSelectorTo: '-',
-        rangeSelectorZoom: 'ზუმი'
-
+        rangeSelectorZoom: 'ზუმი',
+        downloadPNG: gon.highcharts_downloadPNG,
+        downloadJPEG: gon.highcharts_downloadJPEG,
+        downloadPDF: gon.highcharts_downloadPDF,
+        downloadSVG: gon.highcharts_downloadSVG,
+        printChart: gon.highcharts_printChart
       }
     });
   }
@@ -376,7 +380,14 @@ $(function () {
   function reformat(n,s){
     s = typeof s === 'number' ? s : 2;
     n = +n;
-    return (+n.toFixed(s)).toLocaleString();
+    var x = n.toFixed(s).split('.');
+    var x1 = x[0]
+   
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + (x.length > 1 ? '.' + x[1] : '');//(+n.toFixed(s)).toLocaleString();
   }
   function getWorth(){
     var t = parseFloat(worth.val().replace(/,|\s/g, ''));
@@ -468,6 +479,9 @@ $(function () {
             tooltip: {
               headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
               pointFormat: '<div class="tooltip-content"><span>'+gon.rate+'</span>: {point.rate} <span class="symbol {point.dir}"></span><br/><span>'+gon.monetary_value+'</span>: {point.y} <span class="symbol {point.dir}"></span></div>',
+              pointFormatter: function(d) {  console.log(d,this);
+                return '<div class="tooltip-content"><span>'+gon.rate+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span><br/><span>'+gon.monetary_value+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span></div>';
+              },
               useHTML: true
             },
             series: [{ 
@@ -486,7 +500,7 @@ $(function () {
         chart.get('a1').remove(false);
         chart.addSeries({ id:'a1', data: worths, color: '#f6ba29',
               marker : {
-                enabled : true,
+                enabled : false,
                 radius : 3,
                 symbol: 'circle'
               } 
