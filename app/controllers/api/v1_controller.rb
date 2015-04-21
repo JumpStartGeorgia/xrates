@@ -131,9 +131,9 @@ class Api::V1Controller < ApplicationController
 
 
   def calculator
-    amount = params[:amount].to_f
+    amount = params[:amount].to_f if params[:amount].present?
     cur = params[:currency]
-    dir = params[:direction]     
+    dir = params[:direction]
 
     @errors = []
     date_start = to_time('date_start')
@@ -142,9 +142,10 @@ class Api::V1Controller < ApplicationController
 
     data = { amount: amount, valid: true }
     @errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
-    @errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(@currency_codes.index(cur) == nil)
-    @errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> Currency, 0: Currency -> GEL.' }) if(dir == 0 || dir == 1)
+    @errors.push({ field: 'currency', message: 'Currency field is not valid.' }) if(@currency_codes.has_key?(cur) == nil)
+    @errors.push({ field: 'direction', message: 'Converting direction field can be 0 or 1, 1 means GEL -> Currency, 0: Currency -> GEL.' }) if !(dir == '0' || dir == '1')
 
+    dir = dir.to_i
 
     if(@errors.any?)
       data['errors'] = @errors
@@ -188,7 +189,7 @@ private
     @currency_codes =  Hash[Currency.select('code,ratio').map { |t|  [t.code, t.ratio] }]
   end
 
-  def to_time(p,r) # if r true then will add error
+  def to_time(p,r=false) # if r true then will add error
     begin
       v = params[p].to_i
       if v > 0
