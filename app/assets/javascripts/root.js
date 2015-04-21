@@ -133,7 +133,8 @@ $(function () {
     $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
     params.resume(+t.attr('data-id'));
     e.preventDefault();
-    $('.tabs').toggle();
+    if(e.originalEvent != undefined && $('.menu-toggle').css('display') != 'none') // was programmatically called or not
+      $('.tabs').toggle();
   });
 
   $('select.filter-b-currency').select2({ maximumSelectionSize: 5,
