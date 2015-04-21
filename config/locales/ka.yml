@@ -3,7 +3,7 @@ ka:
   activerecord:
     models:
       user: მომხმარებელი
-      page: ტექსტი გვერდებისთვის
+      page_content: ტექსტი გვერდებისთვის
       bank: Bank
       api_version: API Version
       api_method: API Method
@@ -18,9 +18,9 @@ ka:
         sign_in_count: "შემოსვლის რაოდენობა"
         created_at: "შექმნის თარიღი"
         current_sign_in_at: "ბოლო შემოსვლის თარიღი"
-      page:
+      page_content:
         name: კონტენტის უნიკალური სახელი (არ შეცვალოთ!)
-      page_translation:
+      page_content_translation:
         title: სათაური, რომელიც გამოჩნდება კონტენტის ზემოთ
         content: კონტენტი
       bank:

@@ -3,7 +3,7 @@ en:
   activerecord:
     models:
       user: User
-      page: Text for Pages
+      page_content: Text for Pages
       bank: Bank
       api_version: API Version
       api_method: API Method
@@ -18,9 +18,9 @@ en:
         sign_in_count: Number of Times Logged In
         created_at: Date Created
         current_sign_in_at: Date Last Logged In
-      page:
+      page_content:
         name: Unique name for content (do not change!)
-      page_translation:
+      page_content_translation:
         title: Title to show above content
         content: Content
       bank:

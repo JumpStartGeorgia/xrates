@@ -11,7 +11,6 @@ BootstrapStarter::Application.routes.draw do
 											 :controllers => {:omniauth_callbacks => "omniauth_callbacks"}
 
 		namespace :admin do
-      resources :pages
       resources :page_contents
       resources :users
       resources :banks
