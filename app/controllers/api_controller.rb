@@ -3,7 +3,7 @@ class ApiController < ApplicationController
   def index
     @tab=4
 
-    @page_content = Page.by_name('api')
+    @page_content = PageContent.by_name('api')
     @api_versions = ApiVersion.is_public.sorted
 
     @css.push('api.css')

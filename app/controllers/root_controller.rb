@@ -34,7 +34,7 @@ class RootController < ApplicationController
   # end
 
   def about  
-    @page_content = Page.by_name('about')
+    @page_content = PageContent.by_name('about')
 
     respond_to do |format|
       format.html # index.html.erb

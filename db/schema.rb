@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150420131316) do
+ActiveRecord::Schema.define(:version => 20150421054200) do
 
   create_table "api_method_translations", :force => true do |t|
     t.integer  "api_method_id"
@@ -101,6 +101,26 @@ ActiveRecord::Schema.define(:version => 20150420131316) do
 
   add_index "currency_translations", ["currency_id"], :name => "index_currency_translations_on_currency_id"
   add_index "currency_translations", ["locale"], :name => "index_currency_translations_on_locale"
+
+  create_table "page_content_translations", :force => true do |t|
+    t.integer  "page_content_id"
+    t.string   "locale",          :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "title"
+    t.text     "content"
+  end
+
+  add_index "page_content_translations", ["locale"], :name => "index_page_content_translations_on_locale"
+  add_index "page_content_translations", ["page_content_id"], :name => "index_page_content_translations_on_page_content_id"
+
+  create_table "page_contents", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "page_contents", ["name"], :name => "index_page_contents_on_name"
 
   create_table "page_translations", :force => true do |t|
     t.integer  "page_id"

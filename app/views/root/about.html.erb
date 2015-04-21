@@ -2,7 +2,9 @@
   <% title @page_content.title %>
 
   <div class="page about tinymce_format">
-    <%= simple_format_no_tags(@page_content.content, {}, {sanitize: false}) %>
+    <div class="intro">
+      <%= simple_format_no_tags(@page_content.content, {}, {sanitize: false}) %>
+    </div>
   </div>
 
 <% else %>
