@@ -94,10 +94,10 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
 
       currency_by_bank = {}
       Rate.currency_by_bank.each{|t|
-         if(currency_by_bank.has_key?(t.c)) # t.c currency t.b bank
-            currency_by_bank[t.c].push(t.b)
+         if(currency_by_bank.has_key?(t.currency))
+            currency_by_bank[t.currency].push(t.bank_id)
          else 
-            currency_by_bank[t.c] = [t.b]
+            currency_by_bank[t.currency] = [t.bank_id]
          end
       }
       gon.currency_to_bank = currency_by_bank.to_json

@@ -9,6 +9,8 @@ class Bank < ActiveRecord::Base
   validates :name, :presence => true
   validates :image, :presence => true
 
+  scope :not_nbg, -> { where("banks.id != 1") }
+
   def self.by_name(name)
     with_translations(I18n.locale).find_by_name(name)
   end
