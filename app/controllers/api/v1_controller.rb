@@ -1,5 +1,6 @@
 class Api::V1Controller < ApplicationController
   before_filter :load_currencies, except: [:index, :documentation]
+  after_filter :record_analytics, except: [:index, :documentation]
 
   def index
     redirect_to api_path
@@ -348,4 +349,20 @@ private
       end
     end
   end
+
+  # record call to google analytics
+  def record_analytics
+    if Rails.env.production?
+      ga_id = 'UA-12801815-42'
+      domain = 'lari.jumpstart.ge'
+
+      g = Gabba::Gabba.new(ga_id, domain)
+      g.referer(request.env['HTTP_REFERER'])
+      g.ip(request.remote_ip)
+      # page view format is (title, url)
+      g.page_view("api:v1:#{params[:action]}", request.fullpath) 
+    end
+  end  
+  
+
 end

@@ -29,6 +29,8 @@ gem "will_paginate", "~> 3.0.5" # add paging to long lists
 #gem "kaminari", "~> 0.15.1" # paging
 gem "nokogiri"
 gem 'whenever' # schedule cron jobs
+gem 'gabba', '~> 1.0.1' # record api calls to google analytics
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
