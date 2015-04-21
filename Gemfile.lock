@@ -241,7 +241,7 @@ GEM
       rack (>= 1.0.0)
     thor (0.19.1)
     tilt (1.4.1)
-    tinymce-rails (3.5.9)
+    tinymce-rails (4.1.6)
       railties (>= 3.1.1)
     treetop (1.4.15)
       polyglot
@@ -293,7 +293,7 @@ DEPENDENCIES
   rb-inotify (~> 0.8.8)
   sass-rails (~> 3.2.6)
   therubyracer
-  tinymce-rails (~> 3.5.8)
+  tinymce-rails (~> 4.1.6)
   twitter-bootstrap-rails!
   uglifier (>= 1.0.3)
   unicorn (~> 4.8.3)

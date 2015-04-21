@@ -1,0 +1,61 @@
+<%- model_class = Bank -%>
+<%- model_class_t = BankTranslation -%>
+<% title t '.title', :default => model_class.model_name.human.pluralize %>
+
+<div class="form-group form-group-admin-buttons">
+<%= link_to t('helpers.links.new'),
+            new_admin_bank_path,
+            :class => 'btn btn-primary' %>
+<%= link_to t('helpers.links.admin'), admin_path,
+:class => 'btn btn-default' %>
+</div>
+
+<table class="table table-striped display">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:code) %></th>
+      <th><%= model_class_t.human_attribute_name(:name) %></th>
+      <th><%= model_class_t.human_attribute_name(:image) %></th>
+      <th><%= model_class.human_attribute_name(:buy_color) %></th>
+      <th><%= model_class.human_attribute_name(:sell_color) %></th>
+      <th><%= model_class.human_attribute_name(:order) %></th>
+      <th><%= t('helpers.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @banks.each do |bank| %>
+      <tr>
+        <td>
+          <%= bank.code %>
+        </td>
+        <td>
+          <%= bank.name %>
+        </td>
+        <td>
+          <%= bank.image %>
+        </td>
+        <td>
+          <span style="display: inline-block; width: 20px; height: 20px; background-color: <%= bank.buy_color %>;">&nbsp;</span>
+          - <%= bank.buy_color %>
+        </td>
+        <td>
+          <span style="display: inline-block; width: 20px; height: 20px; background-color: <%= bank.sell_color %>;">&nbsp;</span>
+          - <%= bank.sell_color %>
+        </td>
+        <td>
+          <%= bank.order %>
+        </td>
+        <td>
+          <%= link_to(I18n.t("helpers.links.edit"),
+                            edit_admin_bank_path(bank, :locale => I18n.locale), :class => 'btn btn-default btn-xs') %>
+
+          <%= link_to(I18n.t("helpers.links.destroy"),
+                            admin_bank_path(bank, :locale => I18n.locale),
+                            :method => :delete,
+                            :data => { :confirm => I18n.t("helpers.links.confirm") },
+                            :class => 'btn btn-xs btn-danger') %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

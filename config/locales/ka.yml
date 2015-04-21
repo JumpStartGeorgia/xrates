@@ -3,7 +3,10 @@ ka:
   activerecord:
     models:
       user: მომხმარებელი
-      page: ტექსტი გვერდებისთვის
+      page_content: ტექსტი გვერდებისთვის
+      bank: Bank
+      api_version: API Version
+      api_method: API Method
     attributes:
       user:
         email: ელ.ფოსტა
@@ -15,11 +18,36 @@ ka:
         sign_in_count: "შემოსვლის რაოდენობა"
         created_at: "შექმნის თარიღი"
         current_sign_in_at: "ბოლო შემოსვლის თარიღი"
-      page:
+      page_content:
         name: კონტენტის უნიკალური სახელი (არ შეცვალოთ!)
-      page_translation:
+      page_content_translation:
         title: სათაური, რომელიც გამოჩნდება კონტენტის ზემოთ
         content: კონტენტი
+      bank:
+        code: Bank Code
+        sell_color: Sell Color
+        buy_color: Buy Color
+        order: Sort Order
+      bank_translation:
+        name: Bank Name
+        image: Image Name
+      api_version:
+        permalink: Permalink
+        public: Make Available to the Public
+        public_at: Released At
+        updated_at: Last Updated At
+        methods: Methods
+      api_version_translation:
+        title: Title
+      api_method:
+        permalink: Permalink
+        public: Make Available to the Public
+        public_at: Released At
+        updated_at: Last Updated At
+        sort_order: Sort Order
+      api_method_translation:
+        title: Title
+        content: Content
     errors:
       messages:
         required_field: "სავალდებულო ველი"
@@ -31,7 +59,7 @@ ka:
   helpers:
     actions: აირჩიეთ
     links:
-      admin: ადმინისტრატორის განყოფილება
+      admin: ადმინისტრატორი
       edit: შეცვლა
       confirm: დარწმუნებული ხართ?
       destroy: წაშლა
@@ -125,6 +153,8 @@ ka:
       title: ადმინისტრატორის განყოფილება
       users: მომხმარებლები
       pages: საიტზე ტექსტის რედაქტირება
+      banks: Banks
+      api_documentation: API Version Documentation
     users:
       edit:
         title: ცვლილებების შეტანა მომხმარებლის გვერდზე
@@ -194,3 +224,11 @@ ka:
   chart:
     nbg:
       title: "Lari Exchange Rate"       
+  api:
+    index:
+      title: API
+      no_versions: 'No documentation for the API has been created yet.'
+      no_methods: "No documentation for this version has been created yet."
+    documentation:
+      no_content: "No documentation for this method has been created yet."
+      

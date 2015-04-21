@@ -3,13 +3,16 @@ class Admin::UsersController < ApplicationController
   before_filter do |controller_instance|
     controller_instance.send(:valid_role?, User::ROLES[:admin])
   end
+  before_filter :load_admin_assets
 
   # GET /admin/users
   # GET /admin/users.json
   def index
+    @users = User.order('email')
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: UsersDatatable.new(view_context, current_user) }
+      format.json { render json: @users }
     end
   end
 

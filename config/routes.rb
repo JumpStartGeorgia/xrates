@@ -1,4 +1,6 @@
 BootstrapStarter::Application.routes.draw do
+
+
 	#--------------------------------
 	# all resources should be within the scope block below
 	#--------------------------------
@@ -9,22 +11,27 @@ BootstrapStarter::Application.routes.draw do
 											 :controllers => {:omniauth_callbacks => "omniauth_callbacks"}
 
 		namespace :admin do
-         resources :pages
-			resources :users
+      resources :page_contents
+      resources :users
+      resources :banks
+      resources :api_versions, :except => [:show] do
+        resources :api_methods, :except => [:index]
+      end
 		end
 
-    # scope "api"  do
-    #   resources :rates 
-    # end
+    # api
+    match '/api', to: 'api#index', as: :api, via: :get
+    namespace :api do
+      match '/v1', to: 'v1#index', as: :v1, via: :get
+      match '/v1/documentation(/:method)', to: 'v1#documentation', as: :v1_documentation, via: :get
 
-
-      match "nbg" => "api/v1#nbg", as: 'nbg', :via => :get, :defaults => { :format => 'json' }
-      match "rates" => "api/v1#rates", as: 'rates', :via => :get, :defaults => { :format => 'json' }
-      match "calculator" => "api/v1#calculator", as: 'calculator', :via => :get, :defaults => { :format => 'json' }
-      
-      # root pages
-      match "api" => "root#api", as: 'api', :via => :get
-      match "about" => "root#about", as: 'about', :via => :get
+      match "/v1/nbg" => "v1#nbg", as: 'v1_nbg', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/rates" => "v1#rates", as: 'v1_rates', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/calculator" => "v1#calculator", as: 'v1_calculator', :via => :get, :defaults => { :format => 'json' }
+    end    
+    
+    # root pages
+    match "about" => "root#about", as: 'about', :via => :get
 
 		root :to => 'root#index'
 	  match "*path", :to => redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever

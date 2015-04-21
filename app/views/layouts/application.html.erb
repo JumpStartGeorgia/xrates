@@ -14,7 +14,7 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
     <![endif]-->
 
-    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= stylesheet_link_tag  *(@css.present? ? ["application",@css].flatten : ["application"]), :media => "all" %>      
 		<!--[if IE 6]><%= stylesheet_link_tag 'ie6' %><![endif]-->
 	  <!--[if IE 7]><%= stylesheet_link_tag 'ie7' %><![endif]-->
 
@@ -28,9 +28,21 @@
       <div class="container">
        <div class="header">
         <div class="box">
-          <div class="logo"><img src="/assets/svg/logo_<%= I18n.locale %>.svg" alt="Logo" ></div>
+          <div class="logo"><%= image_tag "svg/logo_#{I18n.locale}.svg", alt: t('app.common.app_name') %></div>
           <div class="menu-toggle"><img src="/assets/svg/menu_cg.svg" alt="Navigation toggle" ></div>
           <div class="right des">
+            <% if user_signed_in? %>
+              <% if current_user.role?(User::ROLES[:admin]) %>
+                <div>
+                 <%= link_to t('helpers.links.admin'), admin_path %>
+                </div>
+                <div class="sep">|</div>
+              <% end %>
+              <div>
+               <%= link_to t('helpers.links.sign_out'), destroy_user_session_path, :method => :delete %>
+              </div>
+              <div class="sep">|</div>
+            <% end %>
             <div><%= link_to t("app.common.about"), about_path %></div>
             <div class="sep">|</div>
             <div class="lang-switch">
@@ -59,6 +71,13 @@
                       <% end %>
           </div>
         </div>
+
+        <% if content_for?(:title) && !(params[:controller] == 'root' && params[:action] == 'index') %>
+          <div class="page-header">
+            <h1><%= yield(:title) %></h1>
+          </div>
+        <% end %>
+
         <%= yield %>     
       </div>
     </div>
@@ -70,7 +89,8 @@
         </div>
         <div class="last-update"><%= t('app.common.last_update') %><span><%= "#{I18n.l @last_scrapped_at, format: :long}" %></span></div>
         <div class='powered-by'>
-          <a href="http://www.jumpstart.ge" target="_blank" title="JumpStart Georgia - We communicate data better!"><img alt="Jumpstart-logo" src="../assets/svg/js.svg"></a>  
+          <%= link_to(image_tag("svg/js.svg"), "http://www.jumpstart.ge", :target => "_blank",
+              :title => t('app.common.js_link_title') ) %>
         </div>      
       </div>
     </div>

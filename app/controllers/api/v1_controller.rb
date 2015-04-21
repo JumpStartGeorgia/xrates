@@ -1,5 +1,40 @@
 class Api::V1Controller < ApplicationController
-  before_filter :load_currencies
+  before_filter :load_currencies, except: [:index, :documentation]
+
+  def index
+    redirect_to api_path
+  end
+
+  def documentation
+    redirect = false
+    redirect = params[:method].nil?
+
+    if !redirect
+      v = request.path.split('/')[3]
+      m = request.path.split('/').last
+      # see if version exists
+      @api_version = ApiVersion.is_public.by_permalink(v)
+      # see if method exists
+      @api_method = ApiMethod.is_public.by_permalink(@api_version.id, m) if @api_version.present?
+
+      redirect = @api_method.nil?
+    end
+
+    if redirect
+      redirect_to api_path, :notice => t('app.msgs.does_not_exist')
+    else
+      @tab=4
+      @css.push('shCore.css', 'shThemeDefault.css', 'api.css')
+      @js.push('shCore.js', 'shBrushJScript.js', 'api.js')
+
+      respond_to do |format|
+        format.html {render 'api/documentation'}
+      end
+    end
+  end
+
+  ###########################
+  ###########################
 
   def nbg
     params[:currency] ||= 'USD'
@@ -45,6 +80,8 @@ class Api::V1Controller < ApplicationController
       format.json { render json: data }
     end
   end
+
+
   def rates
     currency = params[:currency]
     bank =  Bank.with_translations(:en).map{|x| x.code } & params[:bank].split(',')
@@ -91,10 +128,12 @@ class Api::V1Controller < ApplicationController
       format.json { render json: data }
     end
   end
+
+
   def calculator
-    amount = params[:amount].to_f
+    amount = params[:amount].to_f if params[:amount].present?
     cur = params[:currency]
-    dir = params[:direction]     
+    dir = params[:direction]
 
     @errors = []
     date_start = to_time('date_start')
@@ -103,9 +142,10 @@ class Api::V1Controller < ApplicationController
 
     data = { amount: amount, valid: true }
     @errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
-    @errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(@currency_codes.index(cur) == nil)
-    @errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> USD, 0: USD -> GEL.' }) if(dir == 0 || dir == 1)
+    @errors.push({ field: 'currency', message: 'Currency field is not valid.' }) if(@currency_codes.has_key?(cur) == nil)
+    @errors.push({ field: 'direction', message: 'Converting direction field can be 0 or 1, 1 means GEL -> Currency, 0: Currency -> GEL.' }) if !(dir == '0' || dir == '1')
 
+    dir = dir.to_i
 
     if(@errors.any?)
       data['errors'] = @errors
@@ -148,7 +188,8 @@ private
   def load_currencies
     @currency_codes =  Hash[Currency.select('code,ratio').map { |t|  [t.code, t.ratio] }]
   end
-  def to_time(p,r) # if r true then will add error
+
+  def to_time(p,r=false) # if r true then will add error
     begin
       v = params[p].to_i
       if v > 0

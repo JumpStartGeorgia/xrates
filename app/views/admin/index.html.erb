@@ -3,11 +3,17 @@
   <% if current_user.role? User::ROLES[:admin] %>
    <div class="col-sm-4">
  		<ul class="standard">
- 			<li>
-       <%= link_to t('.users'), admin_users_path %>
+      <li>
+       <%= link_to t('.banks'), admin_banks_path %>
       </li>
  			<li>
-       <%= link_to t('.pages'), admin_pages_path %>
+       <%= link_to t('.pages'), admin_page_contents_path %>
+      </li>
+      <li>
+       <%= link_to t('.api_documentation'), admin_api_versions_path %>
+      </li>
+      <li>
+       <%= link_to t('.users'), admin_users_path %>
       </li>
  		</ul>
   </div>
