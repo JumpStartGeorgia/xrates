@@ -114,7 +114,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
 
   # load the assets needed for the admin forms
   def load_admin_assets
-    @css.push('admin.css', 'api.css', 'shCore.css')
+    @css.push('admin.css', 'api.css', 'shCore.css', 'shThemeDefault.css')
     @js.push('admin.js', 'api.js', 'shCore.js', 'shBrushJScript.js')
   end
 

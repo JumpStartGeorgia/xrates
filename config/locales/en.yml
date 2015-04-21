@@ -180,14 +180,14 @@ en:
     index:
       title: "JumpStart Georgia's Lari Exchange Rate Viewer"
       page1:        
-        intro: The Georgian Lari has depreciated dramatically against the U.S. Dollar (USD) during the winter of 2014-2015 . Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.
+        intro: The Georgian Lari depreciated dramatically against the U.S. Dollar (USD) during the winter of 2014-2015 . Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.
         chart:
           title: "Your Monetary Value Change"
       page2:
-        intro: View the Georgian National Bank's suggested exchange rate of the Lari against foriegn currencies over time.
+        intro: View the National Bank of Georgia's suggested exchange rate of the Lari against foriegn currencies over time.
         title: Lari Exchange Rate
       page3:
-        intro: View Georgian Commercial Bank's prices to buy and sell foreign currency compared with the Georgian National Bank's suggested exchange rate over time.
+        intro: View Georgian Commercial Bank's prices to buy and sell foreign currency compared with the National Bank of Georgia's suggested exchange rate over time.
         title: Bank vs Nbg Charts      
       currency: "Currency"
       bank: "Bank"

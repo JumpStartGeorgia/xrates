@@ -95,8 +95,132 @@ if v.blank?
 end
 if v.present? && v.api_methods.empty?
   m = v.api_methods.create(permalink: 'nbg_currencies', sort_order: 1, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'National Bank of Georgia Currencies', content: '')
-  m.api_method_translations.create(locale: 'ka', title: 'National Bank of Georgia Currencies', content: '')
+  m.api_method_translations.create(locale: 'en', title: 'National Bank of Georgia Currencies', content: '<p>Get a list of&nbsp;the foreign currencies the National Bank of Georgia has suggested exchange rates&nbsp;for against the Lari.</p>
+<h2>URL</h2>
+<p>To call this method, use an HTTP GET request to the following URL:</p>
+<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/nbg_currencies</div>
+<p>where:</p>
+<ul class="list-unstyled">
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
+</ul>
+<h2>Required Parameters</h2>
+<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<h2>Optional Parameters</h2>
+<p>There are no optional parameters for this call.&nbsp;</p>
+<h2>What You Get</h2>
+<p>The return object is a JSON array of currencies with the following information:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>The code of the currency</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the currency</td>
+</tr>
+<tr>
+<td>ratio</td>
+<td>The number of this currency to 1 Lari (e.g., 1 USD to 1 Lari)</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Here is an example of getting all currencies being tracked by the National Bank of Georgia. The URL for this is the following:</p>
+<div class="url"><a title="http://dev-xrates.jumpstart.ge/en/api/v1/nbg_currencies" href="http://dev-xrates.jumpstart.ge/en/api/v1/nbg_currencies" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/nbg_currencies</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
+  valid: true,
+  results: [
+    {
+      code: "EUR",
+      name: "Euro",
+      ratio: 1
+    },
+    {
+      code: "GBP",
+      name: "Pound Sterling",
+      ratio: 1
+    },
+    {
+      code: "RUB",
+      name: "Russian Ruble",
+      ratio: 100
+    },
+    {
+      code: "USD",
+      name: "US Dollar",
+      ratio: 1
+    }
+  ]
+}</pre>
+<h3>&nbsp;</h3>')
+  m.api_method_translations.create(locale: 'ka', title: 'National Bank of Georgia Currencies', content: '<p>Get a list of&nbsp;the foreign currencies the National Bank of Georgia has suggested exchange rates&nbsp;for against the Lari.</p>
+<h2>URL</h2>
+<p>To call this method, use an HTTP GET request to the following URL:</p>
+<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/nbg_currencies</div>
+<p>where:</p>
+<ul class="list-unstyled">
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
+</ul>
+<h2>Required Parameters</h2>
+<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<h2>Optional Parameters</h2>
+<p>There are no optional parameters for this call.&nbsp;</p>
+<h2>What You Get</h2>
+<p>The return object is a JSON array of currencies with the following information:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>The code of the currency</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the currency</td>
+</tr>
+<tr>
+<td>ratio</td>
+<td>The number of this currency to 1 Lari (e.g., 1 USD to 1 Lari)</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Here is an example of getting all currencies being tracked by the National Bank of Georgia. The URL for this is the following:</p>
+<div class="url"><a title="http://dev-xrates.jumpstart.ge/en/api/v1/nbg_currencies" href="http://dev-xrates.jumpstart.ge/en/api/v1/nbg_currencies" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/nbg_currencies</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
+  valid: true,
+  results: [
+    {
+      code: "EUR",
+      name: "Euro",
+      ratio: 1
+    },
+    {
+      code: "GBP",
+      name: "Pound Sterling",
+      ratio: 1
+    },
+    {
+      code: "RUB",
+      name: "Russian Ruble",
+      ratio: 100
+    },
+    {
+      code: "USD",
+      name: "US Dollar",
+      ratio: 1
+    }
+  ]
+}</pre>
+<h3>&nbsp;</h3>')
 
   m = v.api_methods.create(permalink: 'nbg_rates', sort_order: 2, public: true)
   m.api_method_translations.create(locale: 'en', title: 'National Bank of Georgia Rates', content: '<p>Get Lari exchange rates from the National Bank of Georgia for one or more currencies.</p>
@@ -435,12 +559,274 @@ if v.present? && v.api_methods.empty?
 
 
   m = v.api_methods.create(permalink: 'commercial_banks', sort_order: 3, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Commerical Banks', content: '')
-  m.api_method_translations.create(locale: 'ka', title: 'Commerical Banks', content: '')
+  m.api_method_translations.create(locale: 'en', title: 'Commerical Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
+<h2>URL</h2>
+<p>To call this method, use an HTTP GET request to the following URL:</p>
+<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks</div>
+<p>where:</p>
+<ul class="list-unstyled">
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
+</ul>
+<h2>Required Parameters</h2>
+<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<h2>Optional Parameters</h2>
+<p>There are no optional parameters for this call.&nbsp;</p>
+<h2>What You Get</h2>
+<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>The code of the&nbsp;bank</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the&nbsp;bank</td>
+</tr>
+<tr>
+<td>currencies</td>
+<td>An array of currency codes that the bank is exchanging</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Here is an example of getting all banks&nbsp;being tracked by this site. The URL for this is the following:</p>
+<div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
+  valid: true,
+  results: [
+    {
+      code: "REPL",
+      name: "Bank Republic",
+      currencies: [
+          "EUR",
+          "GBP",
+          "RUB",
+          "USD"
+      ]
+    },
+    {
+      code: "LBRT",
+      name: "Liberty Bank",
+      currencies: [
+          "AMD",
+          "AZN",
+          "CHF",
+          "EUR",
+          "GBP",
+          "RUB",
+          "TRY",
+          "USD"
+      ]
+    }
+  ]
+}</pre>
+<h3>&nbsp;</h3>')
+  m.api_method_translations.create(locale: 'ka', title: 'Commerical Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
+<h2>URL</h2>
+<p>To call this method, use an HTTP GET request to the following URL:</p>
+<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks</div>
+<p>where:</p>
+<ul class="list-unstyled">
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
+</ul>
+<h2>Required Parameters</h2>
+<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<h2>Optional Parameters</h2>
+<p>There are no optional parameters for this call.&nbsp;</p>
+<h2>What You Get</h2>
+<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>The code of the&nbsp;bank</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the&nbsp;bank</td>
+</tr>
+<tr>
+<td>currencies</td>
+<td>An array of currency codes that the bank is exchanging</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Here is an example of getting all banks&nbsp;being tracked by this site. The URL for this is the following:</p>
+<div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
+  valid: true,
+  results: [
+    {
+      code: "REPL",
+      name: "Bank Republic",
+      currencies: [
+          "EUR",
+          "GBP",
+          "RUB",
+          "USD"
+      ]
+    },
+    {
+      code: "LBRT",
+      name: "Liberty Bank",
+      currencies: [
+          "AMD",
+          "AZN",
+          "CHF",
+          "EUR",
+          "GBP",
+          "RUB",
+          "TRY",
+          "USD"
+      ]
+    }
+  ]
+}</pre>
+<h3>&nbsp;</h3>')
 
   m = v.api_methods.create(permalink: 'commercial_banks_with_currency', sort_order: 4, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Commerical Banks with Currency', content: '')
-  m.api_method_translations.create(locale: 'ka', title: 'Commerical Banks with Currency', content: '')
+  m.api_method_translations.create(locale: 'en', title: 'Commerical Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
+<h2>URL</h2>
+<p>To call this method, use an HTTP GET request to the following URL:</p>
+<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks_with_currency</div>
+<p>where:</p>
+<ul class="list-unstyled">
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
+</ul>
+<h2>Required Parameters</h2>
+<p>The following parameters must be included in the request:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>currency</td>
+<td>The code of the currency to&nbsp;see which banks are exchanging</td>
+</tr>
+</tbody>
+</table>
+<h2>Optional Parameters</h2>
+<p>There are no optional parameters for this call.&nbsp;</p>
+<h2>What You Get</h2>
+<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>The code of the&nbsp;bank</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the&nbsp;bank</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Here is an example of getting all banks that exchange the U.S. Dollar. The URL for this is the following:</p>
+<div class="url"><a title="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks_with_currency?currency=USD" href="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks_with_currency?currency=USD" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks_with_currency?currency=USD</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
+  valid: true,
+  results: [
+    {
+      code: "BAGA",
+      name: "Bank Of Georgia"
+    },
+    {
+      code: "TBCB",
+      name: "TBC Bank"
+    },
+    {
+      code: "REPL",
+      name: "Bank Republic"
+    },
+    {
+      code: "LBRT",
+      name: "Liberty Bank"
+    }
+  ]
+}</pre>
+<h3>&nbsp;</h3>')
+  m.api_method_translations.create(locale: 'ka', title: 'Commerical Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
+<h2>URL</h2>
+<p>To call this method, use an HTTP GET request to the following URL:</p>
+<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks_with_currency</div>
+<p>where:</p>
+<ul class="list-unstyled">
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
+</ul>
+<h2>Required Parameters</h2>
+<p>The following parameters must be included in the request:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>currency</td>
+<td>The code of the currency to&nbsp;see which banks are exchanging</td>
+</tr>
+</tbody>
+</table>
+<h2>Optional Parameters</h2>
+<p>There are no optional parameters for this call.&nbsp;</p>
+<h2>What You Get</h2>
+<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>The code of the&nbsp;bank</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the&nbsp;bank</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Here is an example of getting all banks that exchange the U.S. Dollar. The URL for this is the following:</p>
+<div class="url"><a title="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks_with_currency?currency=USD" href="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks_with_currency?currency=USD" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks_with_currency?currency=USD</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
+  valid: true,
+  results: [
+    {
+      code: "BAGA",
+      name: "Bank Of Georgia"
+    },
+    {
+      code: "TBCB",
+      name: "TBC Bank"
+    },
+    {
+      code: "REPL",
+      name: "Bank Republic"
+    },
+    {
+      code: "LBRT",
+      name: "Liberty Bank"
+    }
+  ]
+}</pre>
+<h3>&nbsp;</h3>')
 
 
   m = v.api_methods.create(permalink: 'commercial_bank_rates', sort_order: 5, public: true)
@@ -1065,16 +1451,16 @@ if v.present? && v.api_methods.empty?
   
 
   m = v.api_methods.create(permalink: 'calculator', sort_order: 6, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Depreciation Calculator', content: '<p>Get commercial bank buy and sell exchange rates for a currency. For comparison, the National Bank of Georgia suggested exchange rate for the currency will also be returned.</p>
+  m.api_method_translations.create(locale: 'en', title: 'Depreciation Calculator', content: '<p>Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/calculator</div>
 <p>where:</p>
 <ul class="list-unstyled">
-<li>[locale] = the locale of the language you want the data to be returned in (currently ka for Georgian or en for English)</li>
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
 </ul>
 <h2>Required Parameters</h2>
-<p> The following parameters must be included in the request:</p>
+<p>The following parameters must be included in the request:</p>
 <table class="table table-bordered table-hover table-nonfluid">
 <thead>
 <tr><th>Parameter</th><th>Description</th></tr>
@@ -1082,16 +1468,16 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>currency</td>
-<td>Code of currency (e.g., USD for U.S. Dollars).</td>
+<td>The code of the currency (e.g., USD)</td>
 </tr>
 <tr>
 <td>amount</td>
-<td>The amount of money to calculate the depreciation</td>
+<td>The amount of money to calculate the depreciation for</td>
 </tr>
 <tr>
 <td>direction</td>
 <td>
-<p>Indicates which currency the amount is in and which it should be converted to. </p>
+<p>Indicates which currency the amount is in and which it should be converted to.</p>
 <ul>
 <li>0 = Amount is in <strong>Currency </strong>and is to be converted to Lari</li>
 <li>1 = Amount is in Lari and is to be converted to <strong>Currency</strong></li>
@@ -1100,81 +1486,20 @@ if v.present? && v.api_methods.empty?
 </tr>
 <tr>
 <td>start_date</td>
-<td>The date to start getting exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
+<td>The start date to get exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
 </tr>
 <tr>
 <td>end_date</td>
-<td>The date to stop getting exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
+<td>The end date to get exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
 </tr>
 </tbody>
 </table>
-<p> </p>
+<p>&nbsp;</p>
 <h2>Optional Parameters</h2>
 <p>There are no optional parameters.</p>
-<p> </p>
+<p>&nbsp;</p>
 <h2>What You Get</h2>
-<p> The return object is a JSON array of currencies and their exchange rates with the following information:</p>
-<table class="table table-bordered table-hover table-nonfluid">
-<thead>
-<tr><th>Parameter</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr>
-<td>amount</td>
-<td>The original amount provided by you in the request</td>
-</tr>
-<tr>
-<td>currency_from</td>
-<td>Currency code that the amount was originally in</td>
-</tr>
-<tr>
-<td>currency_to</td>
-<td>Currency code that the amount was converted to</td>
-</tr>
-<tr>
-<td> date_start</td>
-<td> The start date</td>
-</tr>
-<tr>
-<td>rate_start</td>
-<td> The exchange rate at the start date</td>
-</tr>
-<tr>
-<td>amount_start</td>
-<td>The amount at the start date </td>
-</tr>
-<tr>
-<td>date_end</td>
-<td>The end date </td>
-</tr>
-<tr>
-<td>rate_end</td>
-<td>The exchange rate at the end date </td>
-</tr>
-<tr>
-<td>amount_end</td>
-<td>The amount at the end date </td>
-</tr>
-<tr>
-<td>amount_diff</td>
-<td>The difference between the start and end amounts </td>
-</tr>
-</tbody>
-</table>
-<h2>Examples</h2>
-<h3>Example 1</h3>
-<p>Here is an example of computing the depreciation of $1000 between 2015-01-01 and 2015-02-01. The URL for this is the following:</p>
-<div class="url">http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=1&amp;date_start=1422748800000&amp;date_end=1425168000000</div>')
-  m.api_method_translations.create(locale: 'ka', title: 'Depreciation Calculator', content: '<p>Get commercial bank buy and sell exchange rates for a currency. For comparison, the National Bank of Georgia suggested exchange rate for the currency will also be returned.</p>
-<h2>URL</h2>
-<p>To call this method, use an HTTP GET request to the following URL:</p>
-<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/calculator</div>
-<p>where:</p>
-<ul class="list-unstyled">
-<li>[locale] = the locale of the language you want the data to be returned in (currently ka for Georgian or en for English)</li>
-</ul>
-<h2>Required Parameters</h2>
-<p> The following parameters must be included in the request:</p>
+<p>The return object is a JSON object indicating the start and end rates and the amount gained or lost:</p>
 <table class="table table-bordered table-hover table-nonfluid">
 <thead>
 <tr><th>Parameter</th><th>Description</th></tr>
@@ -1182,16 +1507,138 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>currency</td>
-<td>Code of currency (e.g., USD for U.S. Dollars).</td>
+<td>
+<p>Returns two values:</p>
+<ul>
+<li><strong>from</strong> - the code of the currency that the amount was originally in</li>
+<li><strong>to</strong> - the code of the currency that the amount was converted to</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>dates</td>
+<td>
+<p>Returns two values:</p>
+<ul>
+<li><strong>start</strong> - the start date, in both UTC and normal date format (e.g., 2015-01-01)</li>
+<li><strong>end</strong> - the end date, in both UTC and normal date format (e.g., 2015-01-01)</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>rates</td>
+<td>
+<p>Returns two values:</p>
+<ul>
+<li><strong>start</strong> - the exchange rate at the start date</li>
+<li><strong>end</strong> - the exchange rate at the end date</li>
+</ul>
+</td>
 </tr>
 <tr>
 <td>amount</td>
-<td>The amount of money to calculate the depreciation</td>
+<td>
+<p>Returns four values:</p>
+<ul>
+<li><strong>original</strong> - the original amount provided by you in the request</li>
+<li><strong>start</strong> - the amount at the start date after applying the exchange rate</li>
+<li><strong>end</strong> - the amount at the end date after applying the exchange rate</li>
+<li><strong>difference</strong> - the end amount minus the start amount; a negative value indicates depreciation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Here is an example of computing the depreciation of 1000 USD between 2015-01-01 and 2015-02-01. The URL for this is the following (remember dates must be converted into <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">UTC dates</a>):</p>
+<div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=1&amp;start_date=1422748800000&amp;end_date=1425168000000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=1</a><a href="&amp;start_date=1420070400000&amp;end_date=1422748800000" target="_blank">&amp;start_date=1420070400000&amp;end_date=1422748800000</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
+  valid: true,
+  currency: {
+    from: "GEL",
+    to: "USD"
+  },
+  dates: {
+    start: {
+      utc: 1420070400000,
+      date: "2015-01-01"
+    },
+    end: {
+      utc: 1422748800000,
+      date: "2015-02-01"
+    }
+  },
+  rates: {
+    start: 0.5313213963126295,
+    end: 0.4864523033516564
+  },
+  amounts: {
+    original: 1000,
+    start: 531.3213963126295,
+    end: 486.4523033516564,
+    difference: -44.86909296097315
+  }
+}</pre>
+<h3>Example 2</h3>
+<p>Here is an example of computing the depreciation of 1000 Lari between 2015-01-01 and 2015-02-01. The URL for this is the following (remember dates must be converted into <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">UTC dates</a>):</p>
+<div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=0&amp;start_date=1420070400000&amp;end_date=1422748800000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=0&amp;start_date=1420070400000&amp;end_date=1422748800000</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
+  valid: true,
+  currency: {
+    from: "USD",
+    to: "GEL"
+  },
+  dates: {
+    start: {
+      utc: 1420070400000,
+      date: "2015-01-01"
+    },
+    end: {
+      utc: 1422748800000,
+      date: "2015-02-01"
+    }
+  },
+  rates: {
+    start: 1.8821,
+    end: 2.0557
+  },
+  amounts: {
+    original: 1000,
+    start: 1882.1000000000001,
+    end: 2055.7,
+    difference: 173.59999999999968
+  }
+}</pre>
+<p><br />&nbsp;</p>
+<p>&nbsp;</p>')
+  m.api_method_translations.create(locale: 'ka', title: 'Depreciation Calculator', content: '<p>Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.</p>
+<h2>URL</h2>
+<p>To call this method, use an HTTP GET request to the following URL:</p>
+<div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/calculator</div>
+<p>where:</p>
+<ul class="list-unstyled">
+<li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
+</ul>
+<h2>Required Parameters</h2>
+<p>The following parameters must be included in the request:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+<thead>
+<tr><th>Parameter</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>currency</td>
+<td>The code of the currency (e.g., USD)</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>The amount of money to calculate the depreciation for</td>
 </tr>
 <tr>
 <td>direction</td>
 <td>
-<p>Indicates which currency the amount is in and which it should be converted to. </p>
+<p>Indicates which currency the amount is in and which it should be converted to.</p>
 <ul>
 <li>0 = Amount is in <strong>Currency </strong>and is to be converted to Lari</li>
 <li>1 = Amount is in Lari and is to be converted to <strong>Currency</strong></li>
@@ -1200,69 +1647,130 @@ if v.present? && v.api_methods.empty?
 </tr>
 <tr>
 <td>start_date</td>
-<td>The date to start getting exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
+<td>The start date to get exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
 </tr>
 <tr>
 <td>end_date</td>
-<td>The date to stop getting exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
+<td>The end date to get exchange rates for, in UTC format (e.g., 1422748800000 is the UTC date for 2015-01-01). <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">Go here for more information about UTC dates</a>.</td>
 </tr>
 </tbody>
 </table>
-<p> </p>
+<p>&nbsp;</p>
 <h2>Optional Parameters</h2>
 <p>There are no optional parameters.</p>
-<p> </p>
+<p>&nbsp;</p>
 <h2>What You Get</h2>
-<p> The return object is a JSON array of currencies and their exchange rates with the following information:</p>
+<p>The return object is a JSON object indicating the start and end rates and the amount gained or lost:</p>
 <table class="table table-bordered table-hover table-nonfluid">
 <thead>
 <tr><th>Parameter</th><th>Description</th></tr>
 </thead>
 <tbody>
 <tr>
+<td>currency</td>
+<td>
+<p>Returns two values:</p>
+<ul>
+<li><strong>from</strong> - the code of the currency that the amount was originally in</li>
+<li><strong>to</strong> - the code of the currency that the amount was converted to</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>dates</td>
+<td>
+<p>Returns two values:</p>
+<ul>
+<li><strong>start</strong> - the start date, in both UTC and normal date format (e.g., 2015-01-01)</li>
+<li><strong>end</strong> - the end date, in both UTC and normal date format (e.g., 2015-01-01)</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>rates</td>
+<td>
+<p>Returns two values:</p>
+<ul>
+<li><strong>start</strong> - the exchange rate at the start date</li>
+<li><strong>end</strong> - the exchange rate at the end date</li>
+</ul>
+</td>
+</tr>
+<tr>
 <td>amount</td>
-<td>The original amount provided by you in the request</td>
-</tr>
-<tr>
-<td>currency_from</td>
-<td>Currency code that the amount was originally in</td>
-</tr>
-<tr>
-<td>currency_to</td>
-<td>Currency code that the amount was converted to</td>
-</tr>
-<tr>
-<td> date_start</td>
-<td> The start date</td>
-</tr>
-<tr>
-<td>rate_start</td>
-<td> The exchange rate at the start date</td>
-</tr>
-<tr>
-<td>amount_start</td>
-<td>The amount at the start date </td>
-</tr>
-<tr>
-<td>date_end</td>
-<td>The end date </td>
-</tr>
-<tr>
-<td>rate_end</td>
-<td>The exchange rate at the end date </td>
-</tr>
-<tr>
-<td>amount_end</td>
-<td>The amount at the end date </td>
-</tr>
-<tr>
-<td>amount_diff</td>
-<td>The difference between the start and end amounts </td>
+<td>
+<p>Returns four values:</p>
+<ul>
+<li><strong>original</strong> - the original amount provided by you in the request</li>
+<li><strong>start</strong> - the amount at the start date after applying the exchange rate</li>
+<li><strong>end</strong> - the amount at the end date after applying the exchange rate</li>
+<li><strong>difference</strong> - the end amount minus the start amount; a negative value indicates depreciation</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
 <h2>Examples</h2>
 <h3>Example 1</h3>
-<p>Here is an example of computing the depreciation of $1000 between 2015-01-01 and 2015-02-01. The URL for this is the following:</p>
-<div class="url">http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=1&amp;date_start=1422748800000&amp;date_end=1425168000000</div>')
+<p>Here is an example of computing the depreciation of 1000 USD between 2015-01-01 and 2015-02-01. The URL for this is the following (remember dates must be converted into <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">UTC dates</a>):</p>
+<div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=1&amp;start_date=1422748800000&amp;end_date=1425168000000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=1</a><a href="&amp;start_date=1420070400000&amp;end_date=1422748800000" target="_blank">&amp;start_date=1420070400000&amp;end_date=1422748800000</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
+  valid: true,
+  currency: {
+    from: "GEL",
+    to: "USD"
+  },
+  dates: {
+    start: {
+      utc: 1420070400000,
+      date: "2015-01-01"
+    },
+    end: {
+      utc: 1422748800000,
+      date: "2015-02-01"
+    }
+  },
+  rates: {
+    start: 0.5313213963126295,
+    end: 0.4864523033516564
+  },
+  amounts: {
+    original: 1000,
+    start: 531.3213963126295,
+    end: 486.4523033516564,
+    difference: -44.86909296097315
+  }
+}</pre>
+<h3>Example 2</h3>
+<p>Here is an example of computing the depreciation of 1000 Lari between 2015-01-01 and 2015-02-01. The URL for this is the following (remember dates must be converted into <a href="http://www.w3schools.com/jsref/jsref_utc.asp" target="_blank">UTC dates</a>):</p>
+<div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=0&amp;start_date=1420070400000&amp;end_date=1422748800000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/calculator?currency=USD&amp;amount=1000&amp;direction=0&amp;start_date=1420070400000&amp;end_date=1422748800000</a></div>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
+  valid: true,
+  currency: {
+    from: "USD",
+    to: "GEL"
+  },
+  dates: {
+    start: {
+      utc: 1420070400000,
+      date: "2015-01-01"
+    },
+    end: {
+      utc: 1422748800000,
+      date: "2015-02-01"
+    }
+  },
+  rates: {
+    start: 1.8821,
+    end: 2.0557
+  },
+  amounts: {
+    original: 1000,
+    start: 1882.1000000000001,
+    end: 2055.7,
+    difference: 173.59999999999968
+  }
+}</pre>
+<p><br />&nbsp;</p>
+<p>&nbsp;</p>')
 end
