@@ -41,4 +41,8 @@ $(document).ready(function(){
       $('.tabs').toggle();
       e.preventDefault();
    });
+   $('.lang-switch a').click(function(e){
+      
+      e.preventDefault();
+   });
 });

@@ -1,6 +1,5 @@
   <% title t(".title") %>
-
-  <div class="page" data-tab-id="1">
+  <div class="page" data-tab-id="calculator">
     <div class="intro"><%= t(".page1.intro") %>
     </div>
     <div class="calculator">
@@ -46,11 +45,11 @@
     </div>
     <div id="a_chart" class="chart" style="width:100%;max-width:1024px;"></div>
     <div class="hsw">
-      <div><div class="title"><%= t(".hsw") %></div></div>
+      <div><div class="title"><%= t(".hsw").html_safe %></div></div>
       <div><div class="text"><%= t(".hsw_text").html_safe %></div></div>
     </div>
   </div>
-  <div class="page page2" data-tab-id="2">
+  <div class="page page2" data-tab-id="national_bank">
     <div class="intro"><%= t(".page2.intro") %></div>
     <div class="title"><%= t(".page2.title") %></div>
     <div class="filters">
@@ -68,7 +67,7 @@
     </div>
     <div id="b_chart" class="chart" style="height:600px;width:100%;max-width:1024px;"></div>
   </div>
-  <div class="page page3" data-tab-id="3">
+  <div class="page page3" data-tab-id="commerical_banks">
     <div class="intro"><%= t(".page3.intro") %></div>
     <div class="title"><%= t(".page3.title") %></div>
     <div class="filters">

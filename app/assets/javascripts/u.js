@@ -21,6 +21,14 @@
       return this.replace(r, '');
     };
   }
+  // if(!Number.prototype.toLocaleString)
+  // {
+  //   String.prototype.toLocaleString = function(c) { 
+  //     return "blah";
+  //     // var r = (!c) ? new RegExp('^\\s+') : new RegExp('^'+c+'+');
+  //     // return this.replace(r, '');
+  //   };
+  // }
 
 })();
 function exist(v) { return typeof v !== 'undefined' && v !== null && v !== '';}
