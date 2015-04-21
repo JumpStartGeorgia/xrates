@@ -59,7 +59,7 @@ en:
   helpers:
     actions: Actions
     links:
-      admin: Admin Section
+      admin: Admin
       edit: Edit
       confirm: Are you sure?
       destroy: Delete

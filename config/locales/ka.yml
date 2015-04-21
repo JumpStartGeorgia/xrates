@@ -59,7 +59,7 @@ ka:
   helpers:
     actions: აირჩიეთ
     links:
-      admin: ადმინისტრატორის განყოფილება
+      admin: ადმინისტრატორი
       edit: შეცვლა
       confirm: დარწმუნებული ხართ?
       destroy: წაშლა

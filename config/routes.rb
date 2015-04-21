@@ -24,9 +24,9 @@ BootstrapStarter::Application.routes.draw do
       match '/v1', to: 'v1#index', as: :v1, via: :get
       match '/v1/documentation(/:method)', to: 'v1#documentation', as: :v1_documentation, via: :get
 
-      match "nbg" => "v1#nbg", as: 'nbg', :via => :get, :defaults => { :format => 'json' }
-      match "rates" => "v1#rates", as: 'rates', :via => :get, :defaults => { :format => 'json' }
-      match "calculator" => "v1#calculator", as: 'calculator', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/nbg" => "v1#nbg", as: 'v1_nbg', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/rates" => "v1#rates", as: 'v1_rates', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/calculator" => "v1#calculator", as: 'v1_calculator', :via => :get, :defaults => { :format => 'json' }
     end    
     
     # root pages

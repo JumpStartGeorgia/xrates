@@ -17,7 +17,6 @@ class Api::V1Controller < ApplicationController
       # see if method exists
       @api_method = ApiMethod.is_public.by_permalink(@api_version.id, m) if @api_version.present?
 
-logger.debug "!!!!!!!!!!!!!1 #{@api_method.inspect}"
       redirect = @api_method.nil?
     end
 
@@ -144,7 +143,7 @@ logger.debug "!!!!!!!!!!!!!1 #{@api_method.inspect}"
     data = { amount: amount, valid: true }
     @errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
     @errors.push({ field: 'cur', message: 'Currency field is not valid.' }) if(@currency_codes.index(cur) == nil)
-    @errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> USD, 0: USD -> GEL.' }) if(dir == 0 || dir == 1)
+    @errors.push({ field: 'dir', message: 'Converting direction field can be 0 or 1, 1 means GEL -> Currency, 0: Currency -> GEL.' }) if(dir == 0 || dir == 1)
 
 
     if(@errors.any?)
