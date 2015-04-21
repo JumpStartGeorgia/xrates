@@ -14,8 +14,7 @@ body > .wrapper
 .container
 {
    display:table-row;   
-   height:100%;
-   background-color: #fafbfb;
+   height:100%;   
 
    .header
    {
@@ -106,7 +105,7 @@ body > .wrapper
       position: relative;    
       padding:0px;
       margin:0px auto; 
-
+      background-color: #fafbfb;
       .sub-line
       {
          display:none;
@@ -383,10 +382,6 @@ body > .wrapper
                      font-size:15px; 
                      color:#7b8483;   
                   }
-                  // .space
-                  // {
-                  //    padding-left:20px !important;
-                  // } 
                   .box
                   {
                      font-family:'glober-sb';
@@ -672,19 +667,13 @@ body > .wrapper
    .box {
       max-width:100%;
       height:auto;
-      margin: 0px !important;
+      margin: 30px 0px 0px;
       position:relative;
       >div {
          display:block;
          vertical-align: middle;
          text-align: left;
-         padding:5px 0px 5px 30px;
-
-      }
-      >div:not(:first-of-type):not(:last-of-type)
-      {
-         border-top:1px solid #c9cfd5;
-         border-bottom:1px solid #c9cfd5;
+         padding:10px 0px 10px 10px;
       }
       .last-update
       {
@@ -692,7 +681,9 @@ body > .wrapper
          font-size:14px;
          color:#7b8483;
          white-space:nowrap;
-         width:auto;   
+         width:auto;  
+         border-top:1px solid #c9cfd5;
+         border-bottom:1px solid #c9cfd5; 
          span
          {
             font-family:'oxygen-b';
@@ -709,7 +700,7 @@ body > .wrapper
       }
       .powered-by
       {
-         padding:10px 0px 5px 20px;
+         /* padding:10px 0px 5px 0px; */
       }
    }
 }
@@ -1276,10 +1267,7 @@ body > .wrapper
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) { 
-   .sub-line
-   {
-      display:initial;
-   }
+
    .container
    {
       .header
@@ -1287,10 +1275,18 @@ body > .wrapper
          max-width:768px;
          .box
          {
-            height:50px;
+            // height:50px;
             margin: 15px 10px 0px !important;
             margin:0px;
             padding: 0px;
+            .right.des
+            {
+               display:block;
+            }
+            .menu-toggle
+            {
+               display:none;
+            }
          }
       }
       .content
@@ -1298,24 +1294,28 @@ body > .wrapper
         
          min-width:768px;
          max-width:768px;
-
+         .sub-line
+         {
+            display:block;
+         }
          .tabs
          {
             position:relative;
             top:-12px;
             right:0px;
+            display:block;
+            text-align:center;
            .tab
             {
-               border:1px solid #c9cfd5;
-
+               display:inline-block;
                a
                {
-                  width:100%;
                   padding: 2px 10px;
+                  border:1px solid #c9cfd5;
                }
                a:hover, &.active a
                {
-                  border:1px solid #f6ba29;               
+                  border:1px solid #f6ba29;   
                }
                &.active a:after,
                a:hover:after
@@ -1331,7 +1331,12 @@ body > .wrapper
                   -ms-transform: translateX(-50%);
                   transform: translateX(-50%);
                }
+               &.mob
+               {
+                  display:none;
+               }
             }
+            
          }
         .page
          {           
@@ -1378,19 +1383,41 @@ body > .wrapper
                {
                   margin-left:0px;
                }
-                .output
+               .block.calc
                {
-                  display:table;
-                  border-spacing: 0px 10px;                  
-                  > .row
+                   .output
                   {
-                     display:table-row;                     
-                     > div
+                     display:table;
+                     border-spacing: 0px 10px;                  
+                     > .row
                      {
-                        display:table-cell;
-                        empty-cells: show;
-                        vertical-align:top;
-                        padding-left:10px;                        
+                        display:table-row;                     
+                        > div
+                        {
+                           display:table-cell;
+                           empty-cells: show;
+                           vertical-align:top;
+                           padding-left:10px;                        
+                        }
+                     }              
+                     .col
+                     {                    
+                        &.col-worth
+                        {
+                           margin-top:0px;
+                           .vk
+                           {
+                              .value
+                              {
+                                 display:inline-block;
+                                 width:auto;
+                              }
+                              .symbol
+                              {
+                                 display:inline-block;
+                              }
+                           }
+                        }
                      }
                   }
                }
@@ -1444,17 +1471,20 @@ body > .wrapper
    }
    .footer
    {
-      display:table-row;
       .box
       {
-         padding:0px;
          max-width:768px;
+         padding:0px;
+         margin: 30px 10px 10px; 
          >div {
             display:table-cell;
+            padding:0px;
          }
          .last-update
          {
             width:100%;
+            border:0px;
+            text-align:center;
          }
       }
    }
@@ -1479,7 +1509,7 @@ body > .wrapper
   
          .tabs
          {
-            display:initial;
+            display:block;
             text-align:right;
             padding-right: 40px;
            .tab
@@ -1583,11 +1613,20 @@ body > .wrapper
    {
       .box
       {
-         max-width:1024px; 
-         margin: 15px auto 0px !important; 
+         max-width:1024px;  
+         margin: 30px 10px 10px;         
       }
    }
  }
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) { }
+@media (min-width: 1200px) { 
+   .footer
+   {
+      .box
+      {
+         max-width:1024px;  
+         margin:30px auto 10px;        
+      }
+   }
+}
