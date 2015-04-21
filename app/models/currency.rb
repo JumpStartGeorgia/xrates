@@ -3,21 +3,24 @@ class Currency < ActiveRecord::Base
 
   has_many :currency_translations, :dependent => :destroy
   accepts_nested_attributes_for :currency_translations
-  attr_accessible :id, :name, :currency_translations_attributes
+  attr_accessible :id, :code, :ratio, :currency_translations_attributes
   
-  validates :name, :presence => true
+  validates :code, :ratio, :presence => true
 
+  def self.by_code(code)
+    with_translations(I18n.locale).find_by_code(code)
+  end
   def self.by_name(name)
     with_translations(I18n.locale).find_by_name(name)
   end
-  def self.select_list()
+  def self.select_list
     with_translations(I18n.locale).map{|x| [x.code, x.name] }.sort_by{|x| x[0]}
   end
-  def self.data()
+  def self.data
     with_translations(I18n.locale).map{|x| [x.code, x.name, x.ratio] }.sort_by{|x| x[0]}
   end
 
-  def self.available()
+  def self.available
       with_translations(I18n.locale).where({ code: Rate.bank_currencies.map{|x| x.currency }}).map{|x| [x.code, x.name, x.ratio] }.sort_by{|x| x[0]}
   end
 end

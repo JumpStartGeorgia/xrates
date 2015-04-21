@@ -348,7 +348,7 @@ $(function () {
         
         var cur_to = $('#currency_switch > div:not(.active)').attr('data-option');
 
-        $.getJSON('/' + I18n.locale + '/nbg?currency=USD&start_date=' + data.date_from+ '&end_date=' + data.date_to, function (d) {      
+        $.getJSON('/' + I18n.locale + '/api/v1/nbg_rates?currency=USD&start_date=' + data.date_from+ '&end_date=' + data.date_to, function (d) {      
           if(d.valid)
           {
             data.rates = d.result[0].rates;
@@ -565,7 +565,7 @@ $(function () {
     });    
     if(remote_cur.length)
     {
-      $.getJSON('/' + I18n.locale + '/nbg?currency=' + remote_cur.join(','), function (d) { 
+      $.getJSON('/' + I18n.locale + '/api/v1/nbg_rates?currency=' + remote_cur.join(','), function (d) { 
         if(d.valid)
         {
           d.result.forEach(function(t,i){
@@ -739,7 +739,7 @@ $(function () {
     }
     if(remote_cur.length)
     {
-      $.getJSON('/' + I18n.locale + '/rates?currency=' + c + "&bank=" + remote_cur.join(','), function (d) {
+      $.getJSON('/' + I18n.locale + '/api/v1/commercial_bank_rates?currency=' + c + "&bank=" + remote_cur.join(','), function (d) {
         if(d.valid)
         {
            d.result.forEach(function(t,i){

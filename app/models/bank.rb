@@ -9,12 +9,18 @@ class Bank < ActiveRecord::Base
   validates :name, :presence => true
   validates :image, :presence => true
 
+  scope :not_nbg, -> { where("banks.id != 1") }
+
   def self.by_name(name)
     with_translations(I18n.locale).find_by_name(name)
   end
 
   def self.all_except_nbg()
       with_translations(I18n.locale).where("code != 'BNLN'").map{ |x| [x.id, x.name, x.buy_color, x.sell_color, x.code, x.image ] }.sort_by{|x| x[0] }
+  end
+
+  def self.sorted
+    with_translations(I18n.locale).order('`order` asc')
   end
 end
 

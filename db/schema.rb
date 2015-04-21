@@ -11,7 +11,57 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150416140501) do
+ActiveRecord::Schema.define(:version => 20150421060311) do
+
+  create_table "api_method_translations", :force => true do |t|
+    t.integer  "api_method_id"
+    t.string   "locale",        :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "title"
+    t.text     "content"
+  end
+
+  add_index "api_method_translations", ["api_method_id"], :name => "index_api_method_translations_on_api_method_id"
+  add_index "api_method_translations", ["locale"], :name => "index_api_method_translations_on_locale"
+
+  create_table "api_methods", :force => true do |t|
+    t.integer  "api_version_id"
+    t.string   "permalink"
+    t.integer  "sort_order",     :default => 1
+    t.boolean  "public",         :default => false
+    t.date     "public_at"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  add_index "api_methods", ["api_version_id", "permalink"], :name => "index_api_methods_on_api_version_id_and_permalink"
+  add_index "api_methods", ["public"], :name => "index_api_methods_on_public"
+  add_index "api_methods", ["public_at"], :name => "index_api_methods_on_public_at"
+  add_index "api_methods", ["sort_order"], :name => "index_api_methods_on_sort_order"
+
+  create_table "api_version_translations", :force => true do |t|
+    t.integer  "api_version_id"
+    t.string   "locale",         :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "title"
+  end
+
+  add_index "api_version_translations", ["api_version_id"], :name => "index_api_version_translations_on_api_version_id"
+  add_index "api_version_translations", ["locale"], :name => "index_api_version_translations_on_locale"
+
+  create_table "api_versions", :force => true do |t|
+    t.string   "permalink"
+    t.boolean  "public",     :default => false
+    t.date     "public_at"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "api_versions", ["permalink"], :name => "index_api_versions_on_permalink"
+  add_index "api_versions", ["public"], :name => "index_api_versions_on_public"
+  add_index "api_versions", ["public_at"], :name => "index_api_versions_on_public_at"
 
   create_table "bank_translations", :force => true do |t|
     t.integer  "bank_id"
@@ -24,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20150416140501) do
 
   add_index "bank_translations", ["bank_id"], :name => "index_bank_translations_on_bank_id"
   add_index "bank_translations", ["locale"], :name => "index_bank_translations_on_locale"
+  add_index "bank_translations", ["name"], :name => "index_bank_translations_on_name"
 
   create_table "banks", :force => true do |t|
     t.string   "code"
@@ -34,12 +85,17 @@ ActiveRecord::Schema.define(:version => 20150416140501) do
     t.integer  "order"
   end
 
+  add_index "banks", ["code"], :name => "index_banks_on_code"
+  add_index "banks", ["order"], :name => "index_banks_on_order"
+
   create_table "currencies", :force => true do |t|
     t.string   "code"
     t.integer  "ratio"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "currencies", ["code"], :name => "index_currencies_on_code"
 
   create_table "currency_translations", :force => true do |t|
     t.integer  "currency_id"
@@ -51,26 +107,27 @@ ActiveRecord::Schema.define(:version => 20150416140501) do
 
   add_index "currency_translations", ["currency_id"], :name => "index_currency_translations_on_currency_id"
   add_index "currency_translations", ["locale"], :name => "index_currency_translations_on_locale"
+  add_index "currency_translations", ["name"], :name => "index_currency_translations_on_name"
 
-  create_table "page_translations", :force => true do |t|
-    t.integer  "page_id"
-    t.string   "locale",     :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "page_content_translations", :force => true do |t|
+    t.integer  "page_content_id"
+    t.string   "locale",          :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "title"
     t.text     "content"
   end
 
-  add_index "page_translations", ["locale"], :name => "index_page_translations_on_locale"
-  add_index "page_translations", ["page_id"], :name => "index_page_translations_on_page_id"
+  add_index "page_content_translations", ["locale"], :name => "index_page_content_translations_on_locale"
+  add_index "page_content_translations", ["page_content_id"], :name => "index_page_content_translations_on_page_content_id"
 
-  create_table "pages", :force => true do |t|
+  create_table "page_contents", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "pages", ["name"], :name => "index_pages_on_name"
+  add_index "page_contents", ["name"], :name => "index_page_contents_on_name"
 
   create_table "rates", :force => true do |t|
     t.date     "date"
@@ -84,9 +141,8 @@ ActiveRecord::Schema.define(:version => 20150416140501) do
     t.float    "sell_price"
   end
 
-  add_index "rates", ["currency", "date"], :name => "index_rates_on_currency_and_date"
-  add_index "rates", ["date", "currency"], :name => "index_rates_on_date_and_currency"
-  add_index "rates", ["utc", "currency"], :name => "index_rates_on_utc_and_currency"
+  add_index "rates", ["bank_id", "currency", "date"], :name => "index_rates_on_bank_id_and_currency_and_date"
+  add_index "rates", ["bank_id", "currency", "utc"], :name => "index_rates_on_bank_id_and_currency_and_utc"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

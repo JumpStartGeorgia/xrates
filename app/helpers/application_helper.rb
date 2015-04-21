@@ -90,4 +90,16 @@ module ApplicationHelper
   def page_navigation_links(pages)
     will_paginate(pages, :class => 'pagination', :inner_window => 2, :outer_window => 0, :renderer => BootstrapLinkRenderer, :previous_label => '&larr;'.html_safe, :next_label => '&rarr;'.html_safe)
   end
+
+
+  def format_public_status(is_public, small=false)
+    css_small = small == true ? 'small-status' : ''
+    if is_public == true
+      return "<div class='publish-status public #{css_small}'>#{t('publish_status.public')}</div>".html_safe
+    else
+      return "<div class='publish-status not-public #{css_small}'>#{t('publish_status.private')}</div>".html_safe
+    end
+  end
+
+
 end

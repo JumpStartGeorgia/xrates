@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  api_version_id: 1
+  permalink: MyString
+  sort_order: 1
+  public: false
+  public_at: 2015-04-20
+  title: MyString
+  content: MyText
+
+two:
+  api_version_id: 1
+  permalink: MyString
+  sort_order: 1
+  public: false
+  public_at: 2015-04-20
+  title: MyString
+  content: MyText

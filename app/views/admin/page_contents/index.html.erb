@@ -1,0 +1,43 @@
+<%- model_class = PageContent -%>
+<%- model_class_t = PageContentTranslation -%>
+<% title t '.title', :default => model_class.model_name.human.pluralize %>
+
+<div class="form-group form-group-admin-buttons">
+<%= link_to t('helpers.links.new'),
+            new_admin_page_content_path,
+            :class => 'btn btn-primary' %>
+<%= link_to t('helpers.links.admin'), admin_path,
+:class => 'btn btn-default' %>
+</div>
+
+<table class="table table-striped display">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class_t.human_attribute_name(:title) %></th>
+      <th><%= t('helpers.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @page_contents.each do |page_content| %>
+      <tr>
+        <td>
+          <%= link_to page_content.name, admin_page_content_path(page_content) %>
+        </td>
+        <td>
+          <%= link_to page_content.title, admin_page_content_path(page_content) %>
+        </td>
+        <td>
+          <%= link_to(I18n.t("helpers.links.edit"),
+                            edit_admin_page_content_path(page_content, :locale => I18n.locale), :class => 'btn btn-default btn-xs') %>
+
+          <%= link_to(I18n.t("helpers.links.destroy"),
+                            admin_page_content_path(page_content, :locale => I18n.locale),
+                            :method => :delete,
+                            :data => { :confirm => I18n.t("helpers.links.confirm") },
+                            :class => 'btn btn-xs btn-danger') %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

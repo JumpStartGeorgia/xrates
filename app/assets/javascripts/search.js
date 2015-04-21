@@ -6,9 +6,6 @@ $(document).ready(function(){
 
 
   $('#users-datatable').dataTable({
-    "processing": true,
-    "serverSide": true,
-    "ajax": $('#users-datatable').data('source'),
     "order": [[4, 'desc']],
     "language": {
      "url": gon.datatable_i18n_url

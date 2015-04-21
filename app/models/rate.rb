@@ -21,7 +21,8 @@ class Rate < ActiveRecord::Base
   scope :sort_older, -> { order("rates.date ASC") }
   scope :limit_by, -> limit { limit(limit) if limit.present? }
   scope :bank_currencies, -> { select("DISTINCT currency").where("bank_id != 1") }
-  scope :currency_by_bank, -> { select("currency c, bank_id b").where("bank_id != 1").group('currency, bank_id') }
+  scope :nbg_currencies, -> { select("DISTINCT currency").where("bank_id = 1") }
+  scope :currency_by_bank, -> { select("currency, bank_id").where("bank_id != 1").group('currency, bank_id') }
 
   ########################
 

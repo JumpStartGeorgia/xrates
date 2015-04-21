@@ -1,0 +1,40 @@
+<% if @page_content.present? %>
+  <% title @page_content.title %>
+
+  <div class="tinymce_format">
+    <%= simple_format_no_tags(@page_content.content, {}, {sanitize: false}) %>
+
+    <div class="version-links">
+      <% if @api_versions.present? %>
+        <% @api_versions.each do |version| %>
+          <h3>
+            <%= version.title %>
+            <span>(<%= I18n.l(version.public_at, format: :day_first) %>)</span>
+          </h3>
+          <% if version.api_methods.is_public.present? %>
+            <ul>
+              <% version.api_methods.is_public.sorted.each do |method| %>
+                <li>
+                  <%= link_to method.title, "/#{I18n.locale}/api/#{version.permalink}/documentation/#{method.permalink}" %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p>
+              <%= t('.no_methods') %>
+            </p>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p>
+          <%= t('.no_versions') %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+<% else %>
+  <% title t('.title') %>
+
+  comming soon...
+<% end %>

@@ -1,4 +1,6 @@
 BootstrapStarter::Application.routes.draw do
+
+
 	#--------------------------------
 	# all resources should be within the scope block below
 	#--------------------------------
@@ -9,22 +11,32 @@ BootstrapStarter::Application.routes.draw do
 											 :controllers => {:omniauth_callbacks => "omniauth_callbacks"}
 
 		namespace :admin do
-         resources :pages
-			resources :users
+      resources :page_contents
+      resources :users
+      resources :banks
+      resources :api_versions, :except => [:show] do
+        resources :api_methods, :except => [:index]
+      end
 		end
 
-    # scope "api"  do
-    #   resources :rates 
-    # end
+    # api
+    match '/api', to: 'api#index', as: :api, via: :get
+    namespace :api do
+      match '/v1', to: 'v1#index', as: :v1, via: :get
+      match '/v1/documentation(/:method)', to: 'v1#documentation', as: :v1_documentation, via: :get
 
+      match "/v1/calculator" => "v1#calculator", as: 'v1_calculator', :via => :get, :defaults => { :format => 'json' }
 
-      match "nbg" => "api/v1#nbg", as: 'nbg', :via => :get, :defaults => { :format => 'json' }
-      match "rates" => "api/v1#rates", as: 'rates', :via => :get, :defaults => { :format => 'json' }
-      match "calculator" => "api/v1#calculator", as: 'calculator', :via => :get, :defaults => { :format => 'json' }
-      
-      # root pages
-      match "api" => "root#api", as: 'api', :via => :get
-      match "about" => "root#about", as: 'about', :via => :get
+      match "/v1/nbg_currencies" => "v1#nbg_currencies", as: 'v1_nbg_currencies', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/nbg_rates" => "v1#nbg_rates", as: 'v1_nbg_rates', :via => :get, :defaults => { :format => 'json' }
+
+      match "/v1/commercial_banks" => "v1#commercial_banks", as: 'v1_commercial_banks', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/commercial_banks_with_currency" => "v1#commercial_banks_with_currency", as: 'v1_commercial_banks_with_currency', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/commercial_bank_rates" => "v1#commercial_bank_rates", as: 'v1_commercial_bank_rates', :via => :get, :defaults => { :format => 'json' }
+    end    
+    
+    # root pages
+    match "about" => "root#about", as: 'about', :via => :get
 
 		root :to => 'root#index'
 	  match "*path", :to => redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever

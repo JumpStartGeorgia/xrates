@@ -1,0 +1,34 @@
+<%= tinymce_assets %>
+<%= tinymce :advanced %>
+
+<%= semantic_form_for([:admin, @api_version, @api_method]) do |f| %>
+  <%= f.error_messages %>
+
+  <% create_sorted_translation_objects(@api_method.api_method_translations).each do |trans| %>
+    <%= f.fields_for :api_method_translations, trans do |translation| %>
+
+      <div id="form-<%= trans.locale %>" class="multilanguage_nested">
+        <h3><%= t("app.language.#{trans.locale}") %></h3>
+
+        <%= translation.input :title %>
+        <%= translation.input :content, :as => :text, rows: 10, :input_html => { class: 'tinymce' } %>
+        <%= translation.hidden_field :locale , :value => trans.locale %>
+      </div>
+
+    <% end %>
+  <% end %>
+
+  <%= f.inputs do %>
+    <%= f.input :permalink, :input_html => {:size =>35} %>
+    <%= f.input :sort_order, as: :number, min: 1, step: 5 %>
+    <%= f.input :public, as: :radio %>
+    <%= f.input :api_version_id, as: :hidden, label: false, input_html: {value: params[:api_version_id]} %>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= f.submit nil, :class => 'btn btn-warning', :type => :reset, :value => t('helpers.links.reset'), :name => :reset %>
+    <%= link_to t('helpers.links.cancel'), admin_api_versions_path, :class => 'btn btn-sm btn-warning' %>
+  </div>
+<% end %>
+
