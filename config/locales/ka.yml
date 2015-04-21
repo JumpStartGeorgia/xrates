@@ -88,6 +88,7 @@ ka:
       like: მოწონება
       likes: მოწონება
       menu: მენიუ
+      api_home: API Home
     titles:
       edit: "შეცვლა %{model}"
       save: "შენახვა %{model}"

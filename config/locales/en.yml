@@ -88,6 +88,7 @@ en:
       like: Like   
       likes: Likes      
       menu: Menu
+      api_home: API Home
     titles:
       edit: "Edit %{model}"
       save: "Save %{model}"
