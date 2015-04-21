@@ -123,11 +123,7 @@ $(function () {
     banks: { keys: [], rates: {} }
   };
 
-  $('.menu-toggle').click(function(e){
-    var t = $('.tabs').toggle();
-    
-    e.preventDefault();
-  });
+
 
   $('.tab[data-id] a').click(function(e){
     var t = $(this).parent();
@@ -137,10 +133,11 @@ $(function () {
     $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
     params.resume(+t.attr('data-id'));
     e.preventDefault();
+    $('.tabs').toggle();
   });
 
   $('select.filter-b-currency').select2({ maximumSelectionSize: 5,
-    width:380,
+    // width:380,
     formatResult: function(d){
       return "<div class='flag'><img src='/assets/png/flags/"+d.id+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
     },
@@ -151,7 +148,7 @@ $(function () {
   });
   $('select.filter-c-currency').select2({ maximumSelectionSize: 1,
     allowClear:false,
-    width:380,
+    /*width:380,*/
     formatResult: function(d){
       return "<div class='flag'><img src='/assets/png/flags/"+d.id+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
     },
@@ -213,6 +210,9 @@ $(function () {
    $('.calculator .from[data-type=datepicker]').datepicker({
       dateFormat: "d M, yy",
       defaultDate: "-3m",
+      changeMonth: true,
+      changeYear: true,
+      maxDate: "d",
       onClose: function( v ) {
         $('.calculator .to[data-type=datepicker]').datepicker( "option", "minDate", v );
       },
@@ -227,6 +227,9 @@ $(function () {
    $('.calculator .to[data-type=datepicker]').datepicker({
       dateFormat: "d M, yy",
       defaultDate: "d",
+      changeMonth: true,
+      changeYear: true,
+      maxDate: "d",
       onClose: function( v ) {
         $('.calculator .from[data-type=datepicker]').datepicker( "option", "maxDate", v );
       },
@@ -550,6 +553,7 @@ $(function () {
         backgroundColor: '#f1f2f2'
       },
       colors: [ '#1cbbb4', '#F47C7C', '#4997FF', '#be8ec0', '#8fc743'],
+      // navigator: { enabled: false },
       rangeSelector: {
           selected: 0,
           inputDateFormat: '%d-%b-%Y',
@@ -628,7 +632,11 @@ $(function () {
     function (chart) {
       setTimeout(function () {
           $('input.highcharts-range-selector', $(chart.container).parent())
-              .datepicker({dateFormat: "dd-mm-yy"});
+              .datepicker({dateFormat: "dd-mm-yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    maxDate: "d"
+                  });
       }, 0);
     });
     b_chart_refresh(true);
@@ -890,7 +898,11 @@ $(function () {
     function (chart) {
       setTimeout(function () {
           $('input.highcharts-range-selector', $(chart.container).parent())
-              .datepicker({dateFormat: "dd-mm-yy"});
+              .datepicker({dateFormat: "dd-mm-yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    maxDate: "d"
+                  });
       }, 0);
     });
     c_chart_refresh(true);

@@ -15,23 +15,22 @@
           </div>
         </div>
         <div class="output">
-          <div class="row">
+          <div class="col">
             <div class="label"></div>
+           <div class="datepicker-wrapper"><input type="text" class="from" data-type="datepicker" data-default="-3m"></div>   
+            <div class="datepicker-wrapper"><input type="text" class="to" data-type="datepicker" data-default="d"></div>     
+          </div>
+          <div class="col">
             <div class="label" data-gel="<%= t(".calculator.gel") %>" data-usd="<%= t(".calculator.usd") %>"><span><%= t(".rate") %></span></div>
-            <div class="label space"><%= t(".calculator.your_net_worth") %></div>
-          
+              <div id="rate_then" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
+              <div id="rate_now" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
           </div>
-          <div class="row">
-              <div class="datepicker-wrapper"><input type="text" class="from" data-type="datepicker" data-default="-3m"></div>         
-            <div id="rate_then" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
-             <div id="worth_then" class="vk space"><div class="value box"></div><div class="symbol usd"></div></div>
+          <div class="col col-worth">
+             <div class="label space"><%= t(".calculator.your_net_worth") %></div>
+               <div id="worth_then" class="vk space"><div class="value box"></div><div class="symbol usd"></div></div>
+               <div id="worth_now" class="vk space"><div class="value box"></div><div class="symbol usd "></div></div>
           </div>
-           <div class="row">
-               <div class="datepicker-wrapper"><input type="text" class="to" data-type="datepicker" data-default="d"></div>
-               <div id="rate_now" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
-           
-            <div id="worth_now" class="vk space"><div class="value box"></div><div class="symbol usd "></div></div>
-          </div>
+        
         </div>
         <div class="diff">
           <div class="label"><%= t(".calculator.difference").html_safe %></div>
@@ -45,7 +44,7 @@
         <div id="info_text" class="text"><%= t(".calculator.info_gel").html_safe %></div>
       </div>
     </div>
-    <div id="a_chart" style="width:100%;max-width:1024px;"></div>
+    <div id="a_chart" class="chart" style="width:100%;max-width:1024px;"></div>
     <div class="hsw">
       <div><div class="title"><%= t(".hsw") %></div></div>
       <div><div class="text"><%= t(".hsw_text").html_safe %></div></div>
@@ -67,7 +66,7 @@
         <div data-compare="none" class="active"><%= t(".cost") %></div><div data-compare="percent">%</div>
       </div>
     </div>
-    <div id="b_chart" style="height:500px;width:100%;max-width:1024px;"></div>
+    <div id="b_chart" class="chart" style="height:500px;width:100%;max-width:1024px;"></div>
   </div>
   <div class="page page3" data-tab-id="3">
     <div class="intro"><%= t(".page3.intro") %></div>
@@ -87,5 +86,5 @@
       <div class="c_chart_switch_wrapper">
       <div class="c_chart_switch"><div data-compare="both" class="active"><%= t(".both") %></div><div data-compare="buy"><%= t(".buy") %></div><div data-compare="sell"><%= t(".sell") %></div></div>
     </div>
-    <div id="c_chart" style="height:800px;width:100%;max-width:1024px;"></div>
+    <div id="c_chart" class="chart" style="height:800px;width:100%;max-width:1024px;"></div>
   </div>
