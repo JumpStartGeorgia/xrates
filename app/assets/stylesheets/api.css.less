@@ -13,39 +13,73 @@
 
 .row {
   .clearfix();
-  margin-right: -15px;
-  margin-left: -15px;
   .col-left{
-    float: left;
-    width: 74%;
+    display:table-cell;
+    vertical-align:top;
+    border-right:1px solid #d7e0e7;
   }
   .col-right{
-    float: right;
-    width: 25%;
+    min-width:300px;
+    display:table-cell;
+    vertical-align:top;
   }
 
 }
 
 .api, .tinymce_format, .mce-content-body {
+  margin:0px 0px 0px 0px;
+  padding-bottom:20px;
+  display:table;
+  border-collapse: separate;
+  border-spacing:10px 0px;
+  p
+  {
+    font-family:oxygen;
+    font-size:16px;
+    color:#7b8483;
+    line-height:23px;
+    margin:5px 0px;
+    padding:0px;
+  }
   h2{
-    color: @bright-blue-color;
-    font-size: 20px;
+    font-family:'oxygen-b';
+    font-size: 17px;
+    color: #515151;
+    
   }
   h3{
-    color: @bright-blue-color;
+    font-family:'oxygen-b';
     font-size: 17px;
+    color: #515151;
   }
-  .url{
-    background-color: @light-grey-color;
-    padding: 10px 13px;
-    border: solid 1px #ececec;
-    font-weight: bold;
+  .url
+  { 
+    border:1px solid #c1c8ce;
+    background-color: #fff;
+    padding: 10px 20px;
     margin-bottom: 10px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-family:oxygen;
+    font-size:16px;
+    color:#5f5f5f;
+    a
+    {
+      font-family:oxygen;
+      font-size:16px;
+      color:#5f5f5f;
+    }
   }
   ul.list-unstyled {
-    padding-left: 0.5em;
+    padding:0px 0px 0px 0.5em;
+    margin:0px;
     li {
+      font-family:'oxygen';
+      font-size: 16px;
+      color:#848484;
       list-style: none;
+      line-height: 24px;
     }
   }
   .version-links{
@@ -65,9 +99,10 @@
         padding-left: 2em; 
         text-indent: -.7em;
         line-height: 1;
+
         &:before {
           content: "\2022";
-          color: @bright-blue-color;
+          color: #f88600;
           font-size: 1.5em;
           line-height: 1em;
           padding-right: .25em;
@@ -77,41 +112,93 @@
       }
     }    
     a{
-      color: @bright-blue-color;
+      font-family:'oxygen';
+      font-size: 15px;
+      color:#f88600;
+      text-decoration:none;
     }
   }
   .documentation-links{
-    background-color: @light-grey-color;
+    .box
+    {
+      background-color: #f1f3f3;      
+      padding:20px;
+    }
+    h2.title
+    {
+      padding: 0px 30px 4px 0px;
+      border-bottom: 1px solid #b8c0c6;
+      display: inline-block;
+      margin:0px 0px 10px 0px;
+    }
     h2 a{
-      color: @bright-blue-color;
+      color: #898989;
+      font-family:oxygen;
+      font-size:17px;
+      text-decoration:underline;
     }
     a{
-      color: @dark-grey-color;
+      color: #898989;
+      font-family:oxygen;
+      font-size:15px;
+      text-decoration:none;
     }
+     li:before {
+          content: "\2022";
+          color: #f88600;
+          font-size: 1.5em;
+          line-height: 1em;
+          padding-right: .25em;
+          position: relative;
+          top: .15em;
+        }
   }
   #api-dates{
     margin-bottom: 10px;
+    text-align:left;
     span{
-      color: @bright-blue-color;
-      font-style: italic;
-      margin-right: 20px;
-      font-size: 13px;
+      padding: 13px 13px;
+      color: #7b8483;
+      font-family:'oxygen';
+      font-size:14px;
+      line-height:22px;
     }
   }
 
   table.table{
     margin: 0;
-    border-color: @medium-grey-color;
+    border-collapse:collapse;
     th, td {
-      background-color: @light-grey-color;
+      background-color: #fff;
       padding: 13px 23px;
-      border-color: @medium-grey-color;
+      border:1px solid #c1c8ce;
+      color: #5f5f5f;
+      font-family:'oxygen';
+      font-size:14px;
+      line-height:22px;
+      vertical-align:top;
+      a
+      {
+        text-decoration:underline;
+        color: #5f5f5f;
+        font-family:'oxygen';
+        font-size:14px;
+      }
     }
     thead th{
-      color: @maroon-color;
+      color: #5f5f5f;
+      font-family:'oxygen-b';
+      font-size:15px;
+      text-align:left;
     }
     tbody tr td:first-of-type{
-      font-weight: bold;
+      color: #5f5f5f;
+      font-family:'oxygen-b';
+      font-size:14px;
     }
   }
+}
+
+.syntaxhighlighter .plain, .syntaxhighlighter .plain a {
+  color: #7b8483 !important;
 }
