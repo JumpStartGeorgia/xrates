@@ -9,8 +9,8 @@
           <div class="caption"><%= t(".calculator.enter_data").html_safe %></div>
           <div class="inp-field"><input type="text" id="worth" value="1"/></div>
           <div id="currency_switch" class="currency-switch">
-            <div class="btn gel active" data-option="GEL" alt="blah"></div>
-            <div class="btn usd" data-option="USD"></div>
+            <div class="btn gel active" data-option="GEL" title="<%= t('app.common.gel') %>"></div>
+            <div class="btn usd" data-option="USD" title="<%= t('app.common.usd') %>"></div>
           </div>
         </div>
         <div class="output">
@@ -21,19 +21,19 @@
           </div>
           <div class="col">
             <div class="label" data-gel="<%= t(".calculator.gel") %>" data-usd="<%= t(".calculator.usd") %>"><span><%= t(".rate") %></span></div>
-              <div id="rate_then" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
-              <div id="rate_now" class="vk"><div class="value box"></div><div class="symbol usd"></div></div>
+              <div id="rate_then" class="vk"><div class="value box"></div><div class="symbol usd" title="<%= t('app.common.usd') %>"></div></div>
+              <div id="rate_now" class="vk"><div class="value box"></div><div class="symbol usd" title="<%= t('app.common.usd') %>"></div></div>
           </div>
           <div class="col col-worth">
              <div class="label space"><%= t(".calculator.your_net_worth") %></div>
-               <div id="worth_then" class="vk space"><div class="value box"></div><div class="symbol usd"></div></div>
-               <div id="worth_now" class="vk space"><div class="value box"></div><div class="symbol usd "></div></div>
+               <div id="worth_then" class="vk space"><div class="value box"></div><div class="symbol usd" title="<%= t('app.common.usd') %>"></div></div>
+               <div id="worth_now" class="vk space"><div class="value box"></div><div class="symbol usd" title="<%= t('app.common.usd') %>"></div></div>
           </div>
         
         </div>
         <div class="diff">
           <div class="label"><%= t(".calculator.difference").html_safe %></div>
-          <div id="worth_diff" class="vk"><div class="value"></div><div class="symbol usd"></div></div>
+          <div id="worth_diff" class="vk"><div class="value"></div><div class="symbol usd" title="<%= t('app.common.usd') %>"></div></div>
         </div>
       </div>
       <div class="sep"></div>  
@@ -51,7 +51,6 @@
   </div>
   <div class="page page2" data-tab-id="national_bank">
     <div class="intro"><%= t(".page2.intro") %></div>
-    <div class="title"><%= t(".page2.title") %></div>
     <div class="filters">
       <div class="caption"><%= t(".currency") %></div>
       <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, params[:currency].split(',')), 
@@ -69,7 +68,6 @@
   </div>
   <div class="page page3" data-tab-id="commerical_banks">
     <div class="intro"><%= t(".page3.intro") %></div>
-    <div class="title"><%= t(".page3.title") %></div>
     <div class="filters">
       <div class="box">
         <div class="caption"><%= t(".currency") %></div>

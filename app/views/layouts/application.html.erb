@@ -38,7 +38,7 @@
           <div class="logo">
             <%= link_to image_tag("/assets/svg/logo_#{I18n.locale}.svg", :alt => t('app.common.app_name')), root_path %>          
           </div>
-          <div class="menu-toggle"><img src="/assets/svg/menu_cg.svg" alt="Navigation toggle" ></div>
+          <div class="menu-toggle"><img src="/assets/svg/menu_cg.svg" alt="<%= t('app.common.nav_toggle') %>"></div>
           <div class="right des">
             <% if user_signed_in? %>
               <% if current_user.role?(User::ROLES[:admin]) %>
@@ -57,7 +57,7 @@
             <div class="lang-switch">
                       <% I18n.available_locales.each do |locale| %>
                          <% if locale != I18n.locale %>
-                            <%= link_to t("app.language.#{locale}"), params.merge(:locale => locale), lang: locale %>
+                            <%= link_to t("app.language.#{locale}"), {:locale => locale}, lang: locale, url: root_path(:locale => locale), id:"lang-link" %>
                          <% end %>
                       <% end %>
             </div>
@@ -75,7 +75,7 @@
           <div class="tab mob"><%= link_to t("app.common.about"), about_path %></div>
           <div class="tab mob"><% I18n.available_locales.each do |locale| %>
                          <% if locale != I18n.locale %>
-                            <%= link_to t("app.language.#{locale}"), params.merge(:locale => locale), lang: locale %>
+                            <%= link_to t("app.language.#{locale}"), {:locale => locale}, lang: locale, url: root_path(:locale => locale), id:"lang-link" %>
                          <% end %>
                       <% end %>
           </div>

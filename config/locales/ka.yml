@@ -124,7 +124,8 @@ ka:
       about: ჩვენ შესახებ
       api: API
       last_update: "Last update: "
-      lari: ლარი
+      gel: ლარი
+      usd: დოლარი      
       share: გააზიარე
       m1: '1თ'
       m3: '3თ'
@@ -133,11 +134,21 @@ ka:
       all: ყვ.   
       date: თარიღი   
       description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."    
+      nav_toggle: Navigation toggle
     msgs:
-      does_not_exist: თქვენ ცდილობთ ისეთი გვერდის ნახვას, რომელიც არ არსებობს.
+      does_not_exist: "თქვენ ცდილობთ ისეთი გვერდის ნახვას, რომელიც არ არსებობს."
       not_authorized: თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება.
       success_created: "%{obj} შექმნილია."
       success_updated: "%{obj} განახლებულია."
+      missing_data_currency: Missing data for currency
+      currency_does_not_exist: "Currency %{obj} is not exist"
+      currency_is_not_valid: "Currency is not valid"
+      currency_not_recognized: "The provided currency is not recognized"
+      greater_than_zero: 'Amount should be greater than 0.'
+      currency_directions: 'Direction can be 0 or 1 - 1: GEL -> Currency, 0: Currency -> GEL.'
+      start_less_then_end_date: 'Please make sure the start date is less than the end date'
+      start_date_start_point: "The start date must occur after '2000-01-01'"
+      invalid_field: "%{obj} field is invalid."      
   layouts:
     application:
       toggle: ნავიგაციის ჩართვა/გამორთვა
@@ -231,6 +242,7 @@ ka:
     downloadJPEG: "ჩამოტვირთე JPEG გამოსახულება"
     downloadPDF: "ჩამოტვირთე PDF დოკუმენტი"
     downloadSVG: "ჩამოტვირთე SVG ვექტორული გამოსახულება"
+    downloadCSV: "Download CSV data"
     printChart: "ამობეჭდე გრაფიკი"    
     contextButtonTitle: გრაფიკის ჩამოტვირთვა
   api:

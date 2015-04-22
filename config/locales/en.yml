@@ -124,7 +124,8 @@ en:
       about: About
       api: API
       last_update: "Last update: "
-      lari: Lari
+      gel: Lari
+      usd: Dollar
       share: Share this
       m1: '1m'
       m3: '3m'
@@ -132,12 +133,22 @@ en:
       y1: '1y'
       all: All
       date: Date
-      description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."    
+      description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+      nav_toggle: "Navigation toggle"
     msgs:
       does_not_exist: You tried to access a page that does not exist.
       not_authorized: You are not authorized to view that page.
       success_created: "%{obj} was successfully created."
       success_updated: "%{obj} was successfully updated."
+      missing_data_currency: Missing data for currency
+      currency_does_not_exist: "Currency %{obj} is not exist"
+      currency_is_not_valid: "Currency is not valid"
+      currency_not_recognized: "The provided currency is not recognized"
+      greater_than_zero: 'Amount should be greater than 0.'
+      currency_directions: 'Direction can be 0 or 1 - 1: GEL -> Currency, 0: Currency -> GEL.'
+      start_less_then_end_date: 'Please make sure the start date is less than the end date'
+      start_date_start_point: "The start date must occur after '2000-01-01'"
+      invalid_field: "%{obj} field is invalid."
   layouts:
     application:
       toggle: Toggle navigation
@@ -232,6 +243,7 @@ en:
     downloadJPEG: "Download JPEG image"
     downloadPDF: "Download PDF document"
     downloadSVG: "Download SVG vector image"
+    downloadCSV: "Download CSV data"
     printChart: "Print chart"       
     contextButtonTitle: Download Chart
   api:

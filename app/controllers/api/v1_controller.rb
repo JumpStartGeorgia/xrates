@@ -100,13 +100,13 @@ class Api::V1Controller < ApplicationController
             flag = true
           end
         else
-          @errors.push({ field: 'currency', message: 'Currency ' + cur_item + ' is not exist' })
+          @errors.push({ field: 'currency', message: t('app.msgs.currency_does_not_exist', :obj => cur_item) })
         end
       }
     end
 
     if !flag 
-      @errors.push({ field: 'currency', message: 'Missing data for currency' })
+      @errors.push({ field: 'currency', message: t('app.msgs.missing_data_currency') })
     end
 
     if @errors.any?
@@ -168,7 +168,7 @@ class Api::V1Controller < ApplicationController
     currency = Currency.by_code(params[:currency])
 
     if currency.blank?
-      @errors.push({ field: 'currency', message: "Currency is not valid" })
+      @errors.push({ field: 'currency', message: t('app.msgs.currency_is_not_valid') })
     end
 
     if @errors.any?
@@ -217,7 +217,7 @@ class Api::V1Controller < ApplicationController
     result = []
 
     if !@currency_codes.has_key?(currency)
-      @errors.push({ field: 'currency', message: "The provided currency is not recognized" })
+      @errors.push({ field: 'currency', message: t('app.msgs.currency_not_recognized') })
     end
     validate_dates(start_date, end_date)
 
@@ -271,9 +271,9 @@ class Api::V1Controller < ApplicationController
     end_date = to_date('end_date')
 
     data = { valid: true }
-    @errors.push({ field: 'amount', message: 'Amount should be greater than 0.' }) if(amount <= 0)
-    @errors.push({ field: 'currency', message: 'Currency is not valid.' }) if(!@currency_codes.has_key?(cur))
-    @errors.push({ field: 'direction', message: 'Direction can be 0 or 1 - 1: GEL -> Currency, 0: Currency -> GEL.' }) if !(dir == '0' || dir == '1')
+    @errors.push({ field: 'amount', message: t('app.msgs.greater_than_zero') }) if(amount <= 0)
+    @errors.push({ field: 'currency', message: t('app.msgs.currency_is_not_valid') }) if(!@currency_codes.has_key?(cur))
+    @errors.push({ field: 'direction', message: t('app.msgs.currency_directions') }) if !(dir == '0' || dir == '1')
     validate_dates(start_date, end_date)
 
     # convert direction to int
@@ -330,7 +330,7 @@ private
         raise
       end  
     rescue  
-      @errors.push({ field: p, message: p.humanize + ' field is invalid.' }) if !r
+      @errors.push({ field: p,  message: t('app.msgs.invalid_field', :obj => p.humanize) }) if !r
       nil
     end
   end
@@ -341,11 +341,11 @@ private
   def validate_dates(start_date, end_date)
     if start_date.present? && end_date.present?
       if end_date < start_date
-        @errors.push({ field: 'dates', message: 'Please make sure the start date is less than the end date' })
+        @errors.push({ field: 'dates', message: t('app.msgs.start_less_then_end_date') })
       end
 
       if start_date.year < 2000
-        @errors.push({ field: 'start_date', message: 'The start date must occur after \'2000-01-01\'' })
+        @errors.push({ field: 'start_date', message: t('app.msgs.start_date_start_point') })
       end
     end
   end
