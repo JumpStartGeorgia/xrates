@@ -27,7 +27,7 @@ sql[sql.length-1] = ''
 sql_trans[sql_trans.length-1] = ''
 ActiveRecord::Base.connection.execute(sql)
 ActiveRecord::Base.connection.execute(sql_trans)
-
+f
 
 #####################
 ## Banks
@@ -61,22 +61,22 @@ if PageContent.where(id: 1).blank?
 end
 if PageContent.where(id: 2).blank?
   p = PageContent.create(:id => 2, :name => 'api')
-  p.page_content_translations.create(:locale => 'en', :title => 'API', :content => '<p>The Lari Explorer API allows you to obtain information about the National Bank of Georgia’s currency rates, buy and sell rates of commercial banks operating in Georgia and other related information, as seen on the Lari Explorer website.</p>
+  p.page_content_translations.create(:locale => 'en', :title => 'Lari Explorer API', :content => '<p>The Lari Explorer API allows you to obtain information about the National Bank of Georgia’s currency rates, buy and sell rates of commercial banks operating in Georgia and other related information, as seen on the Lari Explorer website.</p>
   <h2>The URL to the API is the following:</h2>
   <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/[version]/</div>
   <p>where:</p>
   <ul class="list-unstyled">
-  <li>[locale] = the locale of the language you want the data to be returned in (currently ka for Georgian or en for English)</li>
+  <li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
   <li>[version] = the version number of the API (see below)</li>
   </ul>
   <h2>API Calls</h2>
   <p>The following is a list of calls that are available in each version of the API.</p>')
-  p.page_content_translations.create(:locale => 'ka', :title => 'API', :content => '<p>The Lari Explorer API allows you to obtain information about the National Bank of Georgia’s currency rates, buy and sell rates of commercial banks operating in Georgia and other related information, as seen on the Lari Explorer website.</p>
+  p.page_content_translations.create(:locale => 'ka', :title => 'Lari Explorer API', :content => '<p>The Lari Explorer API allows you to obtain information about the National Bank of Georgia’s currency rates, buy and sell rates of commercial banks operating in Georgia and other related information, as seen on the Lari Explorer website.</p>
   <h2>The URL to the API is the following:</h2>
   <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/[version]/</div>
   <p>where:</p>
   <ul class="list-unstyled">
-  <li>[locale] = the locale of the language you want the data to be returned in (currently ka for Georgian or en for English)</li>
+  <li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
   <li>[version] = the version number of the API (see below)</li>
   </ul>
   <h2>API Calls</h2>
@@ -559,7 +559,7 @@ if v.present? && v.api_methods.empty?
 
 
   m = v.api_methods.create(permalink: 'commercial_banks', sort_order: 3, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Commerical Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
+  m.api_method_translations.create(locale: 'en', title: 'Commercial Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks</div>
@@ -626,7 +626,7 @@ if v.present? && v.api_methods.empty?
   ]
 }</pre>
 <h3>&nbsp;</h3>')
-  m.api_method_translations.create(locale: 'ka', title: 'Commerical Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
+  m.api_method_translations.create(locale: 'ka', title: 'Commercial Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks</div>
@@ -695,7 +695,7 @@ if v.present? && v.api_methods.empty?
 <h3>&nbsp;</h3>')
 
   m = v.api_methods.create(permalink: 'commercial_banks_with_currency', sort_order: 4, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Commerical Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
+  m.api_method_translations.create(locale: 'en', title: 'Commercial Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks_with_currency</div>
@@ -761,7 +761,7 @@ if v.present? && v.api_methods.empty?
   ]
 }</pre>
 <h3>&nbsp;</h3>')
-  m.api_method_translations.create(locale: 'ka', title: 'Commerical Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
+  m.api_method_translations.create(locale: 'ka', title: 'Commercial Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks_with_currency</div>
@@ -830,7 +830,7 @@ if v.present? && v.api_methods.empty?
 
 
   m = v.api_methods.create(permalink: 'commercial_bank_rates', sort_order: 5, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Commerical Bank Rates', content: '<p>Get commercial bank\'s buy and sell exchange rates for a currency. For comparison, the National Bank of Georgia suggested exchange rate for the currency will also be returned.</p>
+  m.api_method_translations.create(locale: 'en', title: 'Commercial Bank Rates', content: '<p>Get commercial bank\'s buy and sell exchange rates for a currency. For comparison, the National Bank of Georgia suggested exchange rate for the currency will also be returned.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_bank_rates</div>
@@ -1139,7 +1139,7 @@ if v.present? && v.api_methods.empty?
 }</pre>
 <p> </p>
 ')
-  m.api_method_translations.create(locale: 'ka', title: 'Commerical Bank Rates', content: '<p>Get commercial bank\'s buy and sell exchange rates for a currency. For comparison, the National Bank of Georgia suggested exchange rate for the currency will also be returned.</p>
+  m.api_method_translations.create(locale: 'ka', title: 'Commercial Bank Rates', content: '<p>Get commercial bank\'s buy and sell exchange rates for a currency. For comparison, the National Bank of Georgia suggested exchange rate for the currency will also be returned.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_bank_rates</div>
