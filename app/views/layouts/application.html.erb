@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
   <head>
+    <title><%= content_for?(:title) ? "#{yield(:title)} | #{t('app.common.app_name')}" : t('app.common.app_name') %></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? "#{yield(:title)} | #{t('app.common.app_name')}" :
-				t('app.common.app_name') %></title>
+    <meta name="description" content="<%= content_for?(:description) ? "#{yield(:description)}" : t('app.common.description') %>">
+    <meta property="og:title" content="<%= content_for?(:title) ? "#{yield(:title)} | #{t('app.common.app_name')}" : t('app.common.app_name') %>">
+    <meta property="og:description" content="<%= content_for?(:description) ? "#{yield(:description)}" : t('app.common.description') %>">
+    <meta property="og:type" content="non_profit">
+    <meta property="og:url" content="<%= current_url %>">
+    <meta property="og:image" content="<%= full_url('/assets/fb_'+I18n.locale.to_s+'.jpg') %>">
+    <meta property="og:site_name" content="<%= t('app.common.app_name') %>" >
+
     <%= csrf_meta_tags %>
 	  <%= include_gon %>
 
@@ -112,6 +119,7 @@
     <% end %>
 
 		<% if Rails.env.production? %>
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55373fab24a51695" async="async"></script>
       <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
