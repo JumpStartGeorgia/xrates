@@ -75,6 +75,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
 		else
 		  gon.datatable_i18n_url = ""
 		end
+      gon.app_name = ' | ' + t('app.common.app_name')
       gon.a_chart_title = t(".root.index.page1.chart.title")
       gon.info_gel = t(".root.index.calculator.info_gel").html_safe
       gon.info_usd = t(".root.index.calculator.info_usd").html_safe

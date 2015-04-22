@@ -1,4 +1,5 @@
-/*national bank #4b4a4b
+/*
+national bank #4b4a4b
 republic #e22b2b
 tbc  #25aae1
 georgian bank #ed7623
@@ -18,7 +19,8 @@ creditplus #e6382a
 leader-credit #f1892d
 fincredit #064466
 ricocredit #422e82
-Capital #d0a060*/
+Capital #d0a060
+*/
 $(function () {
 
   if(document.documentElement.lang == 'ka')
@@ -163,11 +165,19 @@ $(function () {
     $('.tab').removeClass("active");
     t.addClass("active");
     $('.page.active').removeClass("active");
-    $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
+    var ptmp = $('.page[data-tab-id='+t.attr('data-id')+']').addClass("active");
+     console.log(ptmp);
     params.resume(t.attr('data-id'));
     e.preventDefault();
-    if(e.originalEvent != undefined && $('.menu-toggle').css('display') != 'none') // was programmatically called or not
+    if(e.originalEvent != undefined && $('.menu-toggle').css('display') != 'none'){ // was programmatically called or not
       $('.tabs').toggle();
+    }
+     console.log('here');
+    document.title = this.text + gon.app_name;
+    $("meta[property='og:title']").attr('content',document.title);
+    var descr = ptmp.find('.intro').text();
+    $("meta[name=description]").attr('content',descr);
+    $("meta[property='og:description']").attr('content',descr);
   });
 
   $('select.filter-b-currency').select2({ maximumSelectionSize: 5,
@@ -608,6 +618,7 @@ $(function () {
           inputEditDateFormat: '%d-%b-%Y',
           inputBoxWidth: 120,  
           inputBoxHeight: 20,                  
+          inputStyle: { cursor: 'pointer' },
           inputDateParser:function(v)
           {
              v = v.split(/-/);
@@ -679,6 +690,7 @@ $(function () {
     },
     function (chart) {
       setTimeout(function () {
+         console.log('heree');
           $('input.highcharts-range-selector', $(chart.container).parent())
               .datepicker({dateFormat: "dd-mm-yy",
                     changeMonth: true,
@@ -799,7 +811,8 @@ $(function () {
           inputDateFormat: '%d-%b-%Y',
           inputEditDateFormat: '%d-%b-%Y',
           inputBoxWidth: 120,  
-          inputBoxHeight: 20,                  
+          inputBoxHeight: 20,
+          inputStyle: { cursor: 'pointer' },                  
           inputDateParser:function(v)
           {
              v = v.split(/-/);

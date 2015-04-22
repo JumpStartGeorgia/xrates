@@ -160,7 +160,10 @@ body > .wrapper
          }
       }
       .page{
-         display:none;
+         /* display:none; */
+         position:fixed;
+         top:0px;
+         left:9999999px;
          background-color:#fafbfb;
          padding:0px;/*  10px; */
          width:100%;
@@ -174,6 +177,7 @@ body > .wrapper
          &.active,&.about,&.api
          {
             display:inline-block;
+            position:static;
          }
          > .title
          {
@@ -898,6 +902,7 @@ body > .wrapper
       outline:none;
       vertical-align:top !important;
       top: 3px !important;
+      cursor:pointer;
    }
    .highcharts-input-group
    {
