@@ -95,7 +95,7 @@ if v.blank?
 end
 if v.present? && v.api_methods.empty?
   m = v.api_methods.create(permalink: 'nbg_currencies', sort_order: 1, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'National Bank of Georgia Currencies', content: '<p>Get a list of&nbsp;the foreign currencies the National Bank of Georgia has suggested exchange rates&nbsp;for against the Lari.</p>
+  m.api_method_translations.create(locale: 'en', title: 'National Bank of Georgia Currencies', content: '<p>Get a list of the foreign currencies the National Bank of Georgia has suggested exchange rates for against the Lari.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/nbg_currencies</div>
@@ -104,9 +104,9 @@ if v.present? && v.api_methods.empty?
 <li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
 </ul>
 <h2>Required Parameters</h2>
-<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<p>There are no required parameters for this call. </p>
 <h2>Optional Parameters</h2>
-<p>There are no optional parameters for this call.&nbsp;</p>
+<p>There are no optional parameters for this call. </p>
 <h2>What You Get</h2>
 <p>The return object is a JSON array of currencies with the following information:</p>
 <table class="table table-bordered table-hover table-nonfluid">
@@ -157,8 +157,8 @@ if v.present? && v.api_methods.empty?
     }
   ]
 }</pre>
-<h3>&nbsp;</h3>')
-  m.api_method_translations.create(locale: 'ka', title: 'National Bank of Georgia Currencies', content: '<p>Get a list of&nbsp;the foreign currencies the National Bank of Georgia has suggested exchange rates&nbsp;for against the Lari.</p>
+<h3> </h3>')
+  m.api_method_translations.create(locale: 'ka', title: 'National Bank of Georgia Currencies', content: '<p>Get a list of the foreign currencies the National Bank of Georgia has suggested exchange rates for against the Lari.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/nbg_currencies</div>
@@ -167,9 +167,9 @@ if v.present? && v.api_methods.empty?
 <li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
 </ul>
 <h2>Required Parameters</h2>
-<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<p>There are no required parameters for this call. </p>
 <h2>Optional Parameters</h2>
-<p>There are no optional parameters for this call.&nbsp;</p>
+<p>There are no optional parameters for this call. </p>
 <h2>What You Get</h2>
 <p>The return object is a JSON array of currencies with the following information:</p>
 <table class="table table-bordered table-hover table-nonfluid">
@@ -220,7 +220,7 @@ if v.present? && v.api_methods.empty?
     }
   ]
 }</pre>
-<h3>&nbsp;</h3>')
+<h3> </h3>')
 
   m = v.api_methods.create(permalink: 'nbg_rates', sort_order: 2, public: true)
   m.api_method_translations.create(locale: 'en', title: 'National Bank of Georgia Rates', content: '<p>Get Lari exchange rates from the National Bank of Georgia for one or more currencies.</p>
@@ -559,7 +559,7 @@ if v.present? && v.api_methods.empty?
 
 
   m = v.api_methods.create(permalink: 'commercial_banks', sort_order: 3, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Commercial Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
+  m.api_method_translations.create(locale: 'en', title: 'Commercial Banks', content: '<p>Get a list of the commercial banks whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks</div>
@@ -568,11 +568,11 @@ if v.present? && v.api_methods.empty?
 <li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
 </ul>
 <h2>Required Parameters</h2>
-<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<p>There are no required parameters for this call. </p>
 <h2>Optional Parameters</h2>
-<p>There are no optional parameters for this call.&nbsp;</p>
+<p>There are no optional parameters for this call. </p>
 <h2>What You Get</h2>
-<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<p>The return object is a JSON array of banks with the following information:</p>
 <table class="table table-bordered table-hover table-nonfluid">
 <thead>
 <tr><th>Parameter</th><th>Description</th></tr>
@@ -580,11 +580,11 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>code</td>
-<td>The code of the&nbsp;bank</td>
+<td>The code of the bank</td>
 </tr>
 <tr>
 <td>name</td>
-<td>The name of the&nbsp;bank</td>
+<td>The name of the bank</td>
 </tr>
 <tr>
 <td>currencies</td>
@@ -594,7 +594,7 @@ if v.present? && v.api_methods.empty?
 </table>
 <h2>Examples</h2>
 <h3>Example 1</h3>
-<p>Here is an example of getting all banks&nbsp;being tracked by this site. The URL for this is the following:</p>
+<p>Here is an example of getting all banks being tracked by this site. The URL for this is the following:</p>
 <div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
   valid: true,
@@ -625,8 +625,8 @@ if v.present? && v.api_methods.empty?
     }
   ]
 }</pre>
-<h3>&nbsp;</h3>')
-  m.api_method_translations.create(locale: 'ka', title: 'Commercial Banks', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
+<h3> </h3>')
+  m.api_method_translations.create(locale: 'ka', title: 'Commercial Banks', content: '<p>Get a list of the commercial banks whose buy and sell exchange rates are being tracked. For each bank, a list of currencies each bank is exchanging is also provided.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks</div>
@@ -635,11 +635,11 @@ if v.present? && v.api_methods.empty?
 <li>[locale] = the locale of the language you want the data to be returned in (currently <strong>ka</strong> for Georgian or <strong>en</strong> for English)</li>
 </ul>
 <h2>Required Parameters</h2>
-<p>There are no required&nbsp;parameters for this call.&nbsp;</p>
+<p>There are no required parameters for this call. </p>
 <h2>Optional Parameters</h2>
-<p>There are no optional parameters for this call.&nbsp;</p>
+<p>There are no optional parameters for this call. </p>
 <h2>What You Get</h2>
-<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<p>The return object is a JSON array of banks with the following information:</p>
 <table class="table table-bordered table-hover table-nonfluid">
 <thead>
 <tr><th>Parameter</th><th>Description</th></tr>
@@ -647,11 +647,11 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>code</td>
-<td>The code of the&nbsp;bank</td>
+<td>The code of the bank</td>
 </tr>
 <tr>
 <td>name</td>
-<td>The name of the&nbsp;bank</td>
+<td>The name of the bank</td>
 </tr>
 <tr>
 <td>currencies</td>
@@ -661,7 +661,7 @@ if v.present? && v.api_methods.empty?
 </table>
 <h2>Examples</h2>
 <h3>Example 1</h3>
-<p>Here is an example of getting all banks&nbsp;being tracked by this site. The URL for this is the following:</p>
+<p>Here is an example of getting all banks being tracked by this site. The URL for this is the following:</p>
 <div class="url"><a href="http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_banks</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false;tab-size:2" contenteditable="false">{
   valid: true,
@@ -692,10 +692,10 @@ if v.present? && v.api_methods.empty?
     }
   ]
 }</pre>
-<h3>&nbsp;</h3>')
+<h3> </h3>')
 
   m = v.api_methods.create(permalink: 'commercial_banks_with_currency', sort_order: 4, public: true)
-  m.api_method_translations.create(locale: 'en', title: 'Commercial Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
+  m.api_method_translations.create(locale: 'en', title: 'Commercial Banks with Currency', content: '<p>Get a list of the commercial banks whose exchange a particular currency. </p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks_with_currency</div>
@@ -712,14 +712,14 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>currency</td>
-<td>The code of the currency to&nbsp;see which banks are exchanging</td>
+<td>The code of the currency to see which banks are exchanging</td>
 </tr>
 </tbody>
 </table>
 <h2>Optional Parameters</h2>
-<p>There are no optional parameters for this call.&nbsp;</p>
+<p>There are no optional parameters for this call. </p>
 <h2>What You Get</h2>
-<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<p>The return object is a JSON array of banks with the following information:</p>
 <table class="table table-bordered table-hover table-nonfluid">
 <thead>
 <tr><th>Parameter</th><th>Description</th></tr>
@@ -727,11 +727,11 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>code</td>
-<td>The code of the&nbsp;bank</td>
+<td>The code of the bank</td>
 </tr>
 <tr>
 <td>name</td>
-<td>The name of the&nbsp;bank</td>
+<td>The name of the bank</td>
 </tr>
 </tbody>
 </table>
@@ -760,8 +760,8 @@ if v.present? && v.api_methods.empty?
     }
   ]
 }</pre>
-<h3>&nbsp;</h3>')
-  m.api_method_translations.create(locale: 'ka', title: 'Commercial Banks with Currency', content: '<p>Get a list of&nbsp;the&nbsp;commercial banks&nbsp;whose exchange a particular currency.&nbsp;</p>
+<h3> </h3>')
+  m.api_method_translations.create(locale: 'ka', title: 'Commercial Banks with Currency', content: '<p>Get a list of the commercial banks whose exchange a particular currency. </p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks_with_currency</div>
@@ -778,14 +778,14 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>currency</td>
-<td>The code of the currency to&nbsp;see which banks are exchanging</td>
+<td>The code of the currency to see which banks are exchanging</td>
 </tr>
 </tbody>
 </table>
 <h2>Optional Parameters</h2>
-<p>There are no optional parameters for this call.&nbsp;</p>
+<p>There are no optional parameters for this call. </p>
 <h2>What You Get</h2>
-<p>The return object is a JSON array of banks&nbsp;with the following information:</p>
+<p>The return object is a JSON array of banks with the following information:</p>
 <table class="table table-bordered table-hover table-nonfluid">
 <thead>
 <tr><th>Parameter</th><th>Description</th></tr>
@@ -793,11 +793,11 @@ if v.present? && v.api_methods.empty?
 <tbody>
 <tr>
 <td>code</td>
-<td>The code of the&nbsp;bank</td>
+<td>The code of the bank</td>
 </tr>
 <tr>
 <td>name</td>
-<td>The name of the&nbsp;bank</td>
+<td>The name of the bank</td>
 </tr>
 </tbody>
 </table>
@@ -826,7 +826,7 @@ if v.present? && v.api_methods.empty?
     }
   ]
 }</pre>
-<h3>&nbsp;</h3>')
+<h3> </h3>')
 
 
   m = v.api_methods.create(permalink: 'commercial_bank_rates', sort_order: 5, public: true)
@@ -1494,10 +1494,10 @@ if v.present? && v.api_methods.empty?
 </tr>
 </tbody>
 </table>
-<p>&nbsp;</p>
+<p> </p>
 <h2>Optional Parameters</h2>
 <p>There are no optional parameters.</p>
-<p>&nbsp;</p>
+<p> </p>
 <h2>What You Get</h2>
 <p>The return object is a JSON object indicating the start and end rates and the amount gained or lost:</p>
 <table class="table table-bordered table-hover table-nonfluid">
@@ -1610,8 +1610,8 @@ if v.present? && v.api_methods.empty?
     difference: 173.59999999999968
   }
 }</pre>
-<p><br />&nbsp;</p>
-<p>&nbsp;</p>')
+<p><br /> </p>
+<p> </p>')
   m.api_method_translations.create(locale: 'ka', title: 'Depreciation Calculator', content: '<p>Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.</p>
 <h2>URL</h2>
 <p>To call this method, use an HTTP GET request to the following URL:</p>
@@ -1655,10 +1655,10 @@ if v.present? && v.api_methods.empty?
 </tr>
 </tbody>
 </table>
-<p>&nbsp;</p>
+<p> </p>
 <h2>Optional Parameters</h2>
 <p>There are no optional parameters.</p>
-<p>&nbsp;</p>
+<p> </p>
 <h2>What You Get</h2>
 <p>The return object is a JSON object indicating the start and end rates and the amount gained or lost:</p>
 <table class="table table-bordered table-hover table-nonfluid">
@@ -1771,6 +1771,6 @@ if v.present? && v.api_methods.empty?
     difference: 173.59999999999968
   }
 }</pre>
-<p><br />&nbsp;</p>
-<p>&nbsp;</p>')
+<p><br /> </p>
+<p> </p>')
 end
