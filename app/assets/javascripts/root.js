@@ -326,7 +326,7 @@ $(function () {
         $('.tab[data-id=' + params.p + '] a').trigger('click');
       }
     }
-    else $('.tab[data-id=1] a').trigger('click');
+    else $('.tab[data-id=calculator] a').trigger('click');
     prepare();
     calculate(true);
     b_chart();
