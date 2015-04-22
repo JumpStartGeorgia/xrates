@@ -27,7 +27,7 @@ sql[sql.length-1] = ''
 sql_trans[sql_trans.length-1] = ''
 ActiveRecord::Base.connection.execute(sql)
 ActiveRecord::Base.connection.execute(sql_trans)
-f
+
 
 #####################
 ## Banks
@@ -41,8 +41,8 @@ sql = "insert into banks (code, buy_color, sell_color, created_at, updated_at, `
 sql_trans = "insert into bank_translations (bank_id, locale, name, image, created_at, updated_at) values "
 bankInfo.each_with_index do |t,i|
   sql << "(\"#{t[0]}\", \"#{t[5]}\", \"#{t[6]}\", \"#{created_at}\", \"#{created_at}\", \"#{t[7]}\"),"
-  sql_trans << "(\"#{i+1}\", \"en\", \"#{t[1]}\", \"#{t[3] + (t[4]=='1' ? '' : '_en' )}\", \"#{created_at}\", \"#{created_at}\"),"
-  sql_trans << "(\"#{i+1}\", \"ka\", \"#{t[2]}\", \"#{t[3] + (t[4]=='1' ? '' : '_ge' )}\", \"#{created_at}\", \"#{created_at}\"),"
+  sql_trans << "(\"#{i+1}\", \"en\", \"#{t[1]}\", \"#{t[3]}\", \"#{created_at}\", \"#{created_at}\"),"
+  sql_trans << "(\"#{i+1}\", \"ka\", \"#{t[2]}\", \"#{t[3]}\", \"#{created_at}\", \"#{created_at}\"),"
 end
 sql[sql.length-1] = ''
 sql_trans[sql_trans.length-1] = ''
