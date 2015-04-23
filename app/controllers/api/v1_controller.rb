@@ -94,7 +94,7 @@ class Api::V1Controller < ApplicationController
       params[:currency].split(',').each{|cur_item|
         if @currency_codes.has_key?(cur_item)
           cur = @currencies.select{|c| c[0] == cur_item }.first
-          x = Rate.nbg_rates(cur_item,start_date,end_date)
+          x = Rate.nbg_rates(cur_item,{from: start_date,to: end_date})
           if x.present?
             result << {code: cur[0], name: cur[1], ratio: cur[2], rates: x}
             flag = true
@@ -206,7 +206,7 @@ class Api::V1Controller < ApplicationController
   def commercial_bank_rates
     currency = params[:currency].present? ? params[:currency].upcase : nil
     bank_codes = params[:bank].split(',').map{|x| x.upcase}
-    bank =  Bank.with_translations(:en).map{|x| x.code } & bank_codes
+    banks =  Bank.all.map{|x| x.code } & bank_codes
 
     @errors = []
     start_date = params[:start_date].present? ? to_date('start_date') : nil
@@ -223,8 +223,8 @@ class Api::V1Controller < ApplicationController
 
     if !@errors.any?
       ratio = @currency_codes[currency]
-      if ratio != nil && bank.any?
-        bank.each{|code|
+      if ratio != nil && banks.any?
+        banks.each{|code|
           b = Bank.find_by_code(code)            
             if b.id == 1
               x = Rate.rates_nbg(currency, b.id)
@@ -283,7 +283,7 @@ class Api::V1Controller < ApplicationController
       data['errors'] = @errors
       data['valid'] = false
     else
-      rates = Rate.nbg_rates(cur, start_date, end_date)
+      rates = Rate.nbg_rates(cur, {from: start_date, to: end_date})
 
       data[:currency] = {from: dir == 1 ? "GEL" : "#{cur}", to: dir == 1 ? "#{cur}" : "GEL"}
       data[:dates] = {start: {utc: rates.first[0], date: start_date}, end: {utc: rates.last[0], date: end_date}}
@@ -294,16 +294,6 @@ class Api::V1Controller < ApplicationController
       end
       data[:amounts] = {original: amount, start: data[:rates][:start] * amount, end: data[:rates][:end] * amount}
       data[:amounts][:difference] = data[:amounts][:end] - data[:amounts][:start]
-
-      #data['start_amount'] = rates.first
-      #result = { }
-      # get rates for period
-      # get first and last row
-      # process dir field
-      # calculate result based on amount
-      #return result
-      #result['rates'] = rates
-      #data['result'] = result
     end
 
     respond_to do |format|

@@ -85,8 +85,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.monetary_value = t(".root.index.monetary_value")
       gon.buy = t('app.common.buy')
       gon.sell = t('app.common.sell')
-      gon.gel = t('app.common.gel')
-      gon.usd = t('app.common.usd')
+      gon.lari = t('app.common.lari')
       gon.m1 = t('app.common.m1')
       gon.m3 = t('app.common.m3')
       gon.m6 = t('app.common.m6')
@@ -98,7 +97,6 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.highcharts_downloadPDF = t('highcharts.downloadPDF')
       gon.highcharts_downloadSVG = t('highcharts.downloadSVG')
       gon.highcharts_printChart = t('highcharts.printChart')
-      gon.downloadCSV = t('highcharts.downloadCSV')
       gon.highcharts_contextButtonTitle = t('highcharts.contextButtonTitle')
 
       currency_by_bank = {}
@@ -119,6 +117,11 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
   def load_admin_assets
     @css.push('admin.css', 'api.css', 'shCore.css', 'shThemeDefault.css')
     @js.push('admin.js', 'api.js', 'shCore.js', 'shBrushJScript.js')
+  end
+
+  # clean text for a file name
+  def clean_filename(filename)
+    filename.strip.latinize.to_ascii.gsub(' ', '_').gsub(/[\\ \/ \: \* \? \" \< \> \| \, \. ]/,'')
   end
 
 
