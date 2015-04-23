@@ -30,6 +30,7 @@ gem "will_paginate", "~> 3.0.5" # add paging to long lists
 gem "nokogiri"
 gem 'whenever' # schedule cron jobs
 gem 'gabba', '~> 1.0.1' # record api calls to google analytics
+gem "unidecoder", "~> 1.1.2" #convert utf8 to ascii for permalinks
 
 # Gems used only for assets and not required
 # in production environments by default.

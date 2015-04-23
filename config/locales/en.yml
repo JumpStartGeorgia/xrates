@@ -13,7 +13,7 @@ en:
         password: Password
         password_confirmation: Password Confirmation
         role: Role
-        remember_me: Remeber Me
+        remember_me: Remember Me
         nickname: Nickname
         sign_in_count: Number of Times Logged In
         created_at: Date Created
@@ -245,7 +245,7 @@ en:
     downloadSVG: "Download SVG vector image"
     downloadCSV: "Download CSV data"
     printChart: "Print chart"       
-    contextButtonTitle: Download Chart
+    contextButtonTitle: Download
   api:
     index:
       title: API

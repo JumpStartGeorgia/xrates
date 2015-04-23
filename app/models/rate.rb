@@ -65,8 +65,16 @@ class Rate < ActiveRecord::Base
   end
 
   
-  def self.nbg_rates(cur,from,to)
-    select('rate, utc').only_nbg.by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+  def self.nbg_rates(cur,options={})
+    from = options[:from] || nil
+    to = options[:to] || nil
+    include_date = options[:include_date].nil? ? false : options[:include_date] == true
+
+    if include_date
+      select('rate, utc, date').only_nbg.by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, x.rate, x.date]}
+    else
+      select('rate, utc').only_nbg.by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+    end
   end
 
 
@@ -77,14 +85,34 @@ class Rate < ActiveRecord::Base
     select('rate, utc').only_nbg.by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
   end
 
-  def self.rates_nbg(currency,bank)
+  def self.rates_nbg(currency,bank, options={})
+    include_date = options[:include_date].nil? ? false : options[:include_date] == true
+
+    if include_date
+      select('rate, utc, date').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate, x.date]}
+    else
       select('rate, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+    end
   end
-  def self.rates_buy(currency,bank,ratio)
+
+  def self.rates_buy(currency,bank,ratio, options={})
+    include_date = options[:include_date].nil? ? false : options[:include_date] == true
+
+    if include_date
+      select('ifnull(buy_price,0) buy_price, utc, date').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*ratio, x.date]}
+    else
       select('ifnull(buy_price,0) buy_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*ratio]}
+    end
   end
-  def self.rates_sell(currency,bank,ratio)
+
+  def self.rates_sell(currency,bank,ratio, options={})
+    include_date = options[:include_date].nil? ? false : options[:include_date] == true
+
+    if include_date
+      select('ifnull(sell_price,0) sell_price, utc, date').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*ratio, x.date]}
+    else
       select('ifnull(sell_price,0) sell_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*ratio]}
+    end
   end
 
   def nbg?

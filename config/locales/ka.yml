@@ -244,7 +244,7 @@ ka:
     downloadSVG: "ჩამოტვირთე SVG ვექტორული გამოსახულება"
     downloadCSV: "Download CSV data"
     printChart: "ამობეჭდე გრაფიკი"    
-    contextButtonTitle: გრაფიკის ჩამოტვირთვა
+    contextButtonTitle: ჩამოტვირთვა
   api:
     index:
       title: API
