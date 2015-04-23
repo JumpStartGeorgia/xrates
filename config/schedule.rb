@@ -21,13 +21,14 @@
 #env :PATH, '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin'
 set :output, "log/cron.log"
 
-# clear tmp folder stories created during story downloads
+# scrape the bank websites
+# have to take into account the 4 hour time difference on production server
+every :day, :at => '6:00 am' do
+  rake "rates:scrape"
+end
 every :day, :at => '10:00 am' do
   rake "rates:scrape"
 end
 every :day, :at => '2:00 pm' do
-  rake "rates:scrape"
-end
-every :day, :at => '6:00 pm' do
   rake "rates:scrape"
 end
