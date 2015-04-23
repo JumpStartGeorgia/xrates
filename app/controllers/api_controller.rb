@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
 
   def index
-    @tab=4
+    @tab='api'
 
     @page_content = PageContent.by_name('api')
     @api_versions = ApiVersion.is_public.sorted

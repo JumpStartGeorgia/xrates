@@ -38,7 +38,7 @@ BootstrapStarter::Application.routes.draw do
     
     # root pages
     match "about" => "root#about", as: 'about', :via => :get
-    match "data_download" => "root#data_download", as: 'data_download', :via => :post, :defaults => { :format => 'csv' }
+    match "data_download" => "root#data_download", as: 'data_download', :via => :get, :defaults => { :format => 'csv' }
 
 		root :to => 'root#index'
 	  match "*path", :to => redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever
