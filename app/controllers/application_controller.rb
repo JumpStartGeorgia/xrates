@@ -63,7 +63,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
     @css = []
     @js = []
 
-    @last_scrapped_at = Rate.maximum(:created_at).in_time_zone
+    @last_scrapped_at = Rate.maximum(:updated_at).in_time_zone
  end
 
 	def initialize_gon
