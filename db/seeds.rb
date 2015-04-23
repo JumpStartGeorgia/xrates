@@ -200,7 +200,7 @@ if v.present? && v.api_methods.empty?
 <p>ამ მეთოდის გამოძახებისთვის გამოიყენეთ HTTP GET მოთხოვნა შემდეგი URL-სთვის:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/nbg_currencies</div>
 <p>სად:</p>
-<ul>
+<ul class="list-unstyled">
 <li>[locale] = ენის ადგილი, რომელშიც გსურთ მონაცემების გადაყვანა (ამ დროისთვის <strong>ka</strong> ქართულად ან <strong>en</strong> ინგლისურად)</li>
 </ul>
 <h2><strong>აუცილებელი პარამეტრები</strong></h2>
@@ -444,7 +444,7 @@ ratio
 <p>ამ მეთოდის გამოძახებისთვის გამოიყენეთ HTTP GET მოთხოვნა შემდეგი URL-სთვის:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/nbg_rates</div>
 <p>სად:</p>
-<ul>
+<ul class="list-unstyled">
 <li>[locale] = ენის ადგილი, რომელშიც გსურთ მონაცემების გადაყვანა (ამ დროისთვის <strong>ka</strong> ქართულად ან <strong>en</strong> ინგლისურად)</li>
 </ul>
 <h2>აუცილებელი პარამეტრები</h2>
@@ -710,7 +710,7 @@ rates
 <p>ამ მეთოდის გამოძახებისთვის გამოიყენეთ HTTP GET მოთხოვნა შემდეგი URL-სთვის:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks</div>
 <p>სად:</p>
-<ul>
+<ul class="list-unstyled">
 <li>[locale] = ენის ადგილი, რომელშიც გსურთ მონაცემების გადაყვანა (ამ დროისთვის <strong>ka</strong> ქართულად ან <strong>en</strong> ინგლისურად)</li>
 </ul>
 <h2>აუცილებელი პარამეტრები</h2>
@@ -857,7 +857,7 @@ currencies
 <p>ამ მეთოდის გამოძახებისთვის გამოიყენეთ HTTP GET მოთხოვნა შემდეგი URL-სთვის:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_banks_with_currency</div>
 <p>სად:</p>
-<ul>
+<ul class="list-unstyled">
 <li>[locale] = ენის ადგილი, რომელშიც გსურთ მონაცემების გადაყვანა (ამ დროისთვის <strong>ka</strong> ქართულად ან <strong>en</strong> ინგლისურად)</li>
 </ul>
 <h2>აუცილებელი პარამეტრები</h2>
@@ -1248,7 +1248,7 @@ name
 <p>ამ მეთოდის გამოძახებისთვის გამოიყენეთ HTTP GET მოთხოვნა შემდეგი URL-სთვის:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/commercial_bank_rates</div>
 <p>სად:</p>
-<ul>
+<ul class="list-unstyled">
 <li>[locale] = ენის ადგილი, რომელშიც გსურთ მონაცემების გადაყვანა (ამ დროისთვის <strong>ka</strong> ქართულად ან <strong>en</strong> ინგლისურად)</li>
 </ul>
 <h2>აუცილებელი პარამეტრები</h2>
@@ -1770,7 +1770,7 @@ data
 <p>ამ მეთოდის გამოძახებისთვის გამოიყენეთ HTTP GET მოთხოვნა შემდეგი URL-სთვის:</p>
 <div class="url">http://dev-xrates.jumpstart.ge/[locale]/api/v1/calculator</div>
 <p>სად:</p>
-<ul>
+<ul class="list-unstyled">
 <li>[locale] = ენის ადგილი, რომელშიც გსურთ მონაცემების გადაყვანა (ამ დროისთვის <strong>ka</strong> ქართულად ან <strong>en</strong> ინგლისურად)</li>
 </ul>
 <h2>აუცილებელი პარამეტრები</h2>
