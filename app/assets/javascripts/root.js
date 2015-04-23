@@ -38,8 +38,9 @@ $(function () {
       }
       else if(id == 3)
       {
-        href = '/' + I18n.locale + '/data_download?type=commercial_banks&currency=' + cur.p3.c.join(',') + "&bank=" + cur.p3.b.join(',');
+        href = '/' + I18n.locale + '/data_download?type=commercial_banks&currency=' + cur.p3.c + "&bank=" + cur.p3.b.join(',');
       } 
+       console.log(href);
       if(href!='')  window.location.href = href;     
     }
   });
@@ -138,7 +139,7 @@ $(function () {
       {
         pars['c'] = cur.p2.c.join(',');
       }
-      else if(p == 'commerical_banks')
+      else if(p == 'commercial_banks')
       {
         pars['c'] = cur.p3.c;
         pars['b'] = cur.p3.b.join(',');
@@ -336,7 +337,7 @@ $(function () {
       });
     }
     $('input.filter-c-bank').select2('val',data);
-     console.log('filter-c-currency switch');
+     //console.log('filter-c-currency switch');
     c_chart_refresh();
   });
   $('.filter-b-currency').on('change',function(){ b_chart_refresh(); });
@@ -356,7 +357,7 @@ $(function () {
           cur.p2.c = params.c;
           $('.filter-b-currency').select2('val', cur.p2.c);
         }
-        else if(params.p == 'commerical_banks' && exist(params.c) && exist(params.b))
+        else if(params.p == 'commercial_banks' && exist(params.c) && exist(params.b))
         { 
           cur.p3.c = params.c;
           cur.p3.b = params.b;

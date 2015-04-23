@@ -124,7 +124,7 @@ class Api::V1Controller < ApplicationController
 
 
 
-  # get list of commerical banks
+  # get list of commercial banks
   def commercial_banks
     data = { valid: true}
     template = {code: nil, name: nil, currencies: nil}
@@ -157,7 +157,7 @@ class Api::V1Controller < ApplicationController
   end
 
 
-  # get list of commerical banks with currency
+  # get list of commercial banks with currency
   # required params: currency
   def commercial_banks_with_currency
     params[:currency] ||= 'USD'
@@ -200,7 +200,7 @@ class Api::V1Controller < ApplicationController
 
 
 
-  # get the exchange rates for commerical banks for a currency
+  # get the exchange rates for commercial banks for a currency
   # required params: currency, bank_id(s)
   # optional params: start_date, end_date
   def commercial_bank_rates

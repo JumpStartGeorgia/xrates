@@ -81,17 +81,17 @@ h1
             font-size:16px;
             color:#bcbcbc;
          }
-         a:lang(ka)
+         a
          {
-            font-family:'dejavusans-c';
+            font-family:'dejavusans';
             font-size:16px;
             color:#bcbcbc;
-         }
-         a:lang(en)
-         {
-            font-family:'oxygen';
-            font-size:16px;
-            color:#bcbcbc;
+            &:lang(en)
+            {
+               font-family:'oxygen';
+               font-size:16px;
+               color:#bcbcbc;
+            }
          }
          a,
          a:hover,
@@ -141,7 +141,7 @@ h1
                text-decoration:none;
                padding: 2px 30px;
                background-color:#fff;
-               font-family: 'ge-oxygen';
+               font-family: 'dejavusans';
                font-size:16px;
                text-align:left;
                color:#7b8483;
@@ -192,18 +192,19 @@ h1
          }
          > .intro
          {
-            font-family: 'ge-oxygen';
+            font-family: 'dejavusans';
             font-size:16px;
             line-height:28px;
             color:#7b8483;
             width:auto;
             padding:10px;
+            &:lang(en)
+            {
+               font-family: 'oxygen';
+               font-size:16px;
+            }
          }
-         > .intro:lang(en)
-         {
-            font-family: 'oxygen';
-            font-size:16px;
-         }
+      
       
          .calculator
          {
@@ -223,7 +224,7 @@ h1
                {
                   background-color:#f6ba29;
                   color:#fff;
-                  font-family: 'ge-oxygen';
+                  font-family: 'dejavusans';
                   font-size:19px;
                   line-height: 25px;
                   -webkit-border-radius: 2px;
@@ -232,12 +233,13 @@ h1
                   margin:0px 0px 15px;
                   padding:9px 9px;
                   white-space:normal;
+                  &:lang(en)
+                  {
+                     font-family: 'oxygen';
+                     font-size:19px;
+                  }
                }
-               .title:lang(en)
-               {
-                  font-family: 'oxygen';
-                  font-size:19px;
-               }
+               
                .currency-switch
                {
                   .btn
@@ -294,12 +296,17 @@ h1
 
                   .caption
                   {
-                     font-family: 'oxygen';
+                     font-family: 'dejavusans';
                      font-size:15px;
                      white-space:pre;
                      color:#7b8483;
                      line-height: 18px;                     
                      padding:0px 0px 5px;
+                     &:lang(en)
+                     {
+                        font-family: 'oxygen';
+                        font-size:15px;                     
+                     }
                   }
                   .inp-field
                   {
@@ -319,16 +326,6 @@ h1
                         box-shadow:none;
                      }
                   }
-                  .currency-field select
-                  {
-                     font-family:'glober-sb';
-                     font-size:21px;
-                     line-height: 21px;
-                     color:#7b8483; 
-                     height:44px;
-                     background-color:#ebeae6;
-                  }
-
                }
                .output
                {
@@ -378,9 +375,14 @@ h1
                   }                                    
                   .label
                   {
-                     font-family: 'oxygen';
+                     font-family: 'dejavusans';
                      font-size:15px; 
-                     color:#7b8483;   
+                     color:#7b8483;  
+                     &:lang(en)
+                     {
+                        font-family: 'oxygen';
+                        font-size:15px; 
+                     } 
                   }
                   .box
                   {
@@ -404,7 +406,7 @@ h1
                   {
                      display:inline-block;
                      position:relative;
-                     font-family: 'oxygen';
+                     font-family: 'dejavusans';
                      font-size:15px;
                      color:#7b8483;
                      background-color:#ebeae6;
@@ -415,6 +417,11 @@ h1
                      padding: 4px 20px 4px 10px;
                      height: 34px;
                      width: 100px;
+                     &:lang(en)
+                     {
+                        font-family: 'oxygen';
+                        font-size:15px;
+                     }
                   }
                   input.from:hover,
                   input.to:hover
@@ -454,11 +461,16 @@ h1
 
                .label
                {
-                  font-family: 'oxygen';
+                  font-family: 'dejavusans';
                   font-size:16px; 
                   color:#7b8483;   
                   line-height:20px;
                   margin-bottom:10px;
+                  &:lang(en)
+                  {
+                     font-family: 'oxygen';
+                     font-size:16px;                      
+                  }
                   .up
                   {
                      font-weight:bold;

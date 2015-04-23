@@ -135,9 +135,10 @@ class RootController < ApplicationController
           end
         end
 
-      when 'commerical_banks'
+      when 'commercial_banks'
         # params needed = currency, bank
         # format: [date, bank1 buy rate, bank1 sell rate, ...]
+         Rails.logger.debug("--------------------------------------------here")
         if params[:currency].present? && params[:bank].present?
           rates = {}
           filename_items = []
