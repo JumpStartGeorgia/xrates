@@ -124,8 +124,8 @@ en:
       about: About
       api: API
       last_update: "Last update: "
-      gel: Lari
-      usd: Dollar
+      gel: Georgian Lari
+      usd: U.S. Dollar
       share: Share this
       m1: '1m'
       m3: '3m'
@@ -205,8 +205,8 @@ en:
       load_rates: "Load Rates"
       rate: Exchange Rate
       monetary_value: Monetary Value
-      gel: GEL
-      usd: USD
+      gel: Georgian Lari
+      usd: U.S. Dollar
       both: Both
       buy: Buy
       sell: Sell
@@ -220,8 +220,8 @@ en:
         difference: "Your monetary value <br> <span class='up'>descreased</span> by" 
         increased: increased
         decreased: decreased
-        info_gel: "According to <a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes</a>, Bidzina Ivanishvili, Georgia’s richest person and former Prime Minister, has a net worth of <b>5,200,000,000 USD</b>. If he had his money saved in Lari, his net worth would have <b class='up'>increased</b><b> by <span class='value'></span> USD</b> during this same time period."
-        info_usd: "According to <a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes</a>, Bidzina Ivanishvili, Georgia’s richest person and former Prime Minister, has a net worth of <b>5,200,000,000 USD</b>. His net worth has <b class='up'>increased</b><b> by <span class='value'></span> GEL</b> during this same time period."
+        info_gel: "According to <a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/' target='_blank'>Forbes</a>, Bidzina Ivanishvili, Georgia’s richest person and former Prime Minister, has a net worth of <b>5,200,000,000 USD</b>. If he had his money saved in Lari, his net worth would have <b class='up'>increased</b><b> by <span class='value'></span> USD</b> during this same time period."
+        info_usd: "According to <a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/' target='_blank'>Forbes</a>, Bidzina Ivanishvili, Georgia’s richest person and former Prime Minister, has a net worth of <b>5,200,000,000 USD</b>. His net worth has <b class='up'>increased</b><b> by <span class='value'></span> GEL</b> during this same time period."
         your_net_worth_change: "Your net worth change"
       hsw: How does this work?
       hsw_text: "It is pretty simple, actually. The calculator divides your monetary value by the exchange rates from the dates you selected to convert your <span class='from-value'>GEL</span> into <span class='to-value'>USD</span>. Then the difference is taken between the two numbers to see how much your monetary value has changed. That's it!"        
