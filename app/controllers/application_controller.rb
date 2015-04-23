@@ -85,7 +85,8 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.monetary_value = t(".root.index.monetary_value")
       gon.buy = t('app.common.buy')
       gon.sell = t('app.common.sell')
-      gon.lari = t('app.common.lari')
+      gon.gel = t('app.common.gel')
+      gon.usd = t('app.common.usd')
       gon.m1 = t('app.common.m1')
       gon.m3 = t('app.common.m3')
       gon.m6 = t('app.common.m6')
@@ -96,6 +97,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.highcharts_downloadJPEG = t('highcharts.downloadJPEG')
       gon.highcharts_downloadPDF = t('highcharts.downloadPDF')
       gon.highcharts_downloadSVG = t('highcharts.downloadSVG')
+      gon.downloadCSV = t('highcharts.downloadCSV')
       gon.highcharts_printChart = t('highcharts.printChart')
       gon.highcharts_contextButtonTitle = t('highcharts.contextButtonTitle')
 

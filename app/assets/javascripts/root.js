@@ -25,21 +25,22 @@ $(function () {
   Highcharts.getOptions().exporting.buttons.contextButton.menuItems.push({
     text: gon.downloadCSV,
     onclick: function (e) {
-       var t = this;
-       var id = t.userOptions.chart_id;
-       if(id == 1)
-       {
-
-       }
-       else if(id == 2)
-       {
-           console.log('second chart');
-           $.post('/' + I18n.locale + '/data_downloads?type=national_bank&currency=' + cur.p2.c.join(','));
-       }
-       else if(id == 3)
-       {
-
-       }      
+      var t = this;
+      var id = t.userOptions.chart_id;
+      var href = '';
+      if(id == 1)
+      {
+        href = '/' + I18n.locale + '/data_download?type=calculator&currency=USD&amount='+data.worth+'&direction='+data.dir+'&start_date=' + new Date(data.date_from).format('isoDate')+ '&end_date=' + new Date(data.date_to).format('isoDate');
+      }
+      else if(id == 2)
+      {
+        href = '/' + I18n.locale + '/data_download?type=national_bank&currency=' + cur.p2.c.join(',');
+      }
+      else if(id == 3)
+      {
+        href = '/' + I18n.locale + '/data_download?type=commercial_banks&currency=' + cur.p3.c.join(',') + "&bank=" + cur.p3.b.join(',');
+      } 
+      if(href!='')  window.location.href = href;     
     }
   });
   if(document.documentElement.lang == 'ka')

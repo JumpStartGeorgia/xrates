@@ -42,6 +42,7 @@ class RootController < ApplicationController
           rates = nil
           from = to_date(params[:start_date])
           to = to_date(params[:end_date])
+         Rails.logger.debug("--------------------------------------------#{from}#{to}")
           amount = params[:amount].to_f
           direction = params[:direction] == "1" ? 1 : 0 # 1: GEL -> Currency, 0: Currency -> GEL
           currency = @currencies.select{|x| x[0] == params[:currency].upcase}.first
@@ -219,6 +220,7 @@ private
 
   # convert string date to normal date
   def to_date(date)
+     Rails.logger.debug("--------------------------------------------#{date}#{Date.parse(date)}")
     begin
       Date.parse(date)
     rescue  
