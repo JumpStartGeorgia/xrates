@@ -2,93 +2,93 @@
 ka:
   activerecord:
     models:
-      user: მომხმარებელი
-      page_content: ტექსტი გვერდებისთვის
-      bank: Bank
-      api_version: API Version
-      api_method: API Method
+      user: "მომხმარებელი"
+      page_content: "ტექსტი გვერდებისთვის"
+      bank: "ბანკი"
+      api_version: API-ს ვერსია
+      api_method: API-ს მეთოდი
     attributes:
       user:
-        email: ელ.ფოსტა
-        password: პაროლი
-        password_confirmation: გაიმეორეთ პაროლი
-        role: როლი
-        remember_me: დამიმახსოვრე
-        nickname: მომხმარებლის სახელი
+        email: "ელ. ფოსტა"
+        password: "პაროლი"
+        password_confirmation: "გაიმეორეთ პაროლი"
+        role: "როლი"
+        remember_me: "დამიმახსოვრე"
+        nickname: "მომხმარებლის სახელი"
         sign_in_count: "შემოსვლის რაოდენობა"
         created_at: "შექმნის თარიღი"
         current_sign_in_at: "ბოლო შემოსვლის თარიღი"
       page_content:
-        name: კონტენტის უნიკალური სახელი (არ შეცვალოთ!)
+        name: "კონტენტის უნიკალური სახელი (არ შეცვალოთ!)"
       page_content_translation:
-        title: სათაური, რომელიც გამოჩნდება კონტენტის ზემოთ
-        content: კონტენტი
+        title: "სათაური, რომელიც გამოჩნდება კონტენტის ზემოთ"
+        content: "კონტენტი"
       bank:
-        code: Bank Code
-        sell_color: Sell Color
-        buy_color: Buy Color
-        order: Sort Order
+        code: "ბანკის კოდი"
+        sell_color: "გაყიდვის ფერი"
+        buy_color: "ყიდვის ფერი"
+        order: "დალაგება"
       bank_translation:
-        name: Bank Name
-        image: Image Name
+        name: "ბანკის სახელი"
+        image: "გამოსახულების სახელი"
       api_version:
         permalink: Permalink
-        public: Make Available to the Public
-        public_at: Released At
-        updated_at: Last Updated At
-        methods: Methods
+        public: "საჯაროდ ხელმისაწვდომი"
+        public_at: "გამოქვეყნებულია"
+        updated_at: "ბოლოს განახლდა"
+        methods: "მეთოდები"
       api_version_translation:
-        title: Title
+        title: "დასახელება"
       api_method:
         permalink: Permalink
-        public: Make Available to the Public
-        public_at: Released At
-        updated_at: Last Updated At
-        sort_order: Sort Order
+        public: "საჯაროდ ხელმისაწვდომი"
+        public_at: "გამოქვეყნებულია"
+        updated_at: "ბოლოს განახლდა"
+        sort_order: "დალაგება"
       api_method_translation:
-        title: Title
-        content: Content
+        title: "დასახელება"
+        content: "შინაარსი"
     errors:
       messages:
         required_field: "სავალდებულო ველი"
-        already_exists: 'უკვე არსებობს მონაცემთა ბაზაში'
+        already_exists: "უკვე არსებობს მონაცემთა ბაზაში"
   mailer:
     closing: "პატივისცემით,"
-    signature: “ჯამპსტარტ ჯორჯია”
-    unsubscribe: დააჭირეთ და შეცვალეთ შეტყობინებების პარამეტრები
+    signature: "“ჯამპსტარტ ჯორჯია”"
+    unsubscribe: "დააჭირეთ და შეცვალეთ შეტყობინებების პარამეტრები"
   helpers:
-    actions: აირჩიეთ
+    actions: "აირჩიეთ"
     links:
-      admin: ადმინისტრატორი
-      edit: შეცვლა
-      confirm: დარწმუნებული ხართ?
-      destroy: წაშლა
-      new: ახალი
-      list: ყველას ნახვა
-      back: ყველას ნახვა
-      cancel: გაუქმება
-      reset: საწყის კონფიგურაციაზე დაბრუნება
-      view: ნახვა
+      admin: "ადმინისტრატორი"
+      edit: "შეცვლა"
+      confirm: "დარწმუნებული ხართ?"
+      destroy: "წაშლა"
+      new: "ახალი"
+      list: "ყველას ნახვა"
+      back: "ყველას ნახვა"
+      cancel: "გაუქმება"
+      reset: "საწყის კონფიგურაციაზე დაბრუნება"
+      view: "ნახვა"
       sign_in_facebook: Facebook-ით შესვლა
-      forgot_password: დაგავიწყდათ პაროლი?
-      change_password: პაროლის შეცვლა
-      change_password2: პაროლის შეცვლა
-      password_reset: პაროლის აღდგენა
-      sign_in2: შესვლა
-      sign_in: უკვე გაქვთ ანგარიში?      
-      sign_up2: რეგისტრაცია
+      forgot_password: "დაგავიწყდათ პაროლი?"
+      change_password: "პაროლის შეცვლა"
+      change_password2: "პაროლის შეცვლა"
+      password_reset: "პაროლის აღდგენა"
+      sign_in2: "შესვლა"
+      sign_in: "უკვე გაქვთ ანგარიში?"
+      sign_up2: "რეგისტრაცია"
       sign_up_question: "არ გაქვთ ანგარიში?"
-      sign_up: დარეგისტრირდით
-      sign_up_title: შემოგვიერთდი “%{app_name}”
-      sign_out: გასვლა
+      sign_up: "დარეგისტრირდით"
+      sign_up_title: "შემოგვიერთდი “%{app_name}”"
+      sign_out: "გასვლა"
       sign_in_provider: "შესვლა %{provider}-ით"
-      sign_up_provider: "დარეგისტრირდით  %{provider}-ით"
-      sign_in_local_or_provider: ან შეიყვანეთ თქვენი ელ. ფოსტა და პაროლი
-      reset_or_sign_in: შედით facebook-ით ან შეცვალეთ პაროლი
-      like: მოწონება
-      likes: მოწონება
-      menu: მენიუ
-      api_home: API Home
+      sign_up_provider: "დარეგისტრირდით %{provider}-ით"
+      sign_in_local_or_provider: "ან შეიყვანეთ თქვენი ელ. ფოსტა და პაროლი"
+      reset_or_sign_in: "შედით facebook-ით ან შეცვალეთ პაროლი"
+      like: "მოწონება"
+      likes: "მოწონება"
+      menu: "მენიუ"
+      api_home: API-ს სახლი
     titles:
       edit: "შეცვლა %{model}"
       save: "შენახვა %{model}"
@@ -97,65 +97,65 @@ ka:
   app:
     language:
       en: English
-      ka: ქართული
+      ka: "ქართული"
     buttons:
-      back: იხილეთ ყველა
-      list: იხილეთ ყველა
-      admin: ადმინისტრატორის განყოფილება
-      delete: წაშლა
-      edit: შეცვლა
-      show: ჩვენება
-      cancel: გაუქმება
-      update: განახლება
-      save: შენახვა
-      create: შექმნა
-      reset: საწყის კონფიგურაციაზე დაბრუნება
-      remove: ამოშლა
-      confirm: დარწმუნებული ხართ?
-      new: ახალი            
+      back: "იხილეთ ყველა"
+      list: "იხილეთ ყველა"
+      admin: "ადმინისტრატორის განყოფილება"
+      delete: "წაშლა"
+      edit: "შეცვლა"
+      show: "ჩვენება"
+      cancel: "გაუქმება"
+      update: "განახლება"
+      save: "შენახვა"
+      create: "შექმნა"
+      reset: "საწყის კონფიგურაციაზე დაბრუნება"
+      remove: "ამოშლა"
+      confirm: "დარწმუნებული ხართ?"
+      new: "ახალი"
     common:
-      app_name: ლარის გზამკვლევი
-      added_on: "დამატებულია: %{date}" 
-      jumpstart: “ჯამპსტარტ ჯორჯია”
-      js_link_title: “ჯამპსტარტ ჯორჯია” - ჩვენ გაწვდით მონაცემებს უკეთ!
-      compare_to_other_banks: Compare to other banks 
-      buy: ყიდვა
-      sell: გაყიდვა  
-      about: ჩვენ შესახებ
+      app_name: "ლარის გზამკვლევი"
+      added_on: "დამატებულია: %{date}"
+      jumpstart: "“ჯამპსტარტ ჯორჯია”"
+      js_link_title: "“ჯამპსტარტ ჯორჯია” - ჩვენ გაწვდით მონაცემებს უკეთ!"
+      compare_to_other_banks: "სხვა ბანკებთან შედარება"
+      buy: "ყიდვა"
+      sell: "გაყიდვა"
+      about: "შესახებ"
       api: API
-      last_update: "Last update: "
-      gel: ლარი
-      usd: დოლარი      
-      share: გააზიარე
-      m1: '1თ'
-      m3: '3თ'
-      m6: '6თ'
-      y1: '1წ'
-      all: ყვ.   
-      date: თარიღი   
-      description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."    
-      nav_toggle: Navigation toggle
+      last_update: "ბოლო განახლება:"
+      gel: "ლარი"
+      usd: "დოლარი"
+      share: "გააზიარე"
+      m1: 1თ
+      m3: 3თ
+      m6: 6თ
+      y1: 1წ
+      all: "ყვ."
+      date: "თარიღი"
+      description: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+      nav_toggle: "ნავიგაციის ჩართვა/გამორთვა"
     msgs:
       does_not_exist: "თქვენ ცდილობთ ისეთი გვერდის ნახვას, რომელიც არ არსებობს."
-      not_authorized: თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება.
+      not_authorized: "თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება."
       success_created: "%{obj} შექმნილია."
       success_updated: "%{obj} განახლებულია."
-      missing_data_currency: Missing data for currency
-      currency_does_not_exist: "Currency %{obj} is not exist"
-      currency_is_not_valid: "Currency is not valid"
-      currency_not_recognized: "The provided currency is not recognized"
-      greater_than_zero: 'Amount should be greater than 0.'
-      currency_directions: 'Direction can be 0 or 1 - 1: GEL -> Currency, 0: Currency -> GEL.'
-      start_less_then_end_date: 'Please make sure the start date is less than the end date'
-      start_date_start_point: "The start date must occur after '2000-01-01'"
-      invalid_field: "%{obj} field is invalid."      
+      missing_data_currency: "ვალუტის შესახებ მონაცემები არ მოიძებნა"
+      currency_does_not_exist: "ვალუტა %{obj} არ არსებობს"
+      currency_is_not_valid: "არასწორი ვალუტა"
+      currency_not_recognized: "მოცემული ვალუტა არ მოიძებნა"
+      greater_than_zero: "თანხა უნდა იყოს 0-ზე მეტი."
+      currency_directions: "მიმართულება შეიძლება იყოს 0 ან 1 - 1: GEL -> ვალუტა, 0: ვალუტა-> GEL."
+      start_less_then_end_date: "გთხოვთ დარწმუნდეთ, რომ საწყისი თარიღი უფრო ნაკლებია ვიდრე დასრულების თარიღი"
+      start_date_start_point: "საწყისი თარიღი უნდა გამოჩნდეს '2000-01-01'-ს შემდეგ"
+      invalid_field: "%{obj} ველი არასწორია"
   layouts:
     application:
-      toggle: ნავიგაციის ჩართვა/გამორთვა
+      toggle: "ნავიგაციის ჩართვა/გამორთვა"
     unsupported_browser:
-      title: არასათანადო ბრაუზერი
-      p1: სამწუხაროდ თქვენი ინტერნეტ ბრაუზერის მოხმარების ვადა გასულია და ვერ მოხდება ვებ-გვერდთან სრულად დაკავშირება.
-      p2: არსებობს რამდენიმე უფასო ბრაუზერი რომელის გადმოწერის შემდეგ შეძლებთ ვებ-გვერდით სარგებლობას.
+      title: "არასათანადო ბრაუზერი"
+      p1: "სამწუხაროდ, თქვენი ინტერნეტ ბრაუზერის მოხმარების ვადა გასულია და ვერ მოხდება ვებ-გვერდთან სრულად დაკავშირება."
+      p2: "არსებობს რამდენიმე უფასო ბრაუზერი, რომლის გადმოწერის შემდეგ შეძლებთ ვებ-გვერდით სარგებლობას."
       chrome: Chrome
       firefox: Firefox
       ie: Internet Explorer (მხოლოდ Windows-ზე)
@@ -163,92 +163,90 @@ ka:
       Safari: Safari
   admin:
     index:
-      title: ადმინისტრატორის განყოფილება
-      users: მომხმარებლები
-      pages: საიტზე ტექსტის რედაქტირება
-      banks: Banks
-      api_documentation: API Version Documentation
+      title: "ადმინისტრატორის განყოფილება"
+      users: "მომხმარებლები"
+      pages: "საიტზე ტექსტის რედაქტირება"
+      banks: "ბანკები"
+      api_documentation: API ვერსიის დოკუმენტაცია
     users:
       edit:
-        title: ცვლილებების შეტანა მომხმარებლის გვერდზე
+        title: "ცვლილებების შეტანა მომხმარებლის გვერდზე"
       index:
-        title: მომხმარებლები
+        title: "მომხმარებლები"
       new:
-        title: ახალი მომხმარებელი
+        title: "ახალი მომხმარებელი"
       show:
-        title: მომხმარებლის დეტალები
+        title: "მომხმარებლის დეტალები"
   devise:
     mailer:
       reset_password_instructions:
-        title: 'მოგესალმებით, %{nickname}!'
+        title: "მოგესალმებით, %{nickname}!"
         p1: 'მივიღეთ მოთხოვნა "%{app_name}" თქვენი პაროლის შეცვლის შესახებ. პაროლის შესაცვლელად, მიჰყევით შემდეგ ბმულს.'
-        link_title: პაროლის შეცვლა
+        link_title: "პაროლის შეცვლა"
         p2: "თუ თქვენ არ მოგითხოვიათ პაროლის შეცვლა, გთხოვთ, არ მიაქციოთ ყურადღება ამ შეტყობინებას."
-        p3: "თქვენი პაროლი იგივე დარჩება, სანამ არ გადახვალთ ზემოთ მითითებულ ბმულზე და შექმნით ახალ პაროლს."    
+        p3: "თქვენი პაროლი იგივე დარჩება, სანამ არ გადახვალთ ზემოთ მითითებულ ბმულზე და შექმნით ახალ პაროლს."
   root:
-    tab1: გაუფასურების კალენდარი
-    tab2: ეროვნული ბანკის კურსი
-    tab3: კომერციული ბანკის კურსი
+    tab1: "გაუფასურების კალენდარი"
+    tab2: "ეროვნული ბანკის კურსი"
+    tab3: "კომერციული ბანკის კურსი"
     index:
-      title: "JumpStart Georgia's Lari Exchange Rate Viewer"
-      page1:        
-        intro: ქართული ლარის ღირებულება ამერიკულ დოლართან მიმართებაში მნიშვნელოვნად შემცირდა 2014-2015 წლების ზამთარში. ლარის გაუფასურების კალკულატორის გამოყენებით, შეგიძლიათ, დაიანგარიშოთ, როგორ შეიცვალა თქვენი ქონება ან საგადასახადო ვალდებულებები ამ დროის განმავლობაში, ლარის კურსის ცვლილების გამო.
+      page1:
+        intro: "ქართული ლარის ღირებულება ამერიკულ დოლართან მიმართებაში მნიშვნელოვნად შემცირდა 2014-2015 წლების ზამთარში. ლარის გაუფასურების კალკულატორის გამოყენებით, შეგიძლიათ, დაიანგარიშოთ, როგორ შეიცვალა თქვენი ქონება ან საგადასახადო ვალდებულებები ამ დროის განმავლობაში, ლარის კურსის ცვლილების გამო."
         chart:
           title: "თქვენ მიერ მითითებული თანხის ცვლილება"
       page2:
-        intro: ეროვნული ბანკის მიერ დადგენილი ლარის ოფიციალური გაცვლითი კურსი
-        title: Lari Exchange Rate
+        intro: "ეროვნული ბანკის მიერ დადგენილი ლარის ოფიციალური გაცვლითი კურსი"
+        title: "ლარის გაცვლითი კურსი"
       page3:
-        intro: ნახეთ კომერციულ ბანკებში უცხოური ვალუტების ყიდვისა და გაყიდვის ფასი ეროვნული ბანკის კურსთან შედარებით.
-        title: Bank vs Nbg Charts      
-      currency: ვალუტა
-      bank: ბანკი      
-      rate: ვალუტის კურსი
-      monetary_value: ფულადი ღირებულება 
+        intro: "ნახეთ კომერციულ ბანკებში უცხოური ვალუტების ყიდვისა და გაყიდვის ფასი ეროვნული ბანკის კურსთან შედარებით."
+        title: "ბანკი vs სებ ცხრილები"
+      currency: "ვალუტა"
+      bank: "ბანკი"
+      load_rates: "კურსის ჩატვირთვა"
+      rate: "ვალუტის კურსი"
+      monetary_value: "ფულადი ღირებულება"
       gel: GEL
       usd: USD
-      both: ორივე
-      buy: ყიდვა
-      sell: გაყიდვა
-      cost: ღირებულება    
+      both: "ორივე"
+      buy: "ყიდვა"
+      sell: "გაყიდვა"
+      cost: "ღირებულება"
       calculator:
-        title: რა გავლენა იქონია ლარის გაუფასურებამ თქვენს ფინანსებზე?
+        title: "რა გავლენა იქონია ლარის გაუფასურებამ თქვენს ფინანსებზე?"
         enter_data: "შეიყვანეთ თანხა <br><i>(დანაზოგი, ხელფასი, ქირა, სესხი, ა.შ.)</i>"
-        gel: ლარი
-        usd: დოლარი
-        your_net_worth: ფულადი ღირებულება
-        difference: "თქვენ მიერ მითითებული თანხა <br>ამ დროის განმავლობაში <span class='up'>შემცირდა</span>"         
-        increased: გაიზრდებოდა        
-        decreased: შემცირდებოდა        
-        info_gel: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>. მას რომ ფული ლარებში ჰქონოდა შენახული, ამავე პერიოდში, ლარის კურსის ცვლილების გამო, მისი ქონება <b><span class='value'></span> აშშ დოლარით</b> <b class='up'>გაიზრდებოდა</b>."        
-        info_usd: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>.  ლარის კურსის ცვლილების გამო, ამავე პერიოდში, მისი ქონება <b><span class='value'></span> ლარით</b> <b class='up'>გაიზარდა</b>."
-        your_net_worth_change: "Your net worth change"
-      hsw: როგორ მუშაობს <br>კალკულატორი?
-      hsw_text: "მარტივად. კალკულატორს თქვენ მიერ მითითებული თანხა გადაჰყავს მეორე ვალუტაში არჩეული თარიღების შესაბამისი კურსით. შემდეგ კი ითვლის სხვაობას იმის საჩვენებლად, თუ როგორ შეიცვალა თქვენი ქონება თუ ფულადი ვალდებულება ამ დროის განმავლობაში. სულ ესაა!"        
+        gel: "ლარი"
+        usd: "დოლარი"
+        your_net_worth: "ფულადი ღირებულება"
+        difference: "თქვენ მიერ მითითებული თანხა <br>ამ დროის განმავლობაში <span class='up'>შემცირდა</span>"
+        increased: "გაიზრდებოდა"
+        decreased: "შემცირდებოდა"
+        info_gel: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>. მას რომ ფული ლარებში ჰქონოდა შენახული, ამავე პერიოდში, ლარის კურსის ცვლილების გამო, მისი ქონება <b><span class='value'></span> აშშ დოლარით</b> <b class='up'>გაიზრდებოდა</b>."
+        info_usd: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>. ლარის კურსის ცვლილების გამო, ამავე პერიოდში, მისი ქონება <b><span class='value'></span> ლარით</b> <b class='up'>გაიზარდა</b>."
+        your_net_worth_change: "თქვენი ქონება შეიცვალა"
+      hsw: "როგორ მუშაობს <br>კალკულატორი?"
+      hsw_text: "მარტივად. კალკულატორს თქვენ მიერ მითითებული თანხა გადაჰყავს მეორე ვალუტაში არჩეული თარიღების შესაბამისი კურსით. შემდეგ კი ითვლის სხვაობას იმის საჩვენებლად, თუ როგორ შეიცვალა თქვენი ქონება თუ ფულადი ვალდებულება ამ დროის განმავლობაში. სულ ესაა!"
       hint:
-        currency: "Type Currency"
-        bank: "Type Bank Name"
+        currency: "შეიყვანეთ ვალუტა"
+        bank: "შეიყვანეთ ბანკის სახელი"
     about:
-        title: ჩვენ შესახებ        
-        intro: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
+      title: "შესახებ"
     api:
-        title: API        
-        intro: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."        
+      title: API
   chart:
     nbg:
-      title: "Lari Exchange Rate"       
-  highcharts:         
+      title: "ლარის გაცვლითი კურსი"
+  highcharts:
     downloadPNG: "ჩამოტვირთე PNG გამოსახულება"
     downloadJPEG: "ჩამოტვირთე JPEG გამოსახულება"
     downloadPDF: "ჩამოტვირთე PDF დოკუმენტი"
     downloadSVG: "ჩამოტვირთე SVG ვექტორული გამოსახულება"
-    downloadCSV: "Download CSV data"
-    printChart: "ამობეჭდე გრაფიკი"    
-    contextButtonTitle: ჩამოტვირთვა
+    downloadCSV: "ჩამოტვირთე CSV მონაცემები"
+    printChart: "ამობეჭდე გრაფიკი"
+    contextButtonTitle: "ჩამოტვირთვა"
   api:
     index:
       title: API
-      no_versions: 'No documentation for the API has been created yet.'
-      no_methods: "No documentation for this version has been created yet."
+      no_versions: API-ს დოკუმენტაცია ჯერ არ შექმნილა
+      no_methods: API-ს დოკუმენტაცია ჯერ არ შექმნილა
     documentation:
-      no_content: "No documentation for this method has been created yet."
+      no_content: API-ს დოკუმენტაცია ჯერ არ შექმნილა

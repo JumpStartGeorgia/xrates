@@ -1,0 +1,254 @@
+# encoding: utf-8
+ka:
+  activerecord:
+    models:
+      user: მომხმარებელი
+      page_content: ტექსტი გვერდებისთვის
+      bank: Bank
+      api_version: API Version
+      api_method: API Method
+    attributes:
+      user:
+        email: ელ.ფოსტა
+        password: პაროლი
+        password_confirmation: გაიმეორეთ პაროლი
+        role: როლი
+        remember_me: დამიმახსოვრე
+        nickname: მომხმარებლის სახელი
+        sign_in_count: "შემოსვლის რაოდენობა"
+        created_at: "შექმნის თარიღი"
+        current_sign_in_at: "ბოლო შემოსვლის თარიღი"
+      page_content:
+        name: კონტენტის უნიკალური სახელი (არ შეცვალოთ!)
+      page_content_translation:
+        title: სათაური, რომელიც გამოჩნდება კონტენტის ზემოთ
+        content: კონტენტი
+      bank:
+        code: Bank Code
+        sell_color: Sell Color
+        buy_color: Buy Color
+        order: Sort Order
+      bank_translation:
+        name: Bank Name
+        image: Image Name
+      api_version:
+        permalink: Permalink
+        public: Make Available to the Public
+        public_at: Released At
+        updated_at: Last Updated At
+        methods: Methods
+      api_version_translation:
+        title: Title
+      api_method:
+        permalink: Permalink
+        public: Make Available to the Public
+        public_at: Released At
+        updated_at: Last Updated At
+        sort_order: Sort Order
+      api_method_translation:
+        title: Title
+        content: Content
+    errors:
+      messages:
+        required_field: "სავალდებულო ველი"
+        already_exists: 'უკვე არსებობს მონაცემთა ბაზაში'
+  mailer:
+    closing: "პატივისცემით,"
+    signature: “ჯამპსტარტ ჯორჯია”
+    unsubscribe: დააჭირეთ და შეცვალეთ შეტყობინებების პარამეტრები
+  helpers:
+    actions: აირჩიეთ
+    links:
+      admin: ადმინისტრატორი
+      edit: შეცვლა
+      confirm: დარწმუნებული ხართ?
+      destroy: წაშლა
+      new: ახალი
+      list: ყველას ნახვა
+      back: ყველას ნახვა
+      cancel: გაუქმება
+      reset: საწყის კონფიგურაციაზე დაბრუნება
+      view: ნახვა
+      sign_in_facebook: Facebook-ით შესვლა
+      forgot_password: დაგავიწყდათ პაროლი?
+      change_password: პაროლის შეცვლა
+      change_password2: პაროლის შეცვლა
+      password_reset: პაროლის აღდგენა
+      sign_in2: შესვლა
+      sign_in: უკვე გაქვთ ანგარიში?      
+      sign_up2: რეგისტრაცია
+      sign_up_question: "არ გაქვთ ანგარიში?"
+      sign_up: დარეგისტრირდით
+      sign_up_title: შემოგვიერთდი “%{app_name}”
+      sign_out: გასვლა
+      sign_in_provider: "შესვლა %{provider}-ით"
+      sign_up_provider: "დარეგისტრირდით  %{provider}-ით"
+      sign_in_local_or_provider: ან შეიყვანეთ თქვენი ელ. ფოსტა და პაროლი
+      reset_or_sign_in: შედით facebook-ით ან შეცვალეთ პაროლი
+      like: მოწონება
+      likes: მოწონება
+      menu: მენიუ
+      api_home: API Home
+    titles:
+      edit: "შეცვლა %{model}"
+      save: "შენახვა %{model}"
+      new: "ახალი %{model}"
+      delete: "წაშლა %{model}"
+  app:
+    language:
+      en: English
+      ka: ქართული
+    buttons:
+      back: იხილეთ ყველა
+      list: იხილეთ ყველა
+      admin: ადმინისტრატორის განყოფილება
+      delete: წაშლა
+      edit: შეცვლა
+      show: ჩვენება
+      cancel: გაუქმება
+      update: განახლება
+      save: შენახვა
+      create: შექმნა
+      reset: საწყის კონფიგურაციაზე დაბრუნება
+      remove: ამოშლა
+      confirm: დარწმუნებული ხართ?
+      new: ახალი            
+    common:
+      app_name: ლარის გზამკვლევი
+      added_on: "დამატებულია: %{date}" 
+      jumpstart: “ჯამპსტარტ ჯორჯია”
+      js_link_title: “ჯამპსტარტ ჯორჯია” - ჩვენ გაწვდით მონაცემებს უკეთ!
+      compare_to_other_banks: Compare to other banks 
+      buy: ყიდვა
+      sell: გაყიდვა  
+      about: ჩვენ შესახებ
+      api: API
+      last_update: "Last update: "
+      gel: ლარი
+      usd: დოლარი      
+      share: გააზიარე
+      m1: '1თ'
+      m3: '3თ'
+      m6: '6თ'
+      y1: '1წ'
+      all: ყვ.   
+      date: თარიღი   
+      description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."    
+      nav_toggle: Navigation toggle
+    msgs:
+      does_not_exist: "თქვენ ცდილობთ ისეთი გვერდის ნახვას, რომელიც არ არსებობს."
+      not_authorized: თქვენ არ გაქვთ ამ გვერდის ნახვის უფლება.
+      success_created: "%{obj} შექმნილია."
+      success_updated: "%{obj} განახლებულია."
+      missing_data_currency: Missing data for currency
+      currency_does_not_exist: "Currency %{obj} is not exist"
+      currency_is_not_valid: "Currency is not valid"
+      currency_not_recognized: "The provided currency is not recognized"
+      greater_than_zero: 'Amount should be greater than 0.'
+      currency_directions: 'Direction can be 0 or 1 - 1: GEL -> Currency, 0: Currency -> GEL.'
+      start_less_then_end_date: 'Please make sure the start date is less than the end date'
+      start_date_start_point: "The start date must occur after '2000-01-01'"
+      invalid_field: "%{obj} field is invalid."      
+  layouts:
+    application:
+      toggle: ნავიგაციის ჩართვა/გამორთვა
+    unsupported_browser:
+      title: არასათანადო ბრაუზერი
+      p1: სამწუხაროდ თქვენი ინტერნეტ ბრაუზერის მოხმარების ვადა გასულია და ვერ მოხდება ვებ-გვერდთან სრულად დაკავშირება.
+      p2: არსებობს რამდენიმე უფასო ბრაუზერი რომელის გადმოწერის შემდეგ შეძლებთ ვებ-გვერდით სარგებლობას.
+      chrome: Chrome
+      firefox: Firefox
+      ie: Internet Explorer (მხოლოდ Windows-ზე)
+      opera: Opera
+      Safari: Safari
+  admin:
+    index:
+      title: ადმინისტრატორის განყოფილება
+      users: მომხმარებლები
+      pages: საიტზე ტექსტის რედაქტირება
+      banks: Banks
+      api_documentation: API Version Documentation
+    users:
+      edit:
+        title: ცვლილებების შეტანა მომხმარებლის გვერდზე
+      index:
+        title: მომხმარებლები
+      new:
+        title: ახალი მომხმარებელი
+      show:
+        title: მომხმარებლის დეტალები
+  devise:
+    mailer:
+      reset_password_instructions:
+        title: 'მოგესალმებით, %{nickname}!'
+        p1: 'მივიღეთ მოთხოვნა "%{app_name}" თქვენი პაროლის შეცვლის შესახებ. პაროლის შესაცვლელად, მიჰყევით შემდეგ ბმულს.'
+        link_title: პაროლის შეცვლა
+        p2: "თუ თქვენ არ მოგითხოვიათ პაროლის შეცვლა, გთხოვთ, არ მიაქციოთ ყურადღება ამ შეტყობინებას."
+        p3: "თქვენი პაროლი იგივე დარჩება, სანამ არ გადახვალთ ზემოთ მითითებულ ბმულზე და შექმნით ახალ პაროლს."    
+  root:
+    tab1: გაუფასურების კალენდარი
+    tab2: ეროვნული ბანკის კურსი
+    tab3: კომერციული ბანკის კურსი
+    index:
+      title: "JumpStart Georgia's Lari Exchange Rate Viewer"
+      page1:        
+        intro: ქართული ლარის ღირებულება ამერიკულ დოლართან მიმართებაში მნიშვნელოვნად შემცირდა 2014-2015 წლების ზამთარში. ლარის გაუფასურების კალკულატორის გამოყენებით, შეგიძლიათ, დაიანგარიშოთ, როგორ შეიცვალა თქვენი ქონება ან საგადასახადო ვალდებულებები ამ დროის განმავლობაში, ლარის კურსის ცვლილების გამო.
+        chart:
+          title: "თქვენ მიერ მითითებული თანხის ცვლილება"
+      page2:
+        intro: ეროვნული ბანკის მიერ დადგენილი ლარის ოფიციალური გაცვლითი კურსი
+        title: Lari Exchange Rate
+      page3:
+        intro: ნახეთ კომერციულ ბანკებში უცხოური ვალუტების ყიდვისა და გაყიდვის ფასი ეროვნული ბანკის კურსთან შედარებით.
+        title: Bank vs Nbg Charts      
+      currency: ვალუტა
+      bank: ბანკი      
+      rate: ვალუტის კურსი
+      monetary_value: ფულადი ღირებულება 
+      gel: GEL
+      usd: USD
+      both: ორივე
+      buy: ყიდვა
+      sell: გაყიდვა
+      cost: ღირებულება    
+      calculator:
+        title: რა გავლენა იქონია ლარის გაუფასურებამ თქვენს ფინანსებზე?
+        enter_data: "შეიყვანეთ თანხა <br><i>(დანაზოგი, ხელფასი, ქირა, სესხი, ა.შ.)</i>"
+        gel: ლარი
+        usd: დოლარი
+        your_net_worth: ფულადი ღირებულება
+        difference: "თქვენ მიერ მითითებული თანხა <br>ამ დროის განმავლობაში <span class='up'>შემცირდა</span>"         
+        increased: გაიზრდებოდა        
+        decreased: შემცირდებოდა        
+        info_gel: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>. მას რომ ფული ლარებში ჰქონოდა შენახული, ამავე პერიოდში, ლარის კურსის ცვლილების გამო, მისი ქონება <b><span class='value'></span> აშშ დოლარით</b> <b class='up'>გაიზრდებოდა</b>."        
+        info_usd: "<a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/'>Forbes-ის</a> მიხედვით, საქართველოს ყოფილი პრემიერმინისტრისა და ქვეყნის უმდიდრესი ადამიანის, ბიძინა ივანიშვილის, ქონება ამჟამად <b>5,200,000,000 აშშ დოლარია</b>.  ლარის კურსის ცვლილების გამო, ამავე პერიოდში, მისი ქონება <b><span class='value'></span> ლარით</b> <b class='up'>გაიზარდა</b>."
+        your_net_worth_change: "Your net worth change"
+      hsw: როგორ მუშაობს <br>კალკულატორი?
+      hsw_text: "მარტივად. კალკულატორს თქვენ მიერ მითითებული თანხა გადაჰყავს მეორე ვალუტაში არჩეული თარიღების შესაბამისი კურსით. შემდეგ კი ითვლის სხვაობას იმის საჩვენებლად, თუ როგორ შეიცვალა თქვენი ქონება თუ ფულადი ვალდებულება ამ დროის განმავლობაში. სულ ესაა!"        
+      hint:
+        currency: "Type Currency"
+        bank: "Type Bank Name"
+    about:
+        title: ჩვენ შესახებ        
+        intro: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
+    api:
+        title: API        
+        intro: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."        
+  chart:
+    nbg:
+      title: "Lari Exchange Rate"       
+  highcharts:         
+    downloadPNG: "ჩამოტვირთე PNG გამოსახულება"
+    downloadJPEG: "ჩამოტვირთე JPEG გამოსახულება"
+    downloadPDF: "ჩამოტვირთე PDF დოკუმენტი"
+    downloadSVG: "ჩამოტვირთე SVG ვექტორული გამოსახულება"
+    downloadCSV: "Download CSV data"
+    printChart: "ამობეჭდე გრაფიკი"    
+    contextButtonTitle: გრაფიკის ჩამოტვირთვა
+  api:
+    index:
+      title: API
+      no_versions: 'No documentation for the API has been created yet.'
+      no_methods: "No documentation for this version has been created yet."
+    documentation:
+      no_content: "No documentation for this method has been created yet."
