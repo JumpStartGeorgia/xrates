@@ -3,7 +3,7 @@ class RootController < ApplicationController
   def index
 
     @js.push("u.js", "root.js") 
-    @tab=1
+    @tab='calculator'
     
     params[:currency] ||= 'USD,EUR,GBP,RUB'
     params[:bank] ||= 'BNLN'    

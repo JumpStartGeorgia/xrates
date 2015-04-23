@@ -22,12 +22,26 @@ ricocredit #422e82
 Capital #d0a060
 */
 $(function () {
-  // Highcharts.getOptions().exporting.buttons.contextButton.menuItems.push({
-  //   text: gon.downloadCSV,
-  //   onclick: function (e) {
-  //      console.log('asdfas',this,e);        
-  //   }
-  // });
+  Highcharts.getOptions().exporting.buttons.contextButton.menuItems.push({
+    text: gon.downloadCSV,
+    onclick: function (e) {
+       var t = this;
+       var id = t.userOptions.chart_id;
+       if(id == 1)
+       {
+
+       }
+       else if(id == 2)
+       {
+           console.log('second chart');
+           $.post('/' + I18n.locale + '/data_downloads?type=national_bank&currency=' + cur.p2.c.join(','));
+       }
+       else if(id == 3)
+       {
+
+       }      
+    }
+  });
   if(document.documentElement.lang == 'ka')
   {
     Highcharts.setOptions({
@@ -463,6 +477,7 @@ $(function () {
      if(typeof chart === 'undefined')
      {
           $('#a_chart').highcharts({
+            chart_id:1,
             chart:
             {
               backgroundColor: '#f1f2f2',
@@ -624,6 +639,7 @@ $(function () {
 
   function b_chart(){
     $('#b_chart').highcharts('StockChart', {
+      chart_id:2,
       chart:
       {
         backgroundColor: '#f1f2f2'
@@ -787,9 +803,7 @@ $(function () {
     }
     if(remote_cur.length)
     {
-       console.log('/' + I18n.locale + '/api/v1/commercial_bank_rates?currency=' + c + "&bank=" + remote_cur.join(','));
       $.getJSON('/' + I18n.locale + '/api/v1/commercial_bank_rates?currency=' + c + "&bank=" + remote_cur.join(','), function (d) {
-         console.log(d);
         if(d.valid)
         {
            d.result.forEach(function(t,i){
@@ -838,6 +852,7 @@ $(function () {
   function c_chart(){
     var output = {};
     $('#c_chart').highcharts('StockChart', {
+      chart_id: 3,
       magic: true,
       chart:
       {
