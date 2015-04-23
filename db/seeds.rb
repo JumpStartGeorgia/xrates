@@ -40,7 +40,7 @@ ActiveRecord::Base.connection.execute("truncate table bank_translations")
 sql = "insert into banks (code, buy_color, sell_color, created_at, updated_at, `order`) values "
 sql_trans = "insert into bank_translations (bank_id, locale, name, image, created_at, updated_at) values "
 bankInfo.each_with_index do |t,i|
-  sql << "(\"#{t[0]}\", \"#{t[5]}\", \"#{t[6]}\", \"#{created_at}\", \"#{created_at}\", \"#{t[7]}\"),"
+  sql << "(\"#{t[0]}\", \"#{t[4]}\", \"#{t[5]}\", \"#{created_at}\", \"#{created_at}\", \"#{t[6]}\"),"
   sql_trans << "(\"#{i+1}\", \"en\", \"#{t[1]}\", \"#{t[3]}\", \"#{created_at}\", \"#{created_at}\"),"
   sql_trans << "(\"#{i+1}\", \"ka\", \"#{t[2]}\", \"#{t[3]}\", \"#{created_at}\", \"#{created_at}\"),"
 end
