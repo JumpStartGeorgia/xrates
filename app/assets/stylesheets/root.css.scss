@@ -586,22 +586,35 @@ a
                   }
                }
             }
-            .symbol
+            .symbol, .symbol2
             {
                display:inline-block;
                width: 38px;
                height: 42px;
             }
-            .symbol.gel
+            .symbol.gel,.symbol2.gel
             {
                background:transparent url(/assets/svg/gel_cg.svg) center center no-repeat;
                background-size:20px 28px;
             }
-            .symbol.usd
+            .symbol.usd,.symbol2.usd
             {
                background:transparent url(/assets/svg/usd_cg.svg) center center no-repeat;
                background-size:20px 28px;
-            } 
+            }             
+            .symbol2.gel:lang(ka)
+            {
+               background:transparent url(/assets/svg/gel_cgka.svg) center center no-repeat;
+               background-size:45px 20px;
+               width:60px;
+            }
+  
+            .symbol2.usd:lang(ka)
+            {
+               background:transparent url(/assets/svg/usd_cgka.svg) center center no-repeat;
+               background-size:41px 25px;
+               width: 60px;
+            }
            
          }
          .hsw
@@ -759,7 +772,7 @@ a
          >div{ display:inline-block; }
          .addthis_sharing_toolbox
          {
-            top: 7px;
+            top: 6px;
             position: relative;
          }
       }

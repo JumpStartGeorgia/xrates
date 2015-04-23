@@ -40,7 +40,6 @@ $(function () {
       {
         href = '/' + I18n.locale + '/data_download?type=commercial_banks&currency=' + cur.p3.c + "&bank=" + cur.p3.b.join(',');
       } 
-       console.log(href);
       if(href!='')  window.location.href = href;     
     }
   });
@@ -116,7 +115,7 @@ $(function () {
           var kv = ahash[i].split("=");
           if(kv.length==2)
           {
-            params[kv[0]] = isNumber(kv[1]) ? +kv[1] : kv[1].split(',');      
+            params[kv[0]] = isNumber(kv[1]) ? +kv[1] : (kv[1]!='' ? kv[1].split(',') : []);      
           }
         }
         return true;
@@ -256,10 +255,11 @@ $(function () {
       var p = t.parent();
       p.find('> div').removeClass('active');
       t.addClass('active');
-      $(".calculator .symbol").toggleClass('gel usd');
+      $(".calculator .symbol,.calculator .symbol2").toggleClass('gel usd');
+
       
       data.dir = t.attr('data-option') == 'GEL' ? 1 : 0;
-      $(".calculator .symbol").attr('title',data.dir == 1 ? gon.usd : gon.gel );
+      $(".calculator .symbol, .calculator .symbol2").attr('title',data.dir == 1 ? gon.usd : gon.gel );
       $(".hsw .text").find('.from-value').text(data.dir == 1 ? 'GEL' : 'USD')
       $(".hsw .text").find('.to-value').text(data.dir == 1 ? 'USD' : 'GEL');
       calculate(false);
@@ -298,7 +298,6 @@ $(function () {
     chart.legend.options.magic = b;
     cur.p3.type = b ? 0 : (compare == 'buy' ? 1 : 2);
     c_chart_refresh(false,true);
-     console.log('switcher');
   }); 
 
    $.datepicker.setDefaults( $.datepicker.regional[ I18n.locale ] );
@@ -371,7 +370,6 @@ $(function () {
       });
     }
     $('input.filter-c-bank').select2('val',data);
-     //console.log('filter-c-currency switch');
     c_chart_refresh();
   });
   $('.filter-b-currency').on('change',function(){ b_chart_refresh(); });
@@ -618,18 +616,22 @@ $(function () {
   }  
   var b_chart_colors = ['#1cbbb4', '#F47C7C', '#4997FF', '#be8ec0', '#8fc743'];
   function b_chart_refresh(first){
-//    console.log("b_chart_refresh");
     var chart = $('#b_chart').highcharts();
     var c = $('.filter-b-currency').select2('val');
-
     cur.p2.c.forEach(function(t){
       if(c.indexOf(t)==-1)
       {
-        var t = chart.get(t);
-        b_chart_colors.unshift(t.color);
-        t.remove(false);
+        var ser = chart.get(t);
+        b_chart_colors.unshift(ser.color);
+        ser.remove(false);
       }
     });
+
+    if(!first && chart.series.length == 1)
+    {
+      var nav = chart.get(nav_id);
+      nav.setData([]);
+    }
 
     cur.p2.c = c;
     if(!first) params.write({c:c});
@@ -650,6 +652,11 @@ $(function () {
             var ser = chart.get(t.code);
             if(ser === null)
             {  
+              if(!first && chart.series.length == 1)
+              {
+                var nav = chart.get(nav_id);
+                nav.setData(t.rates);
+              }
               chart.addSeries({id:t.code, name: t.code + ' - ' + t.ratio + ' ' + t.name, data: t.rates, color: b_chart_colors.shift() }, false,false);
               data.nbg.rates[t.code] = { code: t.code, name: t.name, label:  t.code + ' - ' + t.ratio + ' ' + t.name,  rates: t.rates } ;
               data.nbg.keys.push(t.code);
@@ -666,14 +673,17 @@ $(function () {
         var ser = chart.get(t);
         if(ser === null)
         {  
+          if(chart.series.length == 1)
+          {
+            var nav = chart.get(nav_id);
+            nav.setData(data.nbg.rates[t].rates);
+          }
           chart.addSeries({id: t, name: data.nbg.rates[t].label, data: data.nbg.rates[t].rates, color: b_chart_colors.shift() }, false,false);
         }     
       });
       chart.redraw();
     }
   }
-
-
   function b_chart(){
     $('#b_chart').highcharts('StockChart', {
       chart_id:2,
@@ -681,25 +691,14 @@ $(function () {
       {
         backgroundColor: '#f1f2f2'
       },
-      // exporting: {
-      //       buttons: {
-      //          customButton: {
-      //           text: 'Custom Button',
-      //           onclick: function () {
-      //               alert('You pressed the button!');
-      //           }
-      //       }
-      //     }
-      //   },
       colors: [ '#1cbbb4', '#F47C7C', '#4997FF', '#be8ec0', '#8fc743'],
-      // navigator: { enabled: false },
       rangeSelector: {
           selected: 0,
           inputDateFormat: '%d-%b-%Y',
           inputEditDateFormat: '%d-%b-%Y',
           inputBoxWidth: 120,  
           inputBoxHeight: 20,                  
-         // inputStyle: { cursor: 'pointer' },
+          inputStyle: { cursor: 'pointer' },
           inputDateParser:function(v)
           {
              v = v.split(/-/);
@@ -873,6 +872,7 @@ $(function () {
     local_cur.forEach(function(t){
       c_chart_redraw(t + '_' + cur.p3.c);       
     });   
+
     chart.redraw();
   }  
   function c_chart_redraw(id)
