@@ -787,7 +787,9 @@ $(function () {
     }
     if(remote_cur.length)
     {
+       console.log('/' + I18n.locale + '/api/v1/commercial_bank_rates?currency=' + c + "&bank=" + remote_cur.join(','));
       $.getJSON('/' + I18n.locale + '/api/v1/commercial_bank_rates?currency=' + c + "&bank=" + remote_cur.join(','), function (d) {
+         console.log(d);
         if(d.valid)
         {
            d.result.forEach(function(t,i){
