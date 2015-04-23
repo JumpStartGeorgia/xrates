@@ -1,9 +1,9 @@
 /*
 national bank #4b4a4b
-republic #e22b2b
+republic #e22b2b - new version from ia #c11f4d
 tbc  #25aae1
 georgian bank #ed7623
-Liberty #d82a3e
+Liberty #d82a3e - new version from ia #ea4e65
 privat bank #5eb246
 procredit #ba2525
 BTA #a7cb42
