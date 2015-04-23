@@ -22,6 +22,17 @@ h1
    margin:20px 0px 10px 50px; /* margin:20px 0px 10px 40px; */
    text-transform:uppercase;
 }
+a
+{
+   font-family: 'dejavusans';
+   font-size: 16px;
+   color: #7b8483;
+   &:lang(en)
+   {
+      font-family:'oxygen';
+   }   
+}
+
 .container
 {
    display:table-row;   
@@ -65,7 +76,8 @@ h1
          {
             position: absolute;
             right: 0px;
-            bottom: 25px; 
+              padding-bottom: 25px;
+  bottom: 0px;
             &.des
             {
                display:none;
@@ -164,8 +176,8 @@ h1
             a:hover, &.active a
             {
                color:#fff;
-               background-color:#f6ba29;
-               border-bottom:1px solid #f6ba29;               
+               background-color:#ffc539;
+               border-bottom:1px solid #ffc539;               
                cursor:pointer;
             }          
          }
@@ -194,7 +206,7 @@ h1
          {
             font-family: 'dejavusans';
             font-size:16px;
-            line-height:28px;
+            line-height:26px;
             color:#7b8483;
             width:auto;
             padding:10px;
@@ -202,6 +214,7 @@ h1
             {
                font-family: 'oxygen';
                font-size:16px;
+               line-height:28px;
             }
          }
       
@@ -222,7 +235,7 @@ h1
 
                .title
                {
-                  background-color:#f6ba29;
+                  background-color:#ffc539;
                   color:#fff;
                   font-family: 'dejavusans';
                   font-size:19px;
@@ -478,7 +491,7 @@ h1
                }
                .value
                {
-                  background-color:#f6ba29;
+                  background-color:#ffc539;
                   font-family:'glober-sb';
                   font-size:21px;
                   color:#fff;
@@ -540,21 +553,36 @@ h1
                }     
                .text
                {
-                  font-family:'oxygen';
+                  font-family:'dejavusans';
                   font-size:15px; 
                   color:#7b8483;
                   line-height:25px;
+                  &:lang(en)
+                  {
+                     font-family:'oxygen';
+                     font-size:15px; 
+                  }
                   .forbes, .forbes:hover, .forbes:focus, .forbes:active
                   {
-                     font-family:'oxygen-bi';
+                     font-family:'dejavusans-bi';
                      font-size:16px; 
-                     color:#f6ba29;
+                     color:#ffc539;
                      text-decoration:none;
+                     &:lang(en)
+                     {
+                        font-family:'oxygen-bi';
+                        font-size:16px; 
+                     }
                   }
                   b
                   {
-                     font-family:'oxygen-bi';
+                     font-family:'dejavusans-bi';
                      font-size:16px; 
+                     &:lang(en)
+                     {
+                        font-family:'oxygen-bi';
+                        font-size:16px; 
+                     }
                   }
                }
             }
@@ -587,11 +615,11 @@ h1
             }
             .title
             {
-               font-family: 'ge-oxygen';
+               font-family: 'dejavusans';
                color:#fff;
                font-size:19px;
                padding:6px 20px;
-               background-color:#f6ba29;
+               background-color:#ffc539;
               -webkit-border-radius: 2px;
                -moz-border-radius: 2px;
                border-radius: 2px;
@@ -606,7 +634,7 @@ h1
             .text
             {
                color:#7b8483;
-               font-family: 'ge-oxygen';
+               font-family: 'dejavusans';
                font-size:15px;
                line-height:26px;
                padding: 10px 0px 5px 2px;            
@@ -693,26 +721,47 @@ h1
       }
       .last-update
       {
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size:14px;
          color:#7b8483;
          white-space:nowrap;
          width:auto;  
          border-top:1px solid #c9cfd5;
          border-bottom:1px solid #c9cfd5; 
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+            font-size:14px;
+         }
          span
          {
-            font-family:'oxygen-b';
+            font-family:'dejavusans-b';
             font-size:14px;
             color:#7b8483;
+            &:lang(en)
+            {
+               font-family: 'oxygen-b';
+               font-size:14px;
+            }
          }  
       }
       .share
       {
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size:15px;
          color:#7b8483;
          white-space:nowrap;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+            font-size:15px;
+         }
+         >div{ display:inline-block; }
+         .addthis_sharing_toolbox
+         {
+            top: 7px;
+            position: relative;
+         }
       }
       .powered-by
       {
@@ -732,19 +781,33 @@ h1
    {
       .tooltip-header
       {
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size:14px;
          color:#7b8483;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+            font-size:14px;
+         }         
       }  
       .tooltip-content
       {
-         font-family: 'oxygen-b';
+         font-family: 'dejavusans-b';
          font-size:13px;
          color:#7b8483;
          padding-left:5px;
+         &:lang(en)
+         {
+            font-family: 'oxygen-b';
+            font-size:13px;
+         }  
          span
          {
-            font-family: 'oxygen';
+            font-family: 'dejavusans';
+            &:lang(en)
+            {
+               font-family: 'oxygen';
+            }  
          }
          .symbol
          {
@@ -792,20 +855,33 @@ h1
    {
       .tooltip-header
       {
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size:14px;
          color:#7b8483;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+            font-size:14px;
+         }          
       }  
       .tooltip-item
       {
-         font-family: 'oxygen-b';
+         font-family: 'dejavusans-b';
          font-size:13px;
          line-height:20px;
          color:#7b8483;
          padding-left:5px;
+         &:lang(en)
+         {
+            font-family: 'oxygen-b';
+         }  
          span
          {
-            font-family: 'oxygen';
+            font-family: 'dejavusans';
+            &:lang(en)
+            {
+               font-family: 'oxygen';
+            }            
          }          
       }         
    }
@@ -822,18 +898,26 @@ h1
    {
       .tooltip-header
       {
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size:14px;
          color:#7b8483;
          margin-bottom:20px;
          padding-bottom:20px;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+         }   
       }  
       .tooltip-item-header span
       {
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size:14px;
          color:#7b8483;
          text-align:right;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+         }            
          svg
          {
             display: block;
@@ -850,20 +934,27 @@ h1
          }
          span.l
          {
-         font-family: 'oxygen-b';
-         font-size:13px;
-         line-height:20px;
-         color:#7b8483;
-         padding-left:5px;
-          min-width:40px;
-         
+            font-family: 'dejavusans-b';
+            font-size:13px;
+            line-height:20px;
+            color:#7b8483;
+            padding-left:5px;
+            min-width:40px;
+            &:lang(en)
+            {
+               font-family: 'oxygen-b';
+            }           
          }
          span.b, span.s, span.r
          {
-            font-family: 'oxygen';
+            font-family: 'dejavusans';
             text-align:right;
             min-width:40px;
             color:#7b8483;
+            &:lang(en)
+            {
+               font-family: 'oxygen';
+            }             
          }
          > span
          {
@@ -880,33 +971,42 @@ h1
    {
       > text
       {
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size:14px;   
          color:#7b8483 !important;
          fill:#7b8483 !important;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+         } 
       }
       .highcharts-button
       {
-         rect
+          rect
          {
-            fill:#fff;
-            stroke:#c1c8ce;
-            stroke-width:1;
-            opacity:0.7;
+            //fill:#ffc539;
+            //stroke:#ffc539;
+            //stroke-width:1;
+            //opacity:0.7;
          }
          text
          {
-            font-family: 'oxygen';
-            font-size:13px;   
-            color:#7b8483 !important;
-            fill:#7b8483 !important;
+            font-family: 'dejavusans';
+            font-size:13px;
+            font-weight:normal !important;   
+            //color:#7b8483 !important;
+            //fill:#7b8483 !important;
             letter-spacing: 2px;
-         }
+            &:lang(en)
+            {
+               font-family: 'oxygen';
+            }             
+         } 
       }
    }
    input.highcharts-range-selector
    {
-      font-family: 'oxygen' !important;
+      font-family: 'dejavusans' !important;
       font-size:15px !important;   
       color:#7b8483 !important;
       background-color:transparent !important;
@@ -917,15 +1017,23 @@ h1
       vertical-align:top !important;
       top: 3px !important;
       cursor:pointer;
+      &:lang(en)
+      {
+         font-family: 'oxygen' !important;
+      }        
    }
    .highcharts-input-group
    {
       > text
       {
-         font-family: 'oxygen' !important;
+         font-family: 'dejavusans' !important;
          font-size:13px !important;   
          color:#7b8483 !important;
          fill:#7b8483 !important;
+         &:lang(en)
+         {
+            font-family: 'oxygen' !important;
+         }          
       }
       g
       {
@@ -938,10 +1046,14 @@ h1
          {
             display:inline-block;
             position:relative;
-            font-family: 'oxygen'  !important;
+            font-family: 'dejavusans'  !important;
             font-size:15px  !important;
             color:#7b8483  !important;
             fill:#7b8483  !important;
+            &:lang(en)
+            {
+               font-family: 'oxygen' !important;
+            }               
          }
       }
    }   
@@ -976,7 +1088,7 @@ h1
       position:relative;
       display:table-cell;
       padding:3px 10px;
-      font-family:'oxygen-b';
+      font-family:'dejavusans-b';
       font-size:15px;
       color:#7b8483;
       text-transform: uppercase;
@@ -985,25 +1097,29 @@ h1
       border-width:1px;
       background-color:#fafbfb;
       top: -25px;
+      &:lang(en)
+      {
+         font-family: 'oxygen-b';
+      } 
       &:hover
       {
-         background-color:#f6ba29;
+         background-color:#ffc539;
          color:#fff;
-         border-color:#f6ba29;  
+         border-color:#ffc539;  
          cursor:pointer;
       }
       &.active
       {
-         background-color:#f6ba29;
+         background-color:#ffc539;
          color:#fff;
-         border-color:#f6ba29;           
+         border-color:#ffc539;           
       }
       &.active:after
       {
          content:'▼';  
          font-family: Arial,Helvetica;
          font-size:19px;
-         color:#f6ba29;  
+         color:#ffc539;  
          position:absolute;
          bottom: -15px;
          left: 50%;
@@ -1040,21 +1156,25 @@ h1
    .select2-choice, .select2-choices
    {
       position:relative;
-      font-family: 'ge-oxygen';
+      font-family: 'dejavusans';
       font-size:19px;
       color:#fff;
       padding:0px;
-      background-color:#f6ba29 !important;
+      background-color:#ffc539 !important;
       background-image:none !important;
       -webkit-border-radius: 2px;
       -moz-border-radius: 2px;
       border-radius: 2px;
       height:42px;
+      &:lang(en)
+      {
+         font-family: 'oxygen';
+      }       
    }
    .select2-choice .select2-arrow b
    {
       background:none !important;
-      background-color:#f6ba29 !important;
+      background-color:#ffc539 !important;
    }
    .select2-choice .select2-arrow b:after,
    .select2-choices:after
@@ -1099,9 +1219,13 @@ h1
          border: 1px solid #e7ebef;
          background:none !important;
          margin: 3px 0px 0px;
-         font-family: 'oxygen';
+         font-family: 'dejavusans';
          font-size: 13px;
          color: #7b8483;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+         }          
       }
    }
    &.select2-container-multi .select2-search-choice-close {
@@ -1125,7 +1249,7 @@ background-color: #f1f2f2;
 }
 .select2-results::-webkit-scrollbar-thumb
 {
-   background-color: #f6ba29;
+   background-color: #ffc539;
    border:0px;
    cursor:pointer;
 }
@@ -1165,9 +1289,13 @@ background-color: #f1f2f2;
       }
       .name
       {
-         font-family:'oxygen';
+         font-family:'dejavusans';
          font-size:13px;
          color:#7b8483;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+         }           
       }
    }
 }
@@ -1181,7 +1309,7 @@ background-color: #f1f2f2;
    .ui-datepicker-header
    {
       background:none;
-      background-color:#f6ba29;
+      background-color:#ffc539;
       -webkit-border-radius: 2px;
       -webkit-border-bottom-right-radius: 0px;
       -webkit-border-bottom-left-radius: 0px;
@@ -1191,7 +1319,7 @@ background-color: #f1f2f2;
       border-radius: 2px;
       border-bottom-right-radius: 0px;
       border-bottom-left-radius: 0px;
-      border:1px solid #f6ba29;
+      border:1px solid #ffc539;
       padding: 3px 0px;
       margin:0px;
       .ui-datepicker-next, .ui-datepicker-prev
@@ -1216,9 +1344,13 @@ background-color: #f1f2f2;
       
       .ui-datepicker-title
       {
-         font-family:'oxygen';
+         font-family:'dejavusans';
          font-size:16px;
          color:#fff;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+         }            
       }
    }
    .ui-datepicker-calendar
@@ -1242,19 +1374,27 @@ background-color: #f1f2f2;
          padding: .1em .1em;
          span
          {
-            font-family:'oxygen';
+            font-family:'dejavusans';
             font-size:13px;
             color:#7b8483;
+            &:lang(en)
+            {
+               font-family: 'oxygen';
+            }             
          }
       }
       .ui-state-default
       {
-         font-family:'oxygen';
+         font-family:'dejavusans';
          font-size:11px;
-         color:#f6ba29;
+         color:#ffc539;
          background:none;
          background-color:#fff;
          border:1px solid #f1f2f4;
+         &:lang(en)
+         {
+            font-family: 'oxygen';
+         }           
       } 
       .ui-state-default:hover
       {
@@ -1264,7 +1404,7 @@ background-color: #f1f2f2;
    }
    .ui-datepicker-month,.ui-datepicker-year
    {
-      font-family: 'oxygen';
+      font-family: 'dejavusans';
       font-size:15px;
       color:#7b8483;
       background-color:#ebeae6;
@@ -1275,6 +1415,10 @@ background-color: #f1f2f2;
       padding: 0px 0px 0px 10px;
       max-width: 80px;
       margin-right:10px !important;
+      &:lang(en)
+      {
+         font-family: 'oxygen';
+      }        
    }
 }
 
@@ -1332,7 +1476,7 @@ background-color: #f1f2f2;
                }
                a:hover, &.active a
                {
-                  border:1px solid #f6ba29;   
+                  border:1px solid #ffc539;   
                }
                &.active a:after,
                a:hover:after
@@ -1340,7 +1484,7 @@ background-color: #f1f2f2;
                   content:'▼';  
                   font-family: Arial,Helvetica;
                   font-size:19px;
-                  color:#f6ba29;  
+                  color:#ffc539;  
                   position:absolute;
                   bottom: -18px;
                   left: 50%;

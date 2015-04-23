@@ -83,6 +83,24 @@ $(function () {
                           { type: 'month', count: 6, text: gon.m6 },
                           { type: 'year', count: 1, text: gon.y1 }, 
                           { type: 'all', text: gon.all }];
+  var custom_buttons_theme = {
+    fill: '#fff',
+    stroke: '#c0c7cd',
+    'stroke-width': 1,             
+    style: { color: '#7b8483' },
+    states: {
+      hover: {
+        fill: '#ffc539',
+        stroke: '#ffc539',
+        style: { color: '#4d4d4d' }
+      },
+      select: {
+        fill: '#ffc539',
+        stroke: '#ffc539',
+        style: { color: '#4d4d4d' }
+      }
+    }
+  };
   gon.currency_to_bank = JSON.parse(gon.currency_to_bank);
   var nbg = 'BNLN';
   var nav_id = 'highcharts-navigator-series';
@@ -289,17 +307,25 @@ $(function () {
       defaultDate: "-3m",
       changeMonth: true,
       changeYear: true,
-      maxDate: "d",
+      maxDate: "d",       
       onClose: function( v ) {
         $('.calculator .to[data-type=datepicker]').datepicker( "option", "minDate", v );
+         this._visible = false;
       },
       onSelect: function(v,o) {
         if($(this).datepicker("getDate").getTime() != data.date_from)
         {
           calculate(true);
         }
-      },
-   }).datepicker('setDate', "-3m");
+      },     
+    }).datepicker('setDate', "-3m")
+    .on('click',function(e){    
+      var t = $(this);
+      var b = (this._visible !== undefined && this._visible === true);
+      t.datepicker(b ? "hide" : "show"); 
+      this._visible = !b;      
+      e.preventDefault();
+    });
 
    $('.calculator .to[data-type=datepicker]').datepicker({
       dateFormat: "d M, yy",
@@ -309,6 +335,7 @@ $(function () {
       maxDate: "d",
       onClose: function( v ) {
         $('.calculator .from[data-type=datepicker]').datepicker( "option", "maxDate", v );
+        this._visible = false;
       },
       onSelect: function() {
         if($(this).datepicker("getDate").getTime() != data.date_to)
@@ -316,7 +343,14 @@ $(function () {
           calculate(true);
         }
       }
-   }).datepicker('setDate', "d");
+    }).datepicker('setDate', "d")
+    .on('click',function(e){    
+      var t = $(this);
+      var b = (this._visible !== undefined && this._visible === true);
+      t.datepicker(b ? "hide" : "show"); 
+      this._visible = !b;      
+      e.preventDefault();
+    });
 
 
   $('.filter-c-currency').on('change',function(){ 
@@ -505,7 +539,8 @@ $(function () {
                 labels: {
                   style: {
                       fontFamily: 'glober-sb',
-                      fontSize: '16px'
+                      fontSize: '13px',
+                      color:'#7b8483'
                   }
                 },
                 type: 'datetime' 
@@ -664,7 +699,7 @@ $(function () {
           inputEditDateFormat: '%d-%b-%Y',
           inputBoxWidth: 120,  
           inputBoxHeight: 20,                  
-          inputStyle: { cursor: 'pointer' },
+         // inputStyle: { cursor: 'pointer' },
           inputDateParser:function(v)
           {
              v = v.split(/-/);
@@ -674,7 +709,8 @@ $(function () {
                 parseInt(v[0], 10),
                 0,0,0,0);              
           },
-          buttons: custom_buttons
+          buttons: custom_buttons,
+          buttonTheme: custom_buttons_theme
       },     
       xAxis: { 
         tickColor: '#d7e0e7',  
@@ -682,7 +718,8 @@ $(function () {
         labels: {
           style: {
               fontFamily: 'glober-sb',
-              fontSize: '16px'
+              fontSize: '13px',
+              color:'#7b8483'
           }
         }  
       },     
@@ -749,8 +786,14 @@ $(function () {
               .datepicker({dateFormat: "dd-mm-yy",
                     changeMonth: true,
                     changeYear: true,
-                    maxDate: "d"
-                  });
+                    maxDate: "d",
+                    beforeShow: function() {
+                      $(chart.container).find('.highcharts-input-group > g:nth-of-type('+(this.name == 'min' ? 2 : 4)+') text').attr('visibility','hidden');
+                    },
+                    onClose: function() {
+                      $(chart.container).find('.highcharts-input-group > g:nth-of-type('+(this.name == 'min' ? 2 : 4)+') text').attr('visibility','visible');
+                    }
+                  }).attr('readonly','readonly');          
       }, 0);
     });
     b_chart_refresh(true);
@@ -877,7 +920,8 @@ $(function () {
                 parseInt(v[0], 10),
                 0,0,0,0);              
           },
-          buttons: custom_buttons
+          buttons: custom_buttons,
+          buttonTheme: custom_buttons_theme
       },   
       xAxis: { 
         tickColor: '#d7e0e7',  
@@ -885,7 +929,8 @@ $(function () {
         labels: {
           style: {
               fontFamily: 'glober-sb',
-              fontSize: '16px'
+              fontSize: '13px',
+              color:'#7b8483'
           }
         }  
       },     
@@ -1026,8 +1071,14 @@ $(function () {
               .datepicker({dateFormat: "dd-mm-yy",
                     changeMonth: true,
                     changeYear: true,
-                    maxDate: "d"
-                  });
+                    maxDate: "d",
+                    beforeShow: function() {
+                      $(chart.container).find('.highcharts-input-group > g:nth-of-type('+(this.name == 'min' ? 2 : 4)+') text').attr('visibility','hidden');
+                    },
+                    onClose: function() {
+                      $(chart.container).find('.highcharts-input-group > g:nth-of-type('+(this.name == 'min' ? 2 : 4)+') text').attr('visibility','visible');
+                    }
+                  }).attr('readonly','readonly');   
       }, 0);
     });
     c_chart_refresh(true);

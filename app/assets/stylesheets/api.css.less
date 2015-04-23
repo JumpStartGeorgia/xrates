@@ -1,18 +1,4 @@
-@import "variables.css.less";
-
-.clearfix() {
-  &:before,
-  &:after {
-    content: " ";
-    display: table;
-  }
-  &:after {
-    clear: both;
-  }
-}
-
 .row {
-  .clearfix();
   .col-left{
     display:table-cell;
     vertical-align:top;
@@ -23,7 +9,6 @@
     display:table-cell;
     vertical-align:top;
   }
-
 }
 
 .api, .tinymce_format, .mce-content-body {
@@ -32,25 +17,43 @@
   display:table;
   border-collapse: separate;
   border-spacing:10px 0px;
+  font-family:'dejavusans';
+  font-size:16px;
+  color:#7b8483;  
+  &:lang(en)
+  {
+     font-family: 'oxygen';
+  }   
   p
   {
-    font-family:oxygen;
+    font-family:'dejavusans';
     font-size:16px;
     color:#7b8483;
     line-height:23px;
     margin:5px 0px;
     padding:0px;
+    &:lang(en)
+    {
+       font-family: 'oxygen';
+    }    
   }
   h2{
-    font-family:'oxygen-b';
+    font-family:'dejavusans-b';
     font-size: 17px;
     color: #515151;
-    
+    &:lang(en)
+    {
+      font-family: 'oxygen-b';
+    }          
   }
   h3{
-    font-family:'oxygen-b';
+    font-family:'dejavusans-b';
     font-size: 15px;
     color: #515151;
+    &:lang(en)
+    {
+      font-family: 'oxygen-b';
+    }     
   }
   .url
   { 
@@ -75,11 +78,15 @@
     padding:0px 0px 0px 0.5em;
     margin:0px;
     li {
-      font-family:'oxygen';
+      font-family:'dejavusans';
       font-size: 16px;
       color:#848484;
       list-style: none;
       line-height: 24px;
+      &:lang(en)
+      {
+         font-family: 'oxygen';
+      }        
     }
   }
   .version-links{
@@ -112,10 +119,14 @@
       }
     }    
     a{
-      font-family:'oxygen';
+      font-family:'dejavusans';
       font-size: 15px;
       color:#f88600;
       text-decoration:none;
+      &:lang(en)
+      {
+         font-family: 'oxygen';
+      }      
     }
   }
   .documentation-links{
@@ -159,10 +170,14 @@
     span{
       padding: 13px 13px;
       color: #7b8483;
-      font-family:'oxygen';
+      font-family:'dejavusans';
       font-size:12px;
       font-style:italic;
       line-height:22px;
+      &:lang(en)
+      {
+         font-family: 'oxygen';
+      }         
     }
   }
 
@@ -174,28 +189,44 @@
       padding: 13px 23px;
       border:1px solid #c1c8ce;
       color: #5f5f5f;
-      font-family:'oxygen';
+      font-family:'dejavusans';
       font-size:14px;
       line-height:22px;
       vertical-align:top;
+      &:lang(en)
+      {
+         font-family: 'oxygen';
+      }        
       a
       {
         text-decoration:underline;
         color: #5f5f5f;
-        font-family:'oxygen';
+        font-family:'dejavusans';
         font-size:14px;
+        &:lang(en)
+        {
+           font-family: 'oxygen';
+        }            
       }
     }
     thead th{
       color: #5f5f5f;
-      font-family:'oxygen-b';
+      font-family:'dejavusans-b';
       font-size:15px;
       text-align:left;
+      &:lang(en)
+      {
+        font-family: 'oxygen-b';
+      }         
     }
     tbody tr td:first-of-type{
       color: #5f5f5f;
-      font-family:'oxygen-b';
+      font-family:'dejavusans-b';
       font-size:14px;
+      &:lang(en)
+      {
+        font-family: 'oxygen-b';
+      }         
     }
   }
 }
