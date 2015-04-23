@@ -679,7 +679,7 @@ rates
   valid: true,
   results: [
     {
-      code: "BR",
+      code: "REPL",
       name: "Bank Republic",
       currencies: [
           "EUR",
@@ -689,7 +689,7 @@ rates
       ]
     },
     {
-      code: "LB",
+      code: "LBRT",
       name: "Liberty Bank",
       currencies: [
           "AMD",
@@ -758,7 +758,7 @@ currencies
   valid: true,
   results: [
     {
-      code: "BR",
+      code: "REPL",
       name: "Bank Republic",
       currencies: [
           "EUR",
@@ -768,7 +768,7 @@ currencies
       ]
     },
     {
-      code: "LB",
+      code: "LBRT",
       name: "Liberty Bank",
       currencies: [
           "AMD",
@@ -834,19 +834,19 @@ currencies
   valid: true,
   results: [
     {
-      code: "BOG",
+      code: "BAGA",
       name: "Bank Of Georgia"
     },
     {
-      code: "TBC",
-      name: "TBC Bank"
+      code: "TBCT",
+      name: "TBCT Bank"
     },
     {
-      code: "BR",
+      code: "REPL",
       name: "Bank Republic"
     },
     {
-      code: "LB",
+      code: "LBRT",
       name: "Liberty Bank"
     }
   ]
@@ -912,19 +912,19 @@ name
   valid: true,
   results: [
     {
-      code: "BOG",
+      code: "BAGA",
       name: "Bank Of Georgia"
     },
     {
-      code: "TBC",
-      name: "TBC Bank"
+      code: "TBCT",
+      name: "TBCT Bank"
     },
     {
-      code: "BR",
+      code: "REPL",
       name: "Bank Republic"
     },
     {
-      code: "LB",
+      code: "LBRT",
       name: "Liberty Bank"
     }
   ]
@@ -957,7 +957,7 @@ name
 </tr>
 <tr>
 <td>bank</td>
-<td>The code of the bank to get exchange rates from. Can provide one bank code (e.g., BOG) or a comma separated list (e.g., BOG,TBC)</td>
+<td>The code of the bank to get exchange rates from. Can provide one bank code (e.g., BAGA) or a comma separated list (e.g., BAGA,TBCT)</td>
 </tr>
 </tbody>
 </table>
@@ -1027,14 +1027,14 @@ name
 <h2>Examples</h2>
 <h3>Example 1</h3>
 <p>Here is an example of getting the buy and sell exchange rates on file for the U.S. Dollar at the Bank of Georgia. The URL for this is the following:</p>
-<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG</a></div>
+<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
   valid: true,
   result: [
     {
-      id: "BOG_USD_B",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_B",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "buy",
       color: "#FAA43A",
@@ -1056,9 +1056,9 @@ name
       ]
     },
     {
-      id: "BOG_USD_S",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_S",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "sell",
       color: "#FAA43A",
@@ -1083,14 +1083,14 @@ name
 }</pre>
 <h3>Example 2</h3>
 <p>Here is an example of getting the buy and sell exchange rates on file for the U.S. Dollar at the Bank of Georgia between 2014-01-01 and 2015-01-01. The URL for this is the following:</p>
-<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG&amp;start_date=1391212800000&amp;end_date=1422748800000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG&amp;start_date=1391212800000&amp;end_date=1422748800000</a></div>
+<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA&amp;start_date=1391212800000&amp;end_date=1422748800000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA&amp;start_date=1391212800000&amp;end_date=1422748800000</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
   valid: true,
   result: [
     {
-      id: "BOG_USD_B",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_B",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "buy",
       color: "#FAA43A",
@@ -1112,9 +1112,9 @@ name
       ]
     },
     {
-      id: "BOG_USD_S",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_S",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "sell",
       color: "#FAA43A",
@@ -1138,15 +1138,15 @@ name
   ]
 }</pre>
 <h3>Example 3</h3>
-<p>Here is an example of getting the buy and sell exchange rates on file for the U.S. Dollar at the Bank of Georgia and TBC Bank. The URL for this is the following:</p>
-<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG,TBC" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG,TBC</a></div>
+<p>Here is an example of getting the buy and sell exchange rates on file for the U.S. Dollar at the Bank of Georgia and TBCT Bank. The URL for this is the following:</p>
+<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA,TBCT" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA,TBCT</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
   valid: true,
   result: [
     {
-      id: "BOG_USD_B",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_B",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "buy",
       color: "#FAA43A",
@@ -1168,9 +1168,9 @@ name
       ]
     },
     {
-      id: "BOG_USD_S",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_S",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "sell",
       color: "#FAA43A",
@@ -1192,9 +1192,9 @@ name
       ]
     },
     {
-      id: "TBC_USD_B",
-      code: "TBC",
-      name: "TBC Bank (TBC)",
+      id: "TBCT_USD_B",
+      code: "TBCT",
+      name: "TBCT Bank (TBCT)",
       currency: "USD",
       rate_type: "buy",
       color: "#60BD68",
@@ -1216,9 +1216,9 @@ name
       ]
     },
     {
-      id: "TBC_USD_S",
-      code: "TBC",
-      name: "TBC Bank (TBC)",
+      id: "TBCT_USD_S",
+      code: "TBCT",
+      name: "TBCT Bank (TBCT)",
       currency: "USD",
       rate_type: "sell",
       color: "#60BD68",
@@ -1271,7 +1271,7 @@ currency
 bank
 </td>
 <td>
-იმ ბანკის კოდი, საიდანაც ვიღებთ გაცვლით კურსს. შეიძლება მოცემული იყოს ერთი ბანკის კოდი (მაგ. BOG) ან ერთობლივად განცალკევებული სიით (მაგ., BOG,TBC)
+იმ ბანკის კოდი, საიდანაც ვიღებთ გაცვლით კურსს. შეიძლება მოცემული იყოს ერთი ბანკის კოდი (მაგ. BAGA) ან ერთობლივად განცალკევებული სიით (მაგ., BAGA,TBCT)
 </td>
 </tr>
 </tbody>
@@ -1385,14 +1385,14 @@ data
 <h2>მაგალითები</h2>
 <h3>მაგალითი 1</h3>
 <p>მაგალითისთვის მოცემულია საქართველოს ბანკის მიერ დადგენილი ყიდვა-გაყიდვის კურსის მიღება USD-თან მიმართებაში. მისი URL არის შემდეგი:</p>
-<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG</a></div>
+<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
   valid: true,
   result: [
     {
-      id: "BOG_USD_B",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_B",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "buy",
       color: "#FAA43A",
@@ -1414,9 +1414,9 @@ data
       ]
     },
     {
-      id: "BOG_USD_S",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_S",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "sell",
       color: "#FAA43A",
@@ -1442,14 +1442,14 @@ data
 
 <h3>მაგალითი 2</h3>
 <p>მაგალითისთვის მოცემულია საქართველოს ბანკის მიერ დადგენილი ყიდვა-გაყიდვის კურსის მიღება USD-თან მიმართებაში 2014-01-01 - 2015-01-01 პერიოდში. მისი URL არის შემდეგი:</p>
-<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG&amp;start_date=1391212800000&amp;end_date=1422748800000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG&amp;start_date=1391212800000&amp;end_date=1422748800000</a></div>
+<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA&amp;start_date=1391212800000&amp;end_date=1422748800000" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA&amp;start_date=1391212800000&amp;end_date=1422748800000</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
   valid: true,
   result: [
     {
-      id: "BOG_USD_B",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_B",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "buy",
       color: "#FAA43A",
@@ -1471,9 +1471,9 @@ data
       ]
     },
     {
-      id: "BOG_USD_S",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_S",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "sell",
       color: "#FAA43A",
@@ -1498,14 +1498,14 @@ data
 }</pre>
 <h3>მაგალითი 3</h3>
 <p>მაგალითისთვის მოცემულია საქართველოს ბანკისა და თიბისი ბანკის მიერ დადგენილი ყიდვა-გაყიდვის კურსების მიღება USD-თან მიმართებაში. მისი URL არის შემდეგი:</p>
-<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG,TBC" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BOG,TBC</a></div>
+<div class="url"><a href="/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA,TBCT" target="_blank">http://dev-xrates.jumpstart.ge/en/api/v1/commercial_bank_rates?currency=USD&amp;bank=BAGA,TBCT</a></div>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">{
   valid: true,
   result: [
     {
-      id: "BOG_USD_B",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_B",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "buy",
       color: "#FAA43A",
@@ -1527,9 +1527,9 @@ data
       ]
     },
     {
-      id: "BOG_USD_S",
-      code: "BOG",
-      name: "Bank Of Georgia (BOG)",
+      id: "BAGA_USD_S",
+      code: "BAGA",
+      name: "Bank Of Georgia (BAGA)",
       currency: "USD",
       rate_type: "sell",
       color: "#FAA43A",
@@ -1551,9 +1551,9 @@ data
       ]
     },
     {
-      id: "TBC_USD_B",
-      code: "TBC",
-      name: "TBC Bank (TBC)",
+      id: "TBCT_USD_B",
+      code: "TBCT",
+      name: "TBCT Bank (TBCT)",
       currency: "USD",
       rate_type: "buy",
       color: "#60BD68",
@@ -1575,9 +1575,9 @@ data
       ]
     },
     {
-      id: "TBC_USD_S",
-      code: "TBC",
-      name: "TBC Bank (TBC)",
+      id: "TBCT_USD_S",
+      code: "TBCT",
+      name: "TBCT Bank (TBCT)",
       currency: "USD",
       rate_type: "sell",
       color: "#60BD68",
