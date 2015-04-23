@@ -76,22 +76,22 @@ In the end, data is what you make of it!
 </p>
 ')
   p.page_content_translations.create(:locale => 'ka', :title => "About", :content => '<p>
-Between November 2014 and February 2015, the lari depreciated by 18.8%. While it is unclear exactly why the lari is depreciated, it is clear that the unstable nature of the lari is having an impact on peoples lives. During that same period, the net worth of every 1,000 lari decreased from 558 USD to 456 USD, or a total of 102 USD. While we don\'t currently have data describing the number of people who have loans, most loans are tied to the dollar and most people\'s salaries are in lari. This is making it incredibly difficult for people to make their scheduled mortgage and other loan payments, among other difficulties.
+2014 წლის ნოემბრიდან 2015 წლის თებერვლამდე ლარის ღირებულება აშშ დოლართან მიმართებაში 18.8%-ით შემცირდა. ლარის ღირებულების დაცემის ზუსტი მიზეზები გაურკვეველია, თუმცა ცხადია, რომ ლარის არასტაბილური მდგომარეობა ადამიანების ცხოვრებაზე გავლენას ახდენს. ამ პერიოდში ათასი ლარის ღირებულება ამერიკულ დოლარში 102 დოლარით შემცირდა. არ გვაქვს მონაცემები, რამდენ ადამიანს აქვს ბანკის ვალი, თუმცა ცნობილია, რომ იპოთეკური თუ სხვა სესხების უმეტესობა აშშ დოლარშია, ხალხს კი შემოსავალი ლარში აქვს. ყველა სხვა სირთულესთან ერთად, ეს ძალიან ართულებს მათთვის საკუთარი ფინანსური ვალდებულებების შესრულებას. 
 </p>
 <p>
-The Lari Explorer is the evolution of our <a href="http://feradi.info/en/visualizations/the-celery-1-the-pilot-the-georgian-champion">comic</a> and previous <a href="http://feradi.info/en/visualizations/jumpstarts-winter-2014-2015-lari-depreciation-calculator">Winter 2014-2015 Lari Depreciation Calculator</a> and adds more features for people to explore changes in the lari over a period of their choosing and compare those changes with other currencies. It pulls the lastest data from the <a href="https://www.nbg.gov.ge/index.php?m=2&lng=eng">National Bank of Georgia</a> on a nightly basis. 
+ლარის გზამკვლევი განვითარდა ჩვენი <a href="http://feradi.info/ka/visualizations/niakhuri-1-piloti-qartveli-palavani">კომიქსისა </a> და წინა <a href="http://feradi.info/ka/visualizations/2014-2015-tslis-zamtarshi-laris-gaupasurebis-kalkulatori">ლარის გაუფასურების კალკულატორის </a> შედეგად. იგი მომხმარებლებს ახალ ფუნქციებს სთავაზობს, რომელთა საშუალებითაც შესაძლებელია მათთვის საინტერესო დროის მონაკვეთში ლარის ღირებულების ცვლილებების ნახვა სხვადასხვა ვალუტასთან მიმართებით. მონაცემები აღებულია <a href="https://www.nbg.gov.ge/index.php?m=2&lng=geo">საქართველოს ეროვნული ბანკის</a> საიტიდან და განახლდება ყოველდღიურად. 
 </p>
 <p>
-Similarly, we are pulling in exchange data from four banks, but intend to increase that number soon. By aggregating bank exchange rates in one place, we hope to make it easier for people to compare them and more easily make better decisions. In the future, we will strive to continue to add more banks and improve the relevancy of this component of the Lari Explorer.
+ასევე, ვალუტის კურსის მონაცემებს ვაგროვებთ ოთხი ბანკის საიტიდან, თუმცა ვგეგმავთ მათი რაოდენობის გაზრდას. კომერციული ბანკების ვალუტის გაცვლის კურსების ერთ ადგილას თავმოყრით, გვინდა, ხალხს გავუადვილოთ მათი შედარება და უკეთესი გადაწყვეტილებების მიღება. სამომავლოდ გვსურს კომერციული ბანკების გვერდს ვალუტის კურსების არქივიც დავამატოთ, რათა მომხმარებელს ისტორიული პერსპექტივის დანახვის საშუალებაც მიეცეს. 
 </p>
 <p>
-For you programmers out there, we have exposed the data via an open <a href="/en/api">API</a> and you are welcome to use it. We\'d love to hear from you on why and how you are using the API and what we can do to make this service better.
+პროგრამისტებო, თქვენთვის მონაცემები ხელმისაწვდომი გავხადეთ <a href="/ka/api">API</a>-ის საშუალებით და მივესალმებით მის გამოყენებას. გვსურს, თქვენგან გავიგოთ რისთვის და როგორ იყენებთ და შეგვიძლია თუ არა მისი კიდევ უფრო გაუმჯობესება.  
 </p>
 <p>
-If you\'d like to learn more about this and other JumpStart tools, please don\'t hesitate to <a href="http://jumpstart.ge/en/contact-us">contact us!</a> We\'d love to hear and collaborate with you.
+თუ გსურთ, მეტი გაიგოთ ლარის გზამკვლევისა და ჯამპსტარტის სხვა ხელსაწყოების შესახებ, <a href="http://jumpstart.ge/ka/contact-us">დაგვიკავშირდით !</a> 
 </p>
 <p>
-In the end, data is what you make of it!
+საბოლოო ჯამში, მონაცემების მნიშვნელობას ის განსაზღვრავს, თუ რა გამოყენებას მოუნახავთ მას! 
 </p>
 ')
 end

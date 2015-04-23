@@ -1,4 +1,5 @@
 <% title "#{@api_version.title} - #{@api_method.title}" %>
+<% description truncate(strip_tags_nbsp(@api_method.content), length: 250, separator: ' ') %>
 
 <div class="api row">
   <div class="col-left">
