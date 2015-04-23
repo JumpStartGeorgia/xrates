@@ -226,7 +226,7 @@ $(function () {
     },
     formatSelection: function(d)
     {
-      return "<div>"+d.id+"</div>";
+      return "<div title='"+d.text+"'>"+d.id+"</div>";
     },
     matcher: function(term, text, opt) { return text.toUpperCase().indexOf(term.toUpperCase())>=0 || opt.val().toUpperCase().indexOf(term.toUpperCase())>=0; }
   });
