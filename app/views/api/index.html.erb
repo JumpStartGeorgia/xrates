@@ -1,5 +1,6 @@
 <% if @page_content.present? %>
   <% title @page_content.title %>
+  <% description truncate(strip_tags_nbsp(@page_content.content), length: 250, separator: ' ') %>
 
   <div class="tinymce_format api">
     <%= simple_format_no_tags(@page_content.content, {}, {sanitize: false}) %>
