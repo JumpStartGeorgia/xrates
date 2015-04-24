@@ -1533,9 +1533,12 @@ background-color: #f1f2f2;
                   }
                   .title
                   {
-                     padding:9px 60px;
-                     white-space:nowrap;
+                     padding:9px 60px;                     
                      margin:0px 0px 32px;
+                     &:lang(en)
+                     {
+                        white-space:nowrap;
+                     }
                   }
                   .inp
                   {     
