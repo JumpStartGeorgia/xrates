@@ -607,6 +607,7 @@ a
                background:transparent url(/assets/svg/gel_cgka.svg) center center no-repeat;
                background-size:45px 20px;
                width:60px;
+               min-width: 60px;
             }
   
             .symbol2.usd:lang(ka)
@@ -614,6 +615,7 @@ a
                background:transparent url(/assets/svg/usd_cgka.svg) center center no-repeat;
                background-size:41px 25px;
                width: 60px;
+               min-width: 60px;
             }
            
          }
@@ -1533,9 +1535,12 @@ background-color: #f1f2f2;
                   }
                   .title
                   {
-                     padding:9px 60px;
-                     white-space:nowrap;
+                     padding:9px 60px;                     
                      margin:0px 0px 32px;
+                     &:lang(en)
+                     {
+                        white-space:nowrap;
+                     }
                   }
                   .inp
                   {     

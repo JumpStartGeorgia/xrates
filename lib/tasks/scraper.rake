@@ -104,7 +104,8 @@ puts "loading data completed"
 
     mailer = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0 }
 
-puts "Scrape for #{date.to_date} at #{date}"
+    puts "Scrape for #{date.to_date} at #{date}"
+    
 # scrape nbg -----------------------------------------------------------------------
     Rate.transaction do
       page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))

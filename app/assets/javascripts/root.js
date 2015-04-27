@@ -586,7 +586,7 @@ $(function () {
             tooltip: {
               headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
               pointFormatter: function(d) { 
-                return '<div class="tooltip-content"><span>'+gon.rate+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span><br/><span>'+gon.monetary_value+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span></div>';
+                return '<div class="tooltip-content"><span>'+gon.rate+':</span> '+reformat(this.rate)+' <span class="symbol '+this.dir+'"></span><br/><span>'+gon.monetary_value+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span></div>';
               },
               useHTML: true
             },
@@ -599,7 +599,7 @@ $(function () {
      {
         chart.yAxis[0].update({
             title:{
-              text: (data.dir == 1 ? 'USD' : 'GEL')
+              text: (data.dir == 1 ? 'USD' : gon.gel)
             }
         });
 
@@ -767,7 +767,7 @@ $(function () {
         borderColor: "#cfd4d9",
         headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
         pointFormatter: function () {
-             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+this.y+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
+             return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+reformat(this.y)+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
         useHTML: true,
         shadow: false
       },
