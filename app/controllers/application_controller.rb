@@ -112,6 +112,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.currency_to_bank = currency_by_bank.to_json
       gon.banks = Bank.all_except_nbg.each_with_index.map{|x,i| [ x[0], x[1], x[4], { :'data-image' => x[5] } ] }
 
+      gon.dev = Rails.env.development?
       #:title => I18n.t('chart.nbg.title') , 
 	end
 
