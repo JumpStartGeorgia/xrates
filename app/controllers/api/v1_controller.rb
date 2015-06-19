@@ -69,7 +69,7 @@ class Api::V1Controller < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: data }
+      format.json { render json: data, :callback => params[:callback] }
     end
   end
 
@@ -117,7 +117,7 @@ class Api::V1Controller < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: data }
+      format.json { render json: data, :callback => params[:callback] }
     end
   end
 
@@ -152,7 +152,7 @@ class Api::V1Controller < ApplicationController
 
 
     respond_to do |format|
-      format.json { render json: data }
+      format.json { render json: data, :callback => params[:callback] }
     end
   end
 
@@ -194,7 +194,7 @@ class Api::V1Controller < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: data }
+      format.json { render json: data, :callback => params[:callback] }
     end
   end
 
@@ -254,7 +254,7 @@ class Api::V1Controller < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: data }
+      format.json { render json: data, :callback => params[:callback] }
     end
   end
 
@@ -297,7 +297,7 @@ class Api::V1Controller < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: data }
+      format.json { render json: data, :callback => params[:callback] }
     end
   end
 
