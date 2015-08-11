@@ -42,7 +42,7 @@ puts "loading nbg rates"
   			data.each do |row|
   				currencies.each do |col|
   			    date_orig = row[0].split('-')
-  			    rows << { :date => "20#{date_orig[2]}-#{months[date_orig[1]]}-#{date_orig[0]}", 
+  			    rows << { :date => "20#{date_orig[2]}-#{months[date_orig[1]]}-#{date_orig[0]}",
                       :utc => Time.utc("20#{date_orig[2]}", "#{months[date_orig[1]]}", "#{date_orig[0]}"),
                       :currency => col, :rate => row[col] }
   			  end
@@ -102,48 +102,50 @@ puts "loading data completed"
     created_at = Time.now
     date = Time.now
 
-    mailer = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0 }
+    fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0 }
+    processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0 }
 
     puts "Scrape for #{date.to_date} at #{date}"
-    
-# scrape nbg -----------------------------------------------------------------------
-    Rate.transaction do
-      page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))
 
-      # get the date
-      title = page.at_xpath('//item//title').text
-      date = title.gsub('Currency Rates ', '')
-      date = Date.strptime(date, "%Y-%m-%d")
+    begin
+      # scrape nbg -----------------------------------------------------------------------
+      Rate.transaction do
+        page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))
 
-      table = page.at_xpath('//item//description').text 
-      table = Nokogiri::HTML(table)
+        # get the date
+        title = page.at_xpath('//item//title').text
+        date = title.gsub('Currency Rates ', '')
+        date = Date.strptime(date, "%Y-%m-%d")
 
-      rows = table.css('tr')
-      puts "NBG - #{rows.length} records" 
+        table = page.at_xpath('//item//description').text
+        table = Nokogiri::HTML(table)
 
-      mailer[:bnln] = 1 if rows.empty?
+        rows = table.css('tr')
+        puts "NBG - #{rows.length} records"
+        processed_flags[:bnln] = rows.length
+        fail_flags[:bnln] = 1 if rows.empty?
 
-      rows.each do |row|
-        cols = row.css('td')
-        Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
+        rows.each do |row|
+          cols = row.css('td')
+          Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
+        end
+
       end
-   
-    end
 
-# scrape bog -----------------------------------------------------------------------
-
+      # scrape bog -----------------------------------------------------------------------
       Rate.transaction do
         page = Nokogiri::HTML(open("http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates"))
         rows = page.css('div#Content table tbody tr')
-        mailer[:baga] = 1 if rows.empty?
+        fail_flags[:baga] = 1 if rows.empty?
         rows.each do |row|
           cols = row.css('td')
           Rate.create_or_update(date, cols[1].text.strip, nil, cols[3].text.strip,cols[4].text.strip,2)
         end
-        puts "BOG - #{rows.length} records" 
+        puts "BOG - #{rows.length} records"
+        processed_flags[:baga] = rows.length
       end
 
-# scrape tbc -----------------------------------------------------------------------
+      # scrape tbc -----------------------------------------------------------------------
       Rate.transaction do
         page = Nokogiri::HTML(open("http://www.tbcbank.ge/web/en/web/guest/exchange-rates"))
 
@@ -157,7 +159,7 @@ puts "loading data completed"
 
         cnt = 0
         swap = { "AVD" => "AUD","RUR" => "RUB","UKG" => "UAH"}
-        mailer[:tbcb] = 1 if rows.empty?
+        fail_flags[:tbcb] = 1 if rows.empty?
         rows.each do |row|
           curr = row["currencyCode"]
           if curr != 'GEL'
@@ -169,14 +171,15 @@ puts "loading data completed"
               Rate.create_or_update(date, curr, nil, rate["buyRate"], rate["sellRate"],3)
               cnt += 1
             end
-          end                
+          end
         end
-        puts "TBC - #{cnt} records" 
+        puts "TBC - #{cnt} records"
+        processed_flags[:tbcb] = cnt
       end
 
-  # scrape republic -----------------------------------------------------------------------
+      # scrape republic -----------------------------------------------------------------------
       Rate.transaction do
-        page = Nokogiri::HTML(open("https://www.br.ge/en/home"))
+        page = Nokogiri::HTML(open("https://www.br.ge/en/home",  :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
 
         script = page.css('div.rates script').text
         search_phrase = 'var valRates = {'
@@ -189,7 +192,7 @@ puts "loading data completed"
         swap = {"RUR" => "RUB"}
 
         cnt = 0
-        mailer[:repl] = 1 if rows.empty?
+        fail_flags[:repl] = 1 if rows.empty?
         keys.each do |row|
           curr = row
           if curr != 'GEL'
@@ -200,41 +203,47 @@ puts "loading data completed"
             cnt += 1
           end
         end
-        puts "REPUBLIC - #{cnt} records" 
+        puts "REPUBLIC - #{cnt} records"
+        processed_flags[:repl] = cnt
       end
-# scrape liberty -----------------------------------------------------------------------
-      Rate.transaction do
-        page = Nokogiri::HTML(open("https://libertybank.ge/index.php?action=valuta&lang=eng"))
 
-        rows = page.css('body div table tr:nth-child(4) td table tr td:nth-child(3) div table tr:not(:first-child)')
+      # scrape liberty -----------------------------------------------------------------------
+      Rate.transaction do
+        page = Nokogiri::HTML(open("https://libertybank.ge/en/pizikuri-pirebistvis",  :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+
+        rows = page.css('body div.box.rates table tbody tr')
         swap = {"TRL" => "TRY", "AZM" => "AZN"}
         cnt = 0
-        mailer[:lbrt] = 1 if rows.empty?
+        fail_flags[:lbrt] = 1 if rows.empty?
         rows.each do |row|
-          curr = row.css('td:nth-child(1) img').attribute('src').value
-          curr = curr[curr.length-7,3].upcase
-          if swap.key?(curr)
-            curr = swap[curr]
-          end
-          Rate.create_or_update(date, curr, nil, row.css('td:nth-child(2)').text, row.css('td:nth-child(3)').text ,5)
-          cnt += 1      
+          curr = row.css('th').text.upcase
+          Rate.create_or_update(date, curr, nil, row.css('td:nth-child(1)').text, row.css('td:nth-child(2)').text ,5)
+          cnt += 1
         end
-        puts "LIBERTY - #{cnt} records"         
+        puts "LIBERTY - #{cnt} records"
+        processed_flags[:lbrt] = cnt
       end
 
-      send = false
+      send_failed_msg = false
       failed_banks = []
-      mailer.each {|k,v|
-        if v == 1          
+      fail_flags.each {|k,v|
+        if v == 1
           failed_banks.push(Bank.find_by_code(k.upcase).translation_for(:en).name)
-          send = true
+          send_failed_msg = true
         end
-      } 
-      if send 
-        ScraperMailer.bank_failes(failed_banks).deliver
+      }
+      processed_banks = []
+      processed_flags.each {|k,v|
+        processed_banks.push(Bank.find_by_code(k.upcase).translation_for(:en).name + " - " + v.to_s + " records recorded")
+      }
+      if send_failed_msg
+        ScraperMailer.banks_failed(failed_banks).deliver
       end
-
-      # LAST_SCRAPE = Time.now
+      ScraperMailer.banks_processed(processed_banks).deliver
+    rescue  Exception => e
+      ScraperMailer.report_error(e).deliver
+    end
+    # LAST_SCRAPE = Time.now
   end
 end
 
