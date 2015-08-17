@@ -1,23 +1,23 @@
 class RootController < ApplicationController
   def index
 
-    @js.push("u.js", "root.js") 
-    @tab='calculator'
-    
+    @js.push("u.js", "root.js")
+    @tab='national_bank'
+
     params[:currency] ||= 'USD,EUR,GBP,RUB'
-    params[:bank] ||= 'BNLN'    
+    params[:bank] ||= 'BNLN'
     gon.currency = params[:currency]
     gon.bank = params[:bank]
-    @currencies = Currency.data 
+    @currencies = Currency.data
     @currencies_available = Currency.available
     @banks = Bank.all_except_nbg
-    
+
     respond_to do |format|
       format.html # index.html.erb
     end
   end
 
-  def about  
+  def about
     @page_content = PageContent.by_name('about')
 
     respond_to do |format|
@@ -32,7 +32,7 @@ class RootController < ApplicationController
     currencies = nil
     filename = 'lari_explorer'
     @currencies = Currency.data
-    
+
     case params[:type]
       when 'calculator'
         # params needed: amount, currency, direction, start_date, end_date
@@ -110,7 +110,7 @@ class RootController < ApplicationController
             header = ['Date', currencies].flatten
             csv = CSV.generate do |csv_row|
               csv_row << header
-  
+
               # for each date, add currency exchange rate
               dates.each do |date|
                 data_item = [date[1]]
@@ -153,7 +153,7 @@ class RootController < ApplicationController
               banks.each{|code|
                 filename_items << code
 
-                b = Bank.find_by_code(code)  
+                b = Bank.find_by_code(code)
 
                 key = b.name + ' - ' + currency[0]
                 if b.id == 1
@@ -161,7 +161,7 @@ class RootController < ApplicationController
                 else
                   rates[key + ' - BUY'] = Rate.rates_buy(currency[0], b.id, currency[2], include_date: true)
                   rates[key + ' - SELL'] = Rate.rates_sell(currency[0], b.id, currency[2], include_date: true)
-                end              
+                end
               }
             end
 
@@ -176,7 +176,7 @@ class RootController < ApplicationController
               header = ['Date', items].flatten
               csv = CSV.generate do |csv_row|
                 csv_row << header
-    
+
                 # for each date, add exchange rate of each item
                 dates.each do |date|
                   data_item = [date[1]]
@@ -208,7 +208,7 @@ class RootController < ApplicationController
         if csv.nil?
           return false
         else
-          send_data csv, 
+          send_data csv,
             :type => 'text/csv; header=present',
             :disposition => "attachment; filename=#{clean_filename(filename)}.csv"
         end
@@ -224,7 +224,7 @@ private
      Rails.logger.debug("--------------------------------------------#{date}#{Date.parse(date)}")
     begin
       Date.parse(date)
-    rescue  
+    rescue
       nil
     end
   end

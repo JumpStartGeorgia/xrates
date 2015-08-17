@@ -107,8 +107,8 @@ puts "loading data completed"
 
     puts "Scrape for #{date.to_date} at #{date}"
 
+    # scrape nbg -----------------------------------------------------------------------
     begin
-      # scrape nbg -----------------------------------------------------------------------
       Rate.transaction do
         page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))
 
@@ -132,7 +132,13 @@ puts "loading data completed"
 
       end
 
-      # scrape bog -----------------------------------------------------------------------
+    rescue  Exception => e
+      ScraperMailer.report_error(e).deliver
+    end
+
+
+    # scrape bog -----------------------------------------------------------------------
+    begin
       Rate.transaction do
         page = Nokogiri::HTML(open("http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates"))
         rows = page.css('div#Content table tbody tr')
@@ -145,7 +151,12 @@ puts "loading data completed"
         processed_flags[:baga] = rows.length
       end
 
-      # scrape tbc -----------------------------------------------------------------------
+    rescue  Exception => e
+      ScraperMailer.report_error(e).deliver
+    end
+
+    # scrape tbc -----------------------------------------------------------------------
+    begin
       Rate.transaction do
         page = Nokogiri::HTML(open("http://www.tbcbank.ge/web/en/web/guest/exchange-rates"))
 
@@ -176,8 +187,12 @@ puts "loading data completed"
         puts "TBC - #{cnt} records"
         processed_flags[:tbcb] = cnt
       end
+    rescue  Exception => e
+      ScraperMailer.report_error(e).deliver
+    end
 
-      # scrape republic -----------------------------------------------------------------------
+    # scrape republic -----------------------------------------------------------------------
+    begin
       Rate.transaction do
         page = Nokogiri::HTML(open("https://www.br.ge/en/home",  :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
 
@@ -206,8 +221,12 @@ puts "loading data completed"
         puts "REPUBLIC - #{cnt} records"
         processed_flags[:repl] = cnt
       end
+    rescue  Exception => e
+      ScraperMailer.report_error(e).deliver
+    end
 
-      # scrape liberty -----------------------------------------------------------------------
+    # scrape liberty -----------------------------------------------------------------------
+    begin
       Rate.transaction do
         page = Nokogiri::HTML(open("https://libertybank.ge/en/pizikuri-pirebistvis",  :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
 
@@ -217,13 +236,17 @@ puts "loading data completed"
         fail_flags[:lbrt] = 1 if rows.empty?
         rows.each do |row|
           curr = row.css('th').text.upcase
-          Rate.create_or_update(date, curr, nil, row.css('td:nth-child(1)').text, row.css('td:nth-child(2)').text ,5)
+          Rate.create_or_update(date, curr, nil, row.css('td')[0].text, row.css('td')[1].text ,5)
           cnt += 1
         end
         puts "LIBERTY - #{cnt} records"
         processed_flags[:lbrt] = cnt
       end
+    rescue  Exception => e
+      ScraperMailer.report_error(e).deliver
+    end
 
+    begin
       send_failed_msg = false
       failed_banks = []
       fail_flags.each {|k,v|
@@ -239,7 +262,7 @@ puts "loading data completed"
       if send_failed_msg
         ScraperMailer.banks_failed(failed_banks).deliver
       end
-      ScraperMailer.banks_processed(processed_banks).deliver
+      #ScraperMailer.banks_processed(processed_banks).deliver
     rescue  Exception => e
       ScraperMailer.report_error(e).deliver
     end

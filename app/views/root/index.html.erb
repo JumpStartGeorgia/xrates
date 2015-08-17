@@ -1,4 +1,40 @@
   <% title t("root.tab1") %>
+  <div class="page page2" data-tab-id="national_bank">
+    <div class="intro"><%= t(".page2.intro") %></div>
+    <div class="filters">
+      <div class="caption"><%= t(".currency") %></div>
+      <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, params[:currency].split(',')),
+              include_blank: false,
+              multiple: true,
+              :'data-placeholder' => t('.hint.currency'),
+              class: 'selectpicker  filter-b-currency' %>
+    </div>
+    <div class="b_chart_switch_wrapper">
+      <div class="b_chart_switch">
+        <div data-compare="none" class="active"><%= t(".cost") %></div><div data-compare="percent">%</div>
+      </div>
+    </div>
+    <div id="b_chart" class="chart" style="height:600px;width:100%;max-width:1024px;"></div>
+  </div>
+  <div class="page page3" data-tab-id="commercial_banks">
+    <div class="intro"><%= t(".page3.intro") %></div>
+    <div class="filters">
+      <div class="box">
+        <div class="caption"><%= t(".currency") %></div>
+        <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, 'USD'),
+              :'data-placeholder' => t('.hint.currency'),
+              class: 'selectpicker filter-c-currency' %>
+      </div>
+      <div class="box">
+        <div class="caption"><%= t(".bank") %></div>
+        <input type='hidden' class="filter-c-bank" data-placehodler="<%=t('.hint.bank')%>" value="BAGA,TBCB,REPL,LBRT">
+      </div>
+    </div>
+      <div class="c_chart_switch_wrapper">
+      <div class="c_chart_switch"><div data-compare="both" class="active"><%= t(".both") %></div><div data-compare="buy"><%= t(".buy") %></div><div data-compare="sell"><%= t(".sell") %></div></div>
+    </div>
+    <div id="c_chart" class="chart" style="height:600px;width:100%;max-width:1024px;"></div>
+  </div>
   <div class="page" data-tab-id="calculator">
     <div class="intro"><%= t(".page1.intro") %>
     </div>
@@ -16,8 +52,8 @@
         <div class="output">
           <div class="col">
             <div class="label"></div>
-           <div class="datepicker-wrapper"><input type="text" class="from" data-type="datepicker" data-default="-3m" readonly="readonly"></div>   
-            <div class="datepicker-wrapper"><input type="text" class="to" data-type="datepicker" data-default="d"  readonly="readonly"></div>     
+           <div class="datepicker-wrapper"><input type="text" class="from" data-type="datepicker" data-default="-3m" readonly="readonly"></div>
+            <div class="datepicker-wrapper"><input type="text" class="to" data-type="datepicker" data-default="d"  readonly="readonly"></div>
           </div>
           <div class="col">
             <div class="label" data-gel="<%= t(".calculator.gel") %>" data-usd="<%= t(".calculator.usd") %>"><span><%= t(".rate") %></span></div>
@@ -29,14 +65,14 @@
                <div id="worth_then" class="vk space"><div class="value box"></div><div class="symbol usd" title="<%= t('app.common.usd') %>"></div></div>
                <div id="worth_now" class="vk space"><div class="value box"></div><div class="symbol usd" title="<%= t('app.common.usd') %>"></div></div>
           </div>
-        
+
         </div>
         <div class="diff">
           <div class="label"><%= t(".calculator.difference").html_safe %></div>
           <div id="worth_diff" class="vk"><div class="value"></div><div class="symbol2 usd" title="<%= t('app.common.usd') %>"></div></div>
         </div>
       </div>
-      <div class="sep"></div>  
+      <div class="sep"></div>
       <div class="block info">
         <div class="person"></div>
         <div class="sep"></div>
@@ -48,40 +84,4 @@
       <div><div class="title"><%= t(".hsw").html_safe %></div></div>
       <div><div class="text"><%= t(".hsw_text").html_safe %></div></div>
     </div>
-  </div>
-  <div class="page page2" data-tab-id="national_bank">
-    <div class="intro"><%= t(".page2.intro") %></div>
-    <div class="filters">
-      <div class="caption"><%= t(".currency") %></div>
-      <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, params[:currency].split(',')), 
-              include_blank: false, 
-              multiple: true,
-              :'data-placeholder' => t('.hint.currency'),
-              class: 'selectpicker  filter-b-currency' %>
-    </div>
-    <div class="b_chart_switch_wrapper">
-      <div class="b_chart_switch">
-        <div data-compare="none" class="active"><%= t(".cost") %></div><div data-compare="percent">%</div>
-      </div>
-    </div>
-    <div id="b_chart" class="chart" style="height:600px;width:100%;max-width:1024px;"></div>
-  </div>
-  <div class="page page3" data-tab-id="commercial_banks">
-    <div class="intro"><%= t(".page3.intro") %></div>
-    <div class="filters">
-      <div class="box">
-        <div class="caption"><%= t(".currency") %></div>
-        <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, 'USD'), 
-              :'data-placeholder' => t('.hint.currency'),
-              class: 'selectpicker filter-c-currency' %>
-      </div>
-      <div class="box">
-        <div class="caption"><%= t(".bank") %></div>
-        <input type='hidden' class="filter-c-bank" data-placehodler="<%=t('.hint.bank')%>" value="BAGA,TBCB,REPL,LBRT">
-      </div>
-    </div>
-      <div class="c_chart_switch_wrapper">
-      <div class="c_chart_switch"><div data-compare="both" class="active"><%= t(".both") %></div><div data-compare="buy"><%= t(".buy") %></div><div data-compare="sell"><%= t(".sell") %></div></div>
-    </div>
-    <div id="c_chart" class="chart" style="height:600px;width:100%;max-width:1024px;"></div>
   </div>

@@ -39,8 +39,8 @@ $(function () {
       else if(id == 3)
       {
         href = '/' + I18n.locale + '/data_download?type=commercial_banks&currency=' + cur.p3.c + "&bank=" + cur.p3.b.join(',');
-      } 
-      if(href!='')  window.location.href = href;     
+      }
+      if(href!='')  window.location.href = href;
     }
   });
   if(document.documentElement.lang == 'ka')
@@ -58,14 +58,14 @@ $(function () {
         downloadPDF: gon.highcharts_downloadPDF,
         downloadSVG: gon.highcharts_downloadSVG,
         printChart: gon.highcharts_printChart,
-        contextButtonTitle: gon.highcharts_contextButtonTitle      
+        contextButtonTitle: gon.highcharts_contextButtonTitle
       }
     });
   }
   else
   {
     Highcharts.setOptions({
-      lang: {       
+      lang: {
         rangeSelectorFrom: 'Date',
         rangeSelectorTo: '-',
         downloadPNG: gon.highcharts_downloadPNG,
@@ -77,15 +77,15 @@ $(function () {
       }
     });
   }
-  var custom_buttons = [  { type: 'month', count: 1, text: gon.m1 }, 
-                          { type: 'month', count: 3, text: gon.m3 }, 
+  var custom_buttons = [  { type: 'month', count: 1, text: gon.m1 },
+                          { type: 'month', count: 3, text: gon.m3 },
                           { type: 'month', count: 6, text: gon.m6 },
-                          { type: 'year', count: 1, text: gon.y1 }, 
+                          { type: 'year', count: 1, text: gon.y1 },
                           { type: 'all', text: gon.all }];
   var custom_buttons_theme = {
     fill: '#fff',
     stroke: '#c0c7cd',
-    'stroke-width': 1,             
+    'stroke-width': 1,
     style: { color: '#7b8483' },
     states: {
       hover: {
@@ -103,33 +103,33 @@ $(function () {
   gon.currency_to_bank = JSON.parse(gon.currency_to_bank);
   var nbg = 'BNLN';
   var nav_id = 'highcharts-navigator-series';
-  var params = { p: 'calculator',
+  var params = { p: 'national_bank',
     read: function()
     {
-      var hash = window.location.hash.triml('#');       
+      var hash = window.location.hash.triml('#');
       if(exist(hash))
       {
         var ahash = hash.split("&");
         for(var i = 0; i < ahash.length; ++i)
-        {      
+        {
           var kv = ahash[i].split("=");
           if(kv.length==2)
           {
-            params[kv[0]] = isNumber(kv[1]) ? +kv[1] : (kv[1]!='' ? kv[1].split(',') : []);      
+            params[kv[0]] = isNumber(kv[1]) ? +kv[1] : (kv[1]!='' ? kv[1].split(',') : []);
           }
         }
         return true;
-      } 
+      }
       return false;
     },
     write: function(pairs) // object of key value pair { c: '', b: ''}
-    {       
+    {
       var hash = window.location.hash.triml('#');
       var hasHash = exist(hash);
       var ahash = hasHash ? hash.split('&').map(function(v,i,a){ return v.split('=') }) : [];
 
       for(var i = 0; i < ahash.length; ++i)
-      {    
+      {
         var kv = ahash[i];
         if(!pairs.hasOwnProperty(kv[0]))
         {
@@ -139,20 +139,20 @@ $(function () {
       }
       var nhash = this.kv(pairs,'p') + this.kv(pairs,'c') + this.kv(pairs,'b');
       if(nhash[0]=='&') nhash=nhash.substr(1);
-      history.pushState({'hash':nhash},'',window.location.pathname + "#" + nhash);  
+      history.pushState({'hash':nhash},'',window.location.pathname + "#" + nhash);
       var lang_link = $('#lang-link');
       lang_link.attr('href', lang_link.attr('url') + "#" + nhash);
     },
     clear: function()
-    {     
-      history.pushState({'hash':''},'',window.location.pathname);  
+    {
+      history.pushState({'hash':''},'',window.location.pathname);
     },
     resume: function(p)
     {
       this.clear();
       var pars = {p:p};
 
-      if(p == 'national_bank') 
+      if(p == 'national_bank')
       {
         pars['c'] = cur.p2.c.join(',');
       }
@@ -160,7 +160,7 @@ $(function () {
       {
         pars['c'] = cur.p3.c;
         pars['b'] = cur.p3.b.join(',');
-      }     
+      }
       this.write(pars);
     },
     kv: function(obj,prop)
@@ -171,8 +171,8 @@ $(function () {
       }
       return "";
     }
-  };  
-  var cur = { p1: {}, p2: { c: ['USD','EUR','GBP','RUB'], type: 0 }, p3: { c: ['USD'] , b: ['BAGA','TBCB','REPL','LBRT'], type: 0 } }; 
+  };
+  var cur = { p1: {}, p2: { c: ['USD','EUR','GBP','RUB'], type: 0 }, p3: { c: ['USD'] , b: ['BAGA','TBCB','REPL','LBRT'], type: 0 } };
   // p2 type 0 none, 1 percent
   // p3 type 0 both, 1 buy, 2 sell
 
@@ -257,13 +257,13 @@ $(function () {
       t.addClass('active');
       $(".calculator .symbol,.calculator .symbol2").toggleClass('gel usd');
 
-      
+
       data.dir = t.attr('data-option') == 'GEL' ? 1 : 0;
       $(".calculator .symbol, .calculator .symbol2").attr('title',data.dir == 1 ? gon.usd : gon.gel );
       $(".hsw .text").find('.from-value').text(data.dir == 1 ? 'GEL' : 'USD')
       $(".hsw .text").find('.to-value').text(data.dir == 1 ? 'USD' : 'GEL');
       calculate(false);
-  });  
+  });
 
   $('.b_chart_switch > div').click(function(){
     var t = $(this);
@@ -284,7 +284,7 @@ $(function () {
             },
             x: cur.p2.type == 0 ? -15 : 0
   } });
-  }); 
+  });
 
   $('.c_chart_switch > div').click(function(){
     var t = $(this);
@@ -298,7 +298,7 @@ $(function () {
     chart.legend.options.magic = b;
     cur.p3.type = b ? 0 : (compare == 'buy' ? 1 : 2);
     c_chart_refresh(false,true);
-  }); 
+  });
 
    $.datepicker.setDefaults( $.datepicker.regional[ I18n.locale ] );
    $('.calculator .from[data-type=datepicker]').datepicker({
@@ -306,7 +306,7 @@ $(function () {
       defaultDate: "-3m",
       changeMonth: true,
       changeYear: true,
-      maxDate: "d",       
+      maxDate: "d",
       onClose: function( v ) {
         $('.calculator .to[data-type=datepicker]').datepicker( "option", "minDate", v );
          this._visible = false;
@@ -316,13 +316,13 @@ $(function () {
         {
           calculate(true);
         }
-      },     
+      },
     }).datepicker('setDate', "-3m")
-    .on('click',function(e){    
+    .on('click',function(e){
       var t = $(this);
       var b = (this._visible !== undefined && this._visible === true);
-      t.datepicker(b ? "hide" : "show"); 
-      this._visible = !b;      
+      t.datepicker(b ? "hide" : "show");
+      this._visible = !b;
       e.preventDefault();
     });
 
@@ -343,16 +343,16 @@ $(function () {
         }
       }
     }).datepicker('setDate', "d")
-    .on('click',function(e){    
+    .on('click',function(e){
       var t = $(this);
       var b = (this._visible !== undefined && this._visible === true);
-      t.datepicker(b ? "hide" : "show"); 
-      this._visible = !b;      
+      t.datepicker(b ? "hide" : "show");
+      this._visible = !b;
       e.preventDefault();
     });
 
 
-  $('.filter-c-currency').on('change',function(){ 
+  $('.filter-c-currency').on('change',function(){
 
     var c = $(this).select2('val');
     var b = $('input.filter-c-bank').select2('val');
@@ -360,13 +360,13 @@ $(function () {
     var data = [];
     if(c.length > 0)
     {
-      b.forEach(function(d,i){ 
+      b.forEach(function(d,i){
         gon.banks.forEach(function(dd,ii){
           if(d == dd[2] && e.indexOf(dd[0]) != -1)
           {
             data.push(dd[2]);
           }
-        });     
+        });
       });
     }
     $('input.filter-c-bank').select2('val',data);
@@ -374,32 +374,31 @@ $(function () {
   });
   $('.filter-b-currency').on('change',function(){ b_chart_refresh(); });
 
-  window.onpopstate = function(e){  
-    if(e.state !== null) { console.log("backward navigation"); } 
+  window.onpopstate = function(e){
+    if(e.state !== null) { console.log("backward navigation"); }
   };
 
-  function init()
-  {
+  function init() {
     if(params.read())
     {
       if(exist(params.p))
-      {        
+      {
         if(params.p == 'national_bank' && exist(params.c))
         {
           cur.p2.c = params.c;
           $('.filter-b-currency').select2('val', cur.p2.c);
         }
         else if(params.p == 'commercial_banks' && exist(params.c) && exist(params.b))
-        { 
+        {
           cur.p3.c = params.c;
           cur.p3.b = params.b;
           $('.filter-c-currency').select2('val', cur.p3.c);
           $('.filter-c-bank').val(cur.p3.b);
-        }        
+        }
         $('.tab[data-id=' + params.p + '] a').trigger('click');
       }
     }
-    else $('.tab[data-id=calculator] a').trigger('click');
+    else $('.tab[data-id=national_bank] a').trigger('click');
     prepare();
     calculate(true);
     b_chart();
@@ -413,15 +412,15 @@ $(function () {
   {
     data.worth = getWorth();
     if(data.worth > 0)
-    {      
+    {
       if(remote)
       {
         data.date_from = from.datepicker("getDate").getTime();
         data.date_to = to.datepicker("getDate").getTime();
-        
+
         var cur_to = $('#currency_switch > div:not(.active)').attr('data-option');
 
-        $.getJSON('/' + I18n.locale + '/api/v1/nbg_rates?currency=USD&start_date=' + data.date_from+ '&end_date=' + data.date_to, function (d) {      
+        $.getJSON('/' + I18n.locale + '/api/v1/nbg_rates?currency=USD&start_date=' + data.date_from+ '&end_date=' + data.date_to, function (d) {
           if(d.valid)
           {
             data.rates = d.result[0].rates;
@@ -429,7 +428,7 @@ $(function () {
             data.rate_to_init = data.rates[data.rates.length-1][1];
             output();
           }
-        });  
+        });
       }
       else
       {
@@ -443,11 +442,11 @@ $(function () {
       rate_now.text('');
       rate_then.text('');
       worth_diff.text('');
-    }  
+    }
   }
-  
 
-  function output(){  
+
+  function output(){
     var rate_from = data.rate_from_init;
     var rate_to = data.rate_to_init;
     var text = $("<div>" + gon.info_usd + "</div>");
@@ -466,11 +465,11 @@ $(function () {
     var diff = old_worth - new_worth;
     var inc_dec = "";
 
-    inc_dec = new_worth > old_worth ? gon.increased : gon.decreased;    
+    inc_dec = new_worth > old_worth ? gon.increased : gon.decreased;
     text.find('.up').text(inc_dec);
     $('.diff .label .up').text(inc_dec);
 
-    var info_value = data.dir == 1 ? 
+    var info_value = data.dir == 1 ?
         Math.abs(5200000000 - 5200000000 * data.rate_from_init/ data.rate_to_init)
       : Math.abs(5200000000*data.rate_from_init - 5200000000*data.rate_to_init);
 
@@ -486,7 +485,7 @@ $(function () {
     n = +n;
     var x = n.toFixed(s).split('.');
     var x1 = x[0]
-   
+
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(x1)) {
         x1 = x1.replace(rgx, '$1' + ',' + '$2');
@@ -506,7 +505,7 @@ $(function () {
     data.rates.forEach(function(d){
       var r = (data.dir == 0 ? d[1] : +(1/d[1]).toFixed(4)).toFixed(2);
       worths.push({ x: d[0], y: (r * data.worth), rate:r, dir: (data.dir==0 ? 'gel' : 'usd') })
-    });           
+    });
 
      if(typeof chart === 'undefined')
      {
@@ -532,8 +531,8 @@ $(function () {
                 },
                 x: 30,
                 y: 30
-            },    
-            xAxis: {            
+            },
+            xAxis: {
                 labels: {
                   style: {
                       fontFamily: 'glober-sb',
@@ -541,7 +540,7 @@ $(function () {
                       color:'#7b8483'
                   }
                 },
-                type: 'datetime' 
+                type: 'datetime'
             },
             yAxis: {
                 gridLineColor: '#ffffff',
@@ -584,15 +583,15 @@ $(function () {
               enabled: false
             },
             tooltip: {
-              headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
-              pointFormatter: function(d) { 
+              headerFormat: '<span class="tooltip-header">{point.key}</span><br/>',
+              pointFormatter: function(d) {
                 return '<div class="tooltip-content"><span>'+gon.rate+':</span> '+reformat(this.rate)+' <span class="symbol '+this.dir+'"></span><br/><span>'+gon.monetary_value+':</span> '+reformat(this.y)+' <span class="symbol '+this.dir+'"></span></div>';
               },
               useHTML: true
             },
-            series: [{ 
+            series: [{
               id:'a1', data: worths, color: '#f6ba29'
-            }]    
+            }]
         });
      }
      else
@@ -609,11 +608,11 @@ $(function () {
                 enabled : false,
                 radius : 3,
                 symbol: 'circle'
-              } 
+              }
             },false,false);
-        chart.redraw();                        
-     } 
-  }  
+        chart.redraw();
+     }
+  }
   var b_chart_colors = ['#1cbbb4', '#F47C7C', '#4997FF', '#be8ec0', '#8fc743'];
   function b_chart_refresh(first){
     var chart = $('#b_chart').highcharts();
@@ -642,16 +641,16 @@ $(function () {
       if(data.nbg.keys.indexOf(t) == -1)
         remote_cur.push(t);
       else local_cur.push(t);
-    });    
+    });
     if(remote_cur.length)
     {
-      $.getJSON('/' + I18n.locale + '/api/v1/nbg_rates?currency=' + remote_cur.join(','), function (d) { 
+      $.getJSON('/' + I18n.locale + '/api/v1/nbg_rates?currency=' + remote_cur.join(','), function (d) {
         if(d.valid)
         {
           d.result.forEach(function(t,i){
             var ser = chart.get(t.code);
             if(ser === null)
-            {  
+            {
               if(!first && chart.series.length == 1)
               {
                 var nav = chart.get(nav_id);
@@ -660,11 +659,11 @@ $(function () {
               chart.addSeries({id:t.code, name: t.code + ' - ' + t.ratio + ' ' + t.name, data: t.rates, color: b_chart_colors.shift() }, false,false);
               data.nbg.rates[t.code] = { code: t.code, name: t.name, label:  t.code + ' - ' + t.ratio + ' ' + t.name,  rates: t.rates } ;
               data.nbg.keys.push(t.code);
-            }     
-          });      
+            }
+          });
           chart.redraw();
         }
-      }); 
+      });
     }
 
     if(local_cur.length)
@@ -672,14 +671,14 @@ $(function () {
       local_cur.forEach(function(t){
         var ser = chart.get(t);
         if(ser === null)
-        {  
+        {
           if(chart.series.length == 1)
           {
             var nav = chart.get(nav_id);
             nav.setData(data.nbg.rates[t].rates);
           }
           chart.addSeries({id: t, name: data.nbg.rates[t].label, data: data.nbg.rates[t].rates, color: b_chart_colors.shift() }, false,false);
-        }     
+        }
       });
       chart.redraw();
     }
@@ -696,8 +695,8 @@ $(function () {
           selected: 0,
           inputDateFormat: '%d-%b-%Y',
           inputEditDateFormat: '%d-%b-%Y',
-          inputBoxWidth: 120,  
-          inputBoxHeight: 20,                  
+          inputBoxWidth: 120,
+          inputBoxHeight: 20,
           inputStyle: { cursor: 'pointer' },
           inputDateParser:function(v)
           {
@@ -706,22 +705,22 @@ $(function () {
                 parseInt(v[2], 10),
                 parseInt(v[1], 10)-1,
                 parseInt(v[0], 10),
-                0,0,0,0);              
+                0,0,0,0);
           },
           buttons: custom_buttons,
           buttonTheme: custom_buttons_theme
-      },     
-      xAxis: { 
-        tickColor: '#d7e0e7',  
-        lineColor: '#d7e0e7',         
+      },
+      xAxis: {
+        tickColor: '#d7e0e7',
+        lineColor: '#d7e0e7',
         labels: {
           style: {
               fontFamily: 'glober-sb',
               fontSize: '13px',
               color:'#7b8483'
           }
-        }  
-      },     
+        }
+      },
       yAxis: {
           title: {
             enabled: true,
@@ -738,14 +737,14 @@ $(function () {
           },
           opposite: false,
           gridLineColor: '#ffffff',
-          gridLineWidth: 2,             
+          gridLineWidth: 2,
           plotLines: [{
               value: 0,
               width: 2,
               color: 'silver'
           }],
-          // 
-          labels: 
+          //
+          labels:
           {
             style: {
               color: '#f6ba29',
@@ -765,7 +764,7 @@ $(function () {
       },
       tooltip: {
         borderColor: "#cfd4d9",
-        headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
+        headerFormat: '<span class="tooltip-header">{point.key}</span><br/>',
         pointFormatter: function () {
              return '<div class="tooltip-item"><span style="color:'+this.color+'">'+this.series.name+'</span> <span class="value">'+reformat(this.y)+'</span>'+ (cur.p2.type == 1 ? (' (' + reformat(this.change,2) + '%)') : '') +'</div>'; },
         useHTML: true,
@@ -776,7 +775,7 @@ $(function () {
         itemStyle: { "color": "#7b8483", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
         itemHoverStyle: { "color": "#6b7473", "fontFamily": "oxygen", "fontSize": "15px", "fontWeight": "normal", "lineHeight":"15px" },
         useHTML: true
-      },     
+      },
       credits: { enabled: false }
     },
     function (chart) {
@@ -792,20 +791,21 @@ $(function () {
                     onClose: function() {
                       $(chart.container).find('.highcharts-input-group > g:nth-of-type('+(this.name == 'min' ? 2 : 4)+') text').attr('visibility','visible');
                     }
-                  }).attr('readonly','readonly');          
+                  }).attr('readonly','readonly');
       }, 0);
     });
     b_chart_refresh(true);
   }
 
   function c_chart_refresh(first,partial){ // currency, bank
+    console.log("c chart");
     var chart = $('#c_chart').highcharts();
 
     var c = $('.filter-c-currency').select2('val');
     var b = $('.filter-c-bank').select2('val');
-    
+
     cur.p3.c = c;
-    cur.p3.b = b;     
+    cur.p3.b = b;
 
     var toDelete = [];
     chart.series.forEach(function(t){
@@ -815,7 +815,7 @@ $(function () {
         {
           if(!partial) toDelete.push(t.userOptions.id);
         }
-        else toDelete.push(t.userOptions.id);        
+        else toDelete.push(t.userOptions.id);
       }
     });
     toDelete.forEach(function(t){
@@ -836,54 +836,56 @@ $(function () {
     {
       if(data.banks.keys.indexOf(nbg+'_' + cur.p3.c) == -1)
         remote_cur.push(nbg);
-      else 
+      else
       {
         var tmp = data.banks.rates[nbg+'_' + cur.p3.c];
         chart.addSeries({id: nbg, code: tmp.code, color:tmp.color, data: tmp.data, name: tmp.name, legendIndex : tmp.legendIndex }, false,false);
         var nav = chart.get(nav_id);
         nav.setData(data.banks.rates[nbg+'_' + cur.p3.c].data);
-        
-      } 
+
+      }
     }
     if(remote_cur.length)
     {
       $.getJSON('/' + I18n.locale + '/api/v1/commercial_bank_rates?currency=' + c + "&bank=" + remote_cur.join(','), function (d) {
+        console.log(d);
         if(d.valid)
         {
            d.result.forEach(function(t,i){
             var ser = chart.get(t.id);
             if(ser === null)
-            {  
+            {
               chart.addSeries(t, false,false);
               data.banks.rates[t.id] = t;
               data.banks.keys.push(t.id);
-            }     
-          });    
+            }
+          });
           if(!first && !partial)
           {
             var nav = chart.get(nav_id);
             nav.setData(data.banks.rates[nbg+'_' + cur.p3.c].data);
-           
+
           }
           chart.redraw();
         }
-      }); 
+      });
     }
     local_cur.forEach(function(t){
-      c_chart_redraw(t + '_' + cur.p3.c);       
-    });   
+      c_chart_redraw(t + '_' + cur.p3.c);
+    });
 
     chart.redraw();
-  }  
+  }
   function c_chart_redraw(id)
   {
+    console.log("c_chart_redraw");
     var chart = $('#c_chart').highcharts();
     var type = cur.p3.type;
     var id_b = id+'_B';
     var id_s = id+'_S';
-    // buy     
+    // buy
     if(type == 0 || type == 1)
-    {     
+    {
       data.banks.rates[id_b]['id'] = id_b;
       chart.addSeries(data.banks.rates[id_b], false,false);
     }
@@ -894,7 +896,7 @@ $(function () {
       chart.addSeries(data.banks.rates[id_s], false,false);
     }
   }
-  function c_chart(){
+  function c_chart() {
     var output = {};
     $('#c_chart').highcharts('StockChart', {
       chart_id: 3,
@@ -908,9 +910,9 @@ $(function () {
           selected: 0,
           inputDateFormat: '%d-%b-%Y',
           inputEditDateFormat: '%d-%b-%Y',
-          inputBoxWidth: 120,  
+          inputBoxWidth: 120,
           inputBoxHeight: 20,
-          inputStyle: { cursor: 'pointer' },                  
+          inputStyle: { cursor: 'pointer' },
           inputDateParser:function(v)
           {
              v = v.split(/-/);
@@ -918,22 +920,22 @@ $(function () {
                 parseInt(v[2], 10),
                 parseInt(v[1], 10)-1,
                 parseInt(v[0], 10),
-                0,0,0,0);              
+                0,0,0,0);
           },
           buttons: custom_buttons,
           buttonTheme: custom_buttons_theme
-      },   
-      xAxis: { 
-        tickColor: '#d7e0e7',  
-        lineColor: '#d7e0e7',         
+      },
+      xAxis: {
+        tickColor: '#d7e0e7',
+        lineColor: '#d7e0e7',
         labels: {
           style: {
               fontFamily: 'glober-sb',
               fontSize: '13px',
               color:'#7b8483'
           }
-        }  
-      },     
+        }
+      },
       yAxis: {
           title: {
             enabled: true,
@@ -946,18 +948,18 @@ $(function () {
               fontSize: '17px',
               color:'#7b8483'
             },
-            x: -15             
+            x: -15
           },
           opposite: false,
           gridLineColor: '#ffffff',
-          gridLineWidth: 2,             
+          gridLineWidth: 2,
           plotLines: [{
               value: 0,
               width: 2,
               color: 'silver'
           }],
-          // 
-          labels: 
+          //
+          labels:
           {
             style: {
               color: '#f6ba29',
@@ -977,12 +979,12 @@ $(function () {
       },
       tooltip: {
         borderColor: "#cfd4d9",
-        headerFormat: '<span class="tooltip-header">{point.key}</span><br/>', 
+        headerFormat: '<span class="tooltip-header">{point.key}</span><br/>',
 
-        pointFormatter: function (f,len,ind) { 
-          // for len and ind to appear we need to overwrite highstock.js function 
+        pointFormatter: function (f,len,ind) {
+          // for len and ind to appear we need to overwrite highstock.js function
           // bodyFormatter:function(a){var alength = a.length;return xa(a,function(a){var aindex=arguments[1];var c=a.series.tooltipOptions;return(c.pointFormatter||a.point.tooltipFormatter).call(a.point,c.pointFormat,alength,aindex)})}
-            
+console.log("here");
              var t = this;
              var s = t.series;
 
@@ -1008,7 +1010,7 @@ $(function () {
                 output[s.userOptions.code][s.userOptions.rate_type] = t.y;
               }
               output[s.userOptions.code]['color'] = t.color;
-            } 
+            }
             if(len==ind+1)
             {
               var item = output[nbg];
@@ -1022,12 +1024,12 @@ $(function () {
                 if(type == 0 || type == 2) ret +='<span>' + gon.sell  + '<br><svg width="20px" height="4px" xmlns="http://www.w3.org/2000/svg"><g zIndex="1" ><path fill="none" d="M 0 2 L 20 2" stroke-dasharray="6,2" stroke="#7b8483" stroke-width="2"></path></g></svg></span>';
                 ret += '</div>';
               }
-               
+
               for (var key in output) {
                 if (output.hasOwnProperty(key) && key != nbg) {
                    item = output[key];
                    ret+= '<div class="tooltip-item"><span class="l" style="color:'+item.color+';">'+item.name + '</span>';
-                   
+
                    if(type == 0 || type == 1) ret +='<span class="b" style="color:'+item.color+';">' + reformat(item.buy)  + '</span>';
                    if(type == 0 || type == 2) ret +='<span class="s" style="color:'+item.color+';">' + reformat(item.sell) + '</span>';
                    ret += '</div>';
@@ -1035,7 +1037,7 @@ $(function () {
               }
               return ret;
             }
-            return "";        
+            return "";
           },
         useHTML: true,
         shadow: false
@@ -1063,7 +1065,7 @@ $(function () {
           else return this.name;
         }
       },
-      credits: { enabled: false }     
+      credits: { enabled: false }
     },
     function (chart) {
       setTimeout(function () {
@@ -1078,14 +1080,14 @@ $(function () {
                     onClose: function() {
                       $(chart.container).find('.highcharts-input-group > g:nth-of-type('+(this.name == 'min' ? 2 : 4)+') text').attr('visibility','visible');
                     }
-                  }).attr('readonly','readonly');   
+                  }).attr('readonly','readonly');
       }, 0);
     });
     c_chart_refresh(true);
-  }  
+  }
   function c_filter_bank(){
     $('input.filter-c-bank').select2({
-      multiple:true, 
+      multiple:true,
       maximumSelectionSize: 5,
       width:380,
       // placeholder:'asdfasdfsd',
@@ -1112,10 +1114,10 @@ $(function () {
             {
               if(len == 0 || dd[1].toUpperCase().indexOf(term) >= 0 || dd[2].toUpperCase().indexOf(term) >= 0 ){
                  data.results.push({ id:dd[2], text:dd[1], image:dd[3]['data-image'] });
-              }                       
+              }
             }
           });
-        });        
+        });
         query.callback(data);
       },
       initSelection : function (element, callback) {
@@ -1130,7 +1132,7 @@ $(function () {
             {
               data.push({ id:dd[2], text:dd[1], image:dd[3]['data-image'] });
             }
-          });        
+          });
         });
         callback(data);
       }
@@ -1169,4 +1171,3 @@ $(function () {
 
   init();
 });
-
