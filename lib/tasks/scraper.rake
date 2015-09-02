@@ -7,7 +7,7 @@ require 'nokogiri'
 
 class Rates
   def self.populate!
-puts "loading nbg rates"
+    puts "loading nbg rates"
     #ActiveRecord::Base.connection.execute("truncate table rates")
 
     files = Dir.glob("#{Rails.root}/datafiles/*.csv")
@@ -56,51 +56,52 @@ puts "loading nbg rates"
 
   		end
     end
-## this is done in seed file now
-# # load currency information
-# puts "loading currency information"
-#     currencyInfo = CSV.open("#{Rails.root}/datafiles/info/data.csv", headers: false).read
-#     created_at = Time.now
-#     ActiveRecord::Base.connection.execute("truncate table currencies")
-#     ActiveRecord::Base.connection.execute("truncate table currency_translations")
-#     sql = "insert into currencies (code, ratio, created_at, updated_at) values "
-#     sql1 = "insert into currency_translations (currency_id, locale, name, created_at, updated_at) values "
-#     currencyInfo.each_with_index do |t,i|
-#       sql << "(\"#{t[2]}\", #{t[3]}, \"#{created_at}\", \"#{created_at}\"),"
-#       sql1 << "(\"#{i+1}\", \"en\", \"#{t[0]}\", \"#{created_at}\", \"#{created_at}\"),"
-#       sql1 << "(\"#{i+1}\", \"ka\", \"#{t[1]}\", \"#{created_at}\", \"#{created_at}\"),"
-#     end
-#     sql[sql.length-1] = ''
-#     sql1[sql1.length-1] = ''
-#     ActiveRecord::Base.connection.execute(sql)
-#     ActiveRecord::Base.connection.execute(sql1)
+    #--
+        ## this is done in seed file now
+        # # load currency information
+        # puts "loading currency information"
+        #     currencyInfo = CSV.open("#{Rails.root}/datafiles/info/data.csv", headers: false).read
+        #     created_at = Time.now
+        #     ActiveRecord::Base.connection.execute("truncate table currencies")
+        #     ActiveRecord::Base.connection.execute("truncate table currency_translations")
+        #     sql = "insert into currencies (code, ratio, created_at, updated_at) values "
+        #     sql1 = "insert into currency_translations (currency_id, locale, name, created_at, updated_at) values "
+        #     currencyInfo.each_with_index do |t,i|
+        #       sql << "(\"#{t[2]}\", #{t[3]}, \"#{created_at}\", \"#{created_at}\"),"
+        #       sql1 << "(\"#{i+1}\", \"en\", \"#{t[0]}\", \"#{created_at}\", \"#{created_at}\"),"
+        #       sql1 << "(\"#{i+1}\", \"ka\", \"#{t[1]}\", \"#{created_at}\", \"#{created_at}\"),"
+        #     end
+        #     sql[sql.length-1] = ''
+        #     sql1[sql1.length-1] = ''
+        #     ActiveRecord::Base.connection.execute(sql)
+        #     ActiveRecord::Base.connection.execute(sql1)
 
-# # load bank information
-# puts "loading bank information"
-#     bankInfo = CSV.open("#{Rails.root}/datafiles/info/banks.csv", headers: false).read
-#     created_at = Time.now
-#     ActiveRecord::Base.connection.execute("truncate table banks")
-#     ActiveRecord::Base.connection.execute("truncate table bank_translations")
+        # # load bank information
+        # puts "loading bank information"
+        #     bankInfo = CSV.open("#{Rails.root}/datafiles/info/banks.csv", headers: false).read
+        #     created_at = Time.now
+        #     ActiveRecord::Base.connection.execute("truncate table banks")
+        #     ActiveRecord::Base.connection.execute("truncate table bank_translations")
 
-#     sql = "insert into banks (code, buy_color, sell_color, created_at, updated_at) values "
-#     sql1 = "insert into bank_translations (bank_id, locale, name, image, created_at, updated_at) values "
-#     bankInfo.each_with_index do |t,i|
-#       sql << "(\"#{t[0]}\", \"#{t[5]}\", \"#{t[6]}\", \"#{created_at}\", \"#{created_at}\"),"
-#       sql1 << "(\"#{i+1}\", \"en\", \"#{t[1]}\", \"#{t[3] + (t[4]=='1' ? '' : '_en' )}\", \"#{created_at}\", \"#{created_at}\"),"
-#       sql1 << "(\"#{i+1}\", \"ka\", \"#{t[2]}\", \"#{t[3] + (t[4]=='1' ? '' : '_ge' )}\", \"#{created_at}\", \"#{created_at}\"),"
-#     end
-#     sql[sql.length-1] = ''
-#     sql1[sql1.length-1] = ''
-#     ActiveRecord::Base.connection.execute(sql)
-#     ActiveRecord::Base.connection.execute(sql1)
-puts "loading data completed"
+        #     sql = "insert into banks (code, buy_color, sell_color, created_at, updated_at) values "
+        #     sql1 = "insert into bank_translations (bank_id, locale, name, image, created_at, updated_at) values "
+        #     bankInfo.each_with_index do |t,i|
+        #       sql << "(\"#{t[0]}\", \"#{t[5]}\", \"#{t[6]}\", \"#{created_at}\", \"#{created_at}\"),"
+        #       sql1 << "(\"#{i+1}\", \"en\", \"#{t[1]}\", \"#{t[3] + (t[4]=='1' ? '' : '_en' )}\", \"#{created_at}\", \"#{created_at}\"),"
+        #       sql1 << "(\"#{i+1}\", \"ka\", \"#{t[2]}\", \"#{t[3] + (t[4]=='1' ? '' : '_ge' )}\", \"#{created_at}\", \"#{created_at}\"),"
+        #     end
+        #     sql[sql.length-1] = ''
+        #     sql1[sql1.length-1] = ''
+        #     ActiveRecord::Base.connection.execute(sql)
+        #     ActiveRecord::Base.connection.execute(sql1)
+    puts "loading data completed"
   end
   def self.is_number? string
     true if Float(string) rescue false
   end
   def self.swap(s)
     s = s.gsub(/[[:space:]]/, '').chomp.upcase
-    swap = {"RUR" => "RUB"}
+    swap = {"RUR" => "RUB", "TRL" => "TRY", "AZM" => "AZN", "AVD" => "AUD", "UKG" => "UAH"}
     return swap.key?(s) ? swap[s] : s
   end
   def self.n(s)
@@ -109,17 +110,48 @@ puts "loading data completed"
   def self.check_rates(buy, sell)
     return is_number?(buy) && is_number?(sell) && buy.to_f != 0 && sell.to_f != 0
   end
+  # def self.scrape_bank(bank)
+  #   date = Time.now
+   
+  # end
   def self.scrape!
     #ActiveRecord::Base.connection.execute("truncate table rates")
     require 'json'
     created_at = Time.now
     date = Time.now
+    puts "Scrape for #{date.to_date} at #{date}"
+
 
     fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, captial:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
     processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, capital:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
 
-    puts "Scrape for #{date.to_date} at #{date}"
+    banks = [
+        { id:2, aid: :baga, name: "BOG", path:"http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates", parent_tag:"div#Content table tbody tr", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 },
+      #not done script
+        { id:3, aid: :tbc, name: "TBC", path:"http://www.tbcbank.ge/web/en/web/guest/exchange-rates", parent_tag:"div#ExchangeRates script", child_tag:"", child_tag_count:3, position:[0, 1, 2], cnt:0,
+          script: true, script_callback: lambda {|d| return "Hallo #{d}" } },
+      #not done script
+        { id:4, aid: :repl, name: "Republic", path:"https://www.br.ge/en/home", parent_tag:"script", child_tag:"", child_tag_count:3, position:[0, 1, 2], cnt:0, ssl: true },
+        { id:5, aid: :lbrt, name: "Liberty", path:"https://libertybank.ge/en/pizikuri-pirebistvis", parent_tag:"body div.box.rates table tbody tr", child_tag:"th, td", child_tag_count:3, position:[0, 1, 2], cnt:0, ssl: true },
+      #not done
+        { id:6, aid: :proc, name: "Procredit", path:"http://www.procreditbank.ge/", parent_tag:"", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 },
+      #not done and refactor
+        { id:7, aid: :cart, name: "Cartu", path:"http://www.cartubank.ge/?lng=eng", parent_tag:"", child_tag:"td", child_tag_count:4, position:[0, 1, 2], cnt:0 },
+      #not done
+        { id:8, aid: :vtb, name: "VTB", path:"http://en.vtb.ge/rates/", parent_tag:"#tab_con_dochki_table table tbody tr", child_tag:"td", child_tag_count:4, position:["span", 2, 3], cnt:0 },
+        { id:9, aid: :prog, name: "Progress", path:"http://progressbank.ge/eng/", parent_tag:"#ratesblock #nbg table tr", child_tag:"td", child_tag_count:5, position:[1, 3, 4], cnt:0 },
+      # not done
+        { id:10, aid: :ksb, name: "KSB", path:"http://www.ksb.ge/en/", cnt:0 },
+        { id:11, aid: :basis, name: "Basis", path:"http://www.basisbank.ge/en/currency/", parent_tag:"#curr_table tr table tr", child_tag:"td", child_tag_count:4, position:[0, 1, 2], cnt:0 },
+        #&& d[0] == swap(item["id"].strip.upcase)
+        { id:12, aid: :capital, name: "Capital", path:"http://capitalbank.ge/en/Xml", parent_tag:".curr_wrapper ul.fi", child_tag:"li", child_tag_count:3, position:[0, 1, 2], cnt:0 },
+        { id:13, aid: :finca, name: "Finca", path:"http://www.finca.ge/en/", parent_tag:"#CT1.bcontent table tr", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 },
+        { id:14, aid: :halyk, name: "Halyk", path:"http://hbg.ge/en/", parent_tag:".right_holder .box table tr", child_tag:"td", child_tag_count:4, position:[0, 1, 2], cnt:0 },
+        { id:15, aid: :silk, name: "Silkroad", path:"http://www.silkroadbank.ge/eng/home", parent_tag:"table.currencyContainer tr", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 },
+        { id:16, aid: :pasha, name: "Pasha", path:"http://www.pashabank.ge/en/exchange-rates", parent_tag:".exchange1 table tbody tr", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 }
+    ]
 
+    
     # scrape nbg -----------------------------------------------------------------------
         # begin
         #   Rate.transaction do
@@ -578,8 +610,36 @@ puts "loading data completed"
         #   ScraperMailer.report_error(e).deliver
         # end 
 
+    banks.each do |bank|
+      ret = ""
+      if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")
+        ret = bank[:script_callback].call("Data")
+        puts "---------#{ret}"
+      end
+      # begin
+      #   Rate.transaction do
+      #     page = Nokogiri::HTML(open(bank[:path]))
+      #     # page = Nokogiri::HTML(open("https://libertybank.ge/en/pizikuri-pirebistvis",  :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
 
-
+      #     items = page.css(bank[:parent_tag])
+      #     cnt = 0     
+      #     items.each do |item|
+      #       c = item.css(bank[:child_tag])
+      #       if(c.length == bank[:child_tag_count])
+      #         d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
+      #         if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+      #           Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+      #           cnt += 1
+      #         end
+      #       end
+      #     end
+      #     bank[:cnt] = cnt
+      #     puts "#{bank[:name]} - #{cnt} records"
+      #   end
+      # rescue  Exception => e
+      #   ScraperMailer.report_error(e).deliver
+      # end
+    end
 
 #_National Bank of Georgia - https://www.nbg.gov.ge/index.php?m=582
 #_Bank of Georgia - http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates
@@ -615,26 +675,26 @@ puts "loading data completed"
 #---------------Creditplus - http://www.creditplus.ge/?lng=eng - no currency info
 #---------------Leader Credit - http://leadercredit.ge/ - site is in a updating stage
 # errors  -----------------------------------------------------------------------
-    begin
-      send_failed_msg = false
-      failed_banks = []
-      fail_flags.each {|k,v|
-        if v == 1
-          failed_banks.push(Bank.find_by_code(k.upcase).translation_for(:en).name)
-          send_failed_msg = true
-        end
-      }
-      processed_banks = []
-      processed_flags.each {|k,v|
-        processed_banks.push(Bank.find_by_code(k.upcase).translation_for(:en).name + " - " + v.to_s + " records recorded")
-      }
-      if send_failed_msg
-        ScraperMailer.banks_failed(failed_banks).deliver
-      end
-      #ScraperMailer.banks_processed(processed_banks).deliver
-    rescue  Exception => e
-      ScraperMailer.report_error(e).deliver
-    end
+    # begin
+    #   send_failed_msg = false
+    #   failed_banks = []
+    #   fail_flags.each {|k,v|
+    #     if v == 1
+    #       failed_banks.push(Bank.find_by_code(k.upcase).translation_for(:en).name)
+    #       send_failed_msg = true
+    #     end
+    #   }
+    #   processed_banks = []
+    #   processed_flags.each {|k,v|
+    #     processed_banks.push(Bank.find_by_code(k.upcase).translation_for(:en).name + " - " + v.to_s + " records recorded")
+    #   }
+    #   if send_failed_msg
+    #     ScraperMailer.banks_failed(failed_banks).deliver
+    #   end
+    #   #ScraperMailer.banks_processed(processed_banks).deliver
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
+    # end
     # LAST_SCRAPE = Time.now
   end
 end
