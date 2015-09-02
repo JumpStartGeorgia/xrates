@@ -99,8 +99,15 @@ puts "loading data completed"
     true if Float(string) rescue false
   end
   def self.swap(s)
+    s = s.gsub(/[[:space:]]/, '').chomp.upcase
     swap = {"RUR" => "RUB"}
     return swap.key?(s) ? swap[s] : s
+  end
+  def self.n(s)
+    return s.gsub(/[[:space:]]/, '')
+  end
+  def self.check_rates(buy, sell)
+    return is_number?(buy) && is_number?(sell) && buy.to_f != 0 && sell.to_f != 0
   end
   def self.scrape!
     #ActiveRecord::Base.connection.execute("truncate table rates")
@@ -108,8 +115,8 @@ puts "loading data completed"
     created_at = Time.now
     date = Time.now
 
-    fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0 }
-    processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0 }
+    fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, captial:0, finca:0, halyk:0, silk:0, pasha:0, azer:0 }
+    processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, capital:0, finca:0, halyk:0, silk:0, pasha:0, azer:0 }
 
     puts "Scrape for #{date.to_date} at #{date}"
 
@@ -262,23 +269,29 @@ puts "loading data completed"
 #_VTB Bank - http://en.vtb.ge/rates/
 #_Progress Bank - http://progressbank.ge/eng/
 #_KSB Bank - http://www.ksb.ge/en/
+#_Basis Bank - http://www.basisbank.ge/ge/currency/ 
+#_Capital Bank - http://capitalbank.ge/en/Xml
+#_Finca Bank -http://www.finca.ge/index.php?pg_symbol=999990005#contentOne-tab 
+#_Halyk Bank - http://hbg.ge/en/
+#_Silkroadbank http://www.silkroadbank.ge/geo/home
+#_PASHA Bank Georgia PAHAGE22 http://www.pashabank.ge/en/exchange-rates has history
+#_International Bank of Azerbaijan - IBAZ - http://www.ibaz.ge/index.php
 
 
-#Finca Bank -http://www.finca.ge/index.php?pg_symbol=999990005#contentOne-tab 
-#Halyk Bank - http://hbg.ge/currency/ 
-#Capital Bank - http://www.investbank.ge/ 
-#Basis Bank - http://www.basisbank.ge/ge/currency/ 
+#"Caucasus Development Bank – Georgia" CS DEVGGE22 
 
 #Rico Credit - http://rico.ge/
 #Crystal - http://crystal.ge/en/
 #Creditplus - http://www.creditplus.ge/?lng=eng
 #Leader Credit - http://leadercredit.ge/
 #Fincredit - http://fincredit.ge/
-#Silkroadbank http://www.silkroadbank.ge/geo/home
 
-#---------------BTA Bank - http://www.bta.ge/geo/home 
-#---------------Privat Bank - http://privatbank.ge/ge/ 
- # scrape procredit -----------------------------------------------------------------------
+#---------------ISBANK Georgia - ISBK - http://www.isbank.ge/eng/default.aspx - no currency info
+#---------------Ziraat Bank" Tbilisi - TCZB - http://ziraatbank.ge/retail-banking-services/currency-exchange - no currency info
+#---------------BTA Bank - http://www.bta.ge/geo/home #closed
+#---------------Privat Bank - http://privatbank.ge/ge/ #georgian bank
+#
+# scrape procredit -----------------------------------------------------------------------
     # begin
     #   Rate.transaction do
     #     page = Nokogiri::HTML(open("http://www.procreditbank.ge/"))
@@ -302,8 +315,7 @@ puts "loading data completed"
     # rescue  Exception => e
     #   ScraperMailer.report_error(e).deliver
     # end    
-
- # scrape cartu -----------------------------------------------------------------------
+# scrape cartu refactor-----------------------------------------------------------------------
     # begin
     #   Rate.transaction do
     #     page = Nokogiri::HTML(open("http://www.cartubank.ge/?lng=eng"))
@@ -327,8 +339,7 @@ puts "loading data completed"
     # rescue  Exception => e
     #   ScraperMailer.report_error(e).deliver
     # end   
-
- # scrape vtb -----------------------------------------------------------------------
+# scrape vtb -----------------------------------------------------------------------
     # begin
     #   Rate.transaction do
     #     page = Nokogiri::HTML(open("http://en.vtb.ge/rates/"))
@@ -352,7 +363,7 @@ puts "loading data completed"
     # rescue  Exception => e
     #   ScraperMailer.report_error(e).deliver
     # end   
- # scrape progress -----------------------------------------------------------------------
+# scrape progress -----------------------------------------------------------------------
     # begin
     #   Rate.transaction do
     #     page = Nokogiri::HTML(open("http://progressbank.ge/eng/"))
@@ -376,7 +387,7 @@ puts "loading data completed"
     # rescue  Exception => e
     #   ScraperMailer.report_error(e).deliver
     # end 
- # scrape ksb -----------------------------------------------------------------------
+# scrape ksb -----------------------------------------------------------------------
     # begin
     #   Rate.transaction do
     #     page = Nokogiri::HTML(open("http://www.ksb.ge/en/"))
@@ -405,8 +416,180 @@ puts "loading data completed"
     #   end
     # rescue  Exception => e
     #   ScraperMailer.report_error(e).deliver
+    # end
+# scrape basis -----------------------------------------------------------------------
+    # begin
+    #   Rate.transaction do
+    #     page = Nokogiri::HTML(open("http://www.basisbank.ge/en/currency/"))
+    #     items = page.css('#curr_table tr table tr')
+    #     cnt = 0        
+    #     items.each do |item|
+    #       c = item.css("td")
+    #       if(c.length == 4)
+    #         d = [swap(c[0].text.strip.upcase), c[1].text.strip, c[2].text.strip]
+    #          if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+    #           Rate.create_or_update(date, d[0], nil, d[1], d[2], 11)
+    #           cnt += 1
+    #          end
+    #       end
+    #     end
+    #     fail_flags[:basis] = 1 if cnt == 0
+        
+    #     processed_flags[:basis] = cnt
+    #     puts "Basis - #{cnt} records"
+    #   end
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
     # end 
-    
+# scrape capital -----------------------------------------------------------------------
+    # begin
+    #   Rate.transaction do
+    #     page = Nokogiri::HTML(open("http://capitalbank.ge/en/Xml"))
+    #     items = page.css('.curr_wrapper ul.fi')
+    #     cnt = 0        
+    #     items.each do |item|
+    #       c = item.css("li")
+    #       if(c.length == 3)
+    #         d = [swap(c[0].text.strip.upcase), c[1].text.strip, c[2].text.strip]
+    #         if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2]) && d[0] == swap(item["id"].strip.upcase)
+    #           Rate.create_or_update(date, d[0], nil, d[1], d[2], 12)
+    #           cnt += 1
+    #         end
+    #       end
+    #     end
+    #     fail_flags[:capital] = 1 if cnt == 0
+        
+    #     processed_flags[:capital] = cnt
+    #     puts "Capital - #{cnt} records"
+    #   end
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
+    # end 
+# scrape finca -----------------------------------------------------------------------
+    # begin
+    #   Rate.transaction do
+    #     page = Nokogiri::HTML(open("http://www.finca.ge/en/"))
+    #     items = page.css('#CT1.bcontent table tr')
+    #     cnt = 0        
+    #     items.each do |item|
+    #       c = item.css("td")
+    #       if(c.length == 3)
+    #         d = [swap(c[0].text.strip.upcase), c[1].text.strip, c[2].text.strip]
+    #         if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+    #           Rate.create_or_update(date, d[0], nil, d[1], d[2], 13)
+    #           cnt += 1
+    #         end
+    #       end
+    #     end
+    #     fail_flags[:finca] = 1 if cnt == 0
+        
+    #     processed_flags[:finca] = cnt
+    #     puts "Finca - #{cnt} records"
+    #   end
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
+    # end 
+# scrape halyk -----------------------------------------------------------------------
+    # begin
+    #   Rate.transaction do
+    #     page = Nokogiri::HTML(open("http://hbg.ge/en/"))
+    #     items = page.css('.right_holder .box table tr')
+    #     cnt = 0        
+    #     items.each do |item|
+    #       c = item.css("td")
+    #       if(c.length == 4)
+    #         d = [swap(c[0].text.strip.upcase), c[1].text.strip, c[2].text.strip]
+    #         if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+    #           Rate.create_or_update(date, d[0], nil, d[1], d[2], 14)
+    #           cnt += 1
+    #         end
+    #       end
+    #     end
+    #     fail_flags[:halyk] = 1 if cnt == 0
+        
+    #     processed_flags[:halyk] = cnt
+    #     puts "Halyk - #{cnt} records"
+    #   end
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
+    # end 
+# scrape silk -----------------------------------------------------------------------
+    # begin
+    #   Rate.transaction do
+    #     page = Nokogiri::HTML(open("http://www.silkroadbank.ge/eng/home"))
+    #     items = page.css('table.currencyContainer tr')
+    #     cnt = 0       
+    #     items.each do |item|
+    #       c = item.css("td")
+    #       if(c.length == 3)
+    #         d = [swap(c[0].text), n(c[1].text), n(c[2].text)]
+    #         if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+    #           Rate.create_or_update(date, d[0], nil, d[1], d[2], 15)
+    #           cnt += 1
+    #         end
+    #       end
+    #     end
+    #     fail_flags[:silk] = 1 if cnt == 0
+        
+    #     processed_flags[:silk] = cnt
+    #     puts "Silkroad - #{cnt} records"
+    #   end
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
+    # end 
+# scrape pasha -----------------------------------------------------------------------
+    # begin
+    #   Rate.transaction do
+    #     page = Nokogiri::HTML(open("http://www.pashabank.ge/en/exchange-rates"))
+    #     items = page.css('.exchange1 table tbody tr')
+    #     cnt = 0       
+    #     items.each do |item|
+    #       c = item.css("td")
+    #       if(c.length == 3)
+    #         d = [swap(c[0].text), n(c[1].text), n(c[2].text)]
+    #         if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+    #           Rate.create_or_update(date, d[0], nil, d[1], d[2], 16)
+    #           cnt += 1
+    #         end
+    #       end
+    #     end
+    #     fail_flags[:pasha] = 1 if cnt == 0
+    #     processed_flags[:pasha] = cnt
+    #     puts "Pasha - #{cnt} records"
+    #   end
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
+    # end 
+# scrape azerbaijan  -----------------------------------------------------------------------
+    # begin
+    #   Rate.transaction do
+    #     page = Nokogiri::HTML(open("http://www.ibaz.ge/index.php?lang_id=2"))
+    #     items = []
+    #     page.css('td').each {|item|          
+    #       if item.inner_text == "USD"            
+    #         items = item.parent.parent.css("> tr")
+    #         break
+    #       end
+    #     }
+    #     cnt = 0      
+    #     items.each do |item|
+    #       c = item.css("td")
+    #       if(c.length == 11)
+    #         d = [swap(c[3].text), n(c[5].text), n(c[7].text)]            
+    #         if d[0].length == 3 && check_rates(d[1],d[2])
+    #           Rate.create_or_update(date, d[0], nil, d[1], d[2], 17)
+    #           cnt += 1
+    #         end
+    #       end
+    #     end
+    #     fail_flags[:azer] = 1 if cnt == 0
+    #     processed_flags[:azer] = cnt
+    #     puts "Azerbaijan - #{cnt} records"
+    #   end
+    # rescue  Exception => e
+    #   ScraperMailer.report_error(e).deliver
+    # end 
+# errors  -----------------------------------------------------------------------
     begin
       send_failed_msg = false
       failed_banks = []
