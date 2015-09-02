@@ -126,12 +126,48 @@ class Rates
     processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, capital:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
 
     banks = [
-        { id:2, aid: :baga, name: "BOG", path:"http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates", parent_tag:"div#Content table tbody tr", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 },
-      #not done script
-        { id:3, aid: :tbc, name: "TBC", path:"http://www.tbcbank.ge/web/en/web/guest/exchange-rates", parent_tag:"div#ExchangeRates script", child_tag:"", child_tag_count:3, position:[0, 1, 2], cnt:0,
-          script: true, script_callback: lambda {|d| return "Hallo #{d}" } },
-      #not done script
-        { id:4, aid: :repl, name: "Republic", path:"https://www.br.ge/en/home", parent_tag:"script", child_tag:"", child_tag_count:3, position:[0, 1, 2], cnt:0, ssl: true },
+        { id:2, aid: :baga, name: "BOG", path:"http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates", parent_tag:"div#Content table tbody tr", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 },      
+        { id:3, aid: :tbc, name: "TBC", path:"http://www.tbcbank.ge/web/en/web/guest/exchange-rates", parent_tag:"div#ExchangeRates script", child_tag:"", child_tag_count:0, position:[0, 0, 0], cnt:0,
+          script: true, 
+          script_callback: lambda {|script, bank|                 
+            search_phrase = 'var tbcBankRatesJSON = eval("'
+            start_index = script.index(search_phrase)
+            script = script[start_index + search_phrase.length, script.length-1]
+            end_index = script.index('")')
+            script = script[0,end_index].gsub("\\","")
+            rows = JSON.parse(script)
+            items = []
+            rows.each { |row|
+              curr = swap(row["currencyCode"])
+              if curr != 'GEL'
+                c = row["refRates"].select{|x| x["refCurrencyCode"] == 'GEL'}.first
+                items.push([ curr, n(c["buyRate"].to_s), n(c["sellRate"].to_s)]) if c.present? 
+              end
+            }
+            return items
+          } 
+        },      
+        { id:4, aid: :repl, name: "Republic", path:"https://www.br.ge/en/home", parent_tag:"'div.rates script'", child_tag:"", child_tag_count:0, position:[0, 1, 2], cnt:0,
+          ssl: true,
+          script: true,
+          script_callback: lambda {|script, bank|   
+            search_phrase = 'var valRates = {'
+            start_index = script.index(search_phrase)
+            script = script[start_index + search_phrase.length-1, script.length-1]
+            end_index = script.index('};')
+            script = script[0,end_index+1].gsub(/[[:space:]]/, '')[0..-3] + "}"
+            rows = JSON.parse(script)
+            keys = rows.keys
+
+            keys.each do |row|
+              curr = swap(row)
+              if curr != 'GEL'
+                items.push([ curr, n(rows[row]["kas"]["buy"].to_s), n(rows[row]["kas"]["sell"].to_s)]) if c.present? 
+              end
+            end          
+            return items
+          }
+        },
         { id:5, aid: :lbrt, name: "Liberty", path:"https://libertybank.ge/en/pizikuri-pirebistvis", parent_tag:"body div.box.rates table tbody tr", child_tag:"th, td", child_tag_count:3, position:[0, 1, 2], cnt:0, ssl: true },
       #not done
         { id:6, aid: :proc, name: "Procredit", path:"http://www.procreditbank.ge/", parent_tag:"", child_tag:"td", child_tag_count:3, position:[0, 1, 2], cnt:0 },
@@ -611,34 +647,46 @@ class Rates
         # end 
 
     banks.each do |bank|
-      ret = ""
-      if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")
-        ret = bank[:script_callback].call("Data")
-        puts "---------#{ret}"
-      end
-      # begin
-      #   Rate.transaction do
-      #     page = Nokogiri::HTML(open(bank[:path]))
-      #     # page = Nokogiri::HTML(open("https://libertybank.ge/en/pizikuri-pirebistvis",  :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+      begin
+        page = nil
+        if bank[:ssl].present? && bank[:ssl]
+          page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
+        else
+          page = Nokogiri::HTML(open(bank[:path]))
+        end
+        items = []
+        cnt = 0
+        if bank[:script].present? && bank[:script]
+          script = page.css('div#ExchangeRates script').text
+          if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")
+            items = bank[:script_callback].call(script, bank)  
+            items.each do |d|
+              if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+                Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                cnt += 1
+              end
+            end      
+          end
+        else 
+          items = page.css(bank[:parent_tag])
+          cnt = 0     
+          items.each do |item|
+            c = item.css(bank[:child_tag])
+            if(c.length == bank[:child_tag_count])
+              d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
+              if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
+                Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                cnt += 1
+              end
+            end
+          end
+        end
+        bank[:cnt] = cnt
+        puts "#{bank[:name]} - #{cnt} records"
 
-      #     items = page.css(bank[:parent_tag])
-      #     cnt = 0     
-      #     items.each do |item|
-      #       c = item.css(bank[:child_tag])
-      #       if(c.length == bank[:child_tag_count])
-      #         d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
-      #         if d[0].length == 3 && is_number?(d[1]) && is_number?(d[2])
-      #           Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
-      #           cnt += 1
-      #         end
-      #       end
-      #     end
-      #     bank[:cnt] = cnt
-      #     puts "#{bank[:name]} - #{cnt} records"
-      #   end
-      # rescue  Exception => e
-      #   ScraperMailer.report_error(e).deliver
-      # end
+      rescue  Exception => e
+        ScraperMailer.report_error(e).deliver
+      end    
     end
 
 #_National Bank of Georgia - https://www.nbg.gov.ge/index.php?m=582
