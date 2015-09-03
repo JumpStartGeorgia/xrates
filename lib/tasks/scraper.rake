@@ -444,7 +444,7 @@ class Rates
         id:20,
         type: :other,
         path:"http://crystal.ge/en/",
-        parent_tag:".currency-content.crystal table tbody tr",
+        parent_tag:".currency-content.crystal tbody tr",
         child_tag:"th, td",
         child_tag_count:3,
         position:[0, 1, 2],
@@ -507,7 +507,7 @@ class Rates
 
     # loop each bank, and scrape data based on array of banks options
     banks.each do |bank|
-      next if bank[:id] != 22
+      #next if bank[:id] != 22
       begin
         page = nil
         if bank[:ssl].present? && bank[:ssl]
@@ -536,7 +536,7 @@ class Rates
             cnt = 0     
             items.each do |item|
               c = item.css(bank[:child_tag])
-                  pp c.length
+                  #pp c.length
               if(c.length == bank[:child_tag_count])
                 d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
                 if d[0].length == 3 && check_rates(d[1],d[2])
