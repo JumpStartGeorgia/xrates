@@ -3,20 +3,20 @@ BAGA,Bank Of Georgia,საქართველოს ბანკი,bog,#ed76
 TBCB,TBC Bank,თიბისი ბანკი,tbc,#25aae1,#25aae1,2
 REPL,Bank Republic,ბანკი რესპუბლიკა,republic,#c11f4d,#c11f4d,3
 LBRT,Liberty Bank,ლიბერთი ბანკი,lb,#ea4e65,#ea4e65,4
-MIBG,ProCredit Bank,პროკრედიტ ბანკი,procredit,#ffffff,#ffffff,5
-CRTU,Cartu Bank,ბანკი ქართუ,cartu,#ffffff,#ffffff,6
-UGEB,VTB Bank,ვითიბი ბანკი,vtb,#ffffff,#ffffff,7
-PRSG,Progress Bank,პროგრეს ბანკი,#ffffff,#ffffff,8
-KSBG,KSB,კორ სტანდარტ ბანკი,#ffffff,#ffffff,9
-CBAS,Basisbank,ბაზისბანკი,#ffffff,#ffffff,10
-CPTB,Capital Bank,კაპიტალ ბანკი,#ffffff,#ffffff,11
-FGEO,Finca Bank,ფინკა ბანკი,#ffffff,#ffffff,12
-HABG,Halyk Bank,ხალიკ ბანკი,#ffffff,#ffffff,13
-DISN,Silk Road Bank,სილქ როუდ ბანკი,#ffffff,#ffffff,14
-PAHA,Pasha Bank,პაშა ბანკი,#ffffff,#ffffff,15
-IBAZ,International Bank of Azerbaijan,აზერბაიჯანის საერთაშორისო ბანკი,#ffffff,#ffffff,16
-DEVG,Caucasus Development Bank Georgia,კავკასიის განვითარების ბანკი საქართველო,#ffffff,#ffffff,17
-RICO,Rico Credit,რიკო კრედიტი,#ffffff,#ffffff,18
-CRMO,Crystal Microfinance Organization,კრისტალი მიკროსაფინანსო ორგანიზაცია,#ffffff,#ffffff,19
-BOMO,Bonaco Microfinance Organization,ბონაკო მიკროსაფინანსო ორგანიზაცია,#ffffff,#ffffff,20
-ALPE,Alpha Express,ალფა ექსპრესი,#ffffff,#ffffff,21
+MIBG,ProCredit Bank,პროკრედიტ ბანკი,procredit,#c6007e,#c6007e,5
+CRTU,Cartu Bank,ბანკი ქართუ,cartu,#597abc,#597abc,6
+UGEB,VTB Bank,ვითიბი ბანკი,vtb,#303f96,#303f96,7
+PRSG,Progress Bank,პროგრეს ბანკი,progress,#78299d,#78299d,8
+KSBG,KSB,კორ სტანდარტ ბანკი,ksb,#a3c3dd,#a3c3dd,9
+CBAS,Basisbank,ბაზისბანკი,basis,#334cb1,#334cb1,10
+CPTB,Capital Bank,კაპიტალ ბანკი,capital,#dec277,#dec277,11
+FGEO,Finca Bank,ფინკა ბანკი,finca,#5761c2,#5761c2,12
+HABG,Halyk Bank,ხალიკ ბანკი,halyk,#00c181,#00c181,13
+DISN,Silk Road Bank,სილქ როუდ ბანკი,silk,#facb36,#facb36,14
+PAHA,Pasha Bank,პაშა ბანკი,pasha,#008d56,#008d56,15
+IBAZ,International Bank of Azerbaijan,აზერბაიჯანის საერთაშორისო ბანკი,azerbaijan,#232c62,#232c62,16
+DEVG,Caucasus Development Bank Georgia,კავკასიის განვითარების ბანკი საქართველო,caucasus,#006633,#006633,17
+RICO,Rico Credit,რიკო კრედიტი,ricocredit,#6e0099,#6e0099,18
+CRMO,Crystal Microfinance Organization,კრისტალი მიკროსაფინანსო ორგანიზაცია,crystal,#f40069,#f40069,19
+BOMO,Bonaco Microfinance Organization,ბონაკო მიკროსაფინანსო ორგანიზაცია,bonaco,#7dea00,#7dea00,20
+ALPE,Alpha Express,ალფა ექსპრესი,alfa,#ed0000,#ed0000,21

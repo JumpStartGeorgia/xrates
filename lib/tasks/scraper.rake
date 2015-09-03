@@ -99,7 +99,7 @@ class Rates
   def self.is_number? string
     true if Float(string) rescue false
   end
-  def self.swap(s)
+  def self.swap(s)    
     s = s.gsub(/[[:space:]]/, '').chomp.upcase
     swap = {"RUR" => "RUB", "TRL" => "TRY", "AZM" => "AZN", "AVD" => "AUD", "UKG" => "UAH"}
     return swap.key?(s) ? swap[s] : s
@@ -107,16 +107,14 @@ class Rates
   def self.n(s)
     return s.gsub(/[[:space:]]/, '')
   end
-  def self.check_rates(buy, sell)
-    return is_number?(buy) && is_number?(sell) && buy.to_f != 0 && sell.to_f != 0
+  def self.check_rates(currency, buy, sell)
+    return currency.length == 3 && !@currencies.index(currency).nil? && is_number?(buy) && is_number?(sell) && buy.to_f != 0 && sell.to_f != 0
   end
-  # def self.scrape_bank(bank)
-  #   date = Time.now
-   
-  # end
+  @currencies = []
   def self.scrape!
     #ActiveRecord::Base.connection.execute("truncate table rates")
     require 'json'
+    @currencies = Currency.pluck(:code)
     created_at = Time.now
     date = Time.now
     puts "Scrape for #{date.to_date} at #{date}"
@@ -124,37 +122,18 @@ class Rates
 
     #fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, captial:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
     #processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, capital:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
-
-    # scrape nbg -----------------------------------------------------------------------
-        # begin
-        #   Rate.transaction do
-        #     page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))
-
-        #     # get the date
-        #     title = page.at_xpath('//item//title').text
-        #     date = title.gsub('Currency Rates ', '')
-        #     date = Date.strptime(date, "%Y-%m-%d")
-
-        #     table = page.at_xpath('//item//description').text
-        #     table = Nokogiri::HTML(table)
-
-        #     rows = table.css('tr')
-        #     puts "NBG - #{rows.length} records"
-        #     processed_flags[:bnln] = rows.length
-        #     fail_flags[:bnln] = 1 if rows.empty?
-
-        #     rows.each do |row|
-        #       cols = row.css('td')
-        #       Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
-        #     end
-
-        #   end
-
-        # rescue  Exception => e
-        #   ScraperMailer.report_error(e).deliver
-        # end
+    
     # array of banks options for scraping
     banks = [
+      { name: "National Bank of Georgia",
+        id:1,
+        path:"http://www.nbg.ge/rss.php",
+        parent_tag:"//item//title",
+        child_tag:"td",
+        child_tag_count:5,
+        position:[0, 0, 0],
+        threshold: 43,
+        cnt:0 },  
       { name: "Bank of Georgia",
         id:2,
         path:"http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates",
@@ -174,7 +153,7 @@ class Rates
         threshold: 17,
         cnt:0,
         script: true, 
-        script_callback: lambda {|script, bank| 
+        script_callback: lambda {|script, bank|           
           script = script.text                
           search_phrase = 'var tbcBankRatesJSON = eval("'
           start_index = script.index(search_phrase)
@@ -448,7 +427,7 @@ class Rates
         child_tag:"th, td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 2,          
+        threshold: 3,          
         cnt:0 },
       { name: "Bonaco Microfinance Organization",
         id:21,
@@ -505,9 +484,37 @@ class Rates
         ##---------------Tbilmicrocredit http://www.tbmc.ge/en/# has currency harder to get is it worth it
     ]
 
+
+    # nbg -----------------------------------------------------------------------
+      begin
+        Rate.transaction do
+          page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))
+
+          # get the date
+          title = page.at_xpath('//item//title').text
+          date = title.gsub('Currency Rates ', '')
+          date = Date.strptime(date, "%Y-%m-%d")
+
+          table = page.at_xpath('//item//description').text
+          table = Nokogiri::HTML(table)
+
+          rows = table.css('tr')
+          puts "NBG - #{rows.length} records"
+          processed_flags[:bnln] = rows.length
+          fail_flags[:bnln] = 1 if rows.empty?
+
+          rows.each do |row|
+            cols = row.css('td')
+            Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
+          end
+        end
+      rescue  Exception => e
+        ScraperMailer.report_error(e).deliver
+      end
+
     # loop each bank, and scrape data based on array of banks options
     banks.each do |bank|
-      #next if bank[:id] != 22
+      next if bank[:id] == 1
       begin
         page = nil
         if bank[:ssl].present? && bank[:ssl]
@@ -525,7 +532,7 @@ class Rates
               items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)  
               #puts "items length - #{items.length}"
               items.each do |d|
-                if d[0].length == 3 && check_rates(d[1],d[2])
+                if check_rates(d[0], d[1], d[2])
                   Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
                   cnt += 1
                 end
@@ -536,10 +543,10 @@ class Rates
             cnt = 0     
             items.each do |item|
               c = item.css(bank[:child_tag])
-                  #pp c.length
+              #pp c.length
               if(c.length == bank[:child_tag_count])
                 d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
-                if d[0].length == 3 && check_rates(d[1],d[2])
+                if check_rates(d[0], d[1], d[2])
                   Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
                   cnt += 1
                 end
@@ -560,15 +567,17 @@ class Rates
     #   puts "#{bank[:id]},#{bank[:name]},#{bank[:path]}"
     # end
 
-    # last phase that will check that bank record is equal to threshold for that bank
-    # threshold -value from banks array that is showing expected currencies count from that bank
-    #   if count is changed than something had happened (It can be two error for 
-    #   one bank one from scrape script on exception and second threshold unequality)
+    # last phase 
+    # for types of messages can be sent
+    # 1) general report about all bank scrape result (succeeded_list_send variable should be true)
+    # 2) unexpected bank currency amount based on each banks threshold value if not equal bank will be added to the list
+    # 3) exception while executing bank script if exception will throw
+    # 4) sending block throws exception
     begin
       unexpected_behavior_list = []
       exception_list = []    
       succeeded_list = []
-      succeeded_list_send = true # if we don't need to send each scraper call will be false by default
+      succeeded_list_send = false # if we don't need to send each scraper call will be false by default
 
       banks.each do |bank|
         if bank[:cnt] == -1
