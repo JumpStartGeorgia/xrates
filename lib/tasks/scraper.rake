@@ -131,7 +131,7 @@ class Rates
         parent_tag:"//item//title",
         child_tag:"td",
         child_tag_count:5,
-        position:[0, 0, 0],
+        position:[0, 2, 0],
         threshold: 43,
         cnt:0 },  
       { name: "Bank of Georgia",
@@ -305,7 +305,7 @@ class Rates
         parent_tag:".curr_wrapper ul.fi",
         child_tag:"li",
         child_tag_count:3,
-        position:[0, 1, 2],
+        position:[0, 2, 1],
         threshold: 15,        
         cnt:0,
         script: true,
@@ -472,7 +472,6 @@ class Rates
             return items
           } },
           
-        # todo
         # not available banks
         #---------------ISBANK Georgia - ISBK - http://www.isbank.ge/eng/default.aspx - no currency info
         #---------------Ziraat Bank" Tbilisi - TCZB - http://ziraatbank.ge/retail-banking-services/currency-exchange - no currency info
@@ -481,7 +480,7 @@ class Rates
         #---------------Creditplus - http://www.creditplus.ge/?lng=eng - no currency info
         #---------------Leader Credit - http://leadercredit.ge/ - site is in a updating stage
         #---------------Fincredit - http://fincredit.ge/ has 2 currency but getting which is which is impossible without hard coding
-        ##---------------Tbilmicrocredit http://www.tbmc.ge/en/# has currency harder to get is it worth it
+        #---------------Tbilmicrocredit http://www.tbmc.ge/en/# has currency harder to get is it worth it
     ]
 
 
@@ -492,31 +491,24 @@ class Rates
           page = Nokogiri::XML(open(bank[:path]))
 
           # get the date
-          title = page.at_xpath('//item//title').text
+          title = page.at_xpath(bank[:parent_tag]).text
           date = title.gsub('Currency Rates ', '')
           date = Date.strptime(date, "%Y-%m-%d")
 
           items = Nokogiri::HTML(page.at_xpath('//item//description').text).css('tr')
         
           cnt = 0
-
           items.each do |item|
-            c = item.css(bank[:child_tag])
-            #pp c.length
+            c = item.css(bank[:child_tag])            
             if(c.length == bank[:child_tag_count])
-              d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
+              d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), 1]
               if check_rates(d[0], d[1], d[2])
-                Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                Rate.create_or_update(date, d[0], d[1], nil, nil, bank[:id])
                 cnt += 1
               end
             end
           end
 
-          items.each do |row|
-            cols = row.css('td')
-            Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
-            cnt += 1
-          end
           bank[:cnt] = cnt
           puts "#{bank[:name]} - #{cnt} records"
         end

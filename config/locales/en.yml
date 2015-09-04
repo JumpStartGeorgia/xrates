@@ -135,6 +135,8 @@ en:
       date: Date
       description: "How has the lari crisis affected you? Find out this and more by exploring Georgia’s economy using JumpStart’s Lari Explorer!"
       nav_toggle: "Navigation toggle"
+      commercial_banks: Commercial Banks
+      micro_finance: Micro Finance
     msgs:
       does_not_exist: You tried to access a page that does not exist.
       not_authorized: You are not authorized to view that page.

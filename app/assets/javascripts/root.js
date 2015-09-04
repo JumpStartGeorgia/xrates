@@ -412,6 +412,7 @@ $(function () {
   }
   function calculate (remote)
   {
+    $("#a_chart").addClass("loader");
     data.worth = getWorth();
     if(data.worth > 0)
     {
@@ -587,7 +588,7 @@ $(function () {
         tooltip: {
           headerFormat: "<span class='tooltip-header'>{point.key}</span><br/>",
           pointFormatter: function (d) {
-            return "<div class='tooltip-content'><span>"+gon.rate+":</span> "+reformat(this.rate)+" <span class='symbol "+this.dir+"'></span><br/><span>"+gon.monetary_value+":</span> "+reformat(this.y)+" <span class='symbol "+this.dir+"'></span></div>";
+            return "<div class='tooltip-content'><span>"+gon.rate+":</span> "+reformat(this.rate, 3)+" <span class='symbol "+this.dir+"'></span><br/><span>"+gon.monetary_value+":</span> "+reformat(this.y, 3)+" <span class='symbol "+this.dir+"'></span></div>";
           },
           useHTML: true
         },
@@ -614,10 +615,11 @@ $(function () {
           }, false, false);
       chart.redraw();
     }
+    $("#a_chart").removeClass("loader");
   }
   var b_chart_colors = ["#1cbbb4", "#F47C7C", "#4997FF", "#be8ec0", "#8fc743"];
   function b_chart_refresh (first){
-    var chart = $("#b_chart").highcharts();
+    var chart = $("#b_chart").addClass("loader").highcharts();
     var c = $(".filter-b-currency").select2("val");
     cur.p2.c.forEach(function (t){
       if(c.indexOf(t)==-1)
@@ -664,6 +666,7 @@ $(function () {
             }
           });
           chart.redraw();
+          $("#b_chart").removeClass("loader");
         }
       });
     }
@@ -683,6 +686,9 @@ $(function () {
         }
       });
       chart.redraw();
+    }
+    if(!remote_cur.length) {
+      $("#b_chart").removeClass("loader");
     }
   }
   function b_chart (){
@@ -768,7 +774,7 @@ $(function () {
         borderColor: "#cfd4d9",
         headerFormat: "<span class='tooltip-header'>{point.key}</span><br/>",
         pointFormatter: function () {
-          return "<div class='tooltip-item'><span style='color:"+this.color+"'>"+this.series.name+"</span> <span class='value'>"+reformat(this.y)+"</span>"+ (cur.p2.type == 1 ? (" (" + reformat(this.change, 2) + "%)") : "") + "</div>"; },
+          return "<div class='tooltip-item'><span style='color:"+this.color+"'>"+this.series.name+"</span> <span class='value'>"+reformat(this.y, 3)+"</span>"+ (cur.p2.type == 1 ? (" (" + reformat(this.change, 2) + "%)") : "") + "</div>"; },
         useHTML: true,
         shadow: false
       },
@@ -800,8 +806,7 @@ $(function () {
   }
 
   function c_chart_refresh (first, partial){ // currency, bank
-    // console.log("c chart");
-    var chart = $("#c_chart").highcharts();
+    var chart = $("#c_chart").addClass("loader").highcharts();
 
     var c = $(".filter-c-currency").select2("val");
     var b = $(".filter-c-bank").select2("val");
@@ -869,6 +874,7 @@ $(function () {
 
           }
           chart.redraw();
+          $("#c_chart").removeClass("loader");
         }
       });
     }
@@ -877,10 +883,12 @@ $(function () {
     });
 
     chart.redraw();
+    if(!remote_cur.length) {
+      $("#c_chart").removeClass("loader");
+    }
   }
   function c_chart_redraw (id)
   {
-    // console.log("c_chart_redraw");
     var chart = $("#c_chart").highcharts();
     var type = cur.p3.type;
     var id_b = id+"_B";
@@ -1016,7 +1024,7 @@ $(function () {
           {
             var item = output[nbg];
             var type = cur.p3.type;
-            var ret = "<div class='tooltip-item nbg'><span class='l' style='color:"+item.color+";'>"+item.name + "</span><span class='r'  style='color:"+item.color+";'>" + reformat(item.rate) + "</span></div>";
+            var ret = "<div class='tooltip-item nbg'><span class='l' style='color:"+item.color+";'>"+item.name + "</span><span class='r'  style='color:"+item.color+";'>" + reformat(item.rate, 3) + "</span></div>";
 
             if(len > 1)
             {
@@ -1031,8 +1039,8 @@ $(function () {
                 item = output[key];
                 ret += "<div class='tooltip-item'><span class='l' style='color:"+item.color+";'>"+item.name + "</span>";
 
-                if(type == 0 || type == 1) ret +="<span class='b' style='color:"+item.color+";'>" + reformat(item.buy) + "</span>";
-                if(type == 0 || type == 2) ret +="<span class='s' style='color:"+item.color+";'>" + reformat(item.sell) + "</span>";
+                if(type == 0 || type == 1) ret +="<span class='b' style='color:"+item.color+";'>" + reformat(item.buy, 3) + "</span>";
+                if(type == 0 || type == 2) ret +="<span class='s' style='color:"+item.color+";'>" + reformat(item.sell, 3) + "</span>";
                 ret += "</div>";
               }
             }
@@ -1092,14 +1100,24 @@ $(function () {
       // allowClear: true,
 
       formatResult: function (d){
-        return "<div class='logo'><img src='/assets/png/banks/"+d.image+".jpg'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
+        if(typeof d.group !== "undefined" && d.group) {
+          return "<div class='select2-optgroup'>"+d.text+"</div>";
+        }
+        else {
+          return "<div class='logo'><img src='/assets/png/banks/"+d.image+".jpg'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
+        }
       },
       formatSelection: function (d)
       {
         return "<div title='"+d.text+"'>"+d.id+"</div>";
       },
       query: function (query) {
-        var data = {results: []};
+        var data = {results:
+          [
+            {group: true, text: gon.commercial_banks, children: []},
+            {group: true, text: gon.micro_finance, children: []}
+          ]
+        };
         var c = $(".filter-c-currency").select2("val");
 
         var term = query.term.toUpperCase();
@@ -1111,7 +1129,7 @@ $(function () {
             if(d == dd[0])
             {
               if(len == 0 || dd[1].toUpperCase().indexOf(term) >= 0 || dd[2].toUpperCase().indexOf(term) >= 0 ){
-                data.results.push({ id:dd[2], text:dd[1], image:dd[3]["data-image"] });
+                data.results[dd[4]].children.push({ id:dd[2], text:dd[1], image:dd[3]["data-image"] });
               }
             }
           });

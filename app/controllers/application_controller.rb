@@ -100,7 +100,8 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.downloadCSV = t('highcharts.downloadCSV')
       gon.highcharts_printChart = t('highcharts.printChart')
       gon.highcharts_contextButtonTitle = t('highcharts.contextButtonTitle')
-
+      gon.commercial_banks = t('app.common.commercial_banks')
+      gon.micro_finance = t('app.common.micro_finance')      
       currency_by_bank = {}
       Rate.currency_by_bank.each{|t|
          if(currency_by_bank.has_key?(t.currency))
@@ -110,7 +111,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
          end
       }
       gon.currency_to_bank = currency_by_bank.to_json
-      gon.banks = Bank.all_except_nbg.each_with_index.map{|x,i| [ x[0], x[1], x[4], { :'data-image' => x[5] } ] }
+      gon.banks = Bank.all_except_nbg.each_with_index.map{|x,i| [ x[0], x[1], x[4], { :'data-image' => x[5] }, x[6] ] }
 
       gon.dev = Rails.env.development?
       #:title => I18n.t('chart.nbg.title') , 

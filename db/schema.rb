@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150423122715) do
+ActiveRecord::Schema.define(:version => 20150904065648) do
 
   create_table "api_method_translations", :force => true do |t|
     t.integer  "api_method_id"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20150423122715) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "order"
+    t.integer  "org_type"
   end
 
   add_index "banks", ["code"], :name => "index_banks_on_code"

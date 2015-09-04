@@ -1168,8 +1168,7 @@ a
 {
    min-width:300px;
    max-width:300px;
-   .select2-choice, .select2-choices
-   {
+   .select2-choice, .select2-choices {
       position:relative;
       font-family: 'dejavusans';
       font-size:19px;
@@ -1203,10 +1202,8 @@ a
       right:9px;
       cursor:pointer;
 
-   }
-   
-   .select2-choices .select2-search-choice
-   {
+   }  
+   .select2-choices .select2-search-choice {
       padding: 0px 18px 0px 5px;
       border:0px !important;
       border-radius:0px;
@@ -1216,8 +1213,7 @@ a
       color:#fff;
       line-height:38px;
    }
-   .select2-chosen
-   {
+   .select2-chosen {
       padding: 0px 18px 0px 5px;
       border:0px !important;
       border-radius:0px;
@@ -1227,8 +1223,7 @@ a
       color:#fff;
       line-height:44px;
    }
-   .select2-search
-   {
+   .select2-search {
       input
       {
          border: 1px solid #e7ebef;
@@ -1313,6 +1308,16 @@ background-color: #f1f2f2;
          }           
       }
    }
+  .select2-optgroup {
+    font:15px 'dejavusans';
+    font-weight:normal;
+    color: #ffc539;
+    padding: 10px 0 0 4px;
+    &:lang(en)
+    {
+      font:16px 'oxygen';
+    } 
+  }
 }
 .ui-datepicker
 {
@@ -1825,3 +1830,17 @@ background-color: #f1f2f2;
       }
    }
 }
+  .chart {
+    position:relative;
+  }
+  .chart.loader:after {
+    display:inline-block;
+    content:"";
+    background:rgba(0,0,0,0.5) url(/assets/svg/loader.svg) no-repeat center/82px;
+    position: absolute;
+    top: 0;
+    right:0;
+    bottom:0;
+    left:0;
+    // display: none;
+  }
