@@ -488,28 +488,41 @@ class Rates
     # nbg -----------------------------------------------------------------------
       begin
         Rate.transaction do
-          page = Nokogiri::XML(open("http://www.nbg.ge/rss.php"))
+          bank = banks[0]
+          page = Nokogiri::XML(open(bank[:path]))
 
           # get the date
           title = page.at_xpath('//item//title').text
           date = title.gsub('Currency Rates ', '')
           date = Date.strptime(date, "%Y-%m-%d")
 
-          table = page.at_xpath('//item//description').text
-          table = Nokogiri::HTML(table)
+          items = Nokogiri::HTML(page.at_xpath('//item//description').text).css('tr')
+        
+          cnt = 0
 
-          rows = table.css('tr')
-          puts "NBG - #{rows.length} records"
-          processed_flags[:bnln] = rows.length
-          fail_flags[:bnln] = 1 if rows.empty?
+          items.each do |item|
+            c = item.css(bank[:child_tag])
+            #pp c.length
+            if(c.length == bank[:child_tag_count])
+              d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
+              if check_rates(d[0], d[1], d[2])
+                Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                cnt += 1
+              end
+            end
+          end
 
-          rows.each do |row|
+          items.each do |row|
             cols = row.css('td')
             Rate.create_or_update(date, cols[0].text.strip, cols[2].text.strip,nil,nil,1)
+            cnt += 1
           end
+          bank[:cnt] = cnt
+          puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        ScraperMailer.report_error(e).deliver
+        bank[:cnt] = -1        
+        puts "#{bank[:name]} - exception occured"
       end
 
     # loop each bank, and scrape data based on array of banks options
@@ -522,15 +535,12 @@ class Rates
         else
           page = Nokogiri::HTML(open(bank[:path]))
         end
-        #puts bank[:parent_tag]
-        #puts page.css(bank[:parent_tag]).text
         Rate.transaction do
           items = []
           cnt = 0
           if bank[:script].present? && bank[:script]
             if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")              
               items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)  
-              #puts "items length - #{items.length}"
               items.each do |d|
                 if check_rates(d[0], d[1], d[2])
                   Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
