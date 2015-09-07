@@ -1322,6 +1322,9 @@ background-color: #f1f2f2;
       .vtop {
          vertical-align:top;
       }
+      .vtop.name {    
+         padding: 6px 5px 0px;     
+      }
    }
   .select2-optgroup {
     font:15px 'dejavusans';

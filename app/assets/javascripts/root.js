@@ -1104,7 +1104,7 @@ $(function () {
           return "<div class='select2-optgroup'>"+d.text+"</div>";
         }
         else {
-          return "<div class='logo vtop'><img src='/assets/png/banks/"+d.image+".jpg'/></div><div class='name'>"+d.text+"</div>"; // <div class='abbr'>"+d.id+"</div>
+          return "<div class='logo vtop'><img src='/assets/png/banks/"+d.image+".jpg'/></div><div class='name vtop'>"+d.text+"</div>"; // <div class='abbr'>"+d.id+"</div>
         }
       },
       formatSelection: function (d)
