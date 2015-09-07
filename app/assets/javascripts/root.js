@@ -1109,7 +1109,7 @@ $(function () {
       },
       formatSelection: function (d)
       {
-        return "<div title='"+d.text+"'>"+d.id+"</div>";
+        return "<div title='"+d.text+"' class='logo'><img src='/assets/png/banks/"+d.image+".jpg'/></div>"; //"+d.id+" was replaced with image
       },
       query: function (query) {
         var data = {results:
