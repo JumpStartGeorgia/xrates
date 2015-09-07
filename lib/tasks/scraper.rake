@@ -2,8 +2,9 @@
 # encoding: UTF-8
 
 require 'csv'
-require 'open-uri'
+#require 'open-uri'
 require 'nokogiri'
+require 'mechanize'
 
 class Rates
   def self.populate!
@@ -487,8 +488,9 @@ class Rates
     # nbg -----------------------------------------------------------------------
       begin
         bank = banks[0]
-        Rate.transaction do          
-          page = Nokogiri::XML(open(bank[:path]))
+        Rate.transaction do      
+          agent = Mechanize.new
+          page = Nokogiri::XML(agent.get(bank[:path]).content) # open(bank[:path]))
 
           # get the date
           title = page.at_xpath(bank[:parent_tag]).text
@@ -522,11 +524,13 @@ class Rates
       next if bank[:id] == 1
       begin
         page = nil
+        agent = Mechanize.new
         if bank[:ssl].present? && bank[:ssl]
-          page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
-        else
-          page = Nokogiri::HTML(open(bank[:path]))
+          agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
+        #page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE)) #else #page = Nokogiri::HTML(open(bank[:path]))
+        page = Nokogiri::HTML(agent.get(bank[:path]).content)
+
         Rate.transaction do
           items = []
           cnt = 0
