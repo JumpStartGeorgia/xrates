@@ -450,7 +450,7 @@ class Rates
           end
           return items
         } },
-        { name: "Alpha Express",
+      { name: "Alpha Express",
           id:22,
           type: :other,
           path:"http://alpha-express.ge/en",
@@ -486,8 +486,8 @@ class Rates
 
     # nbg -----------------------------------------------------------------------
       begin
-        Rate.transaction do
-          bank = banks[0]
+        bank = banks[0]
+        Rate.transaction do          
           page = Nokogiri::XML(open(bank[:path]))
 
           # get the date
@@ -507,13 +507,13 @@ class Rates
                 cnt += 1
               end
             end
-          end
-
+          end          
           bank[:cnt] = cnt
           puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        bank[:cnt] = -1        
+        bank[:cnt] = -1  
+        bank[:e] = e      
         puts "#{bank[:name]} - exception occured"
       end
 
@@ -559,7 +559,8 @@ class Rates
           puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        bank[:cnt] = -1        
+        bank[:cnt] = -1     
+        bank[:e] = e   
         puts "#{bank[:name]} - exception occured"
       end    
     end
@@ -583,7 +584,7 @@ class Rates
 
       banks.each do |bank|
         if bank[:cnt] == -1
-          exception_list.push(bank[:name])          
+          exception_list.push(bank[:name] + " #{bank[:e]}")          
         elsif bank[:cnt] != bank[:threshold]
           unexpected_behavior_list.push(bank[:name] + " (#{bank[:cnt]}/#{bank[:threshold]})")
         else

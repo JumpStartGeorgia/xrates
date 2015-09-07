@@ -1104,12 +1104,12 @@ $(function () {
           return "<div class='select2-optgroup'>"+d.text+"</div>";
         }
         else {
-          return "<div class='logo'><img src='/assets/png/banks/"+d.image+".jpg'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
+          return "<div class='logo vtop'><img src='/assets/png/banks/"+d.image+".jpg'/></div><div class='name'>"+d.text+"</div>"; // <div class='abbr'>"+d.id+"</div>
         }
       },
       formatSelection: function (d)
       {
-        return "<div title='"+d.text+"' class='logo'><img src='/assets/png/banks/"+d.image+".jpg'/></div>"; //"+d.id+" was replaced with image
+        return "<div title='"+d.text+"' class='logo vtop'><img src='/assets/png/banks/"+d.image+".jpg'/></div>"; //"+d.id+" was replaced with image
       },
       query: function (query) {
         var data = {results:
