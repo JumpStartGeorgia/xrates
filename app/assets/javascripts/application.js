@@ -16,12 +16,13 @@
 //= require jquery_ujs
 //= require jquery.ui.core
 //= require jquery.ui.effect
-//= require jquery.ui.datepicker
+// require jquery.ui.datepicker
 //= require highstock
 //= require highcharts-exporting
 // require twitter/bootstrap/dropdown
 // require bootstrap-select.min
 //= require select2.min
+//= require datepicker.js
 //= require dev
 //= require_self
 

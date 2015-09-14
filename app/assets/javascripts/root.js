@@ -272,9 +272,18 @@ $(function () {
     var p = t.parent();
     p.find("> div").removeClass("active");
     t.addClass("active");
-    var chart = $("#b_chart").highcharts();
-    cur.p2.type = t.attr("data-compare") == "none" ? 0 : 1;
-    chart.yAxis[0].setCompare(t.attr("data-compare"));
+    var chart = $("#b_chart").highcharts(),
+      compare = t.attr("data-compare");
+
+    cur.p2.type = compare == "none" ? 0 : 1;
+
+    // for this code to work we need to paste 
+    // if(typeof d["jsCompareValue"]!==undefined) {d.plotOptions.series.compare = d["jsCompareValue"];}
+    // to highcharts export module in  getSVG before creating new Highcharts object
+    chart.options["jsCompareValue"] = compare;
+
+    chart.yAxis[0].setCompare(compare);
+    chart.options.plotOptions.series.compare = compare;
     chart.yAxis[0].update({ title:{ text: (cur.p2.type == 0 ? gon.gel : "%"),
       rotation: 0,
             margin: cur.p2.type == 0 ? 15 : 25,
@@ -309,6 +318,7 @@ $(function () {
     changeMonth: true,
     changeYear: true,
     maxDate: "d",
+    gotoCurrent: true,
     onClose: function ( v ) {
       $(".calculator .to[data-type=datepicker]").datepicker( "option", "minDate", v );
       this._visible = false;
@@ -334,6 +344,7 @@ $(function () {
     changeMonth: true,
     changeYear: true,
     maxDate: "d",
+    gotoCurrent: true,
     onClose: function (v) {
       $(".calculator .from[data-type=datepicker]").datepicker( "option", "maxDate", v );
       this._visible = false;
@@ -793,6 +804,7 @@ $(function () {
                 changeMonth: true,
                 changeYear: true,
                 maxDate: "d",
+                gotoCurrent: true,
                 beforeShow: function () {
                   $(chart.container).find(".highcharts-input-group > g:nth-of-type("+(this.name == "min" ? 2 : 4)+") text").attr("visibility", "hidden");
                 },
@@ -1080,6 +1092,7 @@ $(function () {
                 changeMonth: true,
                 changeYear: true,
                 maxDate: "d",
+                gotoCurrent: true,
                 beforeShow: function () {
                   $(chart.container).find(".highcharts-input-group > g:nth-of-type("+(this.name == "min" ? 2 : 4)+") text").attr("visibility", "hidden");
                 },
