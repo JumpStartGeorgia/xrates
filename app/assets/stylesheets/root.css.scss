@@ -1433,7 +1433,7 @@ background-color: #f1f2f2;
             font-family: 'oxygen';
          }           
       } 
-      .ui-state-default:hover
+      .ui-state-active, .ui-state-default:hover
       {
          background-color:#f7f7f7;
          border:1px solid #c8ced3;

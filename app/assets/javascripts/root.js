@@ -1,28 +1,5 @@
 /*global window $ Highcharts gon I18n exist isNumber */
 /*eslint camelcase: 0, no-underscore-dangle: 0, no-unused-vars: 0*/
-/*
-national bank #4b4a4b
-republic #e22b2b - new version from ia #c11f4d
-tbc  #25aae1
-georgian bank #ed7623
-Liberty #d82a3e - new version from ia #ea4e65
-privat bank #5eb246
-procredit #ba2525
-BTA #a7cb42
-cartu #194681
-ksb #ea3942
-VTB #252860
-basis babk #1365a7
-halik #13a875
-progress #745aa6
-finca #b61f39
-crystal #df136f
-creditplus #e6382a
-leader-credit #f1892d
-fincredit #064466
-ricocredit #422e82
-Capital #d0a060
-*/
 $(function () {
   Highcharts.getOptions().exporting.buttons.contextButton.menuItems.push({
     text: gon.downloadCSV,
@@ -719,12 +696,8 @@ $(function () {
         inputStyle: { cursor: "pointer" },
         inputDateParser:function (v)
         {
-          v = v.split(/-/);
-          return Date.UTC(
-              parseInt(v[2], 10),
-              parseInt(v[1], 10)-1,
-              parseInt(v[0], 10),
-              0, 0, 0, 0);
+          v = $.datepicker.parseDate( "dd-M-yy", v);
+          return Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), 0, 0, 0, 0);
         },
         buttons: custom_buttons,
         buttonTheme: custom_buttons_theme
@@ -800,12 +773,14 @@ $(function () {
     function (chart) {
       setTimeout(function () {
         $("input.highcharts-range-selector", $(chart.container).parent())
-          .datepicker({dateFormat: "dd-mm-yy",
+          .datepicker({
+                dateFormat: "dd-M-yy",
                 changeMonth: true,
                 changeYear: true,
                 maxDate: "d",
                 gotoCurrent: true,
-                beforeShow: function () {
+                beforeShow: function (t) {
+                  $(this).datepicker("setDate", new Date(t["HCTime"]));
                   $(chart.container).find(".highcharts-input-group > g:nth-of-type("+(this.name == "min" ? 2 : 4)+") text").attr("visibility", "hidden");
                 },
                 onClose: function () {
@@ -937,12 +912,8 @@ $(function () {
         inputStyle: { cursor: "pointer" },
         inputDateParser:function (v)
         {
-          v = v.split(/-/);
-          return Date.UTC(
-              parseInt(v[2], 10),
-              parseInt(v[1], 10)-1,
-              parseInt(v[0], 10),
-              0, 0, 0, 0);
+          v = $.datepicker.parseDate( "dd-M-yy", v);  
+          return Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), 0, 0, 0, 0);
         },
         buttons: custom_buttons,
         buttonTheme: custom_buttons_theme
@@ -1033,7 +1004,7 @@ $(function () {
             output[s.userOptions.code]["color"] = t.color;
           }
           if(len==ind+1)
-          {
+          {            
             var item = output[nbg];
             var type = cur.p3.type;
             var ret = "<div class='tooltip-item nbg'><span class='l' style='color:"+item.color+";'>"+item.name + "</span><span class='r'  style='color:"+item.color+";'>" + reformat(item.rate, 3) + "</span></div>";
@@ -1088,12 +1059,14 @@ $(function () {
     function (chart) {
       setTimeout(function () {
         $("input.highcharts-range-selector", $(chart.container).parent())
-          .datepicker({dateFormat: "dd-mm-yy",
+          .datepicker({
+                dateFormat: "dd-M-yy",
                 changeMonth: true,
-                changeYear: true,
+                changeYear: true,                
                 maxDate: "d",
                 gotoCurrent: true,
-                beforeShow: function () {
+                beforeShow: function (t) {
+                  $(this).datepicker("setDate", new Date(t["HCTime"]));
                   $(chart.container).find(".highcharts-input-group > g:nth-of-type("+(this.name == "min" ? 2 : 4)+") text").attr("visibility", "hidden");
                 },
                 onClose: function () {
@@ -1101,6 +1074,9 @@ $(function () {
                 }
               }).attr("readonly", "readonly");
       }, 0);
+      // $("input.highcharts-range-selector", $(chart.container).parent()).on("blur", function() {
+      //    console.log("input");
+      // });
     });
     c_chart_refresh(true);
   }

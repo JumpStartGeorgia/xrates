@@ -1,4 +1,4 @@
-// This is a manifest file that'll be compiled into including all the files listed below.
+// This is a manifest file that"ll be compiled into including all the files listed below.
 // Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
 // be included in the compiled file accessible from http://example.com/assets/application.js
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
@@ -16,34 +16,29 @@
 //= require jquery_ujs
 //= require jquery.ui.core
 //= require jquery.ui.effect
-// require jquery.ui.datepicker
+//= require jquery.ui.datepicker
 //= require highstock
 //= require highcharts-exporting
 // require twitter/bootstrap/dropdown
 // require bootstrap-select.min
 //= require select2.min
-//= require datepicker.js
 //= require dev
 //= require_self
 
-$(document).ready(function(){
+$(document).ready(function (){
 	// set focus to first text box on page
-	if (gon.highlight_first_form_field){
-	  $(":input:visible:enabled:first").focus();
+	if(gon.highlight_first_form_field){
+    $(":input:visible:enabled:first").focus();
 	}
 
 	// workaround to get logout link in navbar to work
-	$('body')
-		.off('click.dropdown touchstart.dropdown.data-api', '.dropdown')
-		.on('click.dropdown touchstart.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() });
+	$("body")
+		.off("click.dropdown touchstart.dropdown.data-api", ".dropdown")
+		.on("click.dropdown touchstart.dropdown.data-api", ".dropdown form", function (e) { e.stopPropagation() });
 
-   $('.tabs').toggle($('.menu-toggle').css('display') == 'none');
-   $('.menu-toggle').click(function(e){
-      $('.tabs').toggle();
-      e.preventDefault();
-   });
-   // $('.lang-switch a').click(function(e){
-      
-   //    e.preventDefault();
-   // });
+  $(".tabs").toggle($(".menu-toggle").css("display") == "none");
+  $(".menu-toggle").click(function (e) {
+    $(".tabs").toggle();
+    e.preventDefault();
+  });
 });
