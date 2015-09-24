@@ -428,7 +428,7 @@ class Rates
         child_tag:"th, td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 3,          
+        threshold: 4,          
         cnt:0 },
       { name: "Bonaco Microfinance Organization",
         id:21,
