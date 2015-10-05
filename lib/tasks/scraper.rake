@@ -2,8 +2,9 @@
 # encoding: UTF-8
 
 require 'csv'
-require 'open-uri'
+#require 'open-uri'
 require 'nokogiri'
+require 'mechanize'
 
 class Rates
   def self.populate!
@@ -244,7 +245,7 @@ class Rates
         child_tag:"td",
         child_tag_count:4,
         position:[0, 2, 3],
-        threshold: 5,
+        threshold: 6,
         cnt:0,
         script: true,
         script_callback: lambda {|script, bank|  
@@ -427,7 +428,7 @@ class Rates
         child_tag:"th, td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 3,          
+        threshold: 4,          
         cnt:0 },
       { name: "Bonaco Microfinance Organization",
         id:21,
@@ -450,7 +451,7 @@ class Rates
           end
           return items
         } },
-        { name: "Alpha Express",
+      { name: "Alpha Express",
           id:22,
           type: :other,
           path:"http://alpha-express.ge/en",
@@ -486,9 +487,10 @@ class Rates
 
     # nbg -----------------------------------------------------------------------
       begin
-        Rate.transaction do
-          bank = banks[0]
-          page = Nokogiri::XML(open(bank[:path]))
+        bank = banks[0]
+        Rate.transaction do      
+          agent = Mechanize.new
+          page = Nokogiri::XML(agent.get(bank[:path]).content) # open(bank[:path]))
 
           # get the date
           title = page.at_xpath(bank[:parent_tag]).text
@@ -507,13 +509,13 @@ class Rates
                 cnt += 1
               end
             end
-          end
-
+          end          
           bank[:cnt] = cnt
           puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        bank[:cnt] = -1        
+        bank[:cnt] = -1  
+        bank[:e] = e      
         puts "#{bank[:name]} - exception occured"
       end
 
@@ -522,11 +524,13 @@ class Rates
       next if bank[:id] == 1
       begin
         page = nil
+        agent = Mechanize.new
         if bank[:ssl].present? && bank[:ssl]
-          page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
-        else
-          page = Nokogiri::HTML(open(bank[:path]))
+          agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
+        #page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE)) #else #page = Nokogiri::HTML(open(bank[:path]))
+        page = Nokogiri::HTML(agent.get(bank[:path]).content)
+
         Rate.transaction do
           items = []
           cnt = 0
@@ -559,11 +563,62 @@ class Rates
           puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        bank[:cnt] = -1        
+        bank[:cnt] = -1     
+        bank[:e] = e   
         puts "#{bank[:name]} - exception occured"
       end    
     end
-    
+    # loop each bank which had an exception
+    banks.each do |bank|
+      next if (bank[:id] == 1 || !bank[:e].present?)
+      bank.delete :e
+      begin
+        page = nil
+        agent = Mechanize.new
+        if bank[:ssl].present? && bank[:ssl]
+          agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
+        #page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE)) #else #page = Nokogiri::HTML(open(bank[:path]))
+        page = Nokogiri::HTML(agent.get(bank[:path]).content)
+
+        Rate.transaction do
+          items = []
+          cnt = 0
+          if bank[:script].present? && bank[:script]
+            if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")              
+              items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)  
+              items.each do |d|
+                if check_rates(d[0], d[1], d[2])
+                  Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                  cnt += 1
+                end
+              end      
+            end
+          else 
+            items = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.css(bank[:parent_tag])            
+            cnt = 0     
+            items.each do |item|
+              c = item.css(bank[:child_tag])
+              #pp c.length
+              if(c.length == bank[:child_tag_count])
+                d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
+                if check_rates(d[0], d[1], d[2])
+                  Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                  cnt += 1
+                end
+              end
+            end
+          end
+          bank[:cnt] = cnt
+          puts "#{bank[:name]} - #{cnt} records"
+        end
+      rescue  Exception => e
+        bank[:cnt] = -1     
+        bank[:e] = e   
+        puts "#{bank[:name]} - exception occured"
+      end    
+    end
+
     # list of all banks id,name,path
     # banks.each do |bank|
     #   puts "#{bank[:id]},#{bank[:name]},#{bank[:path]}"
@@ -583,7 +638,7 @@ class Rates
 
       banks.each do |bank|
         if bank[:cnt] == -1
-          exception_list.push(bank[:name])          
+          exception_list.push(bank[:name] + " #{bank[:e]}")          
         elsif bank[:cnt] != bank[:threshold]
           unexpected_behavior_list.push(bank[:name] + " (#{bank[:cnt]}/#{bank[:threshold]})")
         else

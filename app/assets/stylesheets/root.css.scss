@@ -33,8 +33,7 @@ a
    }   
 }
 
-.container
-{
+.container {
    display:table-row;   
    height:100%;   
 
@@ -720,7 +719,7 @@ a
       }
    }
 }
-.footer{
+.footer {
 
    display:table-row;
    .box {
@@ -786,7 +785,7 @@ a
 }
 
 
-#a_chart{     
+#a_chart {     
    background-color:#f1f2f2;
    .highcharts-title
    {
@@ -845,7 +844,7 @@ a
       }         
    }
 }
-#b_chart{
+#b_chart {
    .highcharts-legend-item
    {
       span
@@ -901,7 +900,7 @@ a
       }         
    }
 }
-#c_chart{
+#c_chart {
    .highcharts-legend-item
    {
       path
@@ -929,6 +928,9 @@ a
          font-size:14px;
          color:#7b8483;
          text-align:right;
+         &:nth-of-type(3) {
+            padding-left:10px;
+         }
          &:lang(en)
          {
             font-family: 'oxygen';
@@ -937,6 +939,7 @@ a
          {
             display: block;
             float: right;
+            margin: 3px auto 0px;
          }
       }
       .tooltip-item, .tooltip-item-header
@@ -1077,8 +1080,7 @@ a
 {
    position:relative;
 }
-.c_chart_switch
-{
+.c_chart_switch {
     > div
     {
       &:nth-of-type(2)
@@ -1088,7 +1090,7 @@ a
       } 
     }
 }      
-.b_chart_switch, .c_chart_switch{
+.b_chart_switch, .c_chart_switch {
 
    display:inline-block;
    position:absolute;
@@ -1164,8 +1166,7 @@ a
    }
 }
 
-.select2-container
-{
+.select2-container {
    min-width:300px;
    max-width:300px;
    .select2-choice, .select2-choices {
@@ -1212,6 +1213,9 @@ a
       font-size:19px;
       color:#fff;
       line-height:38px;
+      .logo {
+         padding-top: 7px;
+      }
    }
    .select2-chosen {
       padding: 0px 18px 0px 5px;
@@ -1248,6 +1252,14 @@ a
    }
    
 }
+.filter-c-bank 
+{
+   &.select2-container-multi .select2-search-choice-close {
+      left:auto;
+      top:0px;
+      right:2px;
+   }
+}
 .select2-results::-webkit-scrollbar-track
 {
 background-color: #f1f2f2;
@@ -1263,8 +1275,7 @@ background-color: #f1f2f2;
    border:0px;
    cursor:pointer;
 }
-.select2-results .select2-result
-{
+.select2-results .select2-result {
    border:1px solid #e7ebef;
    -webkit-border-radius: 2px;
    -moz-border-radius: 2px;
@@ -1287,7 +1298,7 @@ background-color: #f1f2f2;
          width:23px;
          height:23px;
          position: relative;
-         top: 5px;
+         top: 3px;
       }
       .abbr
       {
@@ -1295,17 +1306,24 @@ background-color: #f1f2f2;
          font-size:16px;
          color:#7b8483;
          width:50px;
-         padding:0px 5px;
+         
       }
       .name
       {
          font-family:'dejavusans';
          font-size:13px;
          color:#7b8483;
+         padding:0px 5px;
          &:lang(en)
          {
             font-family: 'oxygen';
          }           
+      }
+      .vtop {
+         vertical-align:top;
+      }
+      .vtop.name {    
+         padding: 6px 5px 0px;     
       }
    }
   .select2-optgroup {
@@ -1319,8 +1337,7 @@ background-color: #f1f2f2;
     } 
   }
 }
-.ui-datepicker
-{
+.ui-datepicker {
    -webkit-border-radius: 0px;
    -moz-border-radius: 0px;
    border-radius: 0px;
@@ -1416,7 +1433,7 @@ background-color: #f1f2f2;
             font-family: 'oxygen';
          }           
       } 
-      .ui-state-default:hover
+      .ui-state-active, .ui-state-default:hover
       {
          background-color:#f7f7f7;
          border:1px solid #c8ced3;
@@ -1704,8 +1721,7 @@ background-color: #f1f2f2;
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) { 
-    .container
-   {
+   .container {
       .header
       {
          max-width:1024px;
@@ -1830,17 +1846,17 @@ background-color: #f1f2f2;
       }
    }
 }
-  .chart {
-    position:relative;
-  }
-  .chart.loader:after {
-    display:inline-block;
-    content:"";
-    background:rgba(0,0,0,0.5) url(/assets/svg/loader.svg) no-repeat center/82px;
-    position: absolute;
-    top: 0;
-    right:0;
-    bottom:0;
-    left:0;
-    // display: none;
-  }
+.chart {
+ position:relative;
+}
+.chart.loader:after {
+ display:inline-block;
+ content:"";
+ background:rgba(0,0,0,0.5) url(/assets/svg/loader.svg) no-repeat center/82px;
+ position: absolute;
+ top: 0;
+ right:0;
+ bottom:0;
+ left:0;
+ // display: none;
+}
