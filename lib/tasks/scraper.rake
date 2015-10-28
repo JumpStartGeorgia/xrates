@@ -245,7 +245,7 @@ class Rates
         child_tag:"td",
         child_tag_count:4,
         position:[0, 2, 3],
-        threshold: 6,
+        threshold: 7,
         cnt:0,
         script: true,
         script_callback: lambda {|script, bank|  
@@ -330,15 +330,15 @@ class Rates
         position:[0, 1, 2],
         threshold: 2,         
         cnt:0 },
-      { name: "Halyk Bank",
-        id:14,
-        path:"http://hbg.ge/en/",
-        parent_tag:".right_holder .box table tr",
-        child_tag:"td",
-        child_tag_count:4,
-        position:[0, 1, 2],
-        threshold: 4,  
-        cnt:0 },
+      # { name: "Halyk Bank",
+      #   id:14,
+      #   path:"http://hbg.ge/en/",
+      #   parent_tag:".right_holder .box table tr",
+      #   child_tag:"td",
+      #   child_tag_count:4,
+      #   position:[0, 1, 2],
+      #   threshold: 4,  
+      #   cnt:0 },
       { name: "Silk Road Bank",
         id:15,
         path:"http://www.silkroadbank.ge/eng/home",
@@ -414,12 +414,24 @@ class Rates
         id:19,
         type: :other,
         path:"http://rico.ge/",
-        parent_tag:".currency_box table tr",
-        child_tag:"td",
-        child_tag_count:3,
-        position:[0, 1, 2],
-        threshold: 6,          
-        cnt:0 },
+        parent_tag:".rates",
+        child_tag:"> div",
+        child_tag_count:0,
+        position:[0, 0, 0],
+        threshold: 9,          
+        cnt:0,
+        script: true,
+        script_callback: lambda {|script, bank| 
+          items = []
+          c = script.css(bank[:child_tag])
+          c.each_with_index do |item, index|
+            if index > 2 
+              if item.attr("class").index("curses").present?
+                items.push([swap(item.text), n(c[index+1].text), n(c[index+2].text)])
+              end
+            end            
+          end
+          return items } },
       { name: "Crystal Microfinance Organization",
         id:20,
         type: :other,
@@ -454,7 +466,7 @@ class Rates
       { name: "Alpha Express",
           id:22,
           type: :other,
-          path:"http://alpha-express.ge/en",
+          path:"https://alpha-express.ge/en",
           parent_tag:"#currency .values table tr",
           child_tag:"td",
           child_tag_count:3,
@@ -471,7 +483,8 @@ class Rates
               end
             end
             return items
-          } },
+          },
+          ssl: true },
           
         # not available banks
         #---------------ISBANK Georgia - ISBK - http://www.isbank.ge/eng/default.aspx - no currency info
@@ -522,6 +535,7 @@ class Rates
     # loop each bank, and scrape data based on array of banks options
     banks.each do |bank|
       next if bank[:id] == 1
+      #next if bank[:id] != 19
       begin
         page = nil
         agent = Mechanize.new
