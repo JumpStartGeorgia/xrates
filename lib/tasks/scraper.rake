@@ -260,13 +260,26 @@ class Rates
         } },
       { name: "Progress Bank",
         id:9,
-        path:"http://progressbank.ge/eng/",
-        parent_tag:"#ratesblock #nbg table tr",
+        path:"http://progressbank.ge/ge/85/",
+        parent_tag:".rates table tbody",
         child_tag:"td", 
-        child_tag_count:5,
-        position:[1, 3, 4],
+        child_tag_count:2,
+        position:[0, 0, 1],
         threshold: 4,
-        cnt:0 },
+        cnt:0,
+        script:true,
+        script_callback: lambda {|script, bank| 
+          items = []
+          mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
+          script.css("tr").each do |item|            
+            cur = mp[item.css("th > div").attr("class").value]
+            c = item.css(bank[:child_tag])
+            if cur.present? && c.length == bank[:child_tag_count]
+              items.push([swap(cur), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+            end
+          end
+          return items
+        } },
       { name: "KSB",
         id:10,
         path:"http://www.ksb.ge/en/",
@@ -535,7 +548,7 @@ class Rates
     # loop each bank, and scrape data based on array of banks options
     banks.each do |bank|
       next if bank[:id] == 1
-      #next if bank[:id] != 19
+      #next if bank[:id] != 9
       begin
         page = nil
         agent = Mechanize.new
