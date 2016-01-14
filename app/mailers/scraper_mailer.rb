@@ -47,4 +47,11 @@ class ScraperMailer < ActionMailer::Base
          body: "The following error occurred: \n\n#{e}  \n\nCheck the log for where the error occurred.")
    end
 
+   def returned_banks(banks)
+      banks.map! {|d| "\t" + d }
+      bd = "This banks are probably returned to service:\n\n"
+      bd = bd + "#{banks.join("\n")}\n\n" if banks.any?
+
+      mail(subject: "Lari Application Scrapper Returned to Service Banks (#{Rails.env})", body: bd)
+   end
 end

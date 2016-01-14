@@ -106,12 +106,40 @@ class Rates
     return swap.key?(s) ? swap[s] : s
   end
   def self.n(s)
-    return s.gsub(/[[:space:]]/, '')
+    s.gsub!(/[[:space:]]/, '') # remove all kind of spaces
+    s += "0" if s != "" && s[s.length-1] == "." # for cases when number is written without any number after dot but dot itself is there add 0 after dot(9. => 9.0)      
+    return s
   end
   def self.check_rates(currency, buy, sell)
     return currency.length == 3 && !@currencies.index(currency).nil? && is_number?(buy) && is_number?(sell) && buy.to_f != 0 && sell.to_f != 0
   end
+  # for turned off banks based on path and parent_tag checks if bank site structure was changed
+  # we should provide parent tag that will be on sure changed after they upgrade site
+  def self.is_back(bank)
+    begin
+      page = nil
+      agent = Mechanize.new
+      if bank[:ssl].present? && bank[:ssl]
+        agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      end
+      page = Nokogiri::HTML(agent.get(bank[:path]).content)
+
+      elem = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.at_css(bank[:parent_tag])    
+      if elem.nil? 
+        @returned_banks.push bank[:id]
+        puts "#{bank[:name]} - is probably back"
+      else
+        puts "#{bank[:name]} - is off"
+      end      
+    
+    #     end
+    rescue  Exception => e
+      puts "#{bank[:name]} - exceptoin occured for bank that is off #{e}"
+    end   
+  end
+
   @currencies = []
+  @returned_banks = []
   def self.scrape!
     #ActiveRecord::Base.connection.execute("truncate table rates")
     require 'json'
@@ -343,6 +371,7 @@ class Rates
         position:[0, 1, 2],
         threshold: 2,         
         cnt:0 },
+      # previous version it is off now
       # { name: "Halyk Bank",
       #   id:14,
       #   path:"http://hbg.ge/en/",
@@ -352,6 +381,11 @@ class Rates
       #   position:[0, 1, 2],
       #   threshold: 4,  
       #   cnt:0 },
+      { name: "Halyk Bank",
+        off:true,
+        id:14,
+        path:"http://hbg.ge",
+        parent_tag:"#timer" },
       { name: "Silk Road Bank",
         id:15,
         path:"http://www.silkroadbank.ge/eng/home",
@@ -431,7 +465,8 @@ class Rates
         child_tag:"> div",
         child_tag_count:0,
         position:[0, 0, 0],
-        threshold: 9,          
+        threshold: 9,   
+        exclude: ["AZN"], # when currency is temporarily unavailable 
         cnt:0,
         script: true,
         script_callback: lambda {|script, bank| 
@@ -476,29 +511,36 @@ class Rates
           end
           return items
         } },
+      # previous version it is off now        
+      # { name: "Alpha Express",
+      #   id:22,
+      #   type: :other,
+      #   path:"https://alpha-express.ge/en",
+      #   parent_tag:"#currency .values table tr",
+      #   child_tag:"td",
+      #   child_tag_count:3,
+      #   position:[0, 1, 2],
+      #   threshold: 4,          
+      #   cnt:0,
+      #   script:true,
+      #   script_callback: lambda {|script, bank| 
+      #     items = []
+      #     script.each do |item|
+      #       c = item.css(bank[:child_tag])
+      #       if c.length == bank[:child_tag_count] && c[1].css("i").length > 0 && c[1].css("i").attr("class").value.index("fa-dollar").nil?
+      #         items.push([swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+      #       end
+      #     end
+      #     return items
+      #   },
+      #   ssl: true },        
       { name: "Alpha Express",
-          id:22,
-          type: :other,
-          path:"https://alpha-express.ge/en",
-          parent_tag:"#currency .values table tr",
-          child_tag:"td",
-          child_tag_count:3,
-          position:[0, 1, 2],
-          threshold: 4,          
-          cnt:0,
-          script:true,
-          script_callback: lambda {|script, bank| 
-            items = []
-            script.each do |item|
-              c = item.css(bank[:child_tag])
-              if c.length == bank[:child_tag_count] && c[1].css("i").length > 0 && c[1].css("i").attr("class").value.index("fa-dollar").nil?
-                items.push([swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-              end
-            end
-            return items
-          },
-          ssl: true },
-          
+        off: true,
+        id:22,
+        type: :other,
+        path:"https://alpha-express.ge/ge",
+        parent_tag:".cards a[href='#currency']",
+        ssl: true },
         # not available banks
         #---------------ISBANK Georgia - ISBK - http://www.isbank.ge/eng/default.aspx - no currency info
         #---------------Ziraat Bank" Tbilisi - TCZB - http://ziraatbank.ge/retail-banking-services/currency-exchange - no currency info
@@ -513,7 +555,7 @@ class Rates
 
     # nbg -----------------------------------------------------------------------
       begin
-        bank = banks[0]
+        bank = banks[0]        
         Rate.transaction do      
           agent = Mechanize.new
           page = Nokogiri::XML(agent.get(bank[:path]).content) # open(bank[:path]))
@@ -524,16 +566,29 @@ class Rates
           date = Date.strptime(date, "%Y-%m-%d")
 
           items = Nokogiri::HTML(page.at_xpath('//item//description').text).css('tr')
-        
+
+          if bank[:exclude].present? && bank[:exclude].is_a?(Array) # when exclude has currency that should be excluded temporarily then threshold shoul be changed
+            bank[:orig_threshold] = bank[:threshold]
+            bank[:threshold] -= bank[:exclude].length
+          else
+            bank[:exclude] = []
+          end
+
           cnt = 0
           items.each do |item|
             c = item.css(bank[:child_tag])            
             if(c.length == bank[:child_tag_count])
               d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), 1]
-              if check_rates(d[0], d[1], d[2])
-                Rate.create_or_update(date, d[0], d[1], nil, nil, bank[:id])
-                cnt += 1
-              end
+              if bank[:exclude].include? d[0]
+                if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
+                  cnt += 1
+                end                  
+              else
+                if check_rates(d[0], d[1], d[2])
+                  Rate.create_or_update(date, d[0], d[1], nil, nil, bank[:id])
+                  cnt += 1
+                end  
+              end         
             end
           end          
           bank[:cnt] = cnt
@@ -548,7 +603,8 @@ class Rates
     # loop each bank, and scrape data based on array of banks options
     banks.each do |bank|
       next if bank[:id] == 1
-      #next if bank[:id] != 9
+      (is_back(bank); next;) if (bank[:off].present? && bank[:off])
+      #next if (bank[:id] != 14 || bank[:id] != 22)
       begin
         page = nil
         agent = Mechanize.new
@@ -558,6 +614,13 @@ class Rates
         #page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE)) #else #page = Nokogiri::HTML(open(bank[:path]))
         page = Nokogiri::HTML(agent.get(bank[:path]).content)
 
+        if bank[:exclude].present? && bank[:exclude].is_a?(Array) # when exclude has currency that should be excluded temporarily then threshold shoul be changed
+          bank[:orig_threshold] = bank[:threshold]
+          bank[:threshold] -= bank[:exclude].length
+        else
+          bank[:exclude] = []
+        end
+
         Rate.transaction do
           items = []
           cnt = 0
@@ -565,10 +628,16 @@ class Rates
             if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")              
               items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)  
               items.each do |d|
-                if check_rates(d[0], d[1], d[2])
-                  Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
-                  cnt += 1
-                end
+                if bank[:exclude].include? d[0] # whole block can be optimised, cause duplication here and below
+                  if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
+                    cnt += 1
+                  end                  
+                else
+                  if check_rates(d[0], d[1], d[2])
+                    Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                    cnt += 1
+                  end  
+                end                
               end      
             end
           else 
@@ -579,9 +648,15 @@ class Rates
               #pp c.length
               if(c.length == bank[:child_tag_count])
                 d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
-                if check_rates(d[0], d[1], d[2])
-                  Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
-                  cnt += 1
+                if bank[:exclude].include? d[0]
+                  if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
+                    cnt += 1
+                  end                  
+                else
+                  if check_rates(d[0], d[1], d[2])
+                    Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                    cnt += 1
+                  end  
                 end
               end
             end
@@ -598,6 +673,7 @@ class Rates
     # loop each bank which had an exception
     banks.each do |bank|
       next if (bank[:id] == 1 || !bank[:e].present?)
+      (puts "second blah"; next;) if (bank[:off].present? && bank[:off])
       bank.delete :e
       begin
         page = nil
@@ -608,6 +684,13 @@ class Rates
         #page = Nokogiri::HTML(open(bank[:path], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE)) #else #page = Nokogiri::HTML(open(bank[:path]))
         page = Nokogiri::HTML(agent.get(bank[:path]).content)
 
+        if bank[:exclude].present? && bank[:exclude].is_a?(Array) # when exclude has currency that should be excluded temporarily then threshold shoul be changed
+          bank[:threshold] = bank[:orig_threshold]
+          bank[:threshold] -= bank[:exclude].length
+        else
+          bank[:exclude] = []
+        end
+
         Rate.transaction do
           items = []
           cnt = 0
@@ -615,9 +698,15 @@ class Rates
             if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")              
               items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)  
               items.each do |d|
-                if check_rates(d[0], d[1], d[2])
-                  Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
-                  cnt += 1
+                if bank[:exclude].include? d[0]
+                  if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
+                    cnt += 1
+                  end                  
+                else
+                  if check_rates(d[0], d[1], d[2])
+                    Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                    cnt += 1
+                  end  
                 end
               end      
             end
@@ -629,9 +718,15 @@ class Rates
               #pp c.length
               if(c.length == bank[:child_tag_count])
                 d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)]
-                if check_rates(d[0], d[1], d[2])
-                  Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
-                  cnt += 1
+                if bank[:exclude].include? d[0]
+                  if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
+                    cnt += 1
+                  end                  
+                else
+                  if check_rates(d[0], d[1], d[2])
+                    Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
+                    cnt += 1
+                  end  
                 end
               end
             end
@@ -676,6 +771,16 @@ class Rates
       ScraperMailer.exception(exception_list).deliver if exception_list.any?
       ScraperMailer.unexpected(unexpected_behavior_list).deliver if unexpected_behavior_list.any?
       ScraperMailer.report(succeeded_list, unexpected_behavior_list, exception_list).deliver if succeeded_list_send
+
+
+      returned_banks_list = []
+      @returned_banks.each {|bank_id|
+        bank = banks.select{|x| x[:id] == bank_id }.first
+        if bank.present?
+          returned_banks_list.push(bank[:name])
+        end
+      }
+      ScraperMailer.returned_banks(returned_banks_list).deliver if returned_banks_list.any?
 
     rescue  Exception => e
       ScraperMailer.sending_failed(e).deliver
