@@ -266,8 +266,8 @@ This is a short description on how to use this repo as the start of a new projec
 
 
 ## Change Log
-### 14 January 2016
+#### 14 January 2016
 * Correcting currency when it has no number after decimal point (e.g. 9. will be corrected to 9.0)
-* Added ability to temporaly turn off currency for bank, was created due bank was not updating AZN and it was 0.00
+* Added ability to temporarily turn off currency for bank, was created due bank was not updating AZN and it was 0.00
 Will send message if currency will be corrected. Is set via :exclude field which is an array of currency names that should be excluded
-* Added ability to temporaly turn off bank with :off field and set checks to send message if bank site was somehow changed
+* Added ability to temporarily turn off bank with :off field set to true and :path and :parent_tag to appropriate that will show future changes on site. If bank site was updated then message will be sended
