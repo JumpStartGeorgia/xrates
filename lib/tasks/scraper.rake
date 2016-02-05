@@ -376,8 +376,8 @@ class Rates
         path:"http://www.halykbank.ge/en",
         parent_tag:"div.currency p",
         child_tag:"span",
-        child_tag_count:4,
-        position:[0, 2, 1],
+        child_tag_count:3,
+        position:[0, 1, 2],
         threshold: 4,  
         cnt:0 },
       # { name: "Halyk Bank",
@@ -603,7 +603,7 @@ class Rates
     banks.each do |bank|
       next if bank[:id] == 1
       (is_back(bank); next;) if (bank[:off].present? && bank[:off])
-      #next if (bank[:id] != 14 || bank[:id] != 22)
+      #next if (bank[:id] != 14) # || bank[:id] != 22
       begin
         page = nil
         agent = Mechanize.new
