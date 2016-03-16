@@ -1931,7 +1931,27 @@ m = v.api_methods.create(permalink: 'errors', sort_order: 7, public: true)
 
 m = v.api_methods.create(permalink: 'request_errors', sort_order: 8, public: true)
   m.api_method_translations.create(locale: 'en', title: 'Request errors', content: '<p>Request that can not be processed by application will respond as json object with list of errors and description of them</p>
-<p>The return object is a JSON array of errors in "errors" property with the following information:</p>
+<p>The return object is a JSON object with properties:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+    <thead>
+        <tr>
+            <th>Parameter</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>valid</td>
+            <td>property reflects state of request. Possible values true|false, if request was processed without error then true is set, else false
+and you need to check errors property to find reason</td>
+        </tr>
+        <tr>
+            <td>errors</td>
+            <td>array of errors that was raised while processing request</td>
+        </tr>
+    </tbody>
+</table>
+<p><b>Errors</b> properties are:</p>
 <table class="table table-bordered table-hover table-nonfluid">
     <thead>
         <tr>
@@ -1970,7 +1990,27 @@ m = v.api_methods.create(permalink: 'request_errors', sort_order: 8, public: tru
 }</pre>
 ')
   m.api_method_translations.create(locale: 'ka', title: 'Request errors', content: '<p>Request that can not be processed by application will respond as json object with list of errors and description of them</p>
-<p>The return object is a JSON array of errors in "errors" property with the following information:</p>
+<p>The return object is a JSON object with properties:</p>
+<table class="table table-bordered table-hover table-nonfluid">
+    <thead>
+        <tr>
+            <th>Parameter</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>valid</td>
+            <td>property reflects state of request. Possible values true|false, if request was processed without error then true is set, else false
+and you need to check errors property to find reason</td>
+        </tr>
+        <tr>
+            <td>errors</td>
+            <td>array of errors that was raised while processing request</td>
+        </tr>
+    </tbody>
+</table>
+<p><b>Errors</b> properties are:</p>
 <table class="table table-bordered table-hover table-nonfluid">
     <thead>
         <tr>
