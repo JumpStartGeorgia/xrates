@@ -78,15 +78,16 @@ class Api::V1Controller < ApplicationController
   # required params: currency
   # optional params: start_date, end_date
   def nbg_rates
+    data = { valid: true } # assume that at start it is failing
+    # http://localhost:3000/en/api/v1/nbg_rates?currency=EUR&start_date=1461758741831&end_date=1457870734966
     params[:currency] ||= 'USD'
-
+    flag = true
     @errors = []
     start_date = to_date('start_date', true)
     end_date = to_date('end_date', true)
     validate_dates(start_date, end_date)
 
     if !@errors.any?
-      data = { valid: true, result: []}
       result = []
       @currencies = Currency.data
       flag = false
@@ -109,6 +110,7 @@ class Api::V1Controller < ApplicationController
       @errors.push({ field: 'currency', message: t('app.msgs.missing_data_currency') })
     end
 
+
     if @errors.any?
       data['errors'] = @errors
       data['valid'] = false
@@ -126,7 +128,7 @@ class Api::V1Controller < ApplicationController
 
   # get list of commercial banks
   def commercial_banks
-    data = { valid: true}
+    data = { valid: true }
     template = {code: nil, name: nil, currencies: nil}
 
     data[:results] = []
@@ -161,7 +163,7 @@ class Api::V1Controller < ApplicationController
   # required params: currency
   def commercial_banks_with_currency
     params[:currency] ||= 'USD'
-    data = { valid: true}
+    data = { valid: true }
     template = {code: nil, name: nil}
     @errors = []
 
