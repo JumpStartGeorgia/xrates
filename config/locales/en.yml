@@ -144,7 +144,6 @@ en:
       success_updated: "%{obj} was successfully updated."
       missing_data_currency: Missing data for currency
       currency_does_not_exist: "Currency %{obj} is not exist"
-      currency_is_not_valid: "Currency is not valid"
       currency_not_recognized: "The provided currency is not recognized"
       greater_than_zero: 'Amount should be greater than 0.'
       currency_directions: 'Direction can be 0 or 1 - 1: GEL -> Currency, 0: Currency -> GEL.'

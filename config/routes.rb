@@ -33,9 +33,10 @@ BootstrapStarter::Application.routes.draw do
       match "/v1/commercial_bank_rates" => "v1#commercial_bank_rates", as: 'v1_commercial_bank_rates', :via => :get, :defaults => { :format => 'json' }
 
       match "/v1/calculator" => "v1#calculator", as: 'v1_calculator', :via => :get, :defaults => { :format => 'json' }
+      match "/v1/errors" => "v1#errors", as: 'v1_errors', :via => :get, :defaults => { :format => 'json' }
 
-    end    
-    
+    end
+
     # root pages
     match "about" => "root#about", as: 'about', :via => :get
     match "data_download" => "root#data_download", as: 'data_download', :via => :get, :defaults => { :format => 'csv' }

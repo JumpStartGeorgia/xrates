@@ -144,7 +144,6 @@ ka:
       success_updated: "%{obj} განახლებულია."
       missing_data_currency: "ვალუტის შესახებ მონაცემები არ მოიძებნა"
       currency_does_not_exist: "ვალუტა %{obj} არ არსებობს"
-      currency_is_not_valid: "არასწორი ვალუტა"
       currency_not_recognized: "მოცემული ვალუტა არ მოიძებნა"
       greater_than_zero: "თანხა უნდა იყოს 0-ზე მეტი."
       currency_directions: "მიმართულება შეიძლება იყოს 0 ან 1 - 1: GEL -> ვალუტა, 0: ვალუტა-> GEL."

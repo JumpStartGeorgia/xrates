@@ -51,7 +51,7 @@ class Api::V1Controller < ApplicationController
     if @errors.any?
       data[:errors] = @errors
       data[:valid] = false
-    else    
+    else
       data[:results] = []
       nbg_currencies = Rate.nbg_currencies.by_period(start_date, end_date).map{|x| x.currency}
       currencies = Currency.data
@@ -101,20 +101,20 @@ class Api::V1Controller < ApplicationController
             flag = true
           end
         else
-          @errors.push({ field: 'currency', message: t('app.msgs.currency_does_not_exist', :obj => cur_item) })
+          error("currency_does_not_exist", { pars: [cur_item]})
         end
       }
     end
 
-    if !flag 
-      @errors.push({ field: 'currency', message: t('app.msgs.missing_data_currency') })
+    if !flag
+      error("missing_data_currency")
     end
 
 
     if @errors.any?
       data['errors'] = @errors
       data['valid'] = false
-    else    
+    else
       data['result'] = result
     end
 
@@ -170,13 +170,13 @@ class Api::V1Controller < ApplicationController
     currency = Currency.by_code(params[:currency])
 
     if currency.blank?
-      @errors.push({ field: 'currency', message: t('app.msgs.currency_is_not_valid') })
+      error("currency_is_not_valid")
     end
 
     if @errors.any?
       data['errors'] = @errors
       data['valid'] = false
-    else    
+    else
       data[:results] = []
       banks = Bank.not_nbg.sorted
       bank_currencies = Rate.currency_by_bank
@@ -219,7 +219,7 @@ class Api::V1Controller < ApplicationController
     result = []
 
     if !@currency_codes.has_key?(currency)
-      @errors.push({ field: 'currency', message: t('app.msgs.currency_not_recognized') })
+      error("currency_not_recognized")
     end
     validate_dates(start_date, end_date)
 
@@ -227,7 +227,7 @@ class Api::V1Controller < ApplicationController
       ratio = @currency_codes[currency]
       if ratio != nil && banks.any?
         banks.each{|code|
-          b = Bank.find_by_code(code)            
+          b = Bank.find_by_code(code)
             if b.id == 1
               x = Rate.rates_nbg(currency, b.id)
               if x.present?
@@ -243,7 +243,7 @@ class Api::V1Controller < ApplicationController
                 result << { id: code + '_' + currency + '_S', code: code, name: (b.name + " " + " (" + b.code + ")"), currency: currency, rate_type: 'sell', color: b.sell_color, dashStyle: 'shortdash', legendIndex: 2*b.order+1, data: x }
               end
             end
-          
+
         }
       end
     end
@@ -251,7 +251,7 @@ class Api::V1Controller < ApplicationController
     if @errors.any?
       data['errors'] = @errors
       data['valid'] = false
-    else    
+    else
       data['result'] = result
     end
 
@@ -273,9 +273,9 @@ class Api::V1Controller < ApplicationController
     end_date = to_date('end_date')
 
     data = { valid: true }
-    @errors.push({ field: 'amount', message: t('app.msgs.greater_than_zero') }) if(amount <= 0)
-    @errors.push({ field: 'currency', message: t('app.msgs.currency_is_not_valid') }) if(!@currency_codes.has_key?(cur))
-    @errors.push({ field: 'direction', message: t('app.msgs.currency_directions') }) if !(dir == '0' || dir == '1')
+    error("greater_than_zero") if(amount <= 0)
+    error("currency_is_not_valid") if(!@currency_codes.has_key?(cur))
+    error("currency_directions") if !(dir == '0' || dir == '1')
     validate_dates(start_date, end_date)
 
     # convert direction to int
@@ -290,9 +290,9 @@ class Api::V1Controller < ApplicationController
       data[:currency] = {from: dir == 1 ? "GEL" : "#{cur}", to: dir == 1 ? "#{cur}" : "GEL"}
       data[:dates] = {start: {utc: rates.first[0], date: start_date}, end: {utc: rates.last[0], date: end_date}}
       if dir == 1 # gel -> currency
-        data[:rates] = {start: 1/rates.first[1], end: 1/rates.last[1]} 
+        data[:rates] = {start: 1/rates.first[1], end: 1/rates.last[1]}
       else # currency -> gel
-        data[:rates] = {start: rates.first[1], end: rates.last[1]} 
+        data[:rates] = {start: rates.first[1], end: rates.last[1]}
       end
       data[:amounts] = {original: amount, start: data[:rates][:start] * amount, end: data[:rates][:end] * amount}
       data[:amounts][:difference] = data[:amounts][:end] - data[:amounts][:start]
@@ -303,7 +303,36 @@ class Api::V1Controller < ApplicationController
     end
   end
 
+  def errors
+    data = { valid: true, results: [] }
 
+    ERRORS.each do |e|
+      name = e[:name]
+      message = nil
+      if e[:message].present?
+        message = e[:message]
+      elsif e[:pars].present? && e[:pars].length > 0 && e[:sample].present? && e[:pars].length == e[:sample].length
+        opts = {}
+        e[:pars].each_with_index {|d,i|
+          opts[d] = e[:sample][i]
+        }
+        message = t("#{MSG_PATH}#{name}", opts)
+      else
+        message = t("#{MSG_PATH}#{name}")
+      end
+
+      data[:results] << {
+                          code: e[:code],
+                          name: name,
+                          field: e[:field].present? ? e[:field] :nil,
+                          message: message
+                        }
+    end
+
+    respond_to do |format|
+      format.json { render json: data, :callback => params[:callback] }
+    end
+  end
 
 
 private
@@ -320,9 +349,9 @@ private
         v = Time.at(v/(v.to_s.length > 10 ? 1000.0 : 1.0)).to_date
       else
         raise
-      end  
-    rescue  
-      @errors.push({ field: p,  message: t('app.msgs.invalid_field', :obj => p.humanize) }) if !r
+      end
+    rescue
+      error("invalid_field", { field: p, pars: [p.humanize]}) if !r
       nil
     end
   end
@@ -333,11 +362,13 @@ private
   def validate_dates(start_date, end_date)
     if start_date.present? && end_date.present?
       if end_date < start_date
-        @errors.push({ field: 'dates', message: t('app.msgs.start_less_then_end_date') })
+        error("start_less_then_end_date")
+        #@errors.push({ field: 'dates', message: t('app.msgs.start_less_then_end_date') })
       end
 
       if start_date.year < 2000
-        @errors.push({ field: 'start_date', message: t('app.msgs.start_date_start_point') })
+        error("start_date_start_point")
+        #@errors.push({ field: 'start_date', message: t('app.msgs.start_date_start_point') })
       end
     end
   end
@@ -352,9 +383,118 @@ private
       g.referer(request.env['HTTP_REFERER'])
       g.ip(request.remote_ip)
       # page view format is (title, url)
-      g.page_view("api:v1:#{params[:action]}", request.fullpath) 
+      g.page_view("api:v1:#{params[:action]}", request.fullpath)
     end
-  end  
-  
+  end
+  ERRORS = [
+  # General errors
+    {
+      code: 1000,
+      name: "error",
+      message: "Undocumented error"
+    },
+    {
+      code: 1001,
+      name: "invalid_field",
+      pars: [:obj],
+      sample: ["[Object]"]
+    },
+  # Field specific errors
+    {
+      code: 2001,
+      name: "currency_does_not_exist",
+      field: 'currency',
+      pars: [:obj],
+      sample: ["[USD]"]
+    },
+    {
+      code: 2002,
+      name: "missing_data_currency",
+      field: 'currency',
+    },
+    {
+      code: 2003,
+      name: "currency_is_not_valid",
+      field: 'currency',
+    },
+    {
+      code: 2004,
+      name: "currency_not_recognized",
+      field: 'currency',
+    },
+    {
+      code: 2005,
+      name: "currency_is_not_valid",
+      field: 'currency',
+    },
+  # Field validation errors
+    {
+      code: 2501,
+      name: "greater_than_zero",
+      field: 'amount',
+    },
+    {
+      code: 2502,
+      name: "currency_directions",
+      field: 'direction',
+    },
+    {
+      code: 2503,
+      name: "start_less_then_end_date",
+      field: 'start_date,end_date',
+    },
+    {
+      code: 2504,
+      name: "start_date_start_point",
+      field: 'start_date',
+    },
+  ]
+  MSG_PATH = "app.msgs."
 
+  def error(name, options = {})
+    # options = { field: 'string', pars: []}
+    begin
+
+      # if name != "error"
+      #   raise 'An error has occured'
+      # end
+
+      has_error = false
+      meta = ERRORS.select {|x| x[:name] == name }
+      if(meta.length == 1)
+
+        meta = meta[0]
+        code = meta[:code]
+        field = nil
+        message = nil
+
+        if meta[:field].present?
+          field = meta[:field]
+        elsif options[:field].present?
+          field = options[:field]
+        else
+          has_error = true
+        end
+
+        if meta[:message].present?
+          message = meta[:message]
+        elsif meta[:pars].present? && meta[:pars].length > 0 && options[:pars].present? && meta[:pars].length == options[:pars].length
+          opts = {}
+          meta[:pars].each_with_index {|d,i|
+            opts[d] = options[:pars][i]
+          }
+          message = t("#{MSG_PATH}#{name}", opts)
+        else
+          message = t("#{MSG_PATH}#{name}")
+        end
+
+        @errors.push({ code: code, field: field, message: message })
+
+        has_error = false
+      end
+      error("error") if has_error
+    rescue
+      error("error")
+    end
+  end
 end
