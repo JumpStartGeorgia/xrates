@@ -207,8 +207,7 @@ class Api::V1Controller < ApplicationController
   # optional params: start_date, end_date
   def commercial_bank_rates
     currency = params[:currency].present? ? params[:currency].upcase : nil
-    bank_codes = params[:bank].split(',').map{|x| x.upcase}
-    banks =  Bank.all.map{|x| x.code } & bank_codes
+    banks = params[:bank].present? ? params[:bank].split(',').map{|x| x.upcase } :  Bank.all.map{|x| x.code }
 
     @errors = []
     start_date = params[:start_date].present? ? to_date('start_date') : nil
