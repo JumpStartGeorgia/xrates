@@ -36,7 +36,7 @@ class AddApiMethodsForError < ActiveRecord::Migration
                 </tr>
                 <tr>
                     <td>field</td>
-                    <td>The field on which the error occurred. Possible values are null, the name of 1 or more fields separated by a comma.</td>
+                    <td>The field on which the error occurred. Possible values are null, the name of one or more fields separated by a comma.</td>
                 </tr>
                 <tr>
                     <td>message</td>
@@ -108,7 +108,7 @@ class AddApiMethodsForError < ActiveRecord::Migration
                 </tr>
                 <tr>
                     <td>field</td>
-                    <td>The field on which the error occurred. Possible values are null, the name of 1 or more fields separated by a comma.</td>
+                    <td>The field on which the error occurred. Possible values are null, the name of one or more fields separated by a comma.</td>
                 </tr>
                 <tr>
                     <td>message</td>
@@ -185,7 +185,7 @@ class AddApiMethodsForError < ActiveRecord::Migration
                   </tr>
                   <tr>
                       <td>field</td>
-                      <td>The field on which the error occurred. Possible values are null, the name of 1 or more fields separated by a comma.</td>
+                      <td>The field on which the error occurred. Possible values are null, the name of one or more fields separated by a comma.</td>
                   </tr>
                   <tr>
                       <td>message</td>
@@ -244,7 +244,7 @@ class AddApiMethodsForError < ActiveRecord::Migration
                   </tr>
                   <tr>
                       <td>field</td>
-                      <td>The field on which the error occurred. Possible values are null, the name of 1 or more fields separated by a comma.</td>
+                      <td>The field on which the error occurred. Possible values are null, the name of one or more fields separated by a comma.</td>
                   </tr>
                   <tr>
                       <td>message</td>
