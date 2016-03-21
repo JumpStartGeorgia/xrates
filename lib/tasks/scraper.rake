@@ -672,7 +672,7 @@ class Rates
     # loop each bank which had an exception
     banks.each do |bank|
       next if (bank[:id] == 1 || !bank[:e].present?)
-      (puts "second blah"; next;) if (bank[:off].present? && bank[:off])
+      (next;) if (bank[:off].present? && bank[:off])
       bank.delete :e
       begin
         page = nil
