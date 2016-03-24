@@ -210,11 +210,18 @@ class Api::V1Controller < ApplicationController
     banks = params[:bank].present? ? params[:bank].split(',').map{|x| x.upcase } :  Bank.all.map{|x| x.code }
 
     @errors = []
+    if params[:bank].present?
+      bbs = []
+      banks.each{ |t|
+        bbs << t if Bank.find_by_code(t).nil?
+      }
+      @errors.push({ field: 'banks',  message: t('app.msgs.bank_not_found', :obj => bbs.join(", ")) }) if bbs.present?
+    end
     start_date = params[:start_date].present? ? to_date('start_date') : nil
     end_date =  params[:end_date].present? ? to_date('end_date') : nil
 
 
-    data = { valid: true}
+    data = { valid: true }
     result = []
 
     if !@currency_codes.has_key?(currency)
