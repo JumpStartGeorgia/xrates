@@ -411,7 +411,7 @@ private
       name: "currency_does_not_exist",
       field: 'currency',
       pars: [:obj],
-      sample: ["[USK]"]
+      sample: ["[CUR]"]
     },
     {
       code: 2002,
@@ -428,7 +428,7 @@ private
       name: "bank_not_found",
       field: 'banks',
       pars: [:obj],
-      sample: ["[BAGO]"]
+      sample: ["[BANK]"]
     },
   # Field validation errors
     {

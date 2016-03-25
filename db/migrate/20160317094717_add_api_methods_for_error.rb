@@ -117,7 +117,7 @@ class AddApiMethodsForError < ActiveRecord::Migration
             {
               code: 1000,
               field: null,
-              message: "Undocumented error"
+              message: "გაუთვალისწინებელი ხარვეზი"
             },
             {
               code: 1001,
