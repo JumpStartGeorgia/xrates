@@ -60,7 +60,7 @@ if PageContent.where(id: 1).blank?
 Between November 2014 and February 2015, the lari depreciated by 18.8%. While it is unclear exactly why the lari is depreciated, it is clear that the unstable nature of the lari is having an impact on peoples lives. During that same period, the net worth of every 1,000 lari decreased from 558 USD to 456 USD, or a total of 102 USD. While we don\'t currently have data describing the number of people who have loans, most loans are tied to the dollar and most people\'s salaries are in lari. This is making it incredibly difficult for people to make their scheduled mortgage and other loan payments, among other difficulties.
 </p>
 <p>
-The Lari Explorer is the evolution of our <a href="http://feradi.info/en/visualizations/the-celery-1-the-pilot-the-georgian-champion" target="_blank">comic</a> and previous <a href="http://feradi.info/en/visualizations/jumpstarts-winter-2014-2015-lari-depreciation-calculator" target="_blank">Winter 2014-2015 Lari Depreciation Calculator</a> and adds more features for people to explore changes in the lari over a period of their choosing and compare those changes with other currencies. It pulls the lastest data from the <a href="https://www.nbg.gov.ge/index.php?m=2&lng=eng" target="_blank">National Bank of Georgia</a> on a nightly basis. 
+The Lari Explorer is the evolution of our <a href="http://feradi.info/en/visualizations/the-celery-1-the-pilot-the-georgian-champion" target="_blank">comic</a> and previous <a href="http://feradi.info/en/visualizations/jumpstarts-winter-2014-2015-lari-depreciation-calculator" target="_blank">Winter 2014-2015 Lari Depreciation Calculator</a> and adds more features for people to explore changes in the lari over a period of their choosing and compare those changes with other currencies. It pulls the lastest data from the <a href="https://www.nbg.gov.ge/index.php?m=2&lng=eng" target="_blank">National Bank of Georgia</a> on a nightly basis.
 </p>
 <p>
 Similarly, we are pulling in exchange data from four banks, but intend to increase that number soon. By aggregating bank exchange rates in one place, we hope to make it easier for people to compare them and more easily make better decisions. In the future, we will strive to continue to add more banks and improve the relevancy of this component of the Lari Explorer.
@@ -995,7 +995,7 @@ if v.present? && v.api_methods.empty?
         [
           1426896000000,
           2.252000093460083
-        ]      
+        ]
       ]
     }
   ]
@@ -1107,7 +1107,7 @@ if v.present? && v.api_methods.empty?
         [
           1426896000000,
           2.252000093460083
-        ]      
+        ]
       ]
     },
     {
@@ -1157,7 +1157,7 @@ if v.present? && v.api_methods.empty?
           2.244999885559082
         ]
       ]
-    }  
+    }
   ]
 }</pre>
 <p> </p>
@@ -1301,7 +1301,7 @@ if v.present? && v.api_methods.empty?
         [
           1426896000000,
           2.252000093460083
-        ]      
+        ]
       ]
     }
   ]
@@ -1413,7 +1413,7 @@ if v.present? && v.api_methods.empty?
         [
           1426896000000,
           2.252000093460083
-        ]      
+        ]
       ]
     },
     {
@@ -1463,12 +1463,10 @@ if v.present? && v.api_methods.empty?
           2.244999885559082
         ]
       ]
-    }  
+    }
   ]
 }</pre>
 <p> </p>')
-  
-
   m = v.api_methods.create(permalink: 'calculator', sort_order: 6, public: true)
   m.api_method_translations.create(locale: 'en', title: 'Depreciation Calculator', content: '<p>Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.</p>
 <h2>URL</h2>

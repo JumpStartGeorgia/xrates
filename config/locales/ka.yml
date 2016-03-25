@@ -144,7 +144,6 @@ ka:
       success_updated: "%{obj} განახლებულია."
       missing_data_currency: "ვალუტის შესახებ მონაცემები არ მოიძებნა"
       currency_does_not_exist: "ვალუტა %{obj} არ არსებობს"
-      currency_is_not_valid: "არასწორი ვალუტა"
       currency_not_recognized: "მოცემული ვალუტა არ მოიძებნა"
       bank_not_found: "ბანკი %{obj} არ არსებობს"      
       greater_than_zero: "თანხა უნდა იყოს 0-ზე მეტი."
@@ -152,6 +151,7 @@ ka:
       start_less_then_end_date: "გთხოვთ დარწმუნდეთ, რომ საწყისი თარიღი დასრულების თარიღზე ნაკლებია"
       start_date_start_point: "საწყისი თარიღი უნდა იყოს '2000-01-01'-ის შემდეგ"
       invalid_field: "%{obj} ველი არასწორია"
+      general_error: "Undocumented error"
   layouts:
     application:
       toggle: "ნავიგაციის ჩართვა/გამორთვა"

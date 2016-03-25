@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150904065648) do
+ActiveRecord::Schema.define(:version => 20160317094717) do
 
   create_table "api_method_translations", :force => true do |t|
     t.integer  "api_method_id"
