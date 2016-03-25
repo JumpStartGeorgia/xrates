@@ -170,7 +170,7 @@ class Api::V1Controller < ApplicationController
     currency = Currency.by_code(params[:currency])
 
     if currency.blank?
-      error("currency_is_not_valid")
+      error("currency_not_recognized")
     end
 
     if @errors.any?
@@ -274,7 +274,7 @@ class Api::V1Controller < ApplicationController
 
     data = { valid: true }
     error("greater_than_zero") if(amount <= 0)
-    error("currency_is_not_valid") if(!@currency_codes.has_key?(cur))
+    error("currency_not_recognized") if(!@currency_codes.has_key?(cur))
     error("currency_directions") if !(dir == '0' || dir == '1')
     validate_dates(start_date, end_date)
 
@@ -323,7 +323,7 @@ class Api::V1Controller < ApplicationController
 
       data[:results] << {
                           code: e[:code],
-                          name: name,
+                          # name: name,
                           field: e[:field].present? ? e[:field] :nil,
                           message: message
                         }
@@ -390,8 +390,8 @@ private
   # General errors
     {
       code: 1000,
-      name: "error",
-      message: "Undocumented error"
+      name: "general_error",
+      #message: "Undocumented error"
     },
     {
       code: 1001,
@@ -414,17 +414,7 @@ private
     },
     {
       code: 2003,
-      name: "currency_is_not_valid",
-      field: 'currency',
-    },
-    {
-      code: 2004,
       name: "currency_not_recognized",
-      field: 'currency',
-    },
-    {
-      code: 2005,
-      name: "currency_is_not_valid",
       field: 'currency',
     },
   # Field validation errors
@@ -492,9 +482,9 @@ private
 
         has_error = false
       end
-      error("error") if has_error
+      error("general_error") if has_error
     rescue
-      error("error")
+      error("general_error")
     end
   end
 end

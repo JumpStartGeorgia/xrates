@@ -150,6 +150,7 @@ en:
       start_less_then_end_date: 'Please make sure the start date is less than the end date'
       start_date_start_point: "The start date must occur after '2000-01-01'"
       invalid_field: "%{obj} field is invalid."
+      general_error: "Undocumented error"
   layouts:
     application:
       toggle: Toggle navigation

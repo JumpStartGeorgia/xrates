@@ -150,6 +150,7 @@ ka:
       start_less_then_end_date: "გთხოვთ დარწმუნდეთ, რომ საწყისი თარიღი დასრულების თარიღზე ნაკლებია"
       start_date_start_point: "საწყისი თარიღი უნდა იყოს '2000-01-01'-ის შემდეგ"
       invalid_field: "%{obj} ველი არასწორია"
+      general_error: "Undocumented error"
   layouts:
     application:
       toggle: "ნავიგაციის ჩართვა/გამორთვა"
