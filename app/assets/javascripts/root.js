@@ -254,7 +254,7 @@ $(function () {
 
     cur.p2.type = compare == "none" ? 0 : 1;
 
-    // for this code to work we need to paste 
+    // for this code to work we need to paste
     // if(typeof d["jsCompareValue"]!==undefined) {d.plotOptions.series.compare = d["jsCompareValue"];}
     // to highcharts export module in  getSVG before creating new Highcharts object
     chart.options["jsCompareValue"] = compare;
@@ -876,22 +876,19 @@ $(function () {
   }
   function c_chart_redraw (id)
   {
-    var chart = $("#c_chart").highcharts();
-    var type = cur.p3.type;
-    var id_b = id+"_B";
-    var id_s = id+"_S";
-    // buy
-    if(type == 0 || type == 1)
-    {
-      data.banks.rates[id_b]["id"] = id_b;
-      chart.addSeries(data.banks.rates[id_b], false, false);
-    }
-    // sell
-    if(type == 0 || type == 2)
-    {
-      data.banks.rates[id_s]["id"] = id_s;
-      chart.addSeries(data.banks.rates[id_s], false, false);
-    }
+    var chart = $("#c_chart").highcharts(),
+      type = cur.p3.type,
+      ids = [id+"_B", id+"_S"],
+      types = [1, 2];
+
+    ids.forEach(function (d, i){
+      if(type == 0 || type == types[i]) {
+        delete data.banks.rates[d].events; // fix for: Cannot read property 'getExtremes' of undefined
+        // for some reason highchart adds events that raise error on redraw
+        data.banks.rates[d]["id"] = d;
+        chart.addSeries(data.banks.rates[d], false, false);
+      }
+    });
   }
   function c_chart () {
     var output = {};
@@ -912,7 +909,7 @@ $(function () {
         inputStyle: { cursor: "pointer" },
         inputDateParser:function (v)
         {
-          v = $.datepicker.parseDate( "dd-M-yy", v);  
+          v = $.datepicker.parseDate( "dd-M-yy", v);
           return Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), 0, 0, 0, 0);
         },
         buttons: custom_buttons,
@@ -1004,7 +1001,7 @@ $(function () {
             output[s.userOptions.code]["color"] = t.color;
           }
           if(len==ind+1)
-          {            
+          {
             var item = output[nbg];
             var type = cur.p3.type;
             var ret = "<div class='tooltip-item nbg'><span class='l' style='color:"+item.color+";'>"+item.name + "</span><span class='r'  style='color:"+item.color+";'>" + reformat(item.rate, 3) + "</span></div>";
@@ -1062,7 +1059,7 @@ $(function () {
           .datepicker({
                 dateFormat: "dd-M-yy",
                 changeMonth: true,
-                changeYear: true,                
+                changeYear: true,
                 maxDate: "d",
                 gotoCurrent: true,
                 beforeShow: function (t) {
