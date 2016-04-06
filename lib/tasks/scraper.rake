@@ -100,14 +100,14 @@ class Rates
   def self.is_number? string
     true if Float(string) rescue false
   end
-  def self.swap(s)    
+  def self.swap(s)
     s = s.gsub(/[[:space:]]/, '').chomp.upcase
     swap = {"RUR" => "RUB", "TRL" => "TRY", "AZM" => "AZN", "AVD" => "AUD", "UKG" => "UAH"}
     return swap.key?(s) ? swap[s] : s
   end
   def self.n(s)
     s.gsub!(/[[:space:]]/, '') # remove all kind of spaces
-    s += "0" if s != "" && s[s.length-1] == "." # for cases when number is written without any number after dot but dot itself is there add 0 after dot(9. => 9.0)      
+    s += "0" if s != "" && s[s.length-1] == "." # for cases when number is written without any number after dot but dot itself is there add 0 after dot(9. => 9.0)
     return s
   end
   def self.check_rates(currency, buy, sell)
@@ -124,18 +124,18 @@ class Rates
       end
       page = Nokogiri::HTML(agent.get(bank[:path]).content)
 
-      elem = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.at_css(bank[:parent_tag])    
-      if elem.nil? 
+      elem = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.at_css(bank[:parent_tag])
+      if elem.nil?
         @returned_banks.push bank[:id]
         puts "#{bank[:name]} - is probably back"
       else
         puts "#{bank[:name]} - is off"
-      end      
-    
+      end
+
     #     end
     rescue  Exception => e
       puts "#{bank[:name]} - exceptoin occured for bank that is off #{e}"
-    end   
+    end
   end
 
   @currencies = []
@@ -151,7 +151,7 @@ class Rates
 
     #fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, captial:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
     #processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, capital:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
-    
+
     # array of banks options for scraping
     banks = [
       { name: "National Bank of Georgia",
@@ -162,7 +162,7 @@ class Rates
         child_tag_count:5,
         position:[0, 2, 0],
         threshold: 43,
-        cnt:0 },  
+        cnt:0 },
       { name: "Bank of Georgia",
         id:2,
         path:"http://bankofgeorgia.ge/ge/services/treasury-operations/exchange-rates",
@@ -171,7 +171,7 @@ class Rates
         child_tag_count:5,
         position:[1, 3, 4],
         threshold: 34,
-        cnt:0 },      
+        cnt:0 },
       { name: "TBC Bank",
         id:3,
         path:"http://www.tbcbank.ge/web/en/web/guest/exchange-rates",
@@ -181,9 +181,9 @@ class Rates
         position:[0, 0, 0],
         threshold: 17,
         cnt:0,
-        script: true, 
-        script_callback: lambda {|script, bank|           
-          script = script.text                
+        script: true,
+        script_callback: lambda {|script, bank|
+          script = script.text
           search_phrase = 'var tbcBankRatesJSON = eval("'
           start_index = script.index(search_phrase)
           script = script[start_index + search_phrase.length, script.length-1]
@@ -196,11 +196,11 @@ class Rates
             curr = swap(row["currencyCode"])
             if curr != 'GEL'
               c = row["refRates"].select{|x| x["refCurrencyCode"] == 'GEL'}.first
-              items.push([ curr, n(c["buyRate"].to_s), n(c["sellRate"].to_s)]) if c.present? 
+              items.push([ curr, n(c["buyRate"].to_s), n(c["sellRate"].to_s)]) if c.present?
             end
           }
           return items
-        } },      
+        } },
       { name: "Bank Republic",
         id:4,
         path:"https://www.br.ge/en/home",
@@ -212,7 +212,7 @@ class Rates
         cnt:0,
         ssl: true,
         script: true,
-        script_callback: lambda {|script, bank|   
+        script_callback: lambda {|script, bank|
           script = script.text
           search_phrase = 'var valRates = {'
           start_index = script.index(search_phrase)
@@ -227,7 +227,7 @@ class Rates
             if curr != 'GEL'
               items.push([ curr, n(rows[row]["kas"]["buy"].to_s), n(rows[row]["kas"]["sell"].to_s)])
             end
-          end          
+          end
           return items
         } },
       { name: "Liberty Bank",
@@ -239,10 +239,10 @@ class Rates
         position:[0, 1, 2],
         threshold: 4,
         cnt:0,
-        ssl: true },      
+        ssl: true },
       { name: "ProCredit Bank",
         id:6,
-        path:"http://www.procreditbank.ge/", 
+        path:"http://www.procreditbank.ge/",
         parent_tag: lambda { |page|
           return page.css('tr#right_table1 td.valuta').first.parent.parent.css("> tr")
         },
@@ -250,14 +250,14 @@ class Rates
         child_tag_count:3,
         position:[0, 1, 2],
         threshold: 3,
-        cnt:0 },     
+        cnt:0 },
       { name: "Cartu Bank",
         id:7,
-        path:"http://www.cartubank.ge/?lng=eng", 
-        parent_tag: lambda {|page|  
+        path:"http://www.cartubank.ge/?lng=eng",
+        parent_tag: lambda {|page|
           page.css("div.block_title").each do |item|
             if item.inner_text.strip == "Currency Rates (GEL)"
-              return item.parent.css("> table > tr")            
+              return item.parent.css("> table > tr")
             end
           end
         },
@@ -276,7 +276,7 @@ class Rates
         threshold: 8,
         cnt:0,
         script: true,
-        script_callback: lambda {|script, bank|  
+        script_callback: lambda {|script, bank|
           items = []
           script.each do |item|
             c = item.css(bank[:child_tag])
@@ -290,16 +290,16 @@ class Rates
         id:9,
         path:"http://progressbank.ge/ge/85/",
         parent_tag:".rates table tbody",
-        child_tag:"td", 
+        child_tag:"td",
         child_tag_count:2,
         position:[0, 0, 1],
         threshold: 4,
         cnt:0,
         script:true,
-        script_callback: lambda {|script, bank| 
+        script_callback: lambda {|script, bank|
           items = []
           mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
-          script.css("tr").each do |item|            
+          script.css("tr").each do |item|
             cur = mp[item.css("th > div").attr("class").value]
             c = item.css(bank[:child_tag])
             if cur.present? && c.length == bank[:child_tag_count]
@@ -318,7 +318,7 @@ class Rates
         threshold: 4,
         cnt:0,
         script: true,
-        script_callback: lambda {|script, bank|   
+        script_callback: lambda {|script, bank|
           script = script.text
           search_phrase = "window.KsbCurrencies = ["
           start_index = script.index(search_phrase)
@@ -329,7 +329,7 @@ class Rates
           items = []
           rows.each do |row|
             items.push([swap(row["FromCurrency"]), n(row["Buy"].to_s), n(row["Sell"].to_s)])
-          end          
+          end
           return items
         } },
       { name: "Basisbank",
@@ -340,24 +340,24 @@ class Rates
         child_tag_count:4,
         position:[0, 1, 2],
         threshold: 5,
-        cnt:0 },       
+        cnt:0 },
       { name: "Capital Bank",
-        id:12, 
+        id:12,
         path:"http://capitalbank.ge/en/Xml",
         parent_tag:".curr_wrapper ul.fi",
         child_tag:"li",
         child_tag_count:3,
         position:[0, 2, 1],
-        threshold: 15,        
+        threshold: 16,
         cnt:0,
         script: true,
-        script_callback: lambda {|script, bank|   
+        script_callback: lambda {|script, bank|
           items = []
           script.each do |item|
             c = item.css(bank[:child_tag])
             curr = swap(c[bank[:position][0]].text)
-            if(c.length == bank[:child_tag_count] && curr == swap(item["id"]))  
-              items.push([curr, n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])              
+            if(c.length == bank[:child_tag_count] && curr == swap(item["id"]))
+              items.push([curr, n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
             end
           end
           return items
@@ -369,7 +369,7 @@ class Rates
         child_tag:"td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 2,         
+        threshold: 2,
         cnt:0 },
       { name: "Halyk Bank",
         id:14,
@@ -378,7 +378,7 @@ class Rates
         child_tag:"span",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 4,  
+        threshold: 4,
         cnt:0 },
       # { name: "Halyk Bank",
       #   off:true,
@@ -392,7 +392,7 @@ class Rates
         child_tag:"td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 4,         
+        threshold: 4,
         cnt:0 },
       { name: "Pasha Bank",
         id:16,
@@ -401,7 +401,7 @@ class Rates
         child_tag:"td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 4,            
+        threshold: 4,
         cnt:0 },
       { name: "International Bank of Azerbaijan",
         id:17,
@@ -410,10 +410,10 @@ class Rates
         child_tag:"td",
         child_tag_count:11,
         position:[3, 5, 7],
-        threshold: 4,          
+        threshold: 4,
         cnt:0,
         script:true,
-        script_callback: lambda {|script, bank|   
+        script_callback: lambda {|script, bank|
           tmpItems = []
           script.css(bank[:parent_tag]).each do |item|
             if item.inner_text == "USD"
@@ -424,11 +424,11 @@ class Rates
           items = []
           tmpItems.each do |item|
             c = item.css(bank[:child_tag])
-            if c.length == bank[:child_tag_count]  
+            if c.length == bank[:child_tag_count]
               items.push([swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
             end
           end
-        
+
           return items } },
       { name: "Caucasus Development Bank Georgia",
         id:18,
@@ -437,10 +437,10 @@ class Rates
         child_tag:"> td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 3,          
+        threshold: 3,
         cnt:0,
         script:true,
-        script_callback: lambda {|page, bank|   
+        script_callback: lambda {|page, bank|
 
           html = page.inner_html
           index = html.index("<tr>") + 4
@@ -450,11 +450,11 @@ class Rates
           items = []
           rows.each do |item|
             c = item.css(bank[:child_tag])
-            if c.length == bank[:child_tag_count]  
+            if c.length == bank[:child_tag_count]
               items.push([swap(c[bank[:position][0]].css("img").attr("alt").value), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
             end
           end
-        
+
           return items } },
       { name: "Rico Credit",
         id:19,
@@ -464,19 +464,19 @@ class Rates
         child_tag:"> div",
         child_tag_count:0,
         position:[0, 0, 0],
-        threshold: 9,   
-        exclude: ["AZN"], # when currency is temporarily unavailable 
+        threshold: 9,
+        exclude: ["AZN"], # when currency is temporarily unavailable
         cnt:0,
         script: true,
-        script_callback: lambda {|script, bank| 
+        script_callback: lambda {|script, bank|
           items = []
           c = script.css(bank[:child_tag])
           c.each_with_index do |item, index|
-            if index > 2 
+            if index > 2
               if item.attr("class").index("curses").present?
                 items.push([swap(item.text), n(c[index+1].text), n(c[index+2].text)])
               end
-            end            
+            end
           end
           return items } },
       { name: "Crystal Microfinance Organization",
@@ -487,7 +487,7 @@ class Rates
         child_tag:"th, td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 4,          
+        threshold: 4,
         cnt:0 },
       { name: "Bonaco Microfinance Organization",
         id:21,
@@ -497,10 +497,10 @@ class Rates
         child_tag:".cur_title span, .cur_number span",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 3,          
+        threshold: 3,
         cnt:0,
         script:true,
-        script_callback: lambda {|script, bank| 
+        script_callback: lambda {|script, bank|
           items = []
           script.css("li").each do |item|
             c = item.css(bank[:child_tag])
@@ -510,7 +510,7 @@ class Rates
           end
           return items
         } },
-      # previous version it is off now        
+      # previous version it is off now
       # { name: "Alpha Express",
       #   id:22,
       #   type: :other,
@@ -519,10 +519,10 @@ class Rates
       #   child_tag:"td",
       #   child_tag_count:3,
       #   position:[0, 1, 2],
-      #   threshold: 4,          
+      #   threshold: 4,
       #   cnt:0,
       #   script:true,
-      #   script_callback: lambda {|script, bank| 
+      #   script_callback: lambda {|script, bank|
       #     items = []
       #     script.each do |item|
       #       c = item.css(bank[:child_tag])
@@ -532,7 +532,7 @@ class Rates
       #     end
       #     return items
       #   },
-      #   ssl: true },        
+      #   ssl: true },
       { name: "Alpha Express",
         off: true,
         id:22,
@@ -554,8 +554,8 @@ class Rates
 
     # nbg -----------------------------------------------------------------------
       begin
-        bank = banks[0]        
-        Rate.transaction do      
+        bank = banks[0]
+        Rate.transaction do
           agent = Mechanize.new
           page = Nokogiri::XML(agent.get(bank[:path]).content) # open(bank[:path]))
 
@@ -575,27 +575,27 @@ class Rates
 
           cnt = 0
           items.each do |item|
-            c = item.css(bank[:child_tag])            
+            c = item.css(bank[:child_tag])
             if(c.length == bank[:child_tag_count])
               d = [swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), 1]
               if bank[:exclude].include? d[0]
                 if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
                   cnt += 1
-                end                  
+                end
               else
                 if check_rates(d[0], d[1], d[2])
                   Rate.create_or_update(date, d[0], d[1], nil, nil, bank[:id])
                   cnt += 1
-                end  
-              end         
+                end
+              end
             end
-          end          
+          end
           bank[:cnt] = cnt
           puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        bank[:cnt] = -1  
-        bank[:e] = e      
+        bank[:cnt] = -1
+        bank[:e] = e
         puts "#{bank[:name]} - exception occured"
       end
 
@@ -624,24 +624,24 @@ class Rates
           items = []
           cnt = 0
           if bank[:script].present? && bank[:script]
-            if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")              
-              items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)  
+            if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")
+              items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)
               items.each do |d|
                 if bank[:exclude].include? d[0] # whole block can be optimised, cause duplication here and below
                   if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
                     cnt += 1
-                  end                  
+                  end
                 else
                   if check_rates(d[0], d[1], d[2])
                     Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
                     cnt += 1
-                  end  
-                end                
-              end      
+                  end
+                end
+              end
             end
-          else 
-            items = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.css(bank[:parent_tag])            
-            cnt = 0     
+          else
+            items = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.css(bank[:parent_tag])
+            cnt = 0
             items.each do |item|
               c = item.css(bank[:child_tag])
               #pp c.length
@@ -650,12 +650,12 @@ class Rates
                 if bank[:exclude].include? d[0]
                   if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
                     cnt += 1
-                  end                  
+                  end
                 else
                   if check_rates(d[0], d[1], d[2])
                     Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
                     cnt += 1
-                  end  
+                  end
                 end
               end
             end
@@ -664,10 +664,10 @@ class Rates
           puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        bank[:cnt] = -1     
-        bank[:e] = e   
+        bank[:cnt] = -1
+        bank[:e] = e
         puts "#{bank[:name]} - exception occured"
-      end    
+      end
     end
     # loop each bank which had an exception
     banks.each do |bank|
@@ -694,24 +694,24 @@ class Rates
           items = []
           cnt = 0
           if bank[:script].present? && bank[:script]
-            if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")              
-              items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)  
+            if bank[:script_callback].present? && (defined?(bank[:script_callback]) == "method")
+              items = bank[:script_callback].call(page.css(bank[:parent_tag]), bank)
               items.each do |d|
                 if bank[:exclude].include? d[0]
                   if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
                     cnt += 1
-                  end                  
+                  end
                 else
                   if check_rates(d[0], d[1], d[2])
                     Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
                     cnt += 1
-                  end  
+                  end
                 end
-              end      
+              end
             end
-          else 
-            items = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.css(bank[:parent_tag])            
-            cnt = 0     
+          else
+            items = (bank[:parent_tag].is_a? Proc) ? bank[:parent_tag].call(page) : page.css(bank[:parent_tag])
+            cnt = 0
             items.each do |item|
               c = item.css(bank[:child_tag])
               #pp c.length
@@ -720,12 +720,12 @@ class Rates
                 if bank[:exclude].include? d[0]
                   if check_rates(d[0], d[1], d[2]) # check maybe currency data was fixed so we can turn it on, changing count means threshold will be exceeded
                     cnt += 1
-                  end                  
+                  end
                 else
                   if check_rates(d[0], d[1], d[2])
                     Rate.create_or_update(date, d[0], nil, d[1], d[2], bank[:id])
                     cnt += 1
-                  end  
+                  end
                 end
               end
             end
@@ -734,10 +734,10 @@ class Rates
           puts "#{bank[:name]} - #{cnt} records"
         end
       rescue  Exception => e
-        bank[:cnt] = -1     
-        bank[:e] = e   
+        bank[:cnt] = -1
+        bank[:e] = e
         puts "#{bank[:name]} - exception occured"
-      end    
+      end
     end
 
     # list of all banks id,name,path
@@ -745,7 +745,7 @@ class Rates
     #   puts "#{bank[:id]},#{bank[:name]},#{bank[:path]}"
     # end
 
-    # last phase 
+    # last phase
     # for types of messages can be sent
     # 1) general report about all bank scrape result (succeeded_list_send variable should be true)
     # 2) unexpected bank currency amount based on each banks threshold value if not equal bank will be added to the list
@@ -753,17 +753,17 @@ class Rates
     # 4) sending block throws exception
     begin
       unexpected_behavior_list = []
-      exception_list = []    
+      exception_list = []
       succeeded_list = []
       succeeded_list_send = false # if we don't need to send each scraper call will be false by default
 
       banks.each do |bank|
         if bank[:cnt] == -1
-          exception_list.push(bank[:name] + " #{bank[:e]}")          
+          exception_list.push(bank[:name] + " #{bank[:e]}")
         elsif bank[:cnt] != bank[:threshold]
           unexpected_behavior_list.push(bank[:name] + " (#{bank[:cnt]}/#{bank[:threshold]})")
         else
-          succeeded_list.push(bank[:name] + " (#{bank[:cnt]})")         
+          succeeded_list.push(bank[:name] + " (#{bank[:cnt]})")
         end
       end
 
