@@ -465,7 +465,7 @@ class Rates
         child_tag_count:0,
         position:[0, 0, 0],
         threshold: 9,
-        exclude: ["AZN"], # when currency is temporarily unavailable
+        exclude: ["AZN", "AMD"], # when currency is temporarily unavailable key: zero, "0"
         cnt:0,
         script: true,
         script_callback: lambda {|script, bank|
