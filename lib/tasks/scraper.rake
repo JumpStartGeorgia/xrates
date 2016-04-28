@@ -251,21 +251,32 @@ class Rates
         position:[0, 1, 2],
         threshold: 3,
         cnt:0 },
+
       { name: "Cartu Bank",
         id:7,
         path:"http://www.cartubank.ge/?lng=eng",
-        parent_tag: lambda {|page|
-          page.css("div.block_title").each do |item|
-            if item.inner_text.strip == "Currency Rates (GEL)"
-              return item.parent.css("> table > tr")
-            end
-          end
-        },
-        child_tag:"td",
+        parent_tag: "#valueListBody tbody tr",
+        child_tag:"th, td",
         child_tag_count:4,
         position:[0, 1, 2],
-        threshold: 5,
+        threshold: 4,
         cnt:0 },
+      # 28.04.2016
+      # { name: "Cartu Bank",
+      #   id:7,
+      #   path:"http://www.cartubank.ge/?lng=eng",
+      #   parent_tag: lambda {|page|
+      #     page.css("div.block_title").each do |item|
+      #       if item.inner_text.strip == "Currency Rates (GEL)"
+      #         return item.parent.css("> table > tr")
+      #       end
+      #     end
+      #   },
+      #   child_tag:"td",
+      #   child_tag_count:4,
+      #   position:[0, 1, 2],
+      #   threshold: 5,
+      #   cnt:0 },
       { name: "VTB Bank",
         id:8,
         path:"http://en.vtb.ge/rates/",
