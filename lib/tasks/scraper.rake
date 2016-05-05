@@ -508,7 +508,7 @@ class Rates
         child_tag:".cur_title span, .cur_number span",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 3,
+        threshold: 6,
         cnt:0,
         script:true,
         script_callback: lambda {|script, bank|
