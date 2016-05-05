@@ -85,8 +85,8 @@ en:
       sign_up_provider: "Sign up with %{provider}"
       sign_in_local_or_provider: or log in with your email and password
       reset_or_sign_in: sign in with facebook or reset your password
-      like: Like   
-      likes: Likes      
+      like: Like
+      likes: Likes
       menu: Menu
       api_home: API Home
     titles:
@@ -115,7 +115,7 @@ en:
       new: New
     common:
       app_name: Lari Explorer
-      added_on: "Added on: %{date}" 
+      added_on: "Added on: %{date}"
       jumpstart: JumpStart Georgia
       js_link_title: JumpStart Georgia - We communicate data better!
       compare_to_other_banks: Compare to other banks
@@ -146,7 +146,7 @@ en:
       currency_does_not_exist: "Currency %{obj} could not be found"
       currency_is_not_valid: "Currency is not valid"
       currency_not_recognized: "The provided currency is not recognized"
-      bank_not_found: "Bank %{obj} could not be found"      
+      bank_not_found: "Bank %{obj} could not be found"
       greater_than_zero: 'Amount should be greater than 0.'
       currency_directions: 'Direction can be 0 or 1 - 1: GEL -> Currency, 0: Currency -> GEL.'
       start_less_then_end_date: 'Please make sure the start date is less than the end date'
@@ -188,13 +188,13 @@ en:
         p1: Someone has requested a link to change your password on %{app_name}, and you can do this through the link below.
         link_title: Change my password
         p2: "If you didn't request this, please ignore this email."
-        p3: "Your password won't change until you access the link above and create a new one."                
+        p3: "Your password won't change until you access the link above and create a new one."
   root:
     tab1: Deprecation Calculator
     tab2: National Bank Rate
     tab3: Commercial Banks Rate
     index:
-      page1:        
+      page1:
         intro: The Georgian Lari depreciated dramatically against the U.S. Dollar (USD) during the winter of 2014-2015 . Use the Lari Depreciation Calculator to calculate how much your net worth or payment responsibilities have changed over time due to the currency rate change.
         chart:
           title: "Your Monetary Value Change"
@@ -203,7 +203,17 @@ en:
         title: Lari Exchange Rate
       page3:
         intro: View Georgian Commercial Bank's prices to buy and sell foreign currency compared with the National Bank of Georgia's suggested exchange rate over time.
-        title: Bank vs Nbg Charts      
+        title: Bank vs Nbg Charts
+      commercial:
+        rates:
+          title: Rates
+        convertor:
+          title: Convertor
+          intro: View Georgian Commercial Bank's prices to buy and sell foreign currency compared with the National Bank of Georgia's suggested exchange rate over time.
+          from: From
+          to: To
+          buying_gel: Buying LARI
+          buying_amount: Buying Amount
       currency: "Currency"
       bank: "Bank"
       load_rates: "Load Rates"
@@ -221,19 +231,19 @@ en:
         gel: Lari
         usd: Dollar
         your_net_worth: "Monetary Value"
-        difference: "Your monetary value <br> <span class='up'>descreased</span> by" 
+        difference: "Your monetary value <br> <span class='up'>descreased</span> by"
         increased: increased
         decreased: decreased
         info_gel: "According to <a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/' target='_blank'>Forbes</a>, Bidzina Ivanishvili, Georgia’s richest person and former Prime Minister, has a net worth of <b>5,200,000,000 USD</b>. If he had his money saved in Lari, his net worth would have <b class='up'>increased</b><b> by <span class='value'></span> USD</b> during this same time period."
         info_usd: "According to <a class='forbes' href='http://www.forbes.com/profile/bidzina-ivanishvili/' target='_blank'>Forbes</a>, Bidzina Ivanishvili, Georgia’s richest person and former Prime Minister, has a net worth of <b>5,200,000,000 USD</b>. His net worth has <b class='up'>increased</b><b> by <span class='value'></span> GEL</b> during this same time period."
         your_net_worth_change: "Your net worth change"
       hsw: How does this work?
-      hsw_text: "It is pretty simple, actually. The calculator divides your monetary value by the exchange rates from the dates you selected to convert your <span class='from-value'>GEL</span> into <span class='to-value'>USD</span>. Then the difference is taken between the two numbers to see how much your monetary value has changed. That's it!"        
+      hsw_text: "It is pretty simple, actually. The calculator divides your monetary value by the exchange rates from the dates you selected to convert your <span class='from-value'>GEL</span> into <span class='to-value'>USD</span>. Then the difference is taken between the two numbers to see how much your monetary value has changed. That's it!"
       hint:
         currency: "Type Currency"
         bank: "Type Bank Name"
     about:
-      title: About        
+      title: About
     api:
       title: API
   chart:
@@ -245,7 +255,7 @@ en:
     downloadPDF: "Download PDF document"
     downloadSVG: "Download SVG vector image"
     downloadCSV: "Download CSV data"
-    printChart: "Print chart"       
+    printChart: "Print chart"
     contextButtonTitle: Download
   api:
     index:

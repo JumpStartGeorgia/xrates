@@ -145,7 +145,7 @@ ka:
       missing_data_currency: "ვალუტის შესახებ მონაცემები არ მოიძებნა"
       currency_does_not_exist: "ვალუტა %{obj} არ არსებობს"
       currency_not_recognized: "მოცემული ვალუტა არ მოიძებნა"
-      bank_not_found: "ბანკი %{obj} არ არსებობს"      
+      bank_not_found: "ბანკი %{obj} არ არსებობს"
       greater_than_zero: "თანხა უნდა იყოს 0-ზე მეტი."
       currency_directions: "მიმართულება შეიძლება იყოს 0 ან 1 - 1: GEL -> ვალუტა, 0: ვალუტა-> GEL."
       start_less_then_end_date: "გთხოვთ დარწმუნდეთ, რომ საწყისი თარიღი დასრულების თარიღზე ნაკლებია"
@@ -203,6 +203,16 @@ ka:
       page3:
         intro: "ნახეთ კომერციულ ბანკებში უცხოური ვალუტების ყიდვისა და გაყიდვის ფასი ეროვნული ბანკის კურსთან შედარებით."
         title: "ბანკი vs სებ ცხრილები"
+      commercial:
+        rates:
+          title: Rates
+        convertor:
+          title: Convertor
+          intro: "ნახეთ კომერციულ ბანკებში უცხოური ვალუტების ყიდვისა და გაყიდვის ფასი ეროვნული ბანკის კურსთან შედარებით."
+          from: From
+          to: To
+          buying_gel: Buying LARI
+          buying_amount: Buying Amount
       currency: "ვალუტა"
       bank: "ბანკი"
       load_rates: "კურსის ჩატვირთვა"
