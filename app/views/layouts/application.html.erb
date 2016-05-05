@@ -68,8 +68,8 @@
       <div class="content">
         <div class="sub-line"></div>
         <div class="tabs">
-          <div class="tab" data-id="national_bank"><%= link_to t("root.tab2"), root_path(:anchor=>'p=national_bank') %></div>
           <div class="tab" data-id="commercial_banks"><%= link_to t("root.tab3"), root_path(:anchor=>'p=commercial_banks') %></div>
+          <div class="tab" data-id="national_bank"><%= link_to t("root.tab2"), root_path(:anchor=>'p=national_bank') %></div>
           <div class="tab" data-id="calculator"><%= link_to t("root.tab1"), root_path(:anchor=>'p=calculator') %></div>
           <div class="tab<%= @tab == 'api' ? ' active' : '' %>"><%= link_to t("app.common.api"), api_path %></div>
           <div class="tab mob"><%= link_to t("app.common.about"), about_path %></div>

@@ -178,7 +178,44 @@ $(function () {
   };
 
 
+  $(".tabbox > .toggle > div[data-ref]").click(function (e){
+    var t = $(this), ref = t.attr("data-ref"), toggle = t.parent(), content = toggle.parent().find(".content"), c = content.find("> div[data-ref='"+ref+"']");
+    toggle.find("> div[data-ref]").removeClass("active");
+    t.addClass("active");
+    content.find("> div[data-ref]").removeClass("active");
+    c.addClass("active");
+    // $(".page.active").removeClass("active");
+    // var ptmp = $(".page[data-tab-id="+t.attr("data-id")+"]").addClass("active");
+    // params.resume(t.attr("data-id"));
+    // e.preventDefault();
+    // if(e.originalEvent != undefined && $(".menu-toggle").css("display") != "none"){ // was programmatically called or not
+    //   $(".tabs").toggle();
+    // }
+    // document.title = this.text + gon.app_name;
+    // $("meta[property='og:title']").attr("content", document.title);
+    // var descr = ptmp.find(".intro").text();
+    // $("meta[name=description]").attr("content", descr);
+    // $("meta[property='og:description']").attr("content", descr);
+  });
+  $("select#convertor-currency").select2({ maximumSelectionSize: 5,
+    formatResult: function (d){
+      return "<div class='flag'><img src='/assets/png/flags/"+d.id+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
+    },
+    formatSelection: function (d)
+    {
+      return "<div title='"+d.text+"'>"+d.id+"</div>";
+    },
+    matcher: function (term, text, opt) { return text.toUpperCase().indexOf(term.toUpperCase())>=0 || opt.val().toUpperCase().indexOf(term.toUpperCase())>=0; }
+  });
 
+  var convertor = $(".page3 .content [data-ref='convertor'] > .table");
+    convertor.find("> bank").remove();
+  gon.banks.forEach(function(bnk){
+     console.log(bnk);
+    var html = "<div class='bank row' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" + bnk[3]["data-image"]+".jpg'><span>"+bnk[1]+"</span></div></div><div class='column'><div class='value'><span>2.238</span></div></div><div class='column'><div class='rate'>2.525</div></div></div>";
+    //return "<div class='logo vtop'><img src='"+d.image+".jpg'/></div><div class='name vtop'>"+d.text+"</div>"; // <div class='abbr'>"+d.id+"</div>
+    convertor.append(html);
+  });
   $(".tab[data-id] a").click(function (e){
     var t = $(this).parent();
     $(".tab").removeClass("active");
@@ -388,7 +425,7 @@ $(function () {
         $(".tab[data-id=" + params.p + "] a").trigger("click");
       }
     }
-    else $(".tab[data-id=national_bank] a").trigger("click");
+    else $(".tab[data-id=commercial_banks] a").trigger("click");
     prepare();
     calculate(true);
     b_chart();
