@@ -1,5 +1,5 @@
 /*global window $ Highcharts gon I18n exist isNumber */
-/*eslint camelcase: 0, no-underscore-dangle: 0, no-unused-vars: 0*/
+/*eslint camelcase: 0, no-underscore-dangle: 0, no-unused-vars: 0, no-console:0*/
 $(function () {
   Highcharts.getOptions().exporting.buttons.contextButton.menuItems.push({
     text: gon.downloadCSV,
@@ -178,26 +178,26 @@ $(function () {
   };
 
 
-  $(".tabbox > .toggle > div[data-ref]").click(function (e){
-    var t = $(this), ref = t.attr("data-ref"), toggle = t.parent(), content = toggle.parent().find(".content"), c = content.find("> div[data-ref='"+ref+"']");
-    toggle.find("> div[data-ref]").removeClass("active");
-    t.addClass("active");
-    content.find("> div[data-ref]").removeClass("active");
-    c.addClass("active");
-    // $(".page.active").removeClass("active");
-    // var ptmp = $(".page[data-tab-id="+t.attr("data-id")+"]").addClass("active");
-    // params.resume(t.attr("data-id"));
-    // e.preventDefault();
-    // if(e.originalEvent != undefined && $(".menu-toggle").css("display") != "none"){ // was programmatically called or not
-    //   $(".tabs").toggle();
-    // }
-    // document.title = this.text + gon.app_name;
-    // $("meta[property='og:title']").attr("content", document.title);
-    // var descr = ptmp.find(".intro").text();
-    // $("meta[name=description]").attr("content", descr);
-    // $("meta[property='og:description']").attr("content", descr);
-  });
-  $("select#convertor-currency").select2({ maximumSelectionSize: 5,
+  // $(".tabbox > .toggle > div[data-ref]").click(function (e){
+  //   var t = $(this), ref = t.attr("data-ref"), toggle = t.parent(), content = toggle.parent().find(".content"), c = content.find("> div[data-ref='"+ref+"']");
+  //   toggle.find("> div[data-ref]").removeClass("active");
+  //   t.addClass("active");
+  //   content.find("> div[data-ref]").removeClass("active");
+  //   c.addClass("active");
+  //   // $(".page.active").removeClass("active");
+  //   // var ptmp = $(".page[data-tab-id="+t.attr("data-id")+"]").addClass("active");
+  //   // params.resume(t.attr("data-id"));
+  //   // e.preventDefault();
+  //   // if(e.originalEvent != undefined && $(".menu-toggle").css("display") != "none"){ // was programmatically called or not
+  //   //   $(".tabs").toggle();
+  //   // }
+  //   // document.title = this.text + gon.app_name;
+  //   // $("meta[property='og:title']").attr("content", document.title);
+  //   // var descr = ptmp.find(".intro").text();
+  //   // $("meta[name=description]").attr("content", descr);
+  //   // $("meta[property='og:description']").attr("content", descr);
+  // });
+  $("select#convertor_from").select2({ maximumSelectionSize: 5,
     formatResult: function (d){
       return "<div class='flag'><img src='/assets/png/flags/"+d.id+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
     },
@@ -205,17 +205,42 @@ $(function () {
     {
       return "<div title='"+d.text+"'>"+d.id+"</div>";
     },
-    matcher: function (term, text, opt) { return text.toUpperCase().indexOf(term.toUpperCase())>=0 || opt.val().toUpperCase().indexOf(term.toUpperCase())>=0; }
+    matcher: function (term, text, opt) { return text.toUpperCase().indexOf(term.toUpperCase())>=0 || opt.val().toUpperCase().indexOf(term.toUpperCase())>=0; },
+    // dropdownCssClass : 'dropdown-width-small',
+    dropdownAutoWidth : true,
+    width: "auto"
   });
 
-  var convertor = $(".page3 .content [data-ref='convertor'] > .table");
-    convertor.find("> bank").remove();
-  gon.banks.forEach(function(bnk){
-     console.log(bnk);
-    var html = "<div class='bank row' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" + bnk[3]["data-image"]+".jpg'><span>"+bnk[1]+"</span></div></div><div class='column'><div class='value'><span>2.238</span></div></div><div class='column'><div class='rate'>2.525</div></div></div>";
+  var convertor = $("#commercial-convertor > .table");
+  convertor.find("> bank").remove();
+  gon.banks.forEach(function (bnk, i){
+    console.log(bnk);
+    var html = "<div class='bank row"+ (i == 0 ? " first" : "") + (i == gon.banks.length-1 ? " last" : "") + "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" + bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'><span>"+reformat(2.238, 3)+"</span></div></div><div class='column'><div class='rate'>"+reformat(2.238, 3)+"</div></div></div>";
     //return "<div class='logo vtop'><img src='"+d.image+".jpg'/></div><div class='name vtop'>"+d.text+"</div>"; // <div class='abbr'>"+d.id+"</div>
     convertor.append(html);
   });
+
+  var convertor_input = $("#convertor_input"), convertor_to = $("#convertor_to"), convertor_from = $("#s2id_convertor_from");
+  $("#convertor_swap").click(function (){
+    var from = convertor_from.parent(), to = convertor_to.parent();
+    convertor_from.detach().appendTo(to);
+    convertor_to.detach().appendTo(from);
+    console.log("swap");
+    // TODO on swap change or add classes to style properly and put logic here
+  });
+  convertor_input.on("propertychange keyup input cut paste", function () { debounce(convertor_process(), 500); });
+
+  function convertor_process () {
+    var t = convertor_input, v = t.val(), prev = t.data("prev");
+    if(v !== prev) {
+      t.data("prev", v);
+      $("#buying_label").text(+v === 1 ? gon.buying_gel : gon.buying_amount);
+      console.log(v);
+    }
+
+
+  }
+
   $(".tab[data-id] a").click(function (e){
     var t = $(this).parent();
     $(".tab").removeClass("active");

@@ -103,6 +103,8 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.commercial_banks = t('app.common.commercial_banks')
       gon.micro_finance = t('app.common.micro_finance')
       gon.currencies = Currency.data
+      gon.buying_gel = t('root.index.commercial.convertor.buying_gel')
+      gon.buying_amount = t('root.index.commercial.convertor.buying_amount')
       currency_by_bank = {}
       Rate.currency_by_bank.each{|t|
          if(currency_by_bank.has_key?(t.currency))
