@@ -101,12 +101,14 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.highcharts_printChart = t('highcharts.printChart')
       gon.highcharts_contextButtonTitle = t('highcharts.contextButtonTitle')
       gon.commercial_banks = t('app.common.commercial_banks')
-      gon.micro_finance = t('app.common.micro_finance')      
+      gon.micro_finance = t('app.common.micro_finance')
+      gon.buying_gel = t('root.index.commercial.convertor.buying_gel')
+      gon.buying_amount = t('root.index.commercial.convertor.buying_amount')
       currency_by_bank = {}
       Rate.currency_by_bank.each{|t|
          if(currency_by_bank.has_key?(t.currency))
             currency_by_bank[t.currency].push(t.bank_id)
-         else 
+         else
             currency_by_bank[t.currency] = [t.bank_id]
          end
       }
@@ -114,7 +116,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.banks = Bank.all_except_nbg.each_with_index.map{|x,i| [ x[0], x[1], x[4], { :'data-image' => x[5] }, x[6] ] }
 
       gon.dev = Rails.env.development?
-      #:title => I18n.t('chart.nbg.title') , 
+      #:title => I18n.t('chart.nbg.title') ,
 	end
 
   # load the assets needed for the admin forms
@@ -141,28 +143,28 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
 	# only record the path if this is not an ajax call and not a users page (sign in, sign up, etc)
 	def store_location
 		session[:previous_urls] ||= []
-		if session[:previous_urls].first != request.fullpath && 
+		if session[:previous_urls].first != request.fullpath &&
         params[:format] != 'js' && params[:format] != 'json' && !request.xhr? &&
         request.fullpath.index("/users/").nil?
-        
+
 	    session[:previous_urls].unshift request.fullpath
     elsif session[:previous_urls].first != request.fullpath &&
        request.xhr? && !request.fullpath.index("/users/").nil? &&
        params[:return_url].present?
-       
+
       session[:previous_urls].unshift params[:return_url]
 		end
 
 		session[:previous_urls].pop if session[:previous_urls].count > 1
     #Rails.logger.debug "****************** prev urls session = #{session[:previous_urls]}"
 	end
-	
+
   # add in required content for translations if none provided
   # - if default locale does not have translations, use first trans that does as default
   def add_missing_translation_content(ary_trans)
     if ary_trans.present?
       default_trans = ary_trans.select{|x| x.locale == I18n.default_locale.to_s}.first
-  
+
       if default_trans.blank? || !default_trans.required_data_provided?
         # default locale does not have data so get first trans that does have data
         ary_trans.each do |trans|
@@ -184,7 +186,7 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
     end
   end
 
-	
+
 
   #######################
 	def render_not_found(exception)
