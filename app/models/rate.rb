@@ -32,7 +32,7 @@ class Rate < ActiveRecord::Base
     if x.blank?
       x = Rate.new(date: date, currency: currency, utc: Time.utc(date.year, date.month, date.day, 0,0,0), bank_id: bank_id)
     end
-    
+
     x.rate = rate
     x.buy_price = buy_price
     x.sell_price = sell_price
@@ -40,40 +40,40 @@ class Rate < ActiveRecord::Base
   end
 
   # get the starting date for the provided currency
-  def self.start_date(currency)
-    x = where(currency: currency).sort_older.first
-    if x.present?
-      x.date
-    else
-      nil
-    end
-  end
+  # def self.start_date(currency)
+  #   x = where(currency: currency).sort_older.first
+  #   if x.present?
+  #     x.date
+  #   else
+  #     nil
+  #   end
+  # end
 
-  # get the starting date for the provided currency
-  def self.end_date(currency)
-    x = where(currency: currency).sort_recent.first
-    if x.present?
-      x.date
-    else
-      nil
-    end
-  end
+  # # get the starting date for the provided currency
+  # def self.end_date(currency)
+  #   x = where(currency: currency).sort_recent.first
+  #   if x.present?
+  #     x.date
+  #   else
+  #     nil
+  #   end
+  # end
 
   # return an array of rates
   def self.rate_only
     pluck(:rate)
   end
 
-  
+
   def self.nbg_rates(cur,options={})
     from = options[:from] || nil
     to = options[:to] || nil
     include_date = options[:include_date].nil? ? false : options[:include_date] == true
 
     if include_date
-      select('rate, utc, date').only_nbg.by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, x.rate, x.date]}
+      select('rate, utc, date').only_nbg.by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, (x.rate.present? ? x.rate : 0), x.date]}
     else
-      select('rate, utc').only_nbg.by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+      select('rate, utc').only_nbg.by_period(from,to).by_currency(cur).sort_older.map{|x| [x.utc.to_i*1000, (x.rate.present? ? x.rate : 0)]}
     end
   end
 
@@ -82,36 +82,42 @@ class Rate < ActiveRecord::Base
   # get the utc and rates for a currency
   # return: [ [utc, rate], [utc, rate], ...]
   def self.utc_and_rates(currency)
-    select('rate, utc').only_nbg.by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+    select('rate, utc').only_nbg.by_currency(currency).sort_older.map{|x| [x.utc.to_i*1000, (x.rate.present? ? x.rate : 0)]}
   end
 
   def self.rates_nbg(currency,bank, options={})
     include_date = options[:include_date].nil? ? false : options[:include_date] == true
+    from = options[:from] || nil
+    to = options[:to] || nil
 
     if include_date
-      select('rate, utc, date').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate, x.date]}
+      select('rate, utc, date').by_currency(currency).by_bank(bank).by_period(from,to).sort_older.map{|x| [x.utc.to_i*1000, (x.rate.present? ? x.rate : 0), x.date]}
     else
-      select('rate, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.rate]}
+      select('rate, utc').by_currency(currency).by_bank(bank).by_period(from,to).sort_older.map{|x| [x.utc.to_i*1000, (x.rate.present? ? x.rate : 0)]}
     end
   end
 
   def self.rates_buy(currency,bank,ratio, options={})
     include_date = options[:include_date].nil? ? false : options[:include_date] == true
+    from = options[:from] || nil
+    to = options[:to] || nil
 
     if include_date
-      select('ifnull(buy_price,0) buy_price, utc, date').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*ratio, x.date]}
+      select('buy_price, utc, date').by_currency(currency).by_bank(bank).by_period(from,to).sort_older.map{|x| [x.utc.to_i*1000, (x.buy_price.present? ? x.buy_price*ratio : 0), x.date]}
     else
-      select('ifnull(buy_price,0) buy_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.buy_price*ratio]}
+      select('buy_price, utc').by_currency(currency).by_bank(bank).by_period(from,to).sort_older.map{|x| [x.utc.to_i*1000, (x.buy_price.present? ? x.buy_price*ratio : 0)]}
     end
   end
 
   def self.rates_sell(currency,bank,ratio, options={})
     include_date = options[:include_date].nil? ? false : options[:include_date] == true
+    from = options[:from] || nil
+    to = options[:to] || nil
 
     if include_date
-      select('ifnull(sell_price,0) sell_price, utc, date').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*ratio, x.date]}
+      select('sell_price, utc, date').by_currency(currency).by_bank(bank).by_period(from,to).sort_older.map{|x| [x.utc.to_i*1000, (x.sell_price.present? ? x.sell_price*ratio : 0), x.date]}
     else
-      select('ifnull(sell_price,0) sell_price, utc').by_currency(currency).by_bank(bank).sort_older.map{|x| [x.utc.to_i*1000, x.sell_price*ratio]}
+      select('sell_price, utc').by_currency(currency).by_bank(bank).by_period(from,to).sort_older.map{|x| [x.utc.to_i*1000, (x.sell_price.present? ? x.sell_price*ratio : 0)]}
     end
   end
 

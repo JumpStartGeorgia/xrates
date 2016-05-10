@@ -214,8 +214,8 @@ class Api::V1Controller < ApplicationController
       bbs = []
       banks.each{ |t|
         bbs << t if Bank.find_by_code(t).nil?
-      }      
-      error("bank_not_found", { pars: [bbs.join(", ")]})  if bbs.present?      
+      }
+      error("bank_not_found", { pars: [bbs.join(", ")]})  if bbs.present?
     end
     start_date = params[:start_date].present? ? to_date('start_date') : nil
     end_date =  params[:end_date].present? ? to_date('end_date') : nil
@@ -235,21 +235,20 @@ class Api::V1Controller < ApplicationController
         banks.each{|code|
           b = Bank.find_by_code(code)
             if b.id == 1
-              x = Rate.rates_nbg(currency, b.id)
+              x = Rate.rates_nbg(currency, b.id, { from: start_date, to: end_date })
               if x.present?
                 result << { id: code + '_' + currency, code: code, name:  (b.name + " (" + b.code + ")"), currency: currency, rate_type: 'reference', color: b.buy_color, legendIndex: b.order+1, data: x }
               end
             else
-              x = Rate.rates_buy(currency, b.id, ratio)
+              x = Rate.rates_buy(currency, b.id, ratio, { from: start_date, to: end_date })
               if x.present?
                 result << { id: code + '_' + currency + '_B' , code: code, name: (b.name + " " + " (" + b.code + ")"), currency: currency, rate_type: 'buy', color: b.buy_color, dashStyle: 'shortdot', legendIndex: 2*b.order, data: x }
               end
-              x = Rate.rates_sell(currency, b.id, ratio)
+              x = Rate.rates_sell(currency, b.id, ratio, { from: start_date, to: end_date })
               if x.present?
                 result << { id: code + '_' + currency + '_S', code: code, name: (b.name + " " + " (" + b.code + ")"), currency: currency, rate_type: 'sell', color: b.sell_color, dashStyle: 'shortdash', legendIndex: 2*b.order+1, data: x }
               end
             end
-
         }
       end
     end
