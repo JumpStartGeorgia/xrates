@@ -213,6 +213,7 @@ ka:
           to: To
           buying_gel: Buying LARI
           buying_amount: Buying Amount
+          date: Date
       currency: "ვალუტა"
       bank: "ბანკი"
       load_rates: "კურსის ჩატვირთვა"

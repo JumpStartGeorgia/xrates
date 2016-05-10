@@ -414,53 +414,6 @@ a
                   {
                      display:inline-block;
                   }
-                   input.from,
-                   input.to
-                  {
-                     display:inline-block;
-                     position:relative;
-                     font-family: 'dejavusans';
-                     font-size:15px;
-                     color:#7b8483;
-                     background-color:#ebeae6;
-                     -webkit-border-radius: 2px;
-                     -moz-border-radius: 2px;
-                     border-radius: 2px;
-                     border:0px;
-                     padding: 4px 20px 4px 10px;
-                     height: 34px;
-                     width: 100px;
-                     &:lang(en)
-                     {
-                        font-family: 'oxygen';
-                        font-size:15px;
-                     }
-                  }
-                  input.from:hover,
-                  input.to:hover
-                  {
-                     cursor:pointer;
-                  }
-                  .datepicker-wrapper
-                  {
-                     display:block;
-                     position:relative;
-                  }
-                  .datepicker-wrapper:hover
-                  {
-                     cursor:pointer;
-                  }
-                  .datepicker-wrapper:after
-                  {
-                     content:'▼';
-                     font-family: Arial,Helvetica;
-                     font-size:18px;
-                     color:#CECDCC;
-                     position:absolute;
-                     top: 11px;
-                     right: 9px;
-                     pointer-events:none;
-                  }
                }
             }
             .diff
@@ -1902,7 +1855,7 @@ background-color: #f1f2f2;
         display:block;
       }
     }
-    .tab-pane#commercial-convertor {
+    .tab-pane#commercial_convertor {
       .table {
         padding:30px 20% 0;
         background-color:#f1f2f2;
@@ -1929,6 +1882,9 @@ background-color: #f1f2f2;
           &.bottom-line {
             border-bottom:1px solid #c1c8ce;
           }
+          &.space {
+            padding-bottom:30px;
+          }
           // > div { display:inline-block; }
         }
         .picker {
@@ -1950,26 +1906,32 @@ background-color: #f1f2f2;
               height:40px;
               width: 100%;
               box-sizing: border-box;
+              outline:none;
             }
-            .select2-container {
-              display:table-cell;
-              .select2-choice, .select2-choices {
-                border-radius:0;
-                border-top-right-radius: 2px;
-                border-bottom-right-radius: 2px;
-                height: 40px;
-                .select2-arrow {
-                  top: -3px;
-                }
+
+          }
+          .select2-container {
+            display:table-cell;
+            min-width: 80px;
+            .select2-choice, .select2-choices {
+              border-radius:0;
+              border-top-right-radius: 2px;
+              border-bottom-right-radius: 2px;
+              height: 40px !important;
+              box-sizing:border-box;
+              .select2-arrow {
+                top: -3px;
               }
             }
           }
-          .select2-container {
-            min-width: 80px;
+          #s2id_convertor_from {
+            &.swapped {
+              display:inline-block;
+              .select2-choice, .select2-choices {
+                border-radius:2px;
+              }
+            }
           }
-          // .dropdown-width-small {
-          //   width:200px;
-          // }
           #convertor_swap {
             border:1px solid #c9cfd5;
             background:#fff url(/assets/svg/swap.svg) center center no-repeat;
@@ -1988,12 +1950,21 @@ background-color: #f1f2f2;
           }
            #convertor_to {
             display:inline-block;
-            font:19px/20px 'glober-sb';
+            font:19px/24px 'glober-sb';
             color:#fff;
-            padding:10px 8px 6px;
+            padding:9px 8px 6px;
             background-color:#ffc539;
             border-radius:2px;
+            height:40px;
+            box-sizing:border-box;
+            &.swapped {
+              display:table-cell;
+              border-radius:0;
+              border-top-right-radius: 2px;
+              border-bottom-right-radius: 2px;
+            }
           }
+
         }
         .heading {
           font:16px/20px 'dejavusans';
@@ -2068,4 +2039,49 @@ background-color: #f1f2f2;
       }
     }
   }
-// }
+
+
+ input.datepicker
+{
+  display:inline-block;
+  position:relative;
+  font-family: 'dejavusans';
+  font-size:15px;
+  color:#7b8483;
+  background-color:#ebeae6;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border:0px;
+  padding: 4px 20px 4px 10px;
+  height: 34px;
+  width: 100px;
+  &:lang(en)
+  {
+    font-family: 'oxygen';
+    font-size:15px;
+  }
+  &:hover {
+    cursor:pointer;
+  }
+}
+.datepicker-wrapper
+{
+  display:block;
+  position:relative;
+  &:hover
+  {
+     cursor:pointer;
+  }
+  &:after
+  {
+    content:'▼';
+    font-family: Arial,Helvetica;
+    font-size:18px;
+    color:#CECDCC;
+    position:absolute;
+    top: 11px;
+    right: 9px;
+    pointer-events:none;
+  }
+}

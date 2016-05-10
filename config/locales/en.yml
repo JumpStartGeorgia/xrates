@@ -214,6 +214,7 @@ en:
           to: To
           buying_gel: Buying LARI
           buying_amount: Buying Amount
+          date: Date
       currency: "Currency"
       bank: "Bank"
       load_rates: "Load Rates"

@@ -3,6 +3,7 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
 
+ *= require reset
  * require formtastic
  * require formtastic-bootstrap
  *= require jquery.ui.core
@@ -11,7 +12,7 @@
  * require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  * require_tree .
  * require vendor
- 
+
  * require bootstrap_and_overrides
  * require bootstrap-select.min
  *= require select2
@@ -19,50 +20,50 @@
  *= require root
 */
 @font-face {
-    font-family: "glober-sb";    
-    src: url( '/assets/fonts/glober_sb.otf') format("opentype");           
+    font-family: "glober-sb";
+    src: url( '/assets/fonts/glober_sb.otf') format("opentype");
     font-style: normal;
     font-weight: 200;
 }
 @font-face {
-    font-family: "glober-t";    
-    src: url( '/assets/fonts/glober_t.otf') format("opentype");           
+    font-family: "glober-t";
+    src: url( '/assets/fonts/glober_t.otf') format("opentype");
     font-style: normal;
     font-weight: 200;
 }
 @font-face {
-    font-family: "oxygen";    
-    src: url( '/assets/fonts/oxygen.otf') format("opentype");         
+    font-family: "oxygen";
+    src: url( '/assets/fonts/oxygen.otf') format("opentype");
     font-style: normal;
     font-weight: 200;
 }
 @font-face {
-    font-family: "oxygen-b";    
-    src: url( '/assets/fonts/oxygen_b.otf') format("opentype");         
+    font-family: "oxygen-b";
+    src: url( '/assets/fonts/oxygen_b.otf') format("opentype");
     font-style: normal;
     font-weight: 200;
 }
 @font-face {
-    font-family: "oxygen-bi";    
-    src: url( '/assets/fonts/oxygen_bi.otf') format("opentype");         
+    font-family: "oxygen-bi";
+    src: url( '/assets/fonts/oxygen_bi.otf') format("opentype");
     font-style: normal;
     font-weight: 200;
 }
 @font-face {
-    font-family: "dejavusans";    
-    src: url( '/assets/fonts/dejavusans_r.ttf') format("truetype");           
+    font-family: "dejavusans";
+    src: url( '/assets/fonts/dejavusans_r.ttf') format("truetype");
     font-style: normal;
     font-weight: 200;
 }
 @font-face {
-    font-family: "dejavusans-b";    
-    src: url( '/assets/fonts/dejavusans_b.ttf') format("truetype");           
+    font-family: "dejavusans-b";
+    src: url( '/assets/fonts/dejavusans_b.ttf') format("truetype");
     font-style: normal;
     font-weight: 200;
 }
 @font-face {
-    font-family: "dejavusans-bi";    
-    src: url( '/assets/fonts/dejavusans_bi.ttf') format("truetype");           
+    font-family: "dejavusans-bi";
+    src: url( '/assets/fonts/dejavusans_bi.ttf') format("truetype");
     font-style: normal;
     font-weight: 200;
 }
@@ -80,6 +81,6 @@
 
 /* so ie will display the correct color background */
 .navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
-	filter: none; 
+	filter: none;
 }
 
