@@ -209,11 +209,11 @@ en:
           title: Rates
         convertor:
           title: Convertor
-          intro: View Georgian Commercial Bank's prices to buy and sell foreign currency compared with the National Bank of Georgia's suggested exchange rate over time.
+          intro: Compare Georgian Commercial Bank's prices to buy and sell foreign currency on a given date for a specific amount.
           from: From
           to: To
-          buying_gel: Buying LARI
-          buying_amount: Buying Amount
+          buying: "Buying %{currency}"
+          amount: Amount
           date: Date
       currency: "Currency"
       bank: "Bank"

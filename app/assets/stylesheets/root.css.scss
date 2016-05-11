@@ -1822,7 +1822,7 @@ background-color: #f1f2f2;
 //   margin:0;
   .nav-tabs {
     text-align:center;
-    padding:10px 0 20px;
+    padding:25px 0 20px;
     > li {
       display:inline-block;
       a {
@@ -1855,10 +1855,15 @@ background-color: #f1f2f2;
         display:block;
       }
     }
+    .bg {
+        background-color:#f1f2f2;
+      }
     .tab-pane#commercial_convertor {
       .table {
-        padding:30px 20% 0;
-        background-color:#f1f2f2;
+        padding:30px 0 0;
+        max-width:500px;
+        margin:0px auto;
+
         // display:table;
         .row {
           width:100%;
@@ -1887,7 +1892,10 @@ background-color: #f1f2f2;
           }
         }
         .picker {
-         .box { width:100%;}
+          .column {
+            text-align:right;
+          }
+          .box { text-align:left; }
           .input {
             display:table;
             width:100%;
@@ -1911,7 +1919,8 @@ background-color: #f1f2f2;
           }
           .select2-container {
             display:table-cell;
-            min-width: 80px;
+            min-width:75px;
+            max-width:75px;
             .select2-choice, .select2-choices {
               border-radius:0;
               border-top-right-radius: 2px;
@@ -1965,7 +1974,7 @@ background-color: #f1f2f2;
           }
         }
         .heading {
-          font:16px/20px 'dejavusans';
+          font:16px/12px 'dejavusans';
           color: #7b8483;
           text-align:left;
           padding: 6px 10px 0px;
@@ -1975,7 +1984,7 @@ background-color: #f1f2f2;
           }
         }
         .caption {
-          display:block;
+          display:inline-block;
           font:16px/20px 'dejavusans';
           color: #7b8483;
           text-transform: initial;
@@ -1988,7 +1997,7 @@ background-color: #f1f2f2;
             width:100%;
             border-bottom: 1px solid #c1c8ce;
 
-            &:lang(en) { font-family:'oxygen'; }
+
             img {
               width:34px;
               height:34px;
@@ -1999,12 +2008,15 @@ background-color: #f1f2f2;
             label {
               font:16px/20px 'dejavusans';
               color: #7b8483;
+              &:lang(en) { font-family:'oxygen'; }
+              white-space:normal;
             }
           }
           .value {
             padding: 10px 0 10px 10px;
             border-bottom: 1px solid #c1c8ce;
             text-align: right;
+            float:right;
             span {
               font:20px 'glober-sb';
               text-align:left;
@@ -2013,7 +2025,7 @@ background-color: #f1f2f2;
               background-color:#fff;
               border:1px solid #c1c8ce;
               display:inline-block;
-              min-width:100px;
+              min-width:78px;
             }
           }
           .rate {
@@ -2033,6 +2045,9 @@ background-color: #f1f2f2;
               border:0;
             }
           }
+        }
+        &.hide_rates .row.bank .rate {
+          visibility:hidden;
         }
       }
     }

@@ -179,68 +179,6 @@ $(function () {
   };
 
 
-  // $(".tabbox > .toggle > div[data-ref]").click(function (e){
-  //   var t = $(this), ref = t.attr("data-ref"), toggle = t.parent(), content = toggle.parent().find(".content"), c = content.find("> div[data-ref='"+ref+"']");
-  //   toggle.find("> div[data-ref]").removeClass("active");
-  //   t.addClass("active");
-  //   content.find("> div[data-ref]").removeClass("active");
-  //   c.addClass("active");
-  //   // $(".page.active").removeClass("active");
-  //   // var ptmp = $(".page[data-tab-id="+t.attr("data-id")+"]").addClass("active");
-  //   // params.resume(t.attr("data-id"));
-  //   // e.preventDefault();
-  //   // if(e.originalEvent != undefined && $(".menu-toggle").css("display") != "none"){ // was programmatically called or not
-  //   //   $(".tabs").toggle();
-  //   // }
-  //   // document.title = this.text + gon.app_name;
-  //   // $("meta[property='og:title']").attr("content", document.title);
-  //   // var descr = ptmp.find(".intro").text();
-  //   // $("meta[name=description]").attr("content", descr);
-  //   // $("meta[property='og:description']").attr("content", descr);
-  // });
-  $("select#convertor_from").select2({ maximumSelectionSize: 5,
-    formatResult: function (d){
-      return "<div class='flag'><img src='/assets/png/flags/"+d.id+".png'/></div><div class='abbr'>"+d.id+"</div><div class='name'>"+d.text+"</div>";
-    },
-    formatSelection: function (d)
-    {
-      return "<div title='"+d.text+"'>"+d.id+"</div>";
-    },
-    matcher: function (term, text, opt) { return text.toUpperCase().indexOf(term.toUpperCase())>=0 || opt.val().toUpperCase().indexOf(term.toUpperCase())>=0; },
-    // dropdownCssClass : 'dropdown-width-small',
-    dropdownAutoWidth : true,
-    width: "auto"
-  });
-
-  var convertor = $("#commercial-convertor > .table");
-  convertor.find("> bank").remove();
-  gon.banks.forEach(function (bnk, i){
-    console.log(bnk);
-    var html = "<div class='bank row"+ (i == 0 ? " first" : "") + (i == gon.banks.length-1 ? " last" : "") + "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" + bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'><span>"+reformat(2.238, 3)+"</span></div></div><div class='column'><div class='rate'>"+reformat(2.238, 3)+"</div></div></div>";
-    //return "<div class='logo vtop'><img src='"+d.image+".jpg'/></div><div class='name vtop'>"+d.text+"</div>"; // <div class='abbr'>"+d.id+"</div>
-    convertor.append(html);
-  });
-
-  var convertor_input = $("#convertor_input"), convertor_to = $("#convertor_to"), convertor_from = $("#s2id_convertor_from");
-  $("#convertor_swap").click(function (){
-    var from = convertor_from.parent(), to = convertor_to.parent();
-    convertor_from.detach().appendTo(to);
-    convertor_to.detach().appendTo(from);
-    console.log("swap");
-    // TODO on swap change or add classes to style properly and put logic here
-  });
-  convertor_input.on("propertychange keyup input cut paste", function () { debounce(convertor_process(), 500); });
-
-  function convertor_process () {
-    var t = convertor_input, v = t.val(), prev = t.data("prev");
-    if(v !== prev) {
-      t.data("prev", v);
-      $("#buying_label").text(+v === 1 ? gon.buying_gel : gon.buying_amount);
-      console.log(v);
-    }
-
-
-  }
 
 
 
@@ -262,11 +200,12 @@ $(function () {
 
 
   var commercial_convertor = $("#commercial_convertor"),
-    convertor = commercial_convertor.find("> .table"),
+    convertor = commercial_convertor.find(".table"),
     convertor_input = $("#convertor_input"),
     convertor_to = $("#convertor_to"),
     convertor_from = $("#s2id_convertor_from"),
     convertor_date = $("#convertor_date"),
+    buying_label = $("#buying_label"),
     convertor_from_parent = convertor_from.parent(),
     convertor_to_parent = convertor_to.parent(),
     convertor_swapped = false;
@@ -277,17 +216,26 @@ $(function () {
     var c_date = convertor_date.datepicker("getDate").getTime(),
       c_amount = +convertor_input.val(),
       c_cur = convertor_from.select2("val"),
-      key = c_cur + "_" + c_date, list, bnk, ln, rate_x;
+      key = c_cur + "_" + c_date, list, bnk, ln, rate_x, tmp;
 
     if(isNaN(c_amount)) { c_amount = 1; }
+
+    if(convertor_swapped) {
+      tmp = gon.currencies.filter(function (r){ return r[0] === c_cur; });
+    }
+    convertor.toggleClass("hide_rates", (c_amount === 1));
+    buying_label.text(c_amount === 1 ? gon.buying.replace("%{currency}", (typeof tmp === "undefined" ? gon.gel : tmp[0][1])) : gon.amount);
 
     function render () {
       console.log("render", c_amount);
       convertor.find("> .bank").remove();
-      list = data.convertor.rates[key].filter(function (r){ return r.rate_type === (convertor_swapped ? "sell" : "buy"); });
+      list = data.convertor.rates[key].filter(function (r){ return r.rate_type === (convertor_swapped ? "sell" : "buy"); }).sort(function (a, b) { return a.data[0][1] - b.data[0][1]; });
       ln = list.length;
 
-      // console.log("render", list);
+      if(!convertor_swapped) {
+        list = list.reverse();
+      }
+      console.log("render", list);
       list.forEach(function (lst, i){
         bnk = gon.banks.filter(function (r){ return r[2] === lst.code; })[0];
 
@@ -297,7 +245,7 @@ $(function () {
         else {
           rate_x = convertor_swapped ? 1/lst.data[0][1] : lst.data[0][1];
 
-           console.log("here", lst.data[0][1], c_amount);
+           //console.log("here", lst.data[0][1], c_amount);
           convertor.append(
             "<div class='bank row"+ (i == 0 ? " first" : "") + (i == list.length-1 ? " last" : "") +
             "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" +
@@ -317,12 +265,13 @@ $(function () {
     }
     else
     {
-      $.getJSON("/" + I18n.locale + "/api/v1/commercial_bank_rates?currency=" + c_cur + "&start_date=" + c_date + "&end_date=" + (c_date+86400000), function (d) {
+      $.getJSON("/" + I18n.locale + "/api/v1/commercial_bank_rates?currency=" + c_cur + "&start_date=" + c_date + "&end_date=" + (c_date+86400000) + "&flat_ratio=true", function (d) {
         console.log("remote answer");
         if(d.valid)
         {
           data.convertor.keys.push(key);
           data.convertor.rates[key] = d.result;
+           console.log(d.result);
           render();
         }
       });
@@ -334,7 +283,6 @@ $(function () {
     if(isNaN(v)) { v = 1; }
     if(v !== prev) {
       t.data("prev", v);
-      $("#buying_label").text(+v === 1 ? gon.buying_gel : gon.buying_amount);
       reconvert();
     }
   }
@@ -366,15 +314,8 @@ $(function () {
   convertor_input.on("propertychange keyup input cut paste", function () { debounce(convertor_process(), 500); });
 
   $("#convertor_swap").click(function (){
-    console.log("swap");
     convertor_from.detach().appendTo(convertor_swapped ? convertor_from_parent : convertor_to_parent).toggleClass("swapped");
     convertor_to.detach().appendTo(convertor_swapped ? convertor_to_parent : convertor_from_parent).toggleClass("swapped");
-
-    // convertor_to = $("#convertor_to");
-    // convertor_to_parent = convertor_to.parent();
-    // convertor_from = $("#s2id_convertor_from");
-    // convertor_from_parent = convertor_from.parent();
-
     convertor_swapped = !convertor_swapped;
     reconvert();
   });

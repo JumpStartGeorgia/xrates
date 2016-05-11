@@ -205,15 +205,15 @@ ka:
         title: "ბანკი vs სებ ცხრილები"
       commercial:
         rates:
-          title: Rates
+          title: კურსი
         convertor:
-          title: Convertor
-          intro: "ნახეთ კომერციულ ბანკებში უცხოური ვალუტების ყიდვისა და გაყიდვის ფასი ეროვნული ბანკის კურსთან შედარებით."
-          from: From
-          to: To
-          buying_gel: Buying LARI
-          buying_amount: Buying Amount
-          date: Date
+          title: გადამყვანი
+          intro: "შეადარეთ ქართული კომერციული ბანკების უცხოური ვალუტის ყიდვა-გაყიდვის კურსები."
+          from: -დან
+          to: -ში
+          buying: "%{currency}-ის ყიდვა"
+          amount: თანხა
+          date: თარიღი
       currency: "ვალუტა"
       bank: "ბანკი"
       load_rates: "კურსის ჩატვირთვა"
