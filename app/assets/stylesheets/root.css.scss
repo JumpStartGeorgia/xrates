@@ -1885,7 +1885,6 @@ background-color: #f1f2f2;
           &.space {
             padding-bottom:30px;
           }
-          // > div { display:inline-block; }
         }
         .picker {
          .box { width:100%;}
@@ -1964,7 +1963,6 @@ background-color: #f1f2f2;
               border-bottom-right-radius: 2px;
             }
           }
-
         }
         .heading {
           font:16px/20px 'dejavusans';
@@ -2040,8 +2038,7 @@ background-color: #f1f2f2;
     }
   }
 
-
- input.datepicker
+input.datepicker
 {
   display:inline-block;
   position:relative;
