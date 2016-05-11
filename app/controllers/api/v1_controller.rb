@@ -219,7 +219,7 @@ class Api::V1Controller < ApplicationController
     end
     start_date = params[:start_date].present? ? to_date('start_date') : nil
     end_date =  params[:end_date].present? ? to_date('end_date') : nil
-
+    flat_ratio = params[:flat_ratio].present? ? params[:flat_ratio].to_bool : false
 
     data = { valid: true }
     result = []
@@ -230,21 +230,21 @@ class Api::V1Controller < ApplicationController
     validate_dates(start_date, end_date)
 
     if !@errors.any?
-      ratio = @currency_codes[currency]
-      if ratio != nil && banks.any?
+      #ratio = flat_ratio ? 1 : @currency_codes[currency]
+      if banks.any?
         banks.each{|code|
           b = Bank.find_by_code(code)
             if b.id == 1
-              x = Rate.rates_nbg(currency, b.id, { from: start_date, to: end_date })
+              x = Rate.nbg_rates(currency, { from: start_date, to: end_date, flat_ratio: flat_ratio })
               if x.present?
                 result << { id: code + '_' + currency, code: code, name:  (b.name + " (" + b.code + ")"), currency: currency, rate_type: 'reference', color: b.buy_color, legendIndex: b.order+1, data: x }
               end
             else
-              x = Rate.rates_buy(currency, b.id, ratio, { from: start_date, to: end_date })
+              x = Rate.rates_buy(currency, b.id, { from: start_date, to: end_date, flat_ratio: flat_ratio })
               if x.present?
                 result << { id: code + '_' + currency + '_B' , code: code, name: (b.name + " " + " (" + b.code + ")"), currency: currency, rate_type: 'buy', color: b.buy_color, dashStyle: 'shortdot', legendIndex: 2*b.order, data: x }
               end
-              x = Rate.rates_sell(currency, b.id, ratio, { from: start_date, to: end_date })
+              x = Rate.rates_sell(currency, b.id, { from: start_date, to: end_date, flat_ratio: flat_ratio })
               if x.present?
                 result << { id: code + '_' + currency + '_S', code: code, name: (b.name + " " + " (" + b.code + ")"), currency: currency, rate_type: 'sell', color: b.sell_color, dashStyle: 'shortdash', legendIndex: 2*b.order+1, data: x }
               end

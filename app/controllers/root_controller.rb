@@ -157,10 +157,10 @@ class RootController < ApplicationController
 
                 key = b.name + ' - ' + currency[0]
                 if b.id == 1
-                  rates[key] = Rate.rates_nbg(currency[0], b.id, include_date: true)
+                  rates[key] = Rate.nbg_rates(currency[0], include_date: true)
                 else
-                  rates[key + ' - BUY'] = Rate.rates_buy(currency[0], b.id, currency[2], include_date: true)
-                  rates[key + ' - SELL'] = Rate.rates_sell(currency[0], b.id, currency[2], include_date: true)
+                  rates[key + ' - BUY'] = Rate.rates_buy(currency[0], b.id, include_date: true)
+                  rates[key + ' - SELL'] = Rate.rates_sell(currency[0], b.id, include_date: true)
                 end
               }
             end

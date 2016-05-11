@@ -1002,10 +1002,11 @@ $(function () {
           }
           if(len==ind+1)
           {
-            var item = output[nbg];
-            var type = cur.p3.type;
-            var ret = "<div class='tooltip-item nbg'><span class='l' style='color:"+item.color+";'>"+item.name + "</span><span class='r'  style='color:"+item.color+";'>" + reformat(item.rate, 3) + "</span></div>";
-
+            var item = output[nbg],
+              type = cur.p3.type,
+              rat = gon.currencies.filter(function(r){ return cur.p3.c === r[0]; }),
+              ret = rat.length ? ("<span class='tooltip-header'>1 " + gon.gel + " : " + rat[0][2] + " " + rat[0][0] + "</span><br/>") : "";
+              ret += "<div class='tooltip-item nbg'><span class='l' style='color:"+item.color+";'>"+item.name + "</span><span class='r'  style='color:"+item.color+";'>" + reformat(item.rate, 3) + "</span></div>";
             if(len > 1)
             {
               ret += "<div class='tooltip-item-header'><span></span>";
