@@ -1871,6 +1871,7 @@ background-color: #f1f2f2;
         }
         .column {
           display:table-cell;
+          height:0px;
           // padding:6px 10px;
           white-space:nowrap;
           vertical-align:middle;
@@ -1974,13 +1975,14 @@ background-color: #f1f2f2;
           }
         }
         .heading {
-          font:16px/12px 'dejavusans';
-          color: #7b8483;
-          text-align:left;
           padding: 6px 10px 0px;
-          &:lang(en) { font-family:'oxygen'; }
           #buying_label {
+            font:16px/16px 'dejavusans';
+            color: #7b8483;
+            white-space:normal;
             padding:30px 0 0 10px;
+            text-align:left;
+            &:lang(en) { font-family:'oxygen'; }
           }
         }
         .caption {
@@ -1992,16 +1994,19 @@ background-color: #f1f2f2;
           &:lang(en) { font-family:'oxygen'; }
         }
         .row.bank {
-          .key {
-            padding: 14px 0px 14px;
-            width:100%;
+          .column:nth-of-type(1),.column:nth-of-type(2)
+          {
             border-bottom: 1px solid #c1c8ce;
-
+          }
+          .key {
+            padding: 18px 0px 14px;
+            width:100%;
+            height:100%;
 
             img {
               width:34px;
               height:34px;
-              margin:0 16px 0 0;
+              margin:-6px 16px 0 0;
               padding:0px;
               float: left;
             }
@@ -2014,10 +2019,10 @@ background-color: #f1f2f2;
           }
           .value {
             padding: 10px 0 10px 10px;
-            border-bottom: 1px solid #c1c8ce;
+
             text-align: right;
-            float:right;
-            span {
+            height:100%;
+            div.span {
               font:20px 'glober-sb';
               text-align:left;
               color:#7b8483;
@@ -2026,6 +2031,7 @@ background-color: #f1f2f2;
               border:1px solid #c1c8ce;
               display:inline-block;
               min-width:78px;
+              width:100%;
             }
           }
           .rate {

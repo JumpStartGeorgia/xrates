@@ -249,8 +249,8 @@ $(function () {
           convertor.append(
             "<div class='bank row"+ (i == 0 ? " first" : "") + (i == list.length-1 ? " last" : "") +
             "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" +
-            bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'><span>" +
-            reformat(rate_x*c_amount, 4).trimr("0")+"</span></div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4).trimr("0")+"</div></div></div>"
+            bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'><div class='span'>" +
+            reformat(rate_x*c_amount, 4).trimr("0")+"</div></div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4).trimr("0")+"</div></div></div>"
           );
         }
 
