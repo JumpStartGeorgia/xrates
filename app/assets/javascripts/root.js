@@ -254,7 +254,7 @@ $(function () {
     if(data.convertor.keys.indexOf(key) !== -1) { render(); }
     else
     {
-      $.getJSON("/" + I18n.locale + "/api/v1/commercial_bank_rates?currency=" + c_cur + "&start_date=" + c_date + "&end_date=" + (c_date+86400000) + "&flat_ratio=true", function (d) {
+      $.getJSON("/" + I18n.locale + "/api/v1/commercial_bank_rates?currency=" + c_cur + "&start_date=" + c_date + "&end_date=" + (c_date+86399999) + "&flat_ratio=true", function (d) {
         if(d.valid)
         {
           data.convertor.keys.push(key);
