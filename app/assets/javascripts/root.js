@@ -210,11 +210,11 @@ $(function () {
     convertor_swapped = false;
 
   function reconvert () {
-    var c_date = convertor_date.datepicker("getDate").getTime(),
+    var c_date = convertor_date.datepicker("getDate"),
       c_amount = +convertor_input.val(),
       c_cur = convertor_from.select2("val"),
-      key = c_cur + "_" + c_date, list, bnk, ln, rate_x, tmp;
-
+      key = c_cur + "_" + c_date, list, bnk, ln, rate_x, tmp, c_date_tmp;
+    c_date = new Date(Date.UTC(c_date.getFullYear(), c_date.getMonth(), c_date.getDate())).getTime();
     if(isNaN(c_amount)) { c_amount = 1; }
 
     if(convertor_swapped) {
