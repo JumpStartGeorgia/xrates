@@ -586,7 +586,7 @@ a
                font-family: 'dejavusans';
                color:#fff;
                font-size:19px;
-               padding:6px 20px;
+               padding:16px 20px;
                background-color:#ffc539;
               -webkit-border-radius: 2px;
                -moz-border-radius: 2px;
@@ -1059,7 +1059,7 @@ a
    {
       position:relative;
       display:table-cell;
-      padding:3px 10px;
+      padding:7px 10px;
       font-family:'dejavusans-b';
       font-size:15px;
       color:#7b8483;
@@ -1874,7 +1874,7 @@ background-color: #f1f2f2;
           height:0px;
           // padding:6px 10px;
           white-space:nowrap;
-          vertical-align:middle;
+          vertical-align:top;
           &:first-of-type {
             width:100%;
             max-width:300px;
@@ -1909,7 +1909,7 @@ background-color: #f1f2f2;
               font:22px/22px 'glober-sb';
               text-align:right;
               color:#7b8483;
-              padding:0 12px;
+              padding:3px 12px 0;
               background-color:#fff;
               border:1px solid #ffc539;
               border-radius:0;
@@ -1935,6 +1935,12 @@ background-color: #f1f2f2;
               .select2-arrow {
                 top: -3px;
               }
+            }
+            .select2-chosen {
+              padding: 0px 18px 0px 8px;
+            }
+            .select2-choice .select2-arrow b:after, .select2-choices:after {
+              right: 7px;
             }
           }
           #s2id_convertor_from {
@@ -1962,14 +1968,15 @@ background-color: #f1f2f2;
             }
           }
            #convertor_to {
-            display:inline-block;
+            display:table-cell;
             font:19px/24px 'glober-sb';
             color:#fff;
-            padding:9px 8px 6px;
+            padding:4px 8px 0;
             background-color:#ffc539;
             border-radius:2px;
             height:40px;
             box-sizing:border-box;
+            vertical-align:middle;
             &.swapped {
               display:table-cell;
               border-radius:0;
@@ -2078,7 +2085,7 @@ input.datepicker
   -moz-border-radius: 2px;
   border-radius: 2px;
   border:0px;
-  padding: 4px 20px 4px 10px;
+  padding: 4px 30px 4px 10px;
   height: 34px;
   width: 100px;
   &:lang(en)

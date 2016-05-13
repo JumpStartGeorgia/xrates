@@ -244,7 +244,7 @@ $(function () {
             "<div class='bank row"+ (i == 0 ? " first" : "") + (i == list.length-1 ? " last" : "") +
             "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" +
             bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'>" +
-            reformat(rate_x*c_amount, 4).trimr("0")+"</div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4).trimr("0")+"</div></div></div>"
+            reformat(rate_x*c_amount, 2)+"</div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4)+"</div></div></div>"
           );
         }
       });
@@ -601,11 +601,11 @@ $(function () {
     var x = n.toFixed(s).split("."),
       x1 = x[0],
       rgx = /(\d+)(\d{3})/;
-    x[1] = (x[1]+"").trimr("0");
+
     while (rgx.test(x1)) {
       x1 = x1.replace(rgx, "$1" + "," + "$2");
     }
-    return x1 + (x.length > 1 ? "." + x[1].trimr("0") : "");//(+n.toFixed(s)).toLocaleString();
+    return x1 + (x.length > 1 ? "." + x[1] : "");//(+n.toFixed(s)).toLocaleString();
   }
   function getWorth (){
     var t = parseFloat(worth.val().replace(/,|\s/g, ""));
