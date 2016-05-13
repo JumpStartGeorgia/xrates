@@ -2049,11 +2049,9 @@ background-color: #f1f2f2;
             border:1px solid #c1c8ce;
           }
           .rate {
-            padding: 0px 0 0 4px;
+            padding: 10px 0 0 4px;
             font:12px 'glober-sb';
             color:#7b8483;
-            position: relative;
-            top: -14px;
           }
           &.first {
             .value span, .rate {

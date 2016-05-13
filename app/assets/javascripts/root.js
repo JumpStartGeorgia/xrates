@@ -82,7 +82,7 @@ $(function () {
   gon.currency_to_bank = JSON.parse(gon.currency_to_bank);
   var nbg = "BNLN";
   var nav_id = "highcharts-navigator-series";
-  var params = { p: "national_bank",
+  var params = { p: "commercial_banks",
     read: function ()
     {
       var hash = window.location.hash.triml("#");
@@ -244,7 +244,7 @@ $(function () {
             "<div class='bank row"+ (i == 0 ? " first" : "") + (i == list.length-1 ? " last" : "") +
             "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" +
             bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'>" +
-            reformat(rate_x*c_amount, 2)+"</div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4)+"</div></div></div>"
+            reformat(rate_x*c_amount, (c_amount === 1 ? 4 : 2))+"</div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4)+"</div></div></div>"
           );
         }
       });
