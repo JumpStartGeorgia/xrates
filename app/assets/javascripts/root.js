@@ -155,28 +155,27 @@ $(function () {
   // p2 type 0 none, 1 percent
   // p3 type 0 both, 1 buy, 2 sell
 
-  var from = $(".calculator .from[data-type=datepicker]");
-  var to = $(".calculator .to[data-type=datepicker]");
-  var worth = $("#worth").on("keyup", function () { debounce(calculate(), 500); });
-  var worth_then = $("#worth_then .value");
-  var worth_now = $("#worth_now .value");
-  var rate_then = $("#rate_then .value");
-  var rate_now = $("#rate_now .value");
-  var worth_diff = $("#worth_diff .value");
-  var info_text = $("#info_text");
-
-  var data = {
-    rates:[],
-    dir:1,
-    date_from:null,
-    date_to:null,
-    rate_from_init:0,
-    rate_to_init:0,
-    worth:1,
-    nbg: { keys: [], rates: {} },
-    banks: { keys: [], rates: {} },
-    convertor: { keys: [], rates: {}}
-  };
+  var from = $(".calculator .from[data-type=datepicker]"),
+    to = $(".calculator .to[data-type=datepicker]"),
+    worth = $("#worth").on("keyup", function () { debounce(calculate(), 500); }),
+    worth_then = $("#worth_then .value"),
+    worth_now = $("#worth_now .value"),
+    rate_then = $("#rate_then .value"),
+    rate_now = $("#rate_now .value"),
+    worth_diff = $("#worth_diff .value"),
+    info_text = $("#info_text"),
+    data = {
+      rates:[],
+      dir:1,
+      date_from:null,
+      date_to:null,
+      rate_from_init:0,
+      rate_to_init:0,
+      worth:1,
+      nbg: { keys: [], rates: {} },
+      banks: { keys: [], rates: {} },
+      convertor: { keys: [], rates: {}}
+    };
 
 
 
@@ -199,20 +198,18 @@ $(function () {
   });
 
 
-  var commercial_convertor = $("#commercial_convertor"),
-    convertor = commercial_convertor.find(".table"),
+  var convertor = $("#commercial_convertor .table"),
     convertor_input = $("#convertor_input"),
     convertor_to = $("#convertor_to"),
     convertor_from = $("#s2id_convertor_from"),
     convertor_date = $("#convertor_date"),
     buying_label = $("#buying_label"),
+    convertor_heading = convertor.find(".row.heading"),
     convertor_from_parent = convertor_from.parent(),
     convertor_to_parent = convertor_to.parent(),
     convertor_swapped = false;
 
   function reconvert () {
-    console.log("Reconvert");
-
     var c_date = convertor_date.datepicker("getDate").getTime(),
       c_amount = +convertor_input.val(),
       c_cur = convertor_from.select2("val"),
@@ -227,7 +224,6 @@ $(function () {
     buying_label.text(c_amount === 1 ? gon.buying.replace("%{currency}", (typeof tmp === "undefined" ? gon.gel : tmp[0][1])) : gon.amount);
 
     function render () {
-      console.log("render", c_amount);
       convertor.find("> .bank").remove();
       list = data.convertor.rates[key].filter(function (r){ return r.rate_type === (convertor_swapped ? "sell" : "buy"); }).sort(function (a, b) { return a.data[0][1] - b.data[0][1]; });
       ln = list.length;
@@ -235,7 +231,6 @@ $(function () {
       if(!convertor_swapped) {
         list = list.reverse();
       }
-      console.log("render", list);
       list.forEach(function (lst, i){
         bnk = gon.banks.filter(function (r){ return r[2] === lst.code; })[0];
 
@@ -245,33 +240,25 @@ $(function () {
         else {
           rate_x = convertor_swapped ? 1/lst.data[0][1] : lst.data[0][1];
 
-           //console.log("here", lst.data[0][1], c_amount);
           convertor.append(
             "<div class='bank row"+ (i == 0 ? " first" : "") + (i == list.length-1 ? " last" : "") +
             "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" +
-            bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'><div class='span'>" +
-            reformat(rate_x*c_amount, 4).trimr("0")+"</div></div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4).trimr("0")+"</div></div></div>"
+            bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'>" +
+            reformat(rate_x*c_amount, 4).trimr("0")+"</div></div><div class='column'><div class='rate'>"+reformat(rate_x, 4).trimr("0")+"</div></div></div>"
           );
         }
-
       });
-
+      convertor_heading.toggle(ln>0);
     }
 
-    if(data.convertor.keys.indexOf(key) !== -1)
-    {
-      console.log("local answer");
-      render();
-    }
+    if(data.convertor.keys.indexOf(key) !== -1) { render(); }
     else
     {
       $.getJSON("/" + I18n.locale + "/api/v1/commercial_bank_rates?currency=" + c_cur + "&start_date=" + c_date + "&end_date=" + (c_date+86400000) + "&flat_ratio=true", function (d) {
-        console.log("remote answer");
         if(d.valid)
         {
           data.convertor.keys.push(key);
           data.convertor.rates[key] = d.result;
-           console.log(d.result);
           render();
         }
       });
@@ -288,28 +275,17 @@ $(function () {
   }
 
 
-  commercial_convertor.find("#convertor_date").datepicker({
+  convertor_date.datepicker({
     dateFormat: "d M, yy",
     defaultDate: "-3m",
     changeMonth: true,
     changeYear: true,
     maxDate: "d",
     gotoCurrent: true,
-    // onClose: function ( v ) {
-    //   $(".calculator .to[data-type=datepicker]").datepicker( "option", "minDate", v );
-    //   this._visible = false;
-    // },
     onSelect: function (v, o) {
       reconvert();
     }
   }).datepicker("setDate", "d");
-  // .on("click", function (e){
-  //   var t = $(this);
-  //   var b = (this._visible !== undefined && this._visible === true);
-  //   t.datepicker(b ? "hide" : "show");
-  //   this._visible = !b;
-  //   e.preventDefault();
-  // });
 
   convertor_input.on("propertychange keyup input cut paste", function () { debounce(convertor_process(), 500); });
 
@@ -319,14 +295,6 @@ $(function () {
     convertor_swapped = !convertor_swapped;
     reconvert();
   });
-
-  // convertor.find("> bank").remove();
-  // gon.banks.forEach(function (bnk, i){
-  //   //console.log(bnk);
-  //   var html = "<div class='bank row"+ (i == 0 ? " first" : "") + (i == gon.banks.length-1 ? " last" : "") + "' data-bank-id='"+bnk[0]+"'><div class='column'><div class='key'><img src='/assets/png/banks/" + bnk[3]["data-image"]+".jpg'><label>"+bnk[1]+"</label></div></div><div class='column'><div class='value'><span>"+reformat(2.238, 3)+"</span></div></div><div class='column'><div class='rate'>"+reformat(2.238, 3)+"</div></div></div>";
-  //   //return "<div class='logo vtop'><img src='"+d.image+".jpg'/></div><div class='name vtop'>"+d.text+"</div>"; // <div class='abbr'>"+d.id+"</div>
-  //   convertor.append(html);
-  // });
 
   reconvert();
 
@@ -633,11 +601,11 @@ $(function () {
     var x = n.toFixed(s).split("."),
       x1 = x[0],
       rgx = /(\d+)(\d{3})/;
-
+    x[1] = (x[1]+"").trimr("0");
     while (rgx.test(x1)) {
       x1 = x1.replace(rgx, "$1" + "," + "$2");
     }
-    return x1 + (x.length > 1 ? "." + x[1] : "");//(+n.toFixed(s)).toLocaleString();
+    return x1 + (x.length > 1 ? "." + x[1].trimr("0") : "");//(+n.toFixed(s)).toLocaleString();
   }
   function getWorth (){
     var t = parseFloat(worth.val().replace(/,|\s/g, ""));

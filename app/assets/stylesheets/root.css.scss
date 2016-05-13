@@ -1860,7 +1860,7 @@ background-color: #f1f2f2;
       }
     .tab-pane#commercial_convertor {
       .table {
-        padding:30px 0 0;
+        padding:30px 10px 0 10px;
         max-width:500px;
         margin:0px auto;
 
@@ -1893,8 +1893,12 @@ background-color: #f1f2f2;
           }
         }
         .picker {
-          .column {
+         .column.first {
+            padding:0 0 30px;
+         }
+          .column.second {
             text-align:right;
+            padding:0 0 30px;
           }
           .box { text-align:left; }
           .input {
@@ -1975,12 +1979,12 @@ background-color: #f1f2f2;
           }
         }
         .heading {
-          padding: 6px 10px 0px;
+          padding: 0 10px;
           #buying_label {
             font:16px/16px 'dejavusans';
             color: #7b8483;
             white-space:normal;
-            padding:30px 0 0 10px;
+            padding:0 0 0 10px;
             text-align:left;
             &:lang(en) { font-family:'oxygen'; }
           }
@@ -1998,41 +2002,44 @@ background-color: #f1f2f2;
           {
             border-bottom: 1px solid #c1c8ce;
           }
+          .column:nth-of-type(2) {
+            vertical-align: top;
+            padding:10px 0;
+          }
           .key {
-            padding: 18px 0px 14px;
+            padding: 18px 0px 10px;
             width:100%;
             height:100%;
-
+            position:relative;
             img {
               width:34px;
               height:34px;
-              margin:-6px 16px 0 0;
-              padding:0px;
-              float: left;
+              padding: 0px;
+              position: absolute;
+              top: 10px;
+              left: 0px;
             }
             label {
               font:16px/20px 'dejavusans';
               color: #7b8483;
               &:lang(en) { font-family:'oxygen'; }
               white-space:normal;
+              padding: 0 10px 0 44px;
+              display: block;
             }
           }
           .value {
-            padding: 10px 0 10px 10px;
-
-            text-align: right;
-            height:100%;
-            div.span {
-              font:20px 'glober-sb';
-              text-align:left;
-              color:#7b8483;
-              padding:10px 12px 6px;
-              background-color:#fff;
-              border:1px solid #c1c8ce;
-              display:inline-block;
-              min-width:78px;
-              width:100%;
-            }
+            display:inline-block;
+            box-sizing: border-box;
+            font:20px 'glober-sb';
+            background-color:#fff;
+            color:#7b8483;
+            text-align:left;
+            padding:10px 12px 6px;
+            width:100%;
+            min-width:78px;
+            max-height:42px;
+            border:1px solid #c1c8ce;
           }
           .rate {
             padding: 0px 0 0 4px;
@@ -2047,7 +2054,7 @@ background-color: #f1f2f2;
             }
           }
           &.last {
-            .key, .value {
+            .column {
               border:0;
             }
           }
