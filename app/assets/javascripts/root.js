@@ -277,11 +277,10 @@ $(function () {
 
   convertor_date.datepicker({
     dateFormat: "d M, yy",
-    defaultDate: "-3m",
     changeMonth: true,
     changeYear: true,
-    maxDate: "d",
-    gotoCurrent: true,
+    minDate: new Date(gon.first_scrapped_at),
+    maxDate: new Date(gon.last_scrapped_at),
     onSelect: function (v, o) {
       reconvert();
     }

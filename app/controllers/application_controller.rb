@@ -62,8 +62,8 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
 	  @enable_omniauth = false
     @css = []
     @js = []
-
     @last_scrapped_at = Rate.maximum(:updated_at).in_time_zone
+    @first_scrapped_at = Rate.minimum(:updated_at).in_time_zone
  end
 
 	def initialize_gon
@@ -105,6 +105,8 @@ logger.debug "////////////////////////// BROWSER = #{user_agent}"
       gon.currencies = Currency.data
       gon.buying = t('root.index.commercial.convertor.buying')
       gon.amount = t('root.index.commercial.convertor.amount')
+      gon.last_scrapped_at = @last_scrapped_at
+      gon.first_scrapped_at = @first_scrapped_at
       currency_by_bank = {}
       Rate.currency_by_bank.each{|t|
          if(currency_by_bank.has_key?(t.currency))
