@@ -297,28 +297,35 @@ class Rates
           end
           return items
         } },
+      # off date 17.05.2016
       { name: "Progress Bank",
+        off: true,
         id:9,
-        path:"http://progressbank.ge/ge/85/",
-        parent_tag:".rates table tbody",
-        child_tag:"td",
-        child_tag_count:2,
-        position:[0, 0, 1],
-        threshold: 4,
-        cnt:0,
-        script:true,
-        script_callback: lambda {|script, bank|
-          items = []
-          mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
-          script.css("tr").each do |item|
-            cur = mp[item.css("th > div").attr("class").value]
-            c = item.css(bank[:child_tag])
-            if cur.present? && c.length == bank[:child_tag_count]
-              items.push([swap(cur), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-            end
-          end
-          return items
-        } },
+        path:"http://progressbank.ge",
+        parent_tag:".content .image-holder img" },
+        # before off
+        # { name: "Progress Bank",
+        #   id:9,
+        #   path:"http://progressbank.ge/ge/85/",
+        #   parent_tag:".rates table tbody",
+        #   child_tag:"td",
+        #   child_tag_count:2,
+        #   position:[0, 0, 1],
+        #   threshold: 4,
+        #   cnt:0,
+        #   script:true,
+        #   script_callback: lambda {|script, bank|
+        #     items = []
+        #     mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
+        #     script.css("tr").each do |item|
+        #       cur = mp[item.css("th > div").attr("class").value]
+        #       c = item.css(bank[:child_tag])
+        #       if cur.present? && c.length == bank[:child_tag_count]
+        #         items.push([swap(cur), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+        #       end
+        #     end
+        #     return items
+        #   } },
       { name: "KSB",
         id:10,
         path:"http://www.ksb.ge/en/",
@@ -405,15 +412,22 @@ class Rates
         position:[0, 1, 2],
         threshold: 4,
         cnt:0 },
+      # off date 17.05.2016
       { name: "Pasha Bank",
+        off: true,
         id:16,
-        path:"http://www.pashabank.ge/en/exchange-rates",
-        parent_tag:".exchange1 table tbody tr",
-        child_tag:"td",
-        child_tag_count:3,
-        position:[0, 1, 2],
-        threshold: 4,
-        cnt:0 },
+        path:"http://www.pashabank.ge",
+        parent_tag:"#promoslider .slide1 .lined-h2" },
+        # before off
+        # { name: "Pasha Bank",
+        #   id:16,
+        #   path:"http://www.pashabank.ge/en/exchange-rates",
+        #   parent_tag:".exchange1 table tbody tr",
+        #   child_tag:"td",
+        #   child_tag_count:3,
+        #   position:[0, 1, 2],
+        #   threshold: 4,
+        #   cnt:0 },
       { name: "International Bank of Azerbaijan",
         id:17,
         path:"http://www.ibaz.ge/index.php?lang_id=2",
@@ -521,36 +535,37 @@ class Rates
           end
           return items
         } },
-      # previous version it is off now
-      # { name: "Alpha Express",
-      #   id:22,
-      #   type: :other,
-      #   path:"https://alpha-express.ge/en",
-      #   parent_tag:"#currency .values table tr",
-      #   child_tag:"td",
-      #   child_tag_count:3,
-      #   position:[0, 1, 2],
-      #   threshold: 4,
-      #   cnt:0,
-      #   script:true,
-      #   script_callback: lambda {|script, bank|
-      #     items = []
-      #     script.each do |item|
-      #       c = item.css(bank[:child_tag])
-      #       if c.length == bank[:child_tag_count] && c[1].css("i").length > 0 && c[1].css("i").attr("class").value.index("fa-dollar").nil?
-      #         items.push([swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-      #       end
-      #     end
-      #     return items
-      #   },
-      #   ssl: true },
+      # on date 17.05.2016
       { name: "Alpha Express",
-        off: true,
         id:22,
         type: :other,
-        path:"https://alpha-express.ge/ge",
-        parent_tag:".cards a[href='#currency']",
+        path:"https://alpha-express.ge/en",
+        parent_tag:"#currency .values table tr",
+        child_tag:"td",
+        child_tag_count:3,
+        position:[0, 1, 2],
+        threshold: 4,
+        cnt:0,
+        script:true,
+        script_callback: lambda {|script, bank|
+          items = []
+          script.each do |item|
+            c = item.css(bank[:child_tag])
+            if c.length == bank[:child_tag_count] && c[1].css("i").length > 0 && c[1].css("i").attr("class").value.index("fa-dollar").nil?
+              items.push([swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+            end
+          end
+          return items
+        },
         ssl: true },
+        # was turn off but corrected with same layout
+        # { name: "Alpha Express",
+        #   off: true,
+        #   id:22,
+        #   type: :other,
+        #   path:"https://alpha-express.ge/ge",
+        #   parent_tag:".cards a[href='#currency']",
+        #   ssl: true },
         # not available banks
         #---------------ISBANK Georgia - ISBK - http://www.isbank.ge/eng/default.aspx - no currency info
         #---------------Ziraat Bank" Tbilisi - TCZB - http://ziraatbank.ge/retail-banking-services/currency-exchange - no currency info
