@@ -13,6 +13,14 @@
     <meta property="og:image" content="<%= full_url('/assets/fb_'+I18n.locale.to_s+'.jpg') %>">
     <meta property="og:site_name" content="<%= t('app.common.app_name') %>" >
 
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#ffc539">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#ffc539">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <%= csrf_meta_tags %>
 	  <%= include_gon %>
 
