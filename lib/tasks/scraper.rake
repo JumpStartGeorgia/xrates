@@ -297,36 +297,36 @@ class Rates
           end
           return items
         } },
-      # off date 17.05.2016
+      # turn on 24.05.2016
       { name: "Progress Bank",
-        off: true,
         id:9,
-        path:"http://progressbank.ge",
-        parent_tag:".content .image-holder img" },
-        # before off
-        # { name: "Progress Bank",
-        #   id:9,
-        #   path:"http://progressbank.ge/ge/85/",
-        #   parent_tag:".rates table tbody",
-        #   child_tag:"td",
-        #   child_tag_count:2,
-        #   position:[0, 0, 1],
-        #   threshold: 4,
-        #   cnt:0,
-        #   script:true,
-        #   script_callback: lambda {|script, bank|
-        #     items = []
-        #     mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
-        #     script.css("tr").each do |item|
-        #       cur = mp[item.css("th > div").attr("class").value]
-        #       c = item.css(bank[:child_tag])
-        #       if cur.present? && c.length == bank[:child_tag_count]
-        #         items.push([swap(cur), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-        #       end
-        #     end
-        #     return items
-        #   } },
-      { name: "KSB",
+        path:"http://progressbank.ge/ge/85/",
+        parent_tag:".rates table tbody",
+        child_tag:"td",
+        child_tag_count:2,
+        position:[0, 0, 1],
+        threshold: 4,
+        cnt:0,
+        script:true,
+        script_callback: lambda {|script, bank|
+          items = []
+          mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
+          script.css("tr").each do |item|
+            cur = mp[item.css("th > div").attr("class").value]
+            c = item.css(bank[:child_tag])
+            if cur.present? && c.length == bank[:child_tag_count]
+              items.push([swap(cur), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+            end
+          end
+          return items
+        } },
+      # was turn off from 17.05.2016 to 24.05.2016 but corrected with same layout
+      # { name: "Progress Bank",
+      #   off: true,
+      #   id:9,
+      #   path:"http://progressbank.ge",
+      #   parent_tag:".content .image-holder img" },
+      { name: "KSB", # redirecting to http://terabank.ge/ge/retail but structure stays the same
         id:10,
         path:"http://www.ksb.ge/en/",
         parent_tag:".content script",
