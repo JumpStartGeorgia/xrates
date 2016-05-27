@@ -13,7 +13,7 @@
           <div class="filters">
             <div class="box">
               <div class="caption"><%= t(".currency") %></div>
-              <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, 'USD'),
+              <%= select_tag :currency, options_for_select(@currencies_available, 'USD'),
                     :'data-placeholder' => t('.hint.currency'),
                     class: 'selectpicker filter-c-currency' %>
             </div>
@@ -50,7 +50,7 @@
                     <br/>
                     <div class="input">
                       <input type="text" id="convertor_input" value="1">
-                      <%= select_tag :currency, options_for_select(@currencies_available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, 'USD'),
+                      <%= select_tag :currency, options_for_select(@currencies_available, 'USD'),
                           :'data-placeholder' => t('.hint.currency'),
                           class: 'selectpicker', id: "convertor_from" %>
                     </div>
@@ -82,7 +82,7 @@
     <div class="intro"><%= t(".page2.intro") %></div>
     <div class="filters">
       <div class="caption"><%= t(".currency") %></div>
-      <%= select_tag :currency, options_for_select(@currencies.each_with_index.map{|x,i| [ x[1], x[0], {} ] }, params[:currency].split(',')),
+      <%= select_tag :currency, options_for_select(@currencies, params[:currency].split(',')),
               include_blank: false,
               multiple: true,
               :'data-placeholder' => t('.hint.currency'),

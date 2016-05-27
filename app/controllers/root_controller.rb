@@ -8,8 +8,17 @@ class RootController < ApplicationController
     params[:bank] ||= 'BNLN'
     gon.currency = params[:currency]
     gon.bank = params[:bank]
-    @currencies = Currency.data
-    @currencies_available = Currency.available
+    @currencies = Currency.data.each_with_index.map{|x,i| [ x[1], x[0], {} ] }
+    @currencies_available = Currency.available.each_with_index.map{|x,i| [ x[1], x[0], {} ] }
+
+    ["RUB", "GBP", "EUR", "USD"].each{|r|
+      ind = @currencies.index{ |t| t[1] == r }
+      @currencies.insert(0,@currencies.delete_at(ind)) if ind.present?
+
+      ind = @currencies_available.index{ |t| t[1] == r }
+      @currencies_available.insert(0,@currencies_available.delete_at(ind)) if ind.present?
+    }
+
     @banks = Bank.all_except_nbg
 
     respond_to do |format|
