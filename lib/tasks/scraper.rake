@@ -396,7 +396,7 @@ class Rates
         child_tag:"span",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 0, # June 12 switched from 4 to 0 due, site currency box is broken. Email sended to bank
+        threshold: 4, # June 13 switched to 4 from 0, previous June 12 switched from 4 to 0 due, site currency box is broken. Email sended to bank
         cnt:0 },
       # { name: "Halyk Bank",
       #   off:true,
