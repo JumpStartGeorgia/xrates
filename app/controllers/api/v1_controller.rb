@@ -1,6 +1,7 @@
 class Api::V1Controller < ApplicationController
   before_filter :load_currencies, except: [:index, :documentation]
   after_filter :record_analytics, except: [:index, :documentation]
+  before_filter :fix_mime_type, except: [:index, :documentation]
 
   def index
     redirect_to api_path
@@ -341,6 +342,10 @@ class Api::V1Controller < ApplicationController
 
 
 private
+
+  def fix_mime_type
+    response.headers["Content-Type"] = "application/javascript" if params[:callback].present?
+  end
 
   def load_currencies
     @currency_codes =  Hash[Currency.select('code,ratio').map { |t|  [t.code, t.ratio] }]
