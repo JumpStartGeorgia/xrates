@@ -102,7 +102,7 @@ class Rates
   end
   def self.swap(s)
     s = s.gsub(/[[:space:]]/, '').chomp.upcase
-    swap = {"RUR" => "RUB", "TRL" => "TRY", "AZM" => "AZN", "AVD" => "AUD", "UKG" => "UAH"}
+    swap = {"RUR" => "RUB", "TRL" => "TRY", "AZM" => "AZN", "AVD" => "AUD", "UKG" => "UAH", "BYN" => "BYR"}
     return swap.key?(s) ? swap[s] : s
   end
   def self.n(s)
