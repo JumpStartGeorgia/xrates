@@ -1,5 +1,5 @@
 class RootController < ApplicationController
-  layout false, only: [:share]
+  layout false, only: [:share, :story1, :story2]
   def index
 
     @js.push("u.js", "root.js")
