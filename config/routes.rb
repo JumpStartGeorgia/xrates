@@ -40,7 +40,6 @@ BootstrapStarter::Application.routes.draw do
     # root pages
     match "about" => "root#about", as: 'about', :via => :get
     match "share_test" => "root#share_test", as: 'share_test', :via => :get
-    match "shareview" => "root#shareview", as: 'shareview', :via => :get
     match "data_download" => "root#data_download", as: 'data_download', :via => :get, :defaults => { :format => 'csv' }
 
 		root :to => 'root#index'

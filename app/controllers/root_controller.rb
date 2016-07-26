@@ -1,5 +1,5 @@
 class RootController < ApplicationController
-  layout false, only: [:share_test, :shareview]
+  layout false, only: [:share]
   def index
 
     @js.push("u.js", "root.js")
@@ -227,8 +227,6 @@ class RootController < ApplicationController
   end
   def share_test
 
-  end
-  def shareview
   end
 
 private

@@ -1,19 +1,7 @@
-<%
-def full_image_path(img_path)
-    request.protocol + request.host_with_port + image_path(img_path)
-end
-%>
-
 <html>
 <head>
-  <title>Share test title</title>
-      <meta charset="utf-8">
-      <meta property="og:title" content="Share test title" />
-      <meta property="og:site_name" content="Site Name" />
-      <meta property="og:image" content="<%= full_image_path('fb_en.jpg') %>" />
-      <meta property="og:description" content="Lorem ipsum dolor sit amet, consectetur." />
-      <meta property="og:url" content="<%= shareview_url %>" />
-      <meta property="og:type"   content="website" />
+  <title>Share Test</title>
+
 </head>
 <body>
 <%
@@ -21,8 +9,8 @@ end
   url = "http://dev-pin.jumpstart.ge/en/share?return_url=#{share_test_url}&params[]=123&params[]=abc"
 %>
 
-<div class="fb-share-button" data-href='' data-layout="button_count" data-size="small" data-mobile-iframe="true">
-  <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=">Share</a>
+<div class="fb-share-button" data-href='<%= url %>' data-layout="button_count" data-size="small" data-mobile-iframe="true">
+  <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.decode(url) %>">Share</a>
 </div>
 
   Share button should be above
