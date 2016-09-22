@@ -366,7 +366,7 @@ class Rates
         child_tag:"li",
         child_tag_count:3,
         position:[0, 2, 1],
-        threshold: 17,
+        threshold: 16,
         cnt:0,
         script: true,
         script_callback: lambda {|script, bank|
