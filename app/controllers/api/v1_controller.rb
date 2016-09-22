@@ -343,6 +343,8 @@ class Api::V1Controller < ApplicationController
 
 private
 
+  # rails does not return the correct mime type for jsonp requests
+  # so this properly sets it
   def fix_mime_type
     response.headers["Content-Type"] = "application/javascript" if params[:callback].present?
   end
