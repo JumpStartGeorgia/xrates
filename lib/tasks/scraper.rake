@@ -134,7 +134,7 @@ class Rates
 
     #     end
     rescue  Exception => e
-      puts "#{bank[:name]} - exceptoin occured for bank that is off #{e}"
+      puts "#{bank[:name]} - exception occured for bank that is off #{e}"
     end
   end
 
@@ -297,35 +297,36 @@ class Rates
           end
           return items
         } },
-      # turn on 24.05.2016
+      # was turn off on 24.10.2016
       { name: "Progress Bank",
+        off: true,
         id:9,
         path:"http://progressbank.ge/ge/85/",
-        parent_tag:".rates table tbody",
-        child_tag:"td",
-        child_tag_count:2,
-        position:[0, 0, 1],
-        threshold: 4,
-        cnt:0,
-        script:true,
-        script_callback: lambda {|script, bank|
-          items = []
-          mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
-          script.css("tr").each do |item|
-            cur = mp[item.css("th > div").attr("class").value]
-            c = item.css(bank[:child_tag])
-            if cur.present? && c.length == bank[:child_tag_count]
-              items.push([swap(cur), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-            end
-          end
-          return items
-        } },
+        parent_tag:".rates table tbody" },
       # was turn off from 17.05.2016 to 24.05.2016 but corrected with same layout
+      # turn on 24.05.2016
       # { name: "Progress Bank",
-      #   off: true,
       #   id:9,
-      #   path:"http://progressbank.ge",
-      #   parent_tag:".content .image-holder img" },
+      #   path:"http://progressbank.ge/ge/85/",
+      #   parent_tag:".rates table tbody",
+      #   child_tag:"td",
+      #   child_tag_count:2,
+      #   position:[0, 0, 1],
+      #   threshold: 4,
+      #   cnt:0,
+      #   script:true,
+      #   script_callback: lambda {|script, bank|
+      #     items = []
+      #     mp = { "icon-flag_us" => "USD", "icon-flag_eu" => "EUR", "icon-flag_uk" => "GBP", "icon-flag_ru" => "RUB" }
+      #     script.css("tr").each do |item|
+      #       cur = mp[item.css("th > div").attr("class").value]
+      #       c = item.css(bank[:child_tag])
+      #       if cur.present? && c.length == bank[:child_tag_count]
+      #         items.push([swap(cur), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+      #       end
+      #     end
+      #     return items
+      #   } },
       { name: "KSB", # redirecting to http://terabank.ge/ge/retail but structure stays the same
         id:10,
         path:"http://www.ksb.ge/en/",
