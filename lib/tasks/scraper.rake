@@ -456,32 +456,40 @@ class Rates
           end
 
           return items } },
-      { name: "Caucasus Development Bank Georgia",
+      # was turn off on 15.11.2016 because of domain is off, planning to remove
+      # duplicates because exchange rate stopped changing
+      {
+        name: "Caucasus Development Bank Georgia",
         id:18,
-        path:"http://www.cdb.ge/en/",
-        parent_tag:".exch > tbody",
-        child_tag:"> td",
-        child_tag_count:3,
-        position:[0, 1, 2],
-        threshold: 3,
-        cnt:0,
-        script:true,
-        script_callback: lambda {|page, bank|
+        off: true,
+        path:"http://www.cdb.ge/",
+        parent_tag:"body"
+      },
+      # { name: "Caucasus Development Bank Georgia",
+      #   id:18,
+      #   path:"http://www.cdb.ge/en/",
+      #   parent_tag:".exch > tbody",
+      #   child_tag:"> td",
+      #   child_tag_count:3,
+      #   position:[0, 1, 2],
+      #   threshold: 3,
+      #   cnt:0,
+      #   script:true,
+      #   script_callback: lambda {|page, bank|
 
-          html = page.inner_html
-          index = html.index("<tr>") + 4
-          index = html.index("<tr>", index)
-          rows = Nokogiri::HTML(html.insert(index, "</td></tr>")).css("tr")
+      #     html = page.inner_html
+      #     index = html.index("<tr>") + 4
+      #     index = html.index("<tr>", index)
+      #     rows = Nokogiri::HTML(html.insert(index, "</td></tr>")).css("tr")
 
-          items = []
-          rows.each do |item|
-            c = item.css(bank[:child_tag])
-            if c.length == bank[:child_tag_count]
-              items.push([swap(c[bank[:position][0]].css("img").attr("alt").value), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-            end
-          end
-
-          return items } },
+      #     items = []
+      #     rows.each do |item|
+      #       c = item.css(bank[:child_tag])
+      #       if c.length == bank[:child_tag_count]
+      #         items.push([swap(c[bank[:position][0]].css("img").attr("alt").value), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+      #       end
+      #     end
+      #     return items } },
       { name: "Rico Credit",
         id:19,
         type: :other,
