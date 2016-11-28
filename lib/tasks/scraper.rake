@@ -360,27 +360,33 @@ class Rates
         position:[0, 1, 2],
         threshold: 5,
         cnt:0 },
+        # was turn off on 28.11.2016 due domain is off
       { name: "Capital Bank",
+        off: true,
         id:12,
         path:"http://capitalbank.ge/en/Xml",
-        parent_tag:".curr_wrapper ul.fi",
-        child_tag:"li",
-        child_tag_count:3,
-        position:[0, 2, 1],
-        threshold: 16,
-        cnt:0,
-        script: true,
-        script_callback: lambda {|script, bank|
-          items = []
-          script.each do |item|
-            c = item.css(bank[:child_tag])
-            curr = swap(c[bank[:position][0]].text)
-            if(c.length == bank[:child_tag_count] && curr == swap(item["id"]))
-              items.push([curr, n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-            end
-          end
-          return items
-        } },
+        parent_tag:"body" },
+      # { name: "Capital Bank",
+      #   id:12,
+      #   path:"http://capitalbank.ge/en/Xml",
+      #   parent_tag:".curr_wrapper ul.fi",
+      #   child_tag:"li",
+      #   child_tag_count:3,
+      #   position:[0, 2, 1],
+      #   threshold: 16,
+      #   cnt:0,
+      #   script: true,
+      #   script_callback: lambda {|script, bank|
+      #     items = []
+      #     script.each do |item|
+      #       c = item.css(bank[:child_tag])
+      #       curr = swap(c[bank[:position][0]].text)
+      #       if(c.length == bank[:child_tag_count] && curr == swap(item["id"]))
+      #         items.push([curr, n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+      #       end
+      #     end
+      #     return items
+      #   } },
       { name: "Finca Bank",
         id:13,
         path:"http://www.finca.ge/en/",
