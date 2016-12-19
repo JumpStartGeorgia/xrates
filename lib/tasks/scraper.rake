@@ -420,7 +420,7 @@ class Rates
         child_tag:"td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 1,
+        threshold: 0,
         cnt:0 },
       # on date 30.05.2016
       { name: "Pasha Bank",
