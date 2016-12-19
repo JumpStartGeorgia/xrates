@@ -412,12 +412,15 @@ class Rates
       #   parent_tag:"#timer" },
       { name: "Silk Road Bank",
         id:15,
+        partial_off: true, # Structure of site was not changed but actual data
+        # is not filled for currency, so threshold is set to 0, flag is used to
+        # sort it down, beacuse it takes more time than usual
         path:"http://www.silkroadbank.ge/eng/home",
         parent_tag:"table.currencyContainer tr",
         child_tag:"td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 4,
+        threshold: 1,
         cnt:0 },
       # on date 30.05.2016
       { name: "Pasha Bank",
@@ -639,6 +642,11 @@ class Rates
         bank[:e] = e
         puts "#{bank[:name]} - exception occured"
       end
+
+    # Banks that are off or partially off will be processed at the end
+    banks.sort!{|x,y|
+      (x.key?(:off) && x[:off]) || (x.key?(:partial_off) && x[:partial_off]) ? 1 : -1
+    }
 
     # loop each bank, and scrape data based on array of banks options
     banks.each do |bank|
