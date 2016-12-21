@@ -412,7 +412,7 @@ class Rates
       #   parent_tag:"#timer" },
       { name: "Silk Road Bank",
         id:15,
-        # partial_off: true, # Structure of site was not changed but actual data
+        partial_off: true, # Structure of site was not changed but actual data
         # is not filled for currency, so threshold is set to 0, flag is used to
         # sort it down, beacuse it takes more time than usual, was back on same date
         path:"http://www.silkroadbank.ge/eng/home",
@@ -420,7 +420,7 @@ class Rates
         child_tag:"td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 4,
+        threshold: 0,
         cnt:0 },
       # on date 30.05.2016
       { name: "Pasha Bank",
