@@ -149,8 +149,8 @@ class Rates
     puts "Scrape for #{date.to_date} at #{date}"
 
 
-    #fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, captial:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
-    #processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, ksb:0, basis:0, capital:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
+    #fail_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, tera:0, basis:0, captial:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
+    #processed_flags = { bnln:0, baga:0, tbcb:0, repl:0, lbrt:0, proc:0, cart:0, vtb:0, prog:0, tera:0, basis:0, capital:0, finca:0, halyk:0, silk:0, pasha:0, azer:0, caucasus:0 }
 
     # array of banks options for scraping
     banks = [
@@ -327,9 +327,9 @@ class Rates
       #     end
       #     return items
       #   } },
-      { name: "KSB", # redirecting to http://terabank.ge/ge/retail but structure stays the same
+      { name: "Terabank", # previous name is ksb -> tera (http://www.ksb.ge/en/ but structure stays the same)
         id:10,
-        path:"http://www.ksb.ge/en/",
+        path:"http://terabank.ge/ge/retail",
         parent_tag:".content script",
         child_tag:"",
         child_tag_count:0,
@@ -412,7 +412,7 @@ class Rates
       #   parent_tag:"#timer" },
       { name: "Silk Road Bank",
         id:15,
-        partial_off: true, # Structure of site was not changed but actual data
+        # partial_off: true, # Structure of site was not changed but actual data
         # is not filled for currency, so threshold is set to 0, flag is used to
         # sort it down, beacuse it takes more time than usual, was back on same date
         path:"http://www.silkroadbank.ge/eng/home",
@@ -420,7 +420,7 @@ class Rates
         child_tag:"td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 0,
+        threshold: 4,
         cnt:0 },
       # on date 30.05.2016
       { name: "Pasha Bank",
@@ -438,33 +438,46 @@ class Rates
       #   id:16,
       #   path:"http://www.pashabank.ge",
       #   parent_tag:"#promoslider .slide1 .lined-h2" },
-      { name: "International Bank of Azerbaijan",
+      { name: "International Bank of Azerbaijan", # script was updated on 09.01.2017 because site was updated
         id:17,
-        path:"http://www.ibaz.ge/index.php?lang_id=2",
-        parent_tag:"td",
+        path:"http://www.ibaz.ge",
+        parent_tag:".currency-wrap .info tbody tr",
         child_tag:"td",
-        child_tag_count:11,
-        position:[3, 5, 7],
-        threshold: 5,
+        child_tag_count:4,
+        position:[0, 1, 2],
+        threshold: 4,
         cnt:0,
-        script:true,
+        script: true,
         script_callback: lambda {|script, bank|
-          tmpItems = []
-          script.css(bank[:parent_tag]).each do |item|
-            if item.inner_text == "USD"
-              tmpItems = item.parent.parent.css("> tr")
-              break
-            end
-          end
           items = []
-          tmpItems.each do |item|
+          script.each do |item|
             c = item.css(bank[:child_tag])
-            if c.length == bank[:child_tag_count]
-              items.push([swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
-            end
+            items.push([
+              swap(c[bank[:position][0]].css('i').attr('class').to_s.gsub('icon-','')),
+              n(c[bank[:position][1]].text),
+              n(c[bank[:position][2]].text)]
+            )
           end
+          return items
+        } },
+        # script for previous version of page structure
+        # script_callback: lambda {|script, bank|
+        #   tmpItems = []
+        #   script.css(bank[:parent_tag]).each do |item|
+        #     if item.inner_text == "USD"
+        #       tmpItems = item.parent.parent.css("> tr")
+        #       break
+        #     end
+        #   end
+        #   items = []
+        #   tmpItems.each do |item|
+        #     c = item.css(bank[:child_tag])
+        #     if c.length == bank[:child_tag_count]
+        #       items.push([swap(c[bank[:position][0]].text), n(c[bank[:position][1]].text), n(c[bank[:position][2]].text)])
+        #     end
+        #   end
 
-          return items } },
+        #   return items } },
       # was turn off on 15.11.2016 because of domain is off, planning to remove
       # duplicates because exchange rate stopped changing
       {
@@ -652,7 +665,7 @@ class Rates
     banks.each do |bank|
       next if bank[:id] == 1
       (is_back(bank); next;) if (bank[:off].present? && bank[:off])
-      #next if (bank[:id] != 14) # || bank[:id] != 22
+      # next if (bank[:id] != 17) # || bank[:id] != 22
       begin
         page = nil
         agent = Mechanize.new
