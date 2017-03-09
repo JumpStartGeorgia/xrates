@@ -170,7 +170,7 @@ class Rates
         child_tag:"td",
         child_tag_count:5,
         position:[1, 3, 4],
-        threshold: 34,
+        threshold: 35,
         cnt:0 },
       { name: "TBC Bank",
         id:3,
