@@ -201,35 +201,41 @@ class Rates
           }
           return items
         } },
+      # was turn off on 08.05.2017, merged with tbc
       { name: "Bank Republic",
+        off: true,
         id:4,
         path:"https://www.br.ge/en/home",
-        parent_tag:"div.rates script",
-        child_tag:"",
-        child_tag_count:0,
-        position:[0, 0, 0],
-        threshold: 4,
-        cnt:0,
-        ssl: true,
-        script: true,
-        script_callback: lambda {|script, bank|
-          script = script.text
-          search_phrase = 'var valRates = {'
-          start_index = script.index(search_phrase)
-          script = script[start_index + search_phrase.length-1, script.length-1]
-          end_index = script.index('};')
-          script = script[0,end_index+1].gsub(/[[:space:]]/, '')[0..-3] + "}"
-          rows = JSON.parse(script)
+        parent_tag:"div.rates script" },
+      # { name: "Bank Republic",
+      #   id:4,
+      #   path:"https://www.br.ge/en/home",
+      #   parent_tag:"div.rates script",
+      #   child_tag:"",
+      #   child_tag_count:0,
+      #   position:[0, 0, 0],
+      #   threshold: 4,
+      #   cnt:0,
+      #   ssl: true,
+      #   script: true,
+      #   script_callback: lambda {|script, bank|
+      #     script = script.text
+      #     search_phrase = 'var valRates = {'
+      #     start_index = script.index(search_phrase)
+      #     script = script[start_index + search_phrase.length-1, script.length-1]
+      #     end_index = script.index('};')
+      #     script = script[0,end_index+1].gsub(/[[:space:]]/, '')[0..-3] + "}"
+      #     rows = JSON.parse(script)
 
-          items = []
-          rows.keys.each do |row|
-            curr = swap(row)
-            if curr != 'GEL'
-              items.push([ curr, n(rows[row]["kas"]["buy"].to_s), n(rows[row]["kas"]["sell"].to_s)])
-            end
-          end
-          return items
-        } },
+      #     items = []
+      #     rows.keys.each do |row|
+      #       curr = swap(row)
+      #       if curr != 'GEL'
+      #         items.push([ curr, n(rows[row]["kas"]["buy"].to_s), n(rows[row]["kas"]["sell"].to_s)])
+      #       end
+      #     end
+      #     return items
+      #   } },
       { name: "Liberty Bank",
         id:5,
         path:"https://libertybank.ge/en/pizikuri-pirebistvis",
@@ -543,7 +549,7 @@ class Rates
         child_tag:"th, td",
         child_tag_count:3,
         position:[0, 1, 2],
-        threshold: 4,
+        threshold: 5,
         cnt:0 },
       { name: "Bonaco Microfinance Organization",
         id:21,
